@@ -6,7 +6,7 @@
 ## Aktueller Stand
 C++17-Code, Header, Tests, Übungen, README, Product Backlog, Projektauftrag, Meilensteinübersicht und KI-Prompt-Dokumentation wurden über die verbundene GitHub-Integration mit Commits hochgeladen.
 
-**Offen:** Gestaltete PDF- und PowerPoint-Dokumente sind noch nicht als Binärdateien auf GitHub übertragen. Sie müssen unter docs/reference/ bzw. docs/praesentation/ ergänzt werden. Liste: ASSET_UPLOAD_CHECKLIST.md.
+**Dateien vollständig veröffentlicht:** Die acht gestalteten PDFs/PPTX-Dateien wurden durch den Eigentümer auf GitHub in den Root-Ordnern `reference/` und `praesentation/` hochgeladen, bestätigt durch [Commit 53612455](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/53612455ee21bf4363b7d5627fe8cd388a8c7e8b). Siehe ASSET_UPLOAD_CHECKLIST.md.
 
 ## Projekt lokal weiterentwickeln
 WICHTIG: Die ursprünglich vorbereitete ZIP-Datei enthält eine andere lokale Git-Historie. Nicht aus ihr blind pushen. Stattdessen dieses Online-Repository frisch klonen:
