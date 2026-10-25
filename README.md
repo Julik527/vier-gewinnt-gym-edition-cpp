@@ -55,7 +55,11 @@ Am 25.10.2026 wurden Kompilierung, vorhandene Board-Assertions und ein Konsolenm
 - [`docs/PRODUCT_BACKLOG.md`](docs/PRODUCT_BACKLOG.md) – priorisierte Anforderungen und Abnahmebedingungen
 - [`docs/MILESTONE_2026-10-29.md`](docs/MILESTONE_2026-10-29.md) – Meilensteinstatus
 - [`docs/QUALITY_AND_TESTS.md`](docs/QUALITY_AND_TESTS.md) – Testnachweise/noch offene Tests
-- [`docs/REPOSITORY_GUIDE.md`](docs/REPOSITORY_GUIDE.md) – GitHub-Veröffentlichung
-- [`docs/reference/`](docs/reference/) – Anforderungsanalyse und UML-Klassendiagramm
+- [`docs/REPOSITORY_GUIDE.md`](docs/REPOSITORY_GUIDE.md) – GitHub-Veröffentlichung und Weiterarbeit
+- [`docs/KI_PROMPT_DOKUMENTATION.md`](docs/KI_PROMPT_DOKUMENTATION.md) – Promptregister (FR-16)
+- [`docs/ASSET_UPLOAD_CHECKLIST.md`](docs/ASSET_UPLOAD_CHECKLIST.md) – noch hochzuladende PDF- und Präsentationsdateien
+- [`docs/reference/`](docs/reference/) – Platzhalter für die PDFs (PDF-Originaldateien noch nicht hochgeladen)
+
+> **GitHub-Stand (25.10.2026):** C++-Quellcode, Tests und Markdown-Dokumentation sind öffentlich hochgeladen. PDF/PPTX-Originale sind noch nicht im Repository; die Liste enthält die noch offenen Dateien. Die alte lokale ZIP-Historie unterscheidet sich von den über die GitHub-Integration erstellten Commits. Für die weitere Arbeit das Online-Repository neu klonen.
 
 **© 2026 Julian Krauß · Design-ID JK-CD-DE-2026-003.** Dokumentationsstand 25.10.2026.
