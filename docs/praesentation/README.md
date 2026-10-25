@@ -1,3 +1,3 @@
 # Präsentation und Live-Code-Vorführung
 
-Die PowerPoint-Datei (17 Folien), ihr PDF-Export und der zweitseitige Vortrags- und Live-Code-Leitfaden sind erstellt. Die originalen Binärdateien müssen hier noch ergänzt werden. Siehe ../ASSET_UPLOAD_CHECKLIST.md. Bis dahin enthält das Repository die Quellcode- und Markdown-Nachweise zum Projekt.
+Die PPTX-/PDF-Dateien sowie der Vortragsleitfaden sind im Root-Ordner [`praesentation/`](../../praesentation/) veröffentlicht. Dieser Ordner unter `docs/` enthält nur den Navigationshinweis. [Upload-Nachweis](../ASSET_UPLOAD_CHECKLIST.md).
