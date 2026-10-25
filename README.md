@@ -57,9 +57,10 @@ Am 25.10.2026 wurden Kompilierung, vorhandene Board-Assertions und ein Konsolenm
 - [`docs/QUALITY_AND_TESTS.md`](docs/QUALITY_AND_TESTS.md) – Testnachweise/noch offene Tests
 - [`docs/REPOSITORY_GUIDE.md`](docs/REPOSITORY_GUIDE.md) – GitHub-Veröffentlichung und Weiterarbeit
 - [`docs/KI_PROMPT_DOKUMENTATION.md`](docs/KI_PROMPT_DOKUMENTATION.md) – Promptregister (FR-16)
-- [`docs/ASSET_UPLOAD_CHECKLIST.md`](docs/ASSET_UPLOAD_CHECKLIST.md) – noch hochzuladende PDF- und Präsentationsdateien
-- [`docs/reference/`](docs/reference/) – Platzhalter für die PDFs (PDF-Originaldateien noch nicht hochgeladen)
+- [`docs/ASSET_UPLOAD_CHECKLIST.md`](docs/ASSET_UPLOAD_CHECKLIST.md) – bestätigter Upload der PDF- und Präsentationsdateien
+- [`reference/`](reference/) – Anforderungsanalyse, UML, Meilensteinbericht, KI-Protokoll und Gesamtdokumentation als PDF
+- [`praesentation/`](praesentation/) – Präsentation (PPTX und PDF) sowie Vortragsleitfaden
 
-> **GitHub-Stand (25.10.2026):** C++-Quellcode, Tests und Markdown-Dokumentation sind öffentlich hochgeladen. PDF/PPTX-Originale sind noch nicht im Repository; die Liste enthält die noch offenen Dateien. Die alte lokale ZIP-Historie unterscheidet sich von den über die GitHub-Integration erstellten Commits. Für die weitere Arbeit das Online-Repository neu klonen.
+> **GitHub-Stand (25.10.2026):** C++-Quellcode, Tests und Markdown-Dokumentation sind öffentlich hochgeladen. Die acht PDF-/PPTX-Originaldateien wurden in Commit [`53612455`](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/53612455ee21bf4363b7d5627fe8cd388a8c7e8b) unter `reference/` und `praesentation/` hochgeladen. Die alte lokale ZIP-Historie unterscheidet sich von den über die GitHub-Integration erstellten Commits. Für die weitere Arbeit das Online-Repository neu klonen.
 
 **© 2026 Julian Krauß · Design-ID JK-CD-DE-2026-003.** Dokumentationsstand 25.10.2026.
