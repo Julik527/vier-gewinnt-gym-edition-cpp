@@ -1,16 +1,62 @@
-# Generierte Dateien
-*.exe
+# Prerequisites
+*.d
+
+# Compiled object files / precompiled headers / linker / debug symbols
+*.slo
+*.lo
 *.o
 *.obj
+*.gch
+*.pch
+*.ilk
+*.pdb
+*.dwo
+
+# Libraries
+*.so
+*.so.*
+*.dylib
+*.dll
+*.a
+*.lib
+*.lai
+
+# Fortran modules
+*.mod
+*.smod
+
+# Executables
+*.exe
 *.out
+*.app
 vier-gewinnt
 board_tests
+
+# Build directories and CMake
 /build/
 /bin/
-/.cache/
-# Laufzeit- und Benutzerdaten
-/data/*.txt
-!/data/.gitkeep
+Build/
+build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+install_manifest.txt
+compile_commands.json
+
+# Temporary files and vcpkg
+*.tmp
+*.log
+*.bak
+*.swp
+vcpkg_installed/
+Testing/
+.cache/
+
+# Player data and runtime states (never publish)
+data/*.txt
+!data/.gitkeep
+
 # IDE / OS
 .vscode/settings.json
 .vs/
