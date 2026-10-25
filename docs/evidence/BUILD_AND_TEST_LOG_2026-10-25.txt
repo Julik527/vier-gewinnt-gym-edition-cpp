@@ -1,0 +1,15 @@
+=== GCC ===
+g++ (Debian 14.2.0-19) 14.2.0
+=== PROJECT BUILD ===
+Result: OK
+=== UNIT TEST BUILD ===
+Result: OK
+=== UNIT TEST ===
+Board Tests erfolgreich: Dimensionen, Eingaben, waagrecht, senkrecht, diagonal, Undo.
+=== MENU SMOKE TEST ===
+   VIER GEWINNT | GYM EDITION | C++17
+HIGHSCORE (Siege absteigend)
+   VIER GEWINNT | GYM EDITION | C++17
+Auswahl: Nur 0 bis 6 erlaubt.
+   VIER GEWINNT | GYM EDITION | C++17
+Auswahl: Programm beendet.
