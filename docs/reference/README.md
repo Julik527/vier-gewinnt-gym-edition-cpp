@@ -1,3 +1,3 @@
 # Formale Dokumente
 
-Die PDF-Originale von Anforderungsanalyse, UML, Meilensteinbericht und KI-Prompt-Dokumentation sind bereits als lokale Projektunterlagen erstellt, aber noch nicht in diesem GitHub-Ordner vorhanden. Bitte die in ../ASSET_UPLOAD_CHECKLIST.md aufgeführten PDFs ergänzen. Die zentralen Inhalte sind bis dahin als Markdown unter docs/ dokumentiert.
+Die Original-PDFs wurden im öffentlichen GitHub-Repository nachweislich in den Ordner [`reference/`](../../reference/) auf oberster Ebene hochgeladen. Dieser ältere Ordner `docs/reference/` bleibt nur als Hinweis bestehen. Details unter [Upload-Nachweis](../ASSET_UPLOAD_CHECKLIST.md).
