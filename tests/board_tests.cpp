@@ -1,5 +1,6 @@
 #include "Board.h"
 #include <iostream>
+#include <initializer_list>
 #include <stdexcept>
 #include <string>
 
