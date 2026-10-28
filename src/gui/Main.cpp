@@ -57,7 +57,7 @@ public:
     App() : window_(sf::VideoMode({1280u, 800u}), "JK AXIS | Vier Gewinnt - Gym Edition"),
             font_(systemFont()) {
         window_.setFramerateLimit(60);
-        window_.setView(sf::View(sf::FloatRect({0.f, 0.f}, {W, H})));
+        resizeView();
     }
 
     void run() {
@@ -71,8 +71,7 @@ public:
                     continue;
                 }
                 if (const auto* resized = event->getIf<sf::Event::Resized>()) {
-                    if (resized->size.x && resized->size.y)
-                        window_.setView(sf::View(sf::FloatRect({0.f, 0.f}, {W, H})));
+                    if (resized->size.x && resized->size.y) resizeView();
                 }
                 if (const auto* mouse = event->getIf<sf::Event::MouseButtonPressed>()) {
                     if (mouse->button == sf::Mouse::Button::Left)
@@ -99,6 +98,7 @@ private:
     sf::Font font_;
     MatchSession match_;
     Screen screen_ = Screen::Menu;
+    Screen helpReturn_ = Screen::Menu;
     int number_ = 2;
     std::vector<std::string> names_;
     std::string input_;
@@ -110,6 +110,24 @@ private:
     float fallRow_ = -1.2f;
     int selectedColumn_ = 0;
 
+    void resizeView() {
+        // Letterboxing verhindert, dass Hanteln bei Fenster-Resize verzerrt wirken.
+        const auto size = window_.getSize();
+        if (size.x == 0 || size.y == 0) return;
+        const float windowRatio = static_cast<float>(size.x) / static_cast<float>(size.y);
+        const float target = W / H;
+        sf::FloatRect viewport({0.f, 0.f}, {1.f, 1.f});
+        if (windowRatio > target) {
+            viewport.size.x = target / windowRatio;
+            viewport.position.x = (1.f - viewport.size.x) * .5f;
+        } else {
+            viewport.size.y = windowRatio / target;
+            viewport.position.y = (1.f - viewport.size.y) * .5f;
+        }
+        sf::View view(sf::FloatRect({0.f, 0.f}, {W, H}));
+        view.setViewport(viewport);
+        window_.setView(view);
+    }
     void box(float x, float y, float w, float h, sf::Color fill,
              sf::Color border = sf::Color::Transparent) {
         sf::RectangleShape rect({w, h});
@@ -227,7 +245,7 @@ private:
                     if (match_.active()) screen_ = Screen::ConfirmLoad;
                     else load();
                 } else if (choice == 4) screen_ = Screen::Scores;
-                else if (choice == 5) screen_ = Screen::Help;
+                else if (choice == 5) { helpReturn_ = Screen::Menu; screen_ = Screen::Help; }
                 else if (choice == 0) {
                     if (match_.active()) screen_ = Screen::ConfirmExit;
                     else window_.close();
@@ -256,7 +274,7 @@ private:
                 } else if (choice == 2) {
                     notice_ = match_.save() ? "Spielstand sicher gespeichert." : "Speichern nicht moeglich.";
                 } else if (choice == 3) animation_ = !animation_;
-                else if (choice == 4) screen_ = Screen::Help;
+                else if (choice == 4) { helpReturn_ = Screen::Arena; screen_ = Screen::Help; }
                 else if (choice == 0) screen_ = Screen::Menu;
                 break;
             case Screen::Result:
@@ -265,8 +283,11 @@ private:
                 } else if (choice == 2) newSetup();
                 else if (choice == 0) screen_ = Screen::Menu;
                 break;
-            case Screen::Help: case Screen::Scores:
-                screen_ = match_.active() && screen_ == Screen::Help ? Screen::Arena : Screen::Menu;
+            case Screen::Help:
+                screen_ = helpReturn_;
+                break;
+            case Screen::Scores:
+                screen_ = Screen::Menu;
                 break;
             case Screen::ConfirmNew:
                 if (choice == 1) newSetup(); else screen_ = Screen::Menu;
