@@ -5,7 +5,11 @@
 # Aufgabe: Dokumentiert den einmaligen Austausch der alten Projektlogos.
 # ------------------------------------------------------------
 
-"""Safe JK AXIS | GOLD MASTER replacement for project presentation and PDFs."""
+"""Historisches Hilfsskript für die einmalige Umstellung auf JK AXIS.
+
+Das Skript kann PDF- und PowerPoint-Dateien verändern. Es gehört nicht zum
+Spielbetrieb und sollte nur mit einer Sicherungskopie verwendet werden.
+"""
 from pathlib import Path
 from io import BytesIO
 from PIL import Image, ImageOps, ImageChops, ImageStat, ImageDraw
