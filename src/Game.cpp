@@ -151,6 +151,8 @@ void Game::newGame() {
     history_.clear();
     current_ = 0;
     active_ = true;
+    resultPending_ = false;
+    lastWinner_.clear();
 
     std::cout << "\n  SPIEL BEREIT\n"
               << "  " << chosenPlayers_ << " Spieler | "
@@ -189,26 +191,78 @@ void Game::showInfo() const {
     }
 }
 
-// In dieser Schleife wechseln sich die Spieler mit ihren Zügen ab.
+// Nach jeder abgeschlossenen Runde stehen Revanche, Neues Spiel und Hauptmenue bereit.
+// Die Auswahl wird im Hauptprogramm behandelt, damit kein Spiel ins naechste verschachtelt wird.
+void Game::rematch() {
+    board_ = Board(static_cast<int>(players_.size()));
+    history_.clear();
+    current_ = 0;
+    active_ = true;
+    resultPending_ = false;
+    lastWinner_.clear();
+    std::cout << "\n  REVANCHE  |  Gleiche Spieler, neues leeres Feld.\n";
+    showInfo();
+}
+
+// Die Ergebnisse erscheinen nur nach Sieg oder Remis, nicht beim Verlassen mit M.
+int Game::showResultMenu() const {
+    std::cout << "\n";
+    menuBorder();
+    menuRow("JK AXIS  |  RUNDENENDE");
+    menuBorder();
+    if (!lastWinner_.empty()) {
+        std::cout << "  GEWONNEN: " << lastWinner_ << "!\n"
+                  << "  Der Sieg wurde in der Bestenliste eingetragen.\n";
+    } else {
+        std::cout << "  REMIS: Das Spielfeld ist voll.\n";
+    }
+    std::cout << "  Gespielte Zuege: " << board_.tokenCount() << "\n";
+    menuBorder();
+    menuRow("1   Revanche (gleiche Spieler)");
+    menuRow("2   Neues Spiel (Spieler neu waehlen)");
+    menuRow("0   Hauptmenue");
+    menuBorder();
+    for (;;) {
+        int choice = -1;
+        if (wholeInt(ask("  Deine Auswahl: "), choice)
+            && (choice == 0 || choice == 1 || choice == 2)) {
+            return choice;
+        }
+        std::cout << "  Bitte 0, 1 oder 2 eingeben.\n";
+    }
+}
+
+// Das Spielfeld wird nur nach einer Aenderung neu gezeichnet.
+// Hilfe oder Fehlermeldungen brauchen keinen kompletten Neudruck.
 void Game::play() {
     std::cout << "\n  SPIELFELD  |  " << players_.size()
               << " Spieler  |  H = Hilfe  |  M = Hauptmenue\n";
+    bool redraw = true;
     while (active_) {
-        board_.print();
-        std::cout << "Am Zug: " << players_[current_].getName() << " =["
-                  << players_[current_].getSymbol() << "]=\n";
+        if (redraw) {
+            board_.print();
+            std::cout << "Am Zug: " << players_[current_].getName() << " =["
+                      << players_[current_].getSymbol() << "]=\n";
+            redraw = false;
+        }
         std::string command = ask("Spalte oder Befehl (H=Hilfe): ");
         std::string upper = command;
-        for (char& ch : upper) ch = static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
+        for (char& ch : upper) {
+            ch = static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
+        }
         if (upper == "H") { showHelp(); continue; }
         if (upper == "I") { showInfo(); continue; }
         if (upper == "M") { std::cout << "Zurueck zum Hauptmenue.\n"; return; }
-        if (upper == "A") { animation_ = !animation_; std::cout << "Animation " << (animation_ ? "an" : "aus") << ".\n"; continue; }
+        if (upper == "A") {
+            animation_ = !animation_;
+            std::cout << "Animation " << (animation_ ? "an" : "aus") << ".\n";
+            continue;
+        }
         if (upper == "S") {
             std::cout << (saveGame() ? "Spiel gespeichert.\n" : "Speichern fehlgeschlagen.\n");
             continue;
         }
-        // Bei Undo wird der letzte gültige Zug zurückgenommen.
+        // Undo ist nur fuer den obersten Stein moeglich.
         if (upper == "U") {
             if (history_.empty()) { std::cout << "Kein Zug vorhanden.\n"; continue; }
             Move last = history_.back();
@@ -216,10 +270,13 @@ void Game::play() {
                 current_ = last.player;
                 history_.pop_back();
                 std::cout << "Letzter Zug entfernt.\n";
-            } else std::cout << "Zug konnte nicht entfernt werden.\n";
+                redraw = true;
+            } else {
+                std::cout << "Zug konnte nicht entfernt werden.\n";
+            }
             continue;
         }
-        // Vorschau: Nur anzeigen, noch nichts ins Spielfeld schreiben.
+        // Vorschau veraendert den Spielstand nicht; danach erscheint das echte Feld.
         if (upper.size() >= 2 && upper[0] == 'V' && upper[1] == ' ') {
             int col;
             if (!wholeInt(upper.substr(2), col) || col < 1 || col > board_.columns()
@@ -228,6 +285,7 @@ void Game::play() {
             } else {
                 board_.print(col - 1, players_[current_].getSymbol());
                 std::cout << "Nur Vorschau: Feld wurde NICHT veraendert.\n";
+                redraw = true;
             }
             continue;
         }
@@ -236,30 +294,34 @@ void Game::play() {
             std::cout << "Ungueltige Eingabe. Bitte eine Spalte waehlen.\n";
             continue;
         }
-        // Menschen zählen ab 1, die Vektoren im Code ab 0.
         int zeroCol = col - 1;
         int landing = board_.nextFreeRow(zeroCol);
-        if (landing == -1) { std::cout << "Spalte ist voll. Erneut waehlen.\n"; continue; }
+        if (landing == -1) {
+            std::cout << "Spalte ist voll. Erneut waehlen.\n";
+            continue;
+        }
         char symbol = players_[current_].getSymbol();
         if (animation_) board_.animateDrop(zeroCol, symbol, landing);
         int row;
         if (!board_.drop(zeroCol, symbol, row)) continue;
-        // Der Zug kommt in die Liste, damit Undo später funktioniert.
         history_.push_back({row, zeroCol, current_});
         if (board_.hasWon(row, zeroCol, symbol)) {
             board_.print();
-            std::cout << "GEWONNEN: " << players_[current_].getName() << "!\n";
             addWin(players_[current_].getName());
+            lastWinner_ = players_[current_].getName();
             active_ = false;
+            resultPending_ = true;
             return;
         }
         if (board_.isFull()) {
             board_.print();
-            std::cout << "REMIS: Spielfeld voll.\n";
+            lastWinner_.clear();
             active_ = false;
+            resultPending_ = true;
             return;
         }
         current_ = (current_ + 1) % static_cast<int>(players_.size());
+        redraw = true;
     }
 }
 
@@ -343,6 +405,8 @@ bool Game::loadGame(const std::string& path) {
     chosenNames_.clear();
     for (const auto& player : players_) chosenNames_.push_back(player.getName());
     active_ = true;
+    resultPending_ = false;
+    lastWinner_.clear();
     return true;
 }
 
@@ -392,10 +456,26 @@ void Game::showHighscores() const {
 // laden oder die Ergebnisse ansehen. Die Vorbereitung passiert bei Neues Spiel.
 void Game::run() {
     while (true) {
+        // Ergebnis erst nach Rueckkehr aus play() behandeln: keine Rekursion.
+        if (resultPending_) {
+            const int action = showResultMenu();
+            resultPending_ = false;
+            if (action == 1) {
+                rematch();
+                play();
+                continue;
+            }
+            if (action == 2) {
+                newGame();
+                continue;
+            }
+        }
         std::cout << "\n";
         menuBorder();
         menuRow("JK AXIS  |  VIER GEWINNT : GYM EDITION");
         menuRow("C++17  |  LOKALER MEHRSPIELER-MODUS");
+        menuRow(active_ ? "STATUS | Laufende Partie"
+                        : "STATUS | Keine Partie aktiv");
         menuBorder();
         menuRow("1   Neues Spiel");
         menuRow(active_ ? "2   Spiel fortsetzen"
@@ -406,9 +486,14 @@ void Game::run() {
         menuRow("0   Beenden");
         menuBorder();
         if (active_) {
-            std::cout << "  Laufende Runde: "
-                      << players_.size() << " Spieler, "
-                      << board_.tokenCount() << " Zuege auf dem Feld.\n";
+            std::cout << "  Spieler: ";
+            for (std::size_t i = 0; i < players_.size(); ++i) {
+                if (i) std::cout << " / ";
+                std::cout << players_[i].getName();
+            }
+            std::cout << "\n  Am Zug: " << players_[current_].getName()
+                      << " [" << players_[current_].getSymbol() << "]"
+                      << "  |  Zuege: " << board_.tokenCount() << "\n";
         }
 
         int option = -1;
