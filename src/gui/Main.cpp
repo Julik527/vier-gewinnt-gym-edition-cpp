@@ -85,7 +85,7 @@ public:
             }
             // Nach Fenster-X kein Rendern auf ein bereits geschlossenes Fenster.
             if (!window_.isOpen()) break;
-            if (falling_) {
+            if (falling_ && screen_ == Screen::Arena) {
                 fallRow_ += dt * (fallRow_ < targetRow_ - 1.f ? 13.f : 7.f);
                 if (fallRow_ >= static_cast<float>(targetRow_)) {
                     falling_ = false;
