@@ -21,7 +21,7 @@
 #endif
 
 namespace {
-constexpr int WIDTH = 67; // Maximal 11 Spalten: 11 * 6 + 1
+constexpr int WIDTH = 69; // Rahmen so breit wie das Feld mit 11 Spalten.
 
 bool terminalSupportsAnsi() {
     if (std::getenv("NO_COLOR") != nullptr) return false;
