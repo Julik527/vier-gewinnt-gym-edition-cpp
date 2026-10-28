@@ -27,6 +27,7 @@ int main() {
         fs::current_path(temp);
         MatchSession session;
         verify(!session.begin({"Duplicate", "Duplicate"}), "duplicate names rejected");
+        verify(!session.begin({"   ", "Ben"}), "blank names rejected");
         verify(!session.begin({"Hi\nESC", "Other"}), "control char rejected");
         verify(session.begin({"Ada", "Ben"}), "new game");
         verify(session.board().columns() == 7 && session.board().rows() == 6, "dimensions");
@@ -86,6 +87,23 @@ int main() {
                "names and round preserved");
         win(loaded);
         verify(loaded.wins("Ada") == 2, "two games two credits");
+
+        // Ein blockierter Highscore-Schreibvorgang darf alte Daten nicht zerstoeren.
+        {
+            std::ifstream before("data/highscore.txt", std::ios::binary);
+            const std::string previous((std::istreambuf_iterator<char>(before)),
+                                       std::istreambuf_iterator<char>());
+            fs::create_directory("data/highscore.txt.tmp");
+            verify(loaded.rematch(), "third round");
+            win(loaded);
+            verify(!loaded.scoreSaved(), "failed highscore write reported");
+            std::ifstream after("data/highscore.txt", std::ios::binary);
+            const std::string current((std::istreambuf_iterator<char>(after)),
+                                      std::istreambuf_iterator<char>());
+            verify(current == previous, "previous score file unchanged after failure");
+            fs::remove("data/highscore.txt.tmp");
+        }
+
 
         MatchSession fresh;
         verify(fresh.wins("Ada") == 2, "score survives process restart");
