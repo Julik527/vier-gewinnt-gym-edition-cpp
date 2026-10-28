@@ -1,4 +1,4 @@
-# Manueller Testplan – Vier Gewinnt | Gym Edition
+| nicht ausgefuehrt | nicht ausgefuehrt || nicht ausgefuehrt | nicht ausgefuehrt || nicht ausgefuehrt | nicht ausgefuehrt || nicht ausgefuehrt | nicht ausgefuehrt || nicht ausgefuehrt | nicht ausgefuehrt || nicht ausgefuehrt | nicht ausgefuehrt || nicht ausgefuehrt | nicht ausgefuehrt |# Manueller Testplan – Vier Gewinnt | Gym Edition
 
 **Kennzeichnung: NOCH AUSZUFÜHREN.** Ergebnisse nach eigener Ausführung ergänzen.
 
@@ -34,7 +34,7 @@
 
 Für das neue Hauptmenü gilt **0–5**. Die Punkte Spieleranzahl und Namen befinden sich im geführten Ablauf unter **1 Neues Spiel**, nicht als eigene Hauptmenüpunkte.
 
-| T28 | Sieg → Ergebnisoption 1 | Revanche mit denselben Spielern und leerem Feld | | |
+## Rundenende und Bedienoberflaeche\n\n| ID | Eingabe / Aktion | Soll-Verhalten | Ist / Beleg | Status |\n|:--|:--|:--|:--|:--|\n| T28 | Sieg → Ergebnisoption 1 | Revanche mit denselben Spielern und leerem Feld | | |
 | T29 | Zwei Revanche-Siege | Highscore um genau 2 erhöht | | |
 | T30 | Sieg → Ergebnisoption 2 | Spieleranzahl und Namen erneut abfragen | | |
 | T31 | Sieg → Ergebnisoption 0 | Hauptmenü, keine laufende Partie | | |
@@ -43,7 +43,7 @@ Für das neue Hauptmenü gilt **0–5**. Die Punkte Spieleranzahl und Namen befi
 | T34 | Spiel starten → M | Hauptmenü zeigt Spielernamen, nächsten Spieler, belegte Felder | | |
 | T35 | Animation A ein/aus | Keine ANSI-Bildschirmlöschung, Terminal bleibt lesbar | | |
 
-| T36 | Starten im Windows Terminal | JK AXIS-Kopf, Gym-Motto und saubere Zellbreiten sichtbar | | |
+## Windows-11-Praxistest · VS Code / MSYS2 UCRT64\n\nAlle folgenden Tests sind **nicht ausgefuehrt**, solange kein tatsaechlicher interaktiver Windows-Test protokolliert ist.\n\n| ID | Testschritt | Erwartetes Verhalten | Tatsaechlich beobachtet | Ergebnis |\n|:--|:--|:--|:--|:--|\n| T36 | Starten im Windows Terminal | JK AXIS-Kopf, Gym-Motto und saubere Zellbreiten sichtbar | | |
 | T37 | Zwei Spieler, erster Zug | Namen, aktuelle Spielerfarbe, Siege und Hantelzeichen sichtbar | | |
 | T38 | Vier Spieler | Alle 11 Spalten und 10 Reihen vollständig sichtbar | | |
 | T39 | Gewinn durch vier Steine | Genau die Gewinnreihe mit geschweiften Klammern hervorgehoben | | |
@@ -51,4 +51,10 @@ Für das neue Hauptmenü gilt **0–5**. Die Punkte Spieleranzahl und Namen befi
 | T41 | Vorschau und Undo | Anzeige korrekt, Spiellogik unverändert | | |
 | T42 | Revanche nach Sieg | Neues leeres Feld, Namen/Symbole bleiben, Gesamtsiege erhalten | | |
 
-Belege in `docs/evidence/` ablegen. Manuelle Tests erst nach der tatsächlichen Durchführung als bestanden markieren.
+| T43 | Projektordner oeffnen, F5 ausloesen | `tasks.json` kompiliert alle vier C++-Dateien und GDB startet die EXE | nicht ausgefuehrt | nicht ausgefuehrt |
+| T44 | Im integrierten Terminal 2-Spieler-Partie bis zum Sieg durchspielen | Eindeutige Zuganzeige, Gewinnreihe sichtbar, Ergebnisoptionen funktionieren | nicht ausgefuehrt | nicht ausgefuehrt |
+| T45 | Revanche, Sieg, Anwendung schliessen und neu starten | Gleiche Namen bei Revanche, persistenter Gesamt-Highscore | nicht ausgefuehrt | nicht ausgefuehrt |
+| T46 | Vorhandenen `GYM1`-Stand sichern, Schreiben mit gesperrter Temp-Datei provozieren | Fehlermeldung; Originalspielstand bytegenau unveraendert | nicht ausgefuehrt | nicht ausgefuehrt |
+| T47 | 4 Spieler mit langen Namen, ANSI-Farben an/aus | Kein Umbruch in der Spieleranzeige; ohne Farbe eindeutig | nicht ausgefuehrt | nicht ausgefuehrt |
+
+Belege in `docs/evidence/` ablegen. Bei fehlgeschlagenen Tests: genaue Eingaben, erste Fehlermeldung, Ursache und erneuten Prueflauf festhalten. Manuelle Tests erst nach der tatsächlichen Durchführung als bestanden markieren.
