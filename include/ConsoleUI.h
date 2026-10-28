@@ -17,6 +17,8 @@ namespace console_ui {
 
 // Ein Spiel bleibt ein Konsolenprogramm. Farben sind nur eine Ergaenzung.
 void present(const std::string& screen);
+// Laesst Anleitungen und Bestenlisten auf einem echten Terminal sichtbar.
+void pauseForReading();
 
 std::string mainMenu(const std::vector<Player>& players, const Board& board,
                      bool active, int currentPlayer, int round);
