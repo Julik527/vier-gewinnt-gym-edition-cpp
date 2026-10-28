@@ -22,5 +22,16 @@
 | T16 | Defekte Speicherdatei | Fehlermeldung, kein Absturz | | |
 | T17 | Gewinn | Highscore +1, sortiert | | |
 | T18 | Neustart | Highscore erhalten | | |
+| T19 | 1 → Spieleranzahl 2 → Namen nacheinander | Sofortiger Spielstart ohne Zurück zum Hauptmenü | | |
+| T20 | 1 → Spieleranzahl 3 und 4 | Alle Namen einzeln, richtige Spielfeldgröße | | |
+| T21 | Neues Spiel → Spieleranzahl 0 | Abbruch ohne Spielstart | | |
+| T22 | Neues Spiel → Namen: 0 | Abbruch ohne Verlust einer vorhandenen Runde | | |
+| T23 | Während der Runde M → Hauptmenü 2 | Runde mit demselben Feld und Spieler fortsetzen | | |
+| T24 | Laufende Runde → 1 → Nein | Spielstand bleibt erhalten | | |
+| T25 | Laufende Runde → 1 → Ja → Abbruch der Namen | Alte Runde bleibt erhalten | | |
+| T26 | Laufende Runde → 3 → Nein | Kein Spielstand wird überschrieben | | |
+| T27 | Laufende Runde → 0 → Nein | Programm kehrt ins Hauptmenü zurück | | |
 
-Belege in `docs/evidence/` ablegen.
+Für das neue Hauptmenü gilt **0–5**. Die Punkte Spieleranzahl und Namen befinden sich im geführten Ablauf unter **1 Neues Spiel**, nicht als eigene Hauptmenüpunkte.
+
+Belege in `docs/evidence/` ablegen. Manuelle Tests erst nach der tatsächlichen Durchführung als bestanden markieren.
