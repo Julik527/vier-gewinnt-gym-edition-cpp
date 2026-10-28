@@ -29,3 +29,7 @@ Unverändert: C++-Quellcode, Spiellogik, Tests, Schul- und Projektinhalte.
 - PDF-Seiten auf überlagerte Bildbereiche und alte Vektorlogos kontrollieren.
 - PPTX in Microsoft PowerPoint auf Bild- und Schriftumbruch prüfen.
 - Dateiverweise, Quellen, Schullogo und Vollständigkeit der Inhalte kontrollieren.
+
+## Dauerhafte Qualitätssicherung
+
+Die einmalige Marken-Migration wurde im Commit [ea8bbef8](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/ea8bbef88c2579c73c701c8f81828b202c36f46d) abgeschlossen. Der dafür eingesetzte schreibende Workflow wurde entfernt, um unbeabsichtigte weitere PDF-Änderungen zu verhindern. Stattdessen führt [Document & Brand QA](../.github/workflows/docs-quality.yml) eine read-only Prüfung durch. Der ältere Bericht dokumentiert den Migrationslauf, nicht die Abnahme aller Inhalte.
