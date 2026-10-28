@@ -67,6 +67,42 @@ if(GYM_BUILD_GUI)
     else()
         target_compile_options(vier-gewinnt-gui PRIVATE -Wall -Wextra -Wpedantic)
     endif()
+    # Das originale, unveraenderte Logo ist nicht Teil des C++-Quellcodes.
+    # Falls es lokal nicht vorhanden ist, beim GUI-Build von Wikimedia Commons
+    # laden. Die Schule wird auch ohne Netzwerk als Text angezeigt.
+    set(GYM_SCHOOL_LOGO_LOCAL "${CMAKE_CURRENT_SOURCE_DIR}/assets/school/bernd-blindow-schulen.jpg")
+    set(GYM_SCHOOL_LOGO_DOWNLOAD "${CMAKE_CURRENT_BINARY_DIR}/downloaded-school-logo.jpg")
+    set(GYM_SCHOOL_LOGO "")
+    if(EXISTS "${GYM_SCHOOL_LOGO_LOCAL}")
+        set(GYM_SCHOOL_LOGO "${GYM_SCHOOL_LOGO_LOCAL}")
+    else()
+        if(NOT EXISTS "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+            file(DOWNLOAD
+                "https://upload.wikimedia.org/wikipedia/commons/7/7e/Logo_BBS_standard_quer.jpg"
+                "${GYM_SCHOOL_LOGO_DOWNLOAD}"
+                STATUS GYM_SCHOOL_LOGO_STATUS
+                EXPECTED_HASH SHA1=71bc2f41e221b85e09907cedaeecb861b025b047
+                TIMEOUT 25)
+            list(GET GYM_SCHOOL_LOGO_STATUS 0 GYM_SCHOOL_LOGO_CODE)
+            if(NOT GYM_SCHOOL_LOGO_CODE EQUAL 0)
+                message(WARNING "Schullogo konnte nicht geladen werden; Text-Ersatz bleibt sichtbar.")
+                file(REMOVE "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+            endif()
+        endif()
+        if(EXISTS "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+            set(GYM_SCHOOL_LOGO "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+        endif()
+    endif()
+    if(GYM_SCHOOL_LOGO)
+        add_custom_command(TARGET vier-gewinnt-gui POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory
+                "$<TARGET_FILE_DIR:vier-gewinnt-gui>/assets/school"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${GYM_SCHOOL_LOGO}"
+                "$<TARGET_FILE_DIR:vier-gewinnt-gui>/assets/school/bernd-blindow-schulen.jpg"
+            VERBATIM)
+    endif()
+
     if(WIN32)
         # Keep a console for initial error diagnostics and headless CI.
         set_target_properties(vier-gewinnt-gui PROPERTIES WIN32_EXECUTABLE FALSE)
