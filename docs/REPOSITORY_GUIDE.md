@@ -29,4 +29,12 @@ Dateien auf GitHub, aktuelle Commit-Historie und Menüdemo separat für die Abga
 
 ## JK AXIS | GOLD MASTER
 
-Seit 28.10.2026 verwendet die Projektdokumentation das aktuelle JK-AXIS-Präzisionslogo. Die Datei `.github/workflows/gym-brand-refresh.yml` protokolliert die automatische Aktualisierung der PPTX- und PDF-Dateien; `scripts/rebrand_assets.py` enthält die konservative Bild-Erkennung. Prüfnachweise: [BRAND_QA_REPORT.md](BRAND_QA_REPORT.md). Die Python- und GitHub-Actions-Prüfung ist keine abschließende Sichtabnahme in PowerPoint und PDF-Viewer.
+Seit 28.10.2026 verwendet die Projektdokumentation das aktuelle JK-AXIS-Präzisionslogo. Die einmalige Aktualisierung der PPTX- und PDF-Dateien ist in Commit [`ea8bbef8`](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/ea8bbef88c2579c73c701c8f81828b202c36f46d) dokumentiert. Der schreibende Migrations-Workflow wurde nach Abschluss aus Sicherheitsgründen entfernt. `scripts/rebrand_assets.py` bleibt als historischer Migrationscode erhalten. Prüfnachweise: [BRAND_QA_REPORT.md](BRAND_QA_REPORT.md). Die Python- und GitHub-Actions-Prüfung ist keine abschließende Sichtabnahme in PowerPoint und PDF-Viewer.
+
+## Aktuelle automatisierte Prüfungen
+
+- `cpp-quality.yml`: C++-Builds/Unit-/Integrationstests auf Linux und Windows, jeweils Debug/Release.
+- `docs-quality.yml`: rein lesende Qualitätsprüfung aller Projekt-PDFs, PowerPoint-Folien und Dateiverweise.
+- `scripts/document_preflight.py`: Einzelprüfung sämtlicher 151 PDF-Seiten auf technische Renderbarkeit.
+
+Der ältere schreibende Branding-Workflow ist bewusst **nicht mehr aktiv**. Neue Dokumentänderungen sollen geprüft und nicht unbeaufsichtigt umgeschrieben werden. Erfolgreiche Workflow-Ausführung muss vor Abgabe anhand der GitHub-Actions-Läufe bestätigt werden.
