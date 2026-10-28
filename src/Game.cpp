@@ -1,7 +1,7 @@
 // JK AXIS | GOLD MASTER
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   src/Game.cpp
-// Aufgabe: Steuert Menue, Spielerwechsel, Spielstand und Highscore.
+// Aufgabe: Steuert Menü, Spielerwechsel, Spielstand und Highscore.
 // ------------------------------------------------------------
 
 #include "Game.h"
@@ -26,7 +26,7 @@ std::string trim(const std::string& text) {
     return text.substr(start, end - start + 1);
 }
 
-// Eine Eingabe wie "3abc" soll keine gueltige Zahl sein.
+// Eine Eingabe wie "3abc" soll keine gültige Zahl sein.
 bool wholeInt(const std::string& raw, int& result) {
     std::istringstream in(trim(raw));
     char extra;
@@ -41,7 +41,7 @@ std::string ask(const std::string& message) {
     return trim(line);
 }
 
-// Namen duerfen nicht leer oder zu lang sein.
+// Namen dürfen nicht leer oder zu lang sein.
 bool validName(const std::string& name) {
     return !name.empty() && name.size() <= 24
         && name.find('\n') == std::string::npos
@@ -58,7 +58,7 @@ Game::Game() : board_(2) {
     loadHighscores();
 }
 
-// Hier wird die Spielerzahl fuer die naechste Runde eingestellt.
+// Hier wird die Spielerzahl für die nächste Runde eingestellt.
 void Game::configurePlayers() {
     int number;
     for (;;) {
@@ -88,7 +88,7 @@ void Game::configureNames() {
     }
 }
 
-// Fuer eine neue Runde werden Feld, Spieler und Zugliste zurueckgesetzt.
+// Fuer eine neue Runde werden Feld, Spieler und Zugliste zurückgesetzt.
 void Game::newGame() {
     bool namesMissing = static_cast<int>(chosenNames_.size()) != chosenPlayers_;
     for (const auto& name : chosenNames_) if (!validName(name)) namesMissing = true;
@@ -117,7 +117,7 @@ void Game::showHelp() const {
               << "Vier eigene Kurzhanteln horizontal, vertikal oder diagonal gewinnen.\n";
 }
 
-// Zeigt Feldgroesse, belegte Felder und Spieler an.
+// Zeigt Feldgröße, belegte Felder und Spieler an.
 void Game::showInfo() const {
     std::cout << "\nINFO: " << board_.columns() << " Spalten, " << board_.rows()
               << " Reihen; belegte Felder: " << board_.tokenCount()
@@ -127,7 +127,7 @@ void Game::showInfo() const {
     }
 }
 
-// In dieser Schleife wechseln sich die Spieler mit ihren Zuegen ab.
+// In dieser Schleife wechseln sich die Spieler mit ihren Zügen ab.
 void Game::play() {
     while (active_) {
         board_.print();
@@ -144,7 +144,7 @@ void Game::play() {
             std::cout << (saveGame() ? "Spiel gespeichert.\n" : "Speichern fehlgeschlagen.\n");
             continue;
         }
-        // Bei Undo wird der letzte gueltige Zug zurueckgenommen.
+        // Bei Undo wird der letzte gültige Zug zurückgenommen.
         if (upper == "U") {
             if (history_.empty()) { std::cout << "Kein Zug vorhanden.\n"; continue; }
             Move last = history_.back();
@@ -172,7 +172,7 @@ void Game::play() {
             std::cout << "Ungueltige Eingabe. Bitte eine Spalte waehlen.\n";
             continue;
         }
-        // Menschen zaehlen ab 1, die Vektoren im Code ab 0.
+        // Menschen zählen ab 1, die Vektoren im Code ab 0.
         int zeroCol = col - 1;
         int landing = board_.nextFreeRow(zeroCol);
         if (landing == -1) { std::cout << "Spalte ist voll. Erneut waehlen.\n"; continue; }
@@ -180,7 +180,7 @@ void Game::play() {
         if (animation_) board_.animateDrop(zeroCol, symbol, landing);
         int row;
         if (!board_.drop(zeroCol, symbol, row)) continue;
-        // Der Zug kommt in die Liste, damit Undo spaeter funktioniert.
+        // Der Zug kommt in die Liste, damit Undo später funktioniert.
         history_.push_back({row, zeroCol, current_});
         if (board_.hasWon(row, zeroCol, symbol)) {
             board_.print();
@@ -199,7 +199,7 @@ void Game::play() {
     }
 }
 
-// Speichert den Spielstand als Textdatei, damit man spaeter weiterspielen kann.
+// Speichert den Spielstand als Textdatei, damit man später weiterspielen kann.
 bool Game::saveGame(const std::string& path) const {
     if (!active_) return false;
     std::ofstream out(path, std::ios::trunc);
@@ -220,7 +220,7 @@ bool Game::saveGame(const std::string& path) const {
     return static_cast<bool>(out);
 }
 
-// Erst alles in einem neuen Spielfeld pruefen, dann wirklich laden.
+// Erst alles in einem neuen Spielfeld prüfen, dann wirklich laden.
 bool Game::loadGame(const std::string& path) {
     std::ifstream in(path);
     std::string signature;
@@ -228,7 +228,7 @@ bool Game::loadGame(const std::string& path) {
     int n, current, rows, cols, moves;
     if (!(in >> n >> current >> rows >> cols >> moves)) return false;
     if (n < 2 || n > 4 || current < 0 || current >= n) return false;
-    // Das Test-Spielfeld verhindert, dass eine kaputte Datei die Runde veraendert.
+    // Das Test-Spielfeld verhindert, dass eine kaputte Datei die Runde verändert.
     Board candidate(n);
     if (rows != candidate.rows() || cols != candidate.columns()
         || moves < 0 || moves > rows * cols) return false;
@@ -245,14 +245,14 @@ bool Game::loadGame(const std::string& path) {
         loadedPlayers.emplace_back(name, symbol);
     }
     std::vector<Move> loadedMoves;
-    // Die gespeicherten Zuege werden einzeln nachgespielt und kontrolliert.
+    // Die gespeicherten Züge werden einzeln nachgespielt und kontrolliert.
     for (int i = 0; i < moves; ++i) {
         int savedRow, column, player;
         if (!(in >> savedRow >> column >> player) || player != i % n) return false;
         int actualRow;
         if (!candidate.drop(column, loadedPlayers[player].getSymbol(), actualRow)
             || actualRow != savedRow) return false;
-        // Gespeicherte Partien muessen fortsetzbar sein.
+        // Gespeicherte Partien müssen fortsetzbar sein.
         if (candidate.hasWon(actualRow, column, loadedPlayers[player].getSymbol())) return false;
         loadedMoves.push_back({actualRow, column, player});
     }
@@ -269,8 +269,8 @@ bool Game::loadGame(const std::string& path) {
     std::string trailingToken;
     if (in >> trailingToken) return false;
 
-    // Ausschliesslich nach vollstaendiger Pruefung den echten Spielstand ersetzen.
-    // Bis hierhin ist die Datei gueltig. Jetzt wird der Spielstand uebernommen.
+    // Ausschliesslich nach vollständiger Prüfung den echten Spielstand ersetzen.
+    // Bis hierhin ist die Datei gültig. Jetzt wird der Spielstand übernommen.
     board_ = std::move(candidate);
     players_ = std::move(loadedPlayers);
     history_ = std::move(loadedMoves);
