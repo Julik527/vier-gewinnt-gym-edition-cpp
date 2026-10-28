@@ -16,3 +16,8 @@
 
 ## Ausstehend
 Manuelle vollständige Systemtests, Windows-Präsentation, finale Prüfung der erzeugten Dokumente, ggf. Aufgabenabnahme am 29.10.2026.
+## Update vom 28.10.2026
+
+Die Projektdateien wurden auf JK AXIS | GOLD MASTER gebrandet, die Quelltexte wurden um eine strengere Savegame-Prüfung ergänzt und ein CMake-/CTest-Projekt samt GitHub-Actions-Workflows eingerichtet. Diese Ergänzungen sind **keine rückwirkende schulische Freigabe**.
+
+**Vor dem Termin am 29.10.2026:** Die GitHub-Actions-Ergebnisse prüfen, möglichst einen vollständigen Build und eine Spielrunde unter Windows vorführen, das Dokumenten-Preflight-Ergebnis sichern und die Visualisierung der Präsentation auf dem Vorführgerät testen. Siehe [Qualitätssicherung](QUALITY_AND_TESTS.md).
