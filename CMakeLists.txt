@@ -5,8 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+find_package(Threads REQUIRED)
+
 add_library(gym_board STATIC src/Board.cpp)
 target_include_directories(gym_board PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(gym_board PUBLIC Threads::Threads)
 
 add_executable(vier-gewinnt src/main.cpp src/Game.cpp)
 target_link_libraries(vier-gewinnt PRIVATE gym_board)
