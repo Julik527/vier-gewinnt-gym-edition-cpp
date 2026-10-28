@@ -53,6 +53,8 @@ int main() {
 
         for (int col = 0; col < 4; ++col) put(standard, col, 'R');
         verify(standard.hasWon(5, 3, 'R'), "horizontal win");
+        verify(standard.winningCells(5, 3, 'R').size() == 4, "highlight 4 horizontal");
+        verify(standard.winningCells(5, 3, 'B').empty(), "wrong symbol not highlighted");
         verify(!standard.hasWon(5, 3, 'B'), "wrong symbol is not winner");
         verify(standard.tokenCount() == 4, "token count after 4 moves");
 
@@ -60,6 +62,7 @@ int main() {
         Board vertical(2);
         for (int i = 0; i < 4; ++i) put(vertical, 0, 'B');
         verify(vertical.hasWon(2, 0, 'B'), "vertical win at top");
+        verify(vertical.winningCells(2, 0, 'B').size() == 4, "highlight 4 vertical");
         verify(vertical.hasWon(3, 0, 'B'), "vertical win at middle");
         verify(vertical.nextFreeRow(0) == 1, "vertical gravity");
         verify(!vertical.undo(5, 0), "cannot undo buried stone");
@@ -73,6 +76,7 @@ int main() {
             put(diagDown, col, 'R');
         }
         verify(diagDown.hasWon(2, 3, 'R'), "diagonal right-up");
+        verify(diagDown.winningCells(2, 3, 'R').size() == 4, "highlight diagonal");
         verify(diagDown.undo(2, 3), "undo diagonal top stone");
         verify(!diagDown.hasWon(2, 3, 'R'), "diagonal win cleared");
 
