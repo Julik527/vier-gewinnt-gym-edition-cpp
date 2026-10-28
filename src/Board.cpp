@@ -2,11 +2,21 @@
 #include <chrono>
 #include <iostream>
 #include <string>
+#include <stdexcept>
 #include <thread>
 
+namespace {
+int rowCountForPlayers(int players) {
+    if (players < 2 || players > 4) {
+        throw std::invalid_argument("Spieleranzahl muss 2 bis 4 sein.");
+    }
+    return 6 + 2 * (players - 2);
+}
+}
+
 Board::Board(int playerCount)
-    : rows_(6 + 2 * (playerCount - 2)),
-      columns_(7 + 2 * (playerCount - 2)),
+    : rows_(rowCountForPlayers(playerCount)),
+      columns_(rows_ + 1),
       grid_(rows_, std::vector<char>(columns_, '.')) {}
 
 bool Board::inside(int row, int column) const {
@@ -22,6 +32,8 @@ int Board::nextFreeRow(int column) const {
 }
 
 bool Board::drop(int column, char symbol, int& rowPlaced) {
+    // '.' is the internal empty-cell marker and cannot represent a token.
+    if (symbol == '.') { rowPlaced = -1; return false; }
     rowPlaced = nextFreeRow(column);
     if (rowPlaced == -1) return false;
     grid_[rowPlaced][column] = symbol;
