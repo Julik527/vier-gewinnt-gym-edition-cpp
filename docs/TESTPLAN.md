@@ -34,4 +34,13 @@
 
 Für das neue Hauptmenü gilt **0–5**. Die Punkte Spieleranzahl und Namen befinden sich im geführten Ablauf unter **1 Neues Spiel**, nicht als eigene Hauptmenüpunkte.
 
+| T28 | Sieg → Ergebnisoption 1 | Revanche mit denselben Spielern und leerem Feld | | |
+| T29 | Zwei Revanche-Siege | Highscore um genau 2 erhöht | | |
+| T30 | Sieg → Ergebnisoption 2 | Spieleranzahl und Namen erneut abfragen | | |
+| T31 | Sieg → Ergebnisoption 0 | Hauptmenü, keine laufende Partie | | |
+| T32 | Ergebnisoption 8 oder Text | Auswahlfehler, Ergebnisbildschirm bleibt | | |
+| T33 | H, I oder ungültiger Befehl | Unverändertes Spielfeld nicht wiederholt ausgeben | | |
+| T34 | Spiel starten → M | Hauptmenü zeigt Spielernamen, nächsten Spieler, belegte Felder | | |
+| T35 | Animation A ein/aus | Keine ANSI-Bildschirmlöschung, Terminal bleibt lesbar | | |
+
 Belege in `docs/evidence/` ablegen. Manuelle Tests erst nach der tatsächlichen Durchführung als bestanden markieren.
