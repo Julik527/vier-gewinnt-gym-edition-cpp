@@ -159,12 +159,40 @@ private:
         box(cx - size * .48f, cy - plateH * .34f, size * .055f, plateH * .68f, color);
         box(cx + size * .425f, cy - plateH * .34f, size * .055f, plateH * .68f, color);
     }
+    void brandSymbol(float x, float y, float scale) {
+        // Exakte Dreiecksaufteilung der beiden offiziellen SVG-Polygone.
+        // Keine neue Logovariante und keine Bitmap-Skalierung.
+        const std::array<sf::Vector2f, 12> j = {{
+            {17,80}, {17,18}, {50,75},
+            {17,80}, {50,75}, {59,120},
+            {59,120}, {50,75}, {77,102},
+            {50,18}, {50,75}, {17,18}
+        }};
+        const std::array<sf::Vector2f, 12> k = {{
+            {60,75}, {88,47}, {77,93},
+            {77,93}, {88,47}, {114,57},
+            {114,57}, {88,47}, {114,18},
+            {114,18}, {88,47}, {88,18}
+        }};
+        const auto drawPart = [&](const auto& points, sf::Color color) {
+            sf::VertexArray triangles(sf::PrimitiveType::Triangles);
+            for (const auto point : points) {
+                sf::Vertex vertex;
+                vertex.position = {x + point.x * scale, y + point.y * scale};
+                vertex.color = color;
+                triangles.append(vertex);
+            }
+            window_.draw(triangles);
+        };
+        drawPart(j, white);
+        drawPart(k, sf::Color(121, 165, 255));
+    }
     void title(const std::string& subtitle) {
         box(0, 0, W, 112, navy2);
         box(0, 109, W, 3, blue);
-        dumbbell(74, 51, 57, blue);
-        label("JK AXIS  |  VIER GEWINNT", 122, 19, 29, white, true);
-        label("GYM EDITION  /  HEBEN. SETZEN. SIEGEN.", 123, 60, 17, muted);
+        brandSymbol(20, 5, .75f);
+        label("JK AXIS  |  VIER GEWINNT", 132, 19, 29, white, true);
+        label("GYM EDITION  /  HEBEN. SETZEN. SIEGEN.", 133, 60, 17, muted);
         label(subtitle, 800, 39, 21, sf::Color(154, 207, 255));
     }
     std::vector<Button> buttons() const {
