@@ -163,27 +163,39 @@ void Game::newGame() {
 
 // Die Hilfe funktioniert im Hauptmenue und waehrend einer Spielrunde.
 void Game::showHelp() const {
-    std::cout << "\n  ANLEITUNG  |  GYM EDITION\n"
-              << "  ---------------------------\n"
-              << "  Ziel: Vier eigene Kurzhanteln in eine Reihe bringen.\n"
+    std::cout << "\n  +-----------------------------------------------------+\n"
+              << "  | JK AXIS  /  GYM EDITION  /  ANLEITUNG            |\n"
+              << "  +-----------------------------------------------------+\n"
+              << "  ZIEL: Vier eigene Hanteln in einer Reihe platzieren.\n"
               << "  Das geht waagerecht, senkrecht oder diagonal.\n\n"
-              << "  1-7 / 1-9 / 1-11   Spalte auswaehlen (je nach Spielerzahl)\n"
-              << "  V 4                Vorschau fuer Spalte 4\n"
-              << "  U                  Letzten gueltigen Zug zuruecknehmen\n"
+              << "  1-7 / 1-9 / 1-11   Hantel in die gewaehlte Spalte setzen\n"
+              << "  V 4                Vorschau fuer die vierte Spalte\n"
+              << "  U                  Letzten Zug rueckgaengig machen\n"
               << "  S                  Spielstand speichern\n"
-              << "  I                  Spielinformationen\n"
-              << "  A                  Kurze Zuganimation ein/aus\n"
-              << "  H                  Diese Anleitung\n"
-              << "  M                  Zum Hauptmenue (Runde bleibt erhalten)\n";
+              << "  I                  Infos zur laufenden Runde\n"
+              << "  A                  Kleine Animation ein/aus\n"
+              << "  H                  Diese Anleitung anzeigen\n"
+              << "  M                  Zum Hauptmenue (Runde bleibt erhalten)\n\n"
+              << "  [R] [B] [G] [Y] = Hanteln deiner Spieler\n"
+              << "  (R) = Vorschau  |  {R} = Hantel der Gewinnreihe\n"
+              << "  +-----------------------------------------------------+\n";
 }
 
-// Zeigt Feldgröße, belegte Felder und Spieler an.
+// Hier sieht man auf einen Blick, wer spielt und wie weit die Runde ist.
 void Game::showInfo() const {
-    std::cout << "\nINFO: " << board_.columns() << " Spalten, " << board_.rows()
-              << " Reihen; belegte Felder: " << board_.tokenCount()
-              << "/" << board_.rows() * board_.columns() << "\n";
-    for (const auto& p : players_) {
-        std::cout << "  =[" << p.getSymbol() << "]=  " << p.getName() << "\n";
+    std::cout << "\n  JK AXIS  /  TRAININGS-INFORMATIONEN\n"
+              << "  Runde " << round_ << "  |  "
+              << board_.columns() << " Spalten x " << board_.rows()
+              << " Reihen  |  " << board_.tokenCount()
+              << " von " << board_.rows() * board_.columns() << " Feldern belegt\n";
+    for (std::size_t i = 0; i < players_.size(); ++i) {
+        const auto& player = players_[i];
+        const auto found = highscores_.find(player.getName());
+        const int wins = found == highscores_.end() ? 0 : found->second;
+        std::cout << (static_cast<int>(i) == current_ ? "  >> " : "     ")
+                  << "[" << player.getSymbol() << "] " << player.getName()
+                  << "  |  " << wins << (wins == 1 ? " Sieg" : " Siege")
+                  << (static_cast<int>(i) == current_ ? " (am Zug)" : "") << '\n';
     }
 }
 
