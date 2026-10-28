@@ -176,7 +176,7 @@ void Game::showHelp() const {
               << "  U                  Letzten gueltigen Zug zuruecknehmen\n"
               << "  S                  Spielstand speichern\n"
               << "  I                  Spielinformationen\n"
-              << "  A                  Fall-Animation ein/aus\n"
+              << "  A                  Kurze Zuganimation ein/aus\n"
               << "  H                  Diese Anleitung\n"
               << "  M                  Zum Hauptmenue (Runde bleibt erhalten)\n";
 }
