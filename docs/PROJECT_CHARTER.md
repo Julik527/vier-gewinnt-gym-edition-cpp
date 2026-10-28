@@ -10,7 +10,7 @@ Wartbares Vier-Gewinnt-Konsolenspiel auf C++17-Basis mit 2–4 Personen, individ
 1. Anforderungsanalyse mit FR-01–FR-18.
 2. Priorisiertes Product Backlog mit Akzeptanzkriterien.
 3. OOP-Entwurf: Game, Board, Player, Move.
-4. Kompilierbarer Menüprototyp 0–6.
+4. Kompilierbares Hauptmenü 0–5 mit geführtem Spielstart (Spielerzahl, Namen, Start).
 5. Öffentliches GitHub-Repository mit Versionierung und Nachweisen.
 
 ## Abgrenzung
