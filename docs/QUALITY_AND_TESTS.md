@@ -91,6 +91,18 @@ Das Hauptmenü und die Spielfeldanzeige verwenden im interaktiven Terminal feste
 
 **Nachweisgrenze:** Eingebaute Tests allein belegen keine erfolgreiche Ausfuehrung. Den CI-Status im Pull Request pruefen; interaktive Windows-11-F5-Tests im manuellen Testplan dokumentieren.
 
+## 2e. Grafik- und Dokumentationsprüfung (GUI 2.0)
+
+**P0 – Reparierter Dokumentationsfehler:** `docs/TESTPLAN.md` enthielt vor der ersten Überschrift beschädigte Tabellenfragmente und wörtliche `\\n`-Sequenzen. Die 47 Testfälle sind wieder in drei korrekt strukturierte Markdown-Tabellen eingetragen.
+
+**Warum die bisherige CI den Fehler übersah:** `scripts/document_preflight.py` prüfte PDF-Seiten, PPTX-Struktur, SVG-Dateien und README-Links, aber keine Markdown-Tabellen in `docs/`. Die neue Datei `tests/testplan_lint.py` wird deshalb direkt über `.github/workflows/docs-quality.yml` ausgeführt und meldet fehlerhafte Überschriften, Literalsequenzen, Tabellen-Spalten sowie fehlende/duplizierte IDs.
+
+**Grafik-Ziel:** `GYM_BUILD_GUI=ON` aktiviert das eigenständige SFML-3.1.0-Ziel `vier-gewinnt-gui`. Die Terminalversion bleibt mit der Standardeinstellung `OFF` ohne SFML baubar. Die neue, ohne GUI-Bibliothek testbare `MatchSession` verwendet dieselbe `Board`-Klasse für Gewinnerkennung und Schwerkraft. Beide Frontends nutzen `GYM1` und den gemeinsamen sicheren Datei-Ersatz `AtomicFile.h`.
+
+**Automatische Nachweise:** `match_session_tests` prüft unter anderem ungültige Namen, Grenzen, Undo, Speichern/Laden, beschädigte Daten, sicheren Datei-Ersatz, exakte Highscore-Erhöhung und Revanche. `vier-gewinnt-gui --self-test` überprüft die GUI-Verknüpfung und einen validen Zug ohne Fenster. `console_ui_tests` prüft echte unterschiedliche Animations-Frames, ohne den Spielzustand zu verändern. Die CI baut zusätzlich SFML unter Ubuntu und Windows.
+
+**Manuelle Grenzen:** Die grafische Darstellung am realen Windows-Desktop, Mausereignisse, Animationseindruck und F5-Konfiguration sind im `docs/GUI_TESTPLAN.md` als offen dokumentiert. Ein grüner fensterloser Test allein ist keine visuelle Abnahme.
+
 ## 3. Lokal reproduzieren
 
 Voraussetzungen: CMake 3.16+, C++17-Compiler, Python 3 für Integrationstests.
