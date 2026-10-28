@@ -18,36 +18,36 @@ struct Move {
     int player;
 };
 
-// Game steuert das Menue. Board kuemmert sich nur um das Spielfeld.
+// Game steuert das Menü. Board kümmert sich nur um das Spielfeld.
 class Game {
 private:
-    // Einstellung fuer die naechste Runde.
+    // Einstellung für die nächste Runde.
     int chosenPlayers_ = 2;
     std::vector<std::string> chosenNames_;
     std::vector<Player> players_;
     Board board_;
-    // Diese Liste brauchen wir fuer den Undo-Befehl.
+    // Diese Liste brauchen wir für den Undo-Befehl.
     std::vector<Move> history_;
-    // Index des Spielers, der als Naechstes dran ist.
+    // Index des Spielers, der als Nächstes dran ist.
     int current_ = 0;
-    // Zeigt an, ob gerade eine Runde laeuft.
+    // Zeigt an, ob gerade eine Runde läuft.
     bool active_ = false;
     bool animation_ = true;
     std::map<std::string, int> highscores_;
 
-    // Spielerzahl und Spielernamen werden ueber das Menue eingestellt.
+    // Spielerzahl und Spielernamen werden über das Menü eingestellt.
     void configurePlayers();
     void configureNames();
     // Startet eine frische Runde mit leerem Feld.
     void newGame();
-    // Hier finden Spielerwechsel und Zuege statt.
+    // Hier finden Spielerwechsel und Züge statt.
     void play();
     void showHelp() const;
     void showInfo() const;
     void showHighscores() const;
     // Speichert die aktive Runde in einer Textdatei.
     bool saveGame(const std::string& path = "data/savegame.txt") const;
-    // Laedt nur einen vollstaendig geprueften Spielstand.
+    // Lädt nur einen vollständig geprüften Spielstand.
     bool loadGame(const std::string& path = "data/savegame.txt");
     // Liest die Siegerliste beim Programmstart ein.
     void loadHighscores();
