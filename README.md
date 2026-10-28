@@ -1,4 +1,14 @@
-# Vier Gewinnt | Gym Edition
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/jk-axis-precision-symbol-inverse.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/brand/jk-axis-precision-symbol.svg">
+    <img src="assets/brand/jk-axis-precision-symbol.svg" alt="JK AXIS Präzisionslogo" width="96" height="100">
+  </picture>
+</p>
+
+<h1 align="center">Vier Gewinnt | Gym Edition</h1>
+
+<p align="center"><strong>C++17 · Objektorientierte Programmierung · Schulprojekt</strong></p>
 
 **C++17-Schulprojekt (ITA / Programmiertechnik, 2026/27)**  
 **GitHub:** https://github.com/Julik527/vier-gewinnt-gym-edition-cpp · öffentlich.  
@@ -63,4 +73,4 @@ Am 25.10.2026 wurden Kompilierung, vorhandene Board-Assertions und ein Konsolenm
 
 > **GitHub-Stand (25.10.2026):** C++-Quellcode, Tests und Markdown-Dokumentation sind öffentlich hochgeladen. Die acht PDF-/PPTX-Originaldateien wurden in Commit [`53612455`](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/53612455ee21bf4363b7d5627fe8cd388a8c7e8b) unter `reference/` und `praesentation/` hochgeladen. Die alte lokale ZIP-Historie unterscheidet sich von den über die GitHub-Integration erstellten Commits. Für die weitere Arbeit das Online-Repository neu klonen.
 
-**© 2026 Julian Krauß · Design-ID JK-CD-DE-2026-003.** Dokumentationsstand 25.10.2026.
+**© 2026 Julian Krauß · JK AXIS | GOLD MASTER.** Dokumentationsstand 25.10.2026.
