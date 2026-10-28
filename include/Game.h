@@ -35,7 +35,7 @@ private:
     // Nach Sieg oder Remis zeigt das Hauptprogramm ein Ergebnis-Menue.
     bool resultPending_ = false;
     std::string lastWinner_;
-    bool animation_ = true;
+    bool animation_ = false; // Standard: ruhig, ohne Animation.
     std::map<std::string, int> highscores_;
 
     // Der Startassistent fragt zuerst die Spielerzahl und danach die Namen ab.
