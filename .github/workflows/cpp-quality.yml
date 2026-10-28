@@ -72,7 +72,7 @@ jobs:
           python-version: "3.11"
       - name: Install X11/OpenGL build dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libxi-dev libudev-dev libfreetype-dev libgl1-mesa-dev libx11-dev libxext-dev libharfbuzz-dev
+        run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libxi-dev libudev-dev libfreetype-dev libgl1-mesa-dev libx11-dev libxext-dev libharfbuzz-dev xvfb xauth
       - name: Configure SFML 3.1 graphics target
         shell: bash
         run: cmake -S . -B build-gui -DGYM_BUILD_GUI=ON -DCMAKE_BUILD_TYPE=Release
@@ -81,7 +81,7 @@ jobs:
         run: cmake --build build-gui --config Release --target vier-gewinnt-gui match_session_tests --parallel 2
       - name: Test headless GUI core without a desktop
         shell: bash
-        run: ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke'
+        run: ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_window_smoke'
       - name: Upload Windows 2D game executable
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
