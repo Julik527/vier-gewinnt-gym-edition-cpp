@@ -21,7 +21,7 @@ target_include_directories(gym_board PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include
 target_link_libraries(gym_board PUBLIC Threads::Threads)
 
 # Hier entsteht das eigentliche Konsolenspiel.
-add_executable(vier-gewinnt src/main.cpp src/Game.cpp)
+add_executable(vier-gewinnt src/main.cpp src/Game.cpp src/ConsoleUI.cpp)
 target_link_libraries(vier-gewinnt PRIVATE gym_board)
 
 # Dieses zweite Programm testet nur die Regeln des Spielfelds.
