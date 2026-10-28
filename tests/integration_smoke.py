@@ -73,9 +73,9 @@ def main() -> int:
 
         # Im Hauptmenue soll kein unnoetiges Einstellungs-Untermenue stehen.
         output = run_game(binary, workdir("hauptmenue"), ["2", "5", "0"])
-        require(output, "JK AXIS", "Neues Spiel", "Spiel fortsetzen",
-                "Spielstand laden", "Highscore", "Anleitung",
-                "Keine Runde aktiv.", "ANLEITUNG")
+        require(output, "JK AXIS", "GYM EDITION", "HEBEN. SETZEN. SIEGEN.",
+                "Neues Spiel", "Spiel fortsetzen", "Spielstand laden",
+                "Bestenliste", "Anleitung", "Keine Runde aktiv.", "ANLEITUNG")
 
         # Mit 1 kommt zuerst die Spielerzahl, danach jeder Name und direkt das Spiel.
         for n, cols, rows in [(2, 7, 6), (3, 9, 8), (4, 11, 10)]:
@@ -86,7 +86,8 @@ def main() -> int:
             )
             require(output, "SCHRITT 1 VON 2", "SCHRITT 2 VON 2",
                     f"{n} Spieler | {cols} Spalten x {rows} Reihen",
-                    "SPIEL BEREIT", "Zurueck zum Hauptmenue.")
+                    "SPIEL BEREIT", "TRAININGS-ARENA",
+                    "TRAININGSSTAND", "Zurueck zum Hauptmenue.")
             count(output, "SCHRITT 1 VON 2", 1)
             count(output, "SCHRITT 2 VON 2", 1)
             for i, name in enumerate(names):
@@ -176,8 +177,10 @@ def main() -> int:
              "1", *winning_moves, "0", "4", "0"],
         )
         require(output, "GEWONNEN: Ada!", "RUNDENENDE",
-                "Revanche (gleiche Spieler)", "REVANCHE", "1. Ada: 2")
+                "Revanche (gleiche Spieler)", "REVANCHE", "1. Ada: 2",
+                "GESAMTSIEGE", "Vier Hanteln in einer Reihe!")
         count(output, "GEWONNEN: Ada!", 2)
+        count(output, " {R} ", 8)  # 4 markierte Hanteln in beiden Siegrunden.
         count(output, "SCHRITT 1 VON 2", 1)
         count(output, "SCHRITT 2 VON 2", 1)
         highscore = win_dir / "data" / "highscore.txt"
@@ -205,8 +208,8 @@ def main() -> int:
         )
         require(output, "Bitte 0, 1 oder 2 eingeben.", "Programm beendet.")
 
-    print("Integration: Menue, ruhige Anzeige, 2-4 Spieler, Abbruch, "
-          "Fortsetzen, Undo, Save/Load, Ergebnis und Revanche bestanden.")
+    print("Integration: Gym-Arena, 2-4 Spieler, ruhige Anzeige, "
+          "Gewinnmarkierung, Revanche, Save/Load und Highscore bestanden.")
     return 0
 
 
