@@ -32,7 +32,7 @@ Ich möchte, dass ein neues Spiel ohne Umwege startet. Deshalb fragt das Program
   +---------------------------------------------------+
 ```
 
-Die Breite des Rahmens wird vom Programm automatisch berechnet. Wenn keine Partie läuft, ist die Funktion **Fortsetzen** mit einem Hinweis versehen.
+Der Rahmen hat in jeder Zeile eine feste Breite. Ohne aktive Partie wird **Fortsetzen (keine Runde)** angezeigt. Bei einer laufenden Partie erscheinen darunter die Spielernamen, der nächste Spieler und die Anzahl der gelegten Hanteln.
 
 ### So läuft „Neues Spiel“ ab
 
@@ -64,6 +64,34 @@ In beiden Einrichtungsschritten kann man mit `0` abbrechen. Beim Abbruch wird ei
   Los geht's!
 ```
 
+### Ergebnisbildschirm und Revanche
+
+Nach einer gewonnenen Partie oder einem Remis erscheint ein eigener Bildschirm mit dem endgültigen Spielfeld, dem Ergebnis und drei Möglichkeiten:
+
+```text
+  +---------------------------------------------------+
+  | JK AXIS  |  RUNDENENDE                            |
+  +---------------------------------------------------+
+  GEWONNEN: Ada!
+  Der Sieg wurde in der Bestenliste eingetragen.
+  Gespielte Zuege: 7
+  +---------------------------------------------------+
+  | 1   Revanche (gleiche Spieler)                    |
+  | 2   Neues Spiel (Spieler neu waehlen)              |
+  | 0   Hauptmenue                                   |
+  +---------------------------------------------------+
+```
+
+- **1 Revanche:** Das Feld und die Undo-Liste werden geleert. Namen, Symbole und Spieleranzahl bleiben unverändert. Der erste Spieler beginnt wieder.
+- **2 Neues Spiel:** Die Einrichtung mit Spieleranzahl und Namen beginnt neu.
+- **0 Hauptmenü:** Der Ergebnisbildschirm endet; die abgeschlossene Runde kann nicht mehr fortgesetzt werden.
+- Der Highscore wird beim Sieg **genau einmal** erhöht. Bei Remis gibt es keinen Siegerpunkt.
+- Die Auswahl wird im Hauptprogramm verarbeitet. Es entstehen keine ineinander verschachtelten Spielrunden.
+
+### Ruhigere Konsolendarstellung
+
+Das Spielfeld wird nach einem erfolgreichen Zug, einem Undo oder einer Vorschau neu ausgegeben. Hilfe, Info, Speichern und ungültige Eingaben drucken das unveränderte Spielfeld nicht noch einmal. Die Animation ist standardmäßig **ausgeschaltet**, lässt sich im Spiel aber mit `A` einschalten. Statt des dauernden Löschens des Terminals zeigt sie eine kurze Fortschrittszeile. Dadurch bleibt die Konsole auch ohne ANSI-Steuerzeichen lesbar.
+
 ### Was passiert bei Fehlern?
 
 | Situation | Verhalten |
@@ -76,6 +104,9 @@ In beiden Einrichtungsschritten kann man mit `0` abbrechen. Beim Abbruch wird ei
 | `M` im Spiel | Zurück zum Hauptmenü; die Runde kann mit `2` fortgesetzt werden |
 | Ungültige Speicherdatei | Fehlerhinweis, bisheriges Spiel bleibt erhalten |
 | Programm beenden bei laufender Runde | Sicherheitsabfrage |
+| Sieg oder Remis | Ergebnisanzeige mit Revanche, Neuem Spiel und Hauptmenü |
+| Revanche | Gleiche Namen und Spielsymbole, leeres Feld, neuer Startspielerindex 0 |
+| Ungültige Eingabe im Ergebnisbildschirm | Aufforderung, 0, 1 oder 2 zu wählen |
 
 ### Welche Methoden sind dafür zuständig?
 
@@ -83,11 +114,13 @@ In beiden Einrichtungsschritten kann man mit `0` abbrechen. Beim Abbruch wird ei
 - `Game::newGame()`: Verbindet Einrichtung und Spielstart in der richtigen Reihenfolge.
 - `Game::configurePlayers(int&)`: Kontrolliert die Spielerzahl.
 - `Game::configureNames(int, std::vector<std::string>&)`: Fragt jeden Namen ab und prüft die Eingaben.
-- `Game::play()`: Führt die Partie durch.
+- `Game::play()`: Führt die Partie durch und zeichnet nur bei Änderungen neu.
+- `Game::showResultMenu()`: Zeigt Sieg oder Remis und die Auswahl nach der Runde.
+- `Game::rematch()`: Bereitet eine neue Partie mit denselben Spielern vor.
 - `Game::loadGame()`: Liest einen gespeicherten Spielstand und prüft ihn vor der Übernahme.
 
 ### Qualitätssicherung
 
-Die Datei [`tests/integration_smoke.py`](../tests/integration_smoke.py) enthält automatisierte Szenarien für das neue Menü einschließlich Start, fehlerhafter Eingaben, Abbruch, Fortsetzen und Laden. Ein erfolgreicher Testlauf muss über CTest beziehungsweise GitHub Actions bestätigt werden. Die Dokumentation behauptet keine bestandene Windows-Prüfung ohne tatsächliches Ergebnis.
+Die Datei [`tests/integration_smoke.py`](../tests/integration_smoke.py) enthält automatisierte Szenarien für das neue Menü einschließlich Start, fehlerhafter Eingaben, Abbruch, Fortsetzen, Laden, Revanche und zwei aufeinanderfolgenden Siegen. Ein erfolgreicher Testlauf muss über CTest beziehungsweise GitHub Actions bestätigt werden. Die Dokumentation behauptet keine bestandene Windows-Prüfung ohne tatsächliches Ergebnis.
 
 **Gestaltung:** Einheitliches JK-AXIS-Logo und ruhige ASCII-Struktur. Die Benutzeroberfläche bleibt absichtlich ein Terminalprogramm; eine grafische Windows-GUI wurde nicht vorgetäuscht.
