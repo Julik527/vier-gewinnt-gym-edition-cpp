@@ -33,6 +33,19 @@ g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/
 
 Auf Linux/macOS entsprechend ohne `.exe` kompilieren. Die Dateipfade `data/` sind relativ zum Projektordner.
 
+## VS Code: Mit F5 starten und debuggen (Windows / MSYS2 UCRT64)
+
+Öffne in VS Code den **Projektstammordner**, also den Ordner, in dem `CMakeLists.txt`, `src/`, `include/` und `.vscode/` liegen. Drücke danach **F5** und wähle **„Vier Gewinnt | Gym Edition“**.
+
+Die mitgelieferten Einstellungen benutzen:
+
+- `.vscode/tasks.json`: Kompiliert **`src/main.cpp`, `src/Board.cpp`, `src/Game.cpp` und `src/ConsoleUI.cpp`** mit `g++.exe`, Debugsymbolen (`-g`) und ohne Optimierung (`-O0`).
+- `.vscode/launch.json`: Startet `vier-gewinnt.exe` nach der Build-Aufgabe im integrierten Terminal und verwendet `gdb.exe` aus MSYS2 UCRT64.
+
+**Wichtig nach dem Arena-Umbau:** Ältere lokale Kopien der Build-Aufgabe kennen `ConsoleUI.cpp` noch nicht. Bei Linkerfehlern zu `console_ui::arena`, `console_ui::present` oder `console_ui::result` zuerst die aktuelle `.vscode/tasks.json` aus GitHub übernehmen. Außerdem kontrollieren, dass `C:/msys64/ucrt64/bin/g++.exe` und `C:/msys64/ucrt64/bin/gdb.exe` wirklich installiert sind.
+
+Falls **F5** nicht startet: Über **Terminal → Buildaufgabe ausführen** zunächst die Aufgabe **„Vier Gewinnt bauen“** starten und die erste rote Fehlermeldung im Terminal ansehen. Ohne einen erfolgreichen Build lässt sich der Debugger nicht korrekt starten.
+
 ## Reproduzierbarer CMake-Build
 
 Die kompakte `g++`-Variante oben bleibt für den Unterricht nutzbar. Für Debug, Release und automatische Tests:
