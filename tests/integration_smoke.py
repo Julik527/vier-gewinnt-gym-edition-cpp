@@ -174,6 +174,18 @@ def main() -> int:
         if not save.is_file() or not save.read_text(encoding="utf-8").startswith("GYM1\n"):
             raise AssertionError("Gueltige Speicherdatei fehlt.")
 
+        # Auch der normale Ersatz eines alten Spielstands muss funktionieren.
+        previous = save.read_bytes()
+        output = run_game(
+            binary, save_dir,
+            ["1", "2", "Ada", "Ben", "1", "S", "M", "0", "j"],
+        )
+        require(output, "Spiel gespeichert.")
+        if save.read_bytes() == previous:
+            raise AssertionError("Gueltiger neuer Spielstand hat alten nicht ersetzt.")
+        if (save_dir / "data" / "savegame.txt.tmp").exists():
+            raise AssertionError("Eine temporaere Datei blieb nach erfolgreichem Save liegen.")
+
         # Eine fehlgeschlagene Sicherung darf die gueltige Datei nicht zerstoeren.
         original = save.read_bytes()
         blocked_temp = save_dir / "data" / "savegame.txt.tmp"
