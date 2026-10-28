@@ -120,6 +120,24 @@ void boardArea(std::ostringstream& out, const Board& board,
 
 namespace console_ui {
 
+void pauseForReading() {
+    // Wenn die Eingabe aus einer Testdatei kommt, niemals auf Enter warten.
+#ifdef _WIN32
+    HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD flags = 0;
+    const bool interactive = input != INVALID_HANDLE_VALUE && input != nullptr
+                             && GetConsoleMode(input, &flags) != 0;
+#else
+    const bool interactive = ::isatty(fileno(stdin)) != 0
+                             && ::isatty(fileno(stdout)) != 0;
+#endif
+    if (!interactive) return;
+    std::cout << "\n  Enter druecken, um zum Hauptmenue zurueckzugehen...";
+    std::cout.flush();
+    std::string ignored;
+    std::getline(std::cin, ignored);
+}
+
 void present(const std::string& screen) {
     // Nur an einem echten Terminal aktualisieren wir dieselbe Bildschirmseite.
     // Bei umgeleiteter Ausgabe bleiben die Texte fuer automatische Tests lesbar.
