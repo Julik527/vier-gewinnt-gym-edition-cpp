@@ -5,6 +5,7 @@
 // ------------------------------------------------------------
 
 #include "Game.h"
+#include "ConsoleUI.h"
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
@@ -46,15 +47,6 @@ bool validName(const std::string& name) {
     return !name.empty() && name.size() <= 24
         && name.find('\n') == std::string::npos
         && name.find('\r') == std::string::npos;
-}
-
-// Der Rahmen bekommt immer die gleiche Breite, auch wenn Texte kuerzer sind.
-void menuBorder() {
-    std::cout << "  +" << std::string(51, '-') << "+\n";
-}
-
-void menuRow(const std::string& label) {
-    std::cout << "  | " << std::left << std::setw(49) << label << " |\n";
 }
 
 // Fuer Sicherheitsabfragen zaehlen nur J oder JA als Zustimmung.
@@ -153,6 +145,8 @@ void Game::newGame() {
     active_ = true;
     resultPending_ = false;
     lastWinner_.clear();
+    lastWinningCells_.clear();
+    round_ = 1;
 
     std::cout << "\n  SPIEL BEREIT\n"
               << "  " << chosenPlayers_ << " Spieler | "
@@ -200,41 +194,20 @@ void Game::rematch() {
     active_ = true;
     resultPending_ = false;
     lastWinner_.clear();
+    lastWinningCells_.clear();
+    ++round_;
     std::cout << "\n  REVANCHE  |  Gleiche Spieler, neues leeres Feld.\n";
     showInfo();
 }
 
 // Die Ergebnisse erscheinen nur nach Sieg oder Remis, nicht beim Verlassen mit M.
 int Game::showResultMenu() const {
-    std::cout << "\n";
-    menuBorder();
-    menuRow("JK AXIS  |  RUNDENENDE");
-    menuBorder();
-    if (!lastWinner_.empty()) {
-        std::cout << "  GEWONNEN: " << lastWinner_ << "!\n"
-                  << "  Der Sieg wurde in der Bestenliste eingetragen.\n";
-    } else {
-        std::cout << "  REMIS: Das Spielfeld ist voll.\n";
-    }
-    std::cout << "  Gespielte Zuege: " << board_.tokenCount() << "\n";
-    std::cout << "  Bisherige Gesamtsiege:\n";
-    for (const auto& player : players_) {
-        const auto result = highscores_.find(player.getName());
-        const int wins = (result == highscores_.end()) ? 0 : result->second;
-        std::cout << "    [" << player.getSymbol() << "] " << player.getName()
-                  << ": " << wins << ((wins == 1) ? " Sieg\n" : " Siege\n");
-    }
-    menuBorder();
-    menuRow("1   Revanche (gleiche Spieler)");
-    menuRow("2   Neues Spiel (Spieler neu waehlen)");
-    menuRow("0   Hauptmenue");
-    menuBorder();
+    console_ui::present(console_ui::result(
+        board_, players_, highscores_, lastWinner_, round_, lastWinningCells_));
     for (;;) {
         int choice = -1;
         if (wholeInt(ask("  Deine Auswahl: "), choice)
-            && (choice == 0 || choice == 1 || choice == 2)) {
-            return choice;
-        }
+            && (choice == 0 || choice == 1 || choice == 2)) return choice;
         std::cout << "  Bitte 0, 1 oder 2 eingeben.\n";
     }
 }
@@ -247,9 +220,8 @@ void Game::play() {
     bool redraw = true;
     while (active_) {
         if (redraw) {
-            board_.print();
-            std::cout << "Am Zug: " << players_[current_].getName() << " =["
-                      << players_[current_].getSymbol() << "]=\n";
+            console_ui::present(console_ui::arena(
+                board_, players_, current_, round_, highscores_));
             redraw = false;
         }
         std::string command = ask("Spalte oder Befehl (H=Hilfe): ");
@@ -290,7 +262,9 @@ void Game::play() {
                 || board_.nextFreeRow(col - 1) == -1) {
                 std::cout << "Vorschau nicht moeglich. Beispiel: V 4\n";
             } else {
-                board_.print(col - 1, players_[current_].getSymbol());
+                console_ui::present(console_ui::arena(
+                    board_, players_, current_, round_, highscores_,
+                    col - 1, players_[current_].getSymbol()));
                 std::cout << "Nur Vorschau: Feld wurde NICHT veraendert.\n";
                 redraw = true;
             }
@@ -313,7 +287,8 @@ void Game::play() {
         if (!board_.drop(zeroCol, symbol, row)) continue;
         history_.push_back({row, zeroCol, current_});
         if (board_.hasWon(row, zeroCol, symbol)) {
-            board_.print();
+            // Die vier verbundenen Hanteln werden im Ergebnis gruen markiert.
+            lastWinningCells_ = board_.winningCells(row, zeroCol, symbol);
             addWin(players_[current_].getName());
             lastWinner_ = players_[current_].getName();
             active_ = false;
@@ -321,8 +296,8 @@ void Game::play() {
             return;
         }
         if (board_.isFull()) {
-            board_.print();
             lastWinner_.clear();
+            lastWinningCells_.clear();
             active_ = false;
             resultPending_ = true;
             return;
@@ -414,6 +389,8 @@ bool Game::loadGame(const std::string& path) {
     active_ = true;
     resultPending_ = false;
     lastWinner_.clear();
+    lastWinningCells_.clear();
+    round_ = 1; // Das bisherige Speicherformat enthaelt keine Rundennummer.
     return true;
 }
 
@@ -477,32 +454,8 @@ void Game::run() {
                 continue;
             }
         }
-        std::cout << "\n";
-        menuBorder();
-        menuRow("JK AXIS  |  VIER GEWINNT : GYM EDITION");
-        menuRow("C++17  |  LOKALER MEHRSPIELER-MODUS");
-        menuRow(active_ ? "STATUS | Laufende Partie"
-                        : "STATUS | Keine Partie aktiv");
-        menuBorder();
-        menuRow("1   Neues Spiel");
-        menuRow(active_ ? "2   Spiel fortsetzen"
-                        : "2   Spiel fortsetzen (keine Runde)");
-        menuRow("3   Spielstand laden");
-        menuRow("4   Highscore");
-        menuRow("5   Anleitung");
-        menuRow("0   Beenden");
-        menuBorder();
-        if (active_) {
-            std::cout << "  Spieler: ";
-            for (std::size_t i = 0; i < players_.size(); ++i) {
-                if (i) std::cout << " / ";
-                std::cout << players_[i].getName();
-            }
-            std::cout << "\n  Am Zug: " << players_[current_].getName()
-                      << " [" << players_[current_].getSymbol() << "]"
-                      << "  |  Zuege: " << board_.tokenCount() << "\n";
-        }
-
+        console_ui::present(console_ui::mainMenu(
+            players_, board_, active_, current_, round_));
         int option = -1;
         if (!wholeInt(ask("  Deine Auswahl: "), option)) option = -1;
         switch (option) {
