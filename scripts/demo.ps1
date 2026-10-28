@@ -11,6 +11,8 @@ $root = Split-Path -Parent $PSScriptRoot
 $compiler = "C:\msys64\ucrt64\bin\g++.exe"
 $logo = Join-Path $root "assets\school\bernd-blindow-schulen.jpg"
 Push-Location $root
+$originalPath = $env:Path
+$env:Path = "C:\msys64\ucrt64\bin;$env:Path"
 try {
     if ($Mode -in @("GUI", "Both")) {
         if (-not (Test-Path $logo)) {
@@ -39,7 +41,6 @@ try {
         if (-not (Test-Path $gui)) { throw "GUI-EXE fehlt: $gui" }
         Write-Host "Grafische Gym Edition starten. F9 schaltet Musik an oder aus."
         # Pfad fuer SFML- und UCRT64-DLLs nur fuer diese PowerShell-Sitzung ergaenzen.
-        $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
         Start-Process -FilePath $gui -WorkingDirectory $root -Wait
     }
     if ($Mode -in @("Terminal", "Both")) {
@@ -54,5 +55,6 @@ try {
         & $terminal
     }
 } finally {
+    $env:Path = $originalPath
     Pop-Location
 }
