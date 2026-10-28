@@ -82,6 +82,8 @@ public:
                 if (const auto* typed = event->getIf<sf::Event::TextEntered>())
                     textInput(typed->unicode);
             }
+            // Nach Fenster-X kein Rendern auf ein bereits geschlossenes Fenster.
+            if (!window_.isOpen()) break;
             if (falling_) {
                 fallRow_ += dt * (fallRow_ < targetRow_ - 1.f ? 13.f : 7.f);
                 if (fallRow_ >= static_cast<float>(targetRow_)) {
