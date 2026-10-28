@@ -60,7 +60,11 @@ Das Hauptmenü ist bewusst kompakt. **Neues Spiel** führt in einem Ablauf durch
 
 **Einrichtung:** Bei der Spielerzahl und Namenseingabe führt `0` zurück zum Hauptmenü. Ungültige Eingaben werden erneut abgefragt. Bereits laufende Partien werden nicht ohne Bestätigung verworfen; ein Abbruch der Einrichtung lässt sie bestehen.
 
-**Während des Spiels:** Eine Spaltennummer legt eine Hantel ab. `V 4` zeigt eine Vorschau, `U` nimmt den letzten Zug zurück, `S` speichert, `H` öffnet die Anleitung, `I` zeigt Spielinformationen, `A` schaltet die Animation um und `M` kehrt zum Hauptmenü zurück. Danach kann die Runde mit **2** fortgesetzt werden.
+**Während des Spiels:** Eine Spaltennummer legt eine Hantel ab. `V 4` zeigt eine Vorschau, `U` nimmt den letzten Zug zurück, `S` speichert, `H` öffnet die Anleitung, `I` zeigt Spielinformationen, `A` schaltet die Animation um und `M` kehrt zum Hauptmenü zurück. Danach kann die Runde mit **2** fortgesetzt werden. Das Hauptmenü zeigt bei einer aktiven Partie die Spielernamen, den nächsten Spieler und die Anzahl gelegter Hanteln.
+
+**Nach einem Sieg oder Remis** erscheint ein eigener Ergebnisbildschirm. Dort gibt es **1 Revanche** (dieselben Spieler, neues leeres Feld), **2 Neues Spiel** (mit neuer Spieler-Einrichtung) oder **0 Hauptmenü**. Bei der Revanche bleiben Namen und Symbole erhalten. Der Highscore steigt nur einmal pro tatsächlich gewonnener Partie.
+
+**Ruhige Terminaldarstellung:** Das Spielfeld wird nicht bei jeder Hilfe- oder Fehleingabe komplett neu ausgegeben, sondern vor allem nach echten Spielzügen, Undo oder einer Vorschau. Die optionale Animation ist standardmäßig ausgeschaltet und verwendet keine ANSI-Bildschirmlöschung. Mit `A` lässt sie sich im Spiel aktivieren.
 
 Die komplette Menüführung, Beispiele und Abnahmeszenarien stehen in [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md).
 
@@ -86,7 +90,7 @@ cmake --build build --config Debug
 ctest --test-dir build -C Debug --output-on-failure
 ```
 
-Die Tests umfassen Spielfeldgrößen, Schwerkraft, Überlauf und Gewinnrichtungen sowie über `tests/integration_smoke.py` den durchgängigen Spielstart, Abbruch/Fortsetzen, Namen, Vorschau, Undo, Laden/Speichern, beschädigte Dateien, Gewinnen und dauerhafte Highscores.
+Die Tests umfassen Spielfeldgrößen, Schwerkraft, Überlauf und Gewinnrichtungen sowie über `tests/integration_smoke.py` den durchgängigen Spielstart, Abbruch/Fortsetzen, Namen, Vorschau, Undo, Laden/Speichern, beschädigte Dateien, Gewinnen, Revanche mit unveränderten Namen, Ergebnisnavigation, ruhige Darstellung und dauerhafte Highscores.
 
 **Nachweisstand:** Die Board-Tests und der Konsolen-Smoke-Test vom 25.10.2026 wurden historisch auf Linux ausgeführt. Der erweiterte Testkatalog und die GitHub-Actions-Matrix wurden am 28.10.2026 ergänzt. Die erfolgreichen CI-Läufe und der Windows-Schulrechner müssen anhand ihrer tatsächlichen Ergebnisse bestätigt werden. Keine Schul- oder Produktfreigabe wird daraus abgeleitet. Siehe [Qualität und Tests](docs/QUALITY_AND_TESTS.md).
 
