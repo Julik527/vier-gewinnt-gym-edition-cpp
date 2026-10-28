@@ -79,6 +79,22 @@ jobs:
       - name: Compile graphical game and shared match tests
         shell: bash
         run: cmake --build build-gui --config Release --target vier-gewinnt-gui match_session_tests --parallel 2
+      - name: Verify original school logo is packaged
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          expected = "71bc2f41e221b85e09907cedaeecb861b025b047"
+          copies = list(Path("build-gui").rglob("assets/school/bernd-blindow-schulen.jpg"))
+          if not copies:
+              raise SystemExit("FEHLER: Original-Schullogo fehlt neben GUI-EXE.")
+          for logo in copies:
+              digest = hashlib.sha1(logo.read_bytes()).hexdigest()
+              if digest != expected:
+                  raise SystemExit(f"Ungueltige Schul-Logo-Datei: {logo}: {digest}")
+              print(f"Schullogo OK: {logo}")
+          PY
       - name: Test headless GUI core without a desktop
         shell: bash
         run: ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_window_smoke'
