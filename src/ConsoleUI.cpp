@@ -163,14 +163,15 @@ std::string mainMenu(const std::vector<Player>& players, const Board& board,
     separator(out);
     if (active && !players.empty() && currentPlayer >= 0 &&
         currentPlayer < static_cast<int>(players.size())) {
-        out << "  RUNDE " << round << "  |  " << board.tokenCount() << " Zuege  |  Am Zug: "
-            << players[static_cast<std::size_t>(currentPlayer)].getName() << "\n";
-        out << "  Spieler: ";
+        out << "  RUNDE " << round << "  |  " << board.tokenCount() << " Zuege\n"
+            << "  SPIELER UND ZUGREIHENFOLGE:\n";
+        // Jeder Name bekommt eine eigene Zeile; auch 4 lange Namen passen.
         for (std::size_t i = 0; i < players.size(); ++i) {
-            if (i) out << "  /  ";
-            out << '[' << players[i].getSymbol() << "] " << players[i].getName();
+            out << (static_cast<int>(i) == currentPlayer ? "  >> " : "     ")
+                << '[' << players[i].getSymbol() << "] " << players[i].getName()
+                << (static_cast<int>(i) == currentPlayer ? "  < AM ZUG" : "")
+                << "\n";
         }
-        out << "\n";
     }
     out << "  Auswahl mit Zahl bestaetigen.\n";
     return out.str();
