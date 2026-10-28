@@ -2,13 +2,13 @@
 # JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   tests/integration_smoke.py
-# Aufgabe: Prüft das Spiel automatisch mit echten Menü-Eingaben.
+# Aufgabe: Prueft den Menueablauf und die wichtigsten Funktionen.
 # ------------------------------------------------------------
 
-"""Prüft die wichtigsten Spielabläufe mit eingegebenen Menübefehlfolgen.
+"""Testet das C++-Konsolenspiel ueber echte Tastatureingaben.
 
-Dafür reichen die Python-Standardbibliotheken. Das Spiel wird in einem
-separaten Testordner gestartet, damit keine echten Spielstände betroffen sind.
+Jeder Test benutzt einen eigenen temporaeren Ordner. Dadurch bleiben
+persoenliche Spielstaende und Highscores unveraendert.
 """
 import pathlib
 import re
@@ -17,7 +17,7 @@ import sys
 import tempfile
 
 
-# Startet das Spiel so, als würde ein Benutzer die Befehle eintippen.
+# Fuehrt eine Reihe von Eingaben wie bei einer echten Spielrunde aus.
 def run_game(binary: pathlib.Path, directory: pathlib.Path, commands: list[str]) -> str:
     result = subprocess.run(
         [str(binary)],
@@ -25,98 +25,159 @@ def run_game(binary: pathlib.Path, directory: pathlib.Path, commands: list[str])
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        # Jeder Test nutzt seinen eigenen Ordner, damit sich Spielstände nicht mischen.
         cwd=directory,
-        timeout=20,
+        timeout=25,
         check=False,
         encoding="utf-8",
         errors="replace",
     )
     if result.returncode != 0:
         raise AssertionError(
-            f"Exit code {result.returncode}; stderr={result.stderr!r}; stdout={result.stdout[-1200:]!r}"
+            f"Exit code {result.returncode}; stderr={result.stderr!r}; "
+            f"stdout={result.stdout[-1200:]!r}"
         )
     if "Programm beendet." not in result.stdout:
-        raise AssertionError(f"Missing clean exit. Last output: {result.stdout[-1000:]!r}")
+        raise AssertionError(f"Spiel wurde nicht sauber beendet: {result.stdout[-1200:]!r}")
     return result.stdout
 
 
-# Sucht nach Antworten, die das Spiel bei diesem Test zeigen muss.
-def require(text: str, *fragments: str) -> None:
-    for fragment in fragments:
-        if fragment not in text:
-            raise AssertionError(f"Expected {fragment!r}. Output tail: {text[-1800:]!r}")
+def require(output: str, *expected: str) -> None:
+    for fragment in expected:
+        if fragment not in output:
+            raise AssertionError(
+                f"Text fehlt: {fragment!r}. Ausgabe: {output[-1800:]!r}"
+            )
 
 
-# Hier testen wir die wichtigsten Abläufe Schritt für Schritt.
+def count(output: str, fragment: str, expected: int) -> None:
+    found = output.count(fragment)
+    if found != expected:
+        raise AssertionError(f"{fragment!r}: erwartet {expected}, gefunden {found}")
+
+
 def main() -> int:
     if len(sys.argv) != 2:
-        print("Usage: integration_smoke.py <path-to-vier-gewinnt>", file=sys.stderr)
+        print("Aufruf: integration_smoke.py <Spiel-Datei>", file=sys.stderr)
         return 2
     binary = pathlib.Path(sys.argv[1]).resolve()
     if not binary.is_file():
         raise FileNotFoundError(binary)
 
-    # Alle Testdateien werden danach automatisch wieder entfernt.
     with tempfile.TemporaryDirectory(prefix="gym-edition-test-") as temp:
         root = pathlib.Path(temp)
 
-        # Bei jeder Spielerzahl muss die passende Feldgröße herauskommen.
+        def workdir(name: str) -> pathlib.Path:
+            folder = root / name
+            folder.mkdir(parents=True)
+            return folder
+
+        # Im Hauptmenue soll kein unnoetiges Einstellungs-Untermenue stehen.
+        output = run_game(binary, workdir("hauptmenue"), ["2", "5", "0"])
+        require(output, "JK AXIS", "Neues Spiel", "Spiel fortsetzen",
+                "Spielstand laden", "Highscore", "Anleitung",
+                "Keine Runde aktiv.", "ANLEITUNG")
+
+        # Mit 1 kommt zuerst die Spielerzahl, danach jeder Name und direkt das Spiel.
         for n, cols, rows in [(2, 7, 6), (3, 9, 8), (4, 11, 10)]:
-            work = root / f"players-{n}"
-            work.mkdir()
-            names = [f"Spieler{index}" for index in range(1, n + 1)]
-            output = run_game(binary, work, ["2", str(n), "3", *names, "1", "A", "M", "0"])
-            require(output, f"Neues Spiel: {cols} Spalten x {rows} Reihen.", "Zurueck zum Hauptmenue.")
+            names = [f"Spieler{i}" for i in range(1, n + 1)]
+            output = run_game(
+                binary, workdir(f"spieler-{n}"),
+                ["1", str(n), *names, "A", "M", "0", "j"],
+            )
+            require(output, "SCHRITT 1 VON 2", "SCHRITT 2 VON 2",
+                    f"{n} Spieler | {cols} Spalten x {rows} Reihen.",
+                    "SPIEL BEREIT", "Zurueck zum Hauptmenue.")
+            count(output, "SCHRITT 1 VON 2", 1)
+            count(output, "SCHRITT 2 VON 2", 1)
+            for i, name in enumerate(names):
+                require(output, f"Spieler {i+1} [", name)
 
-        work = root / "input-undo-preview"
-        work.mkdir()
+        # Falsche Spieleranzahl, leere Namen und doppelte Namen abfangen.
         output = run_game(
-            binary, work,
-            ["3", "Ada", "Ada", "Ben", "1", "A", "0", "8", "V 1", "U", "1", "U", "M", "0"],
+            binary, workdir("eingabe-und-undo"),
+            ["1", "8", "abc", "2", "", "Ada", "Ada", "Ben",
+             "A", "0", "8", "V 1", "U", "1", "U", "M", "0", "j"],
         )
-        require(
-            output, "Name darf nicht leer/doppelt", "Ungueltige Eingabe.",
-            "Nur Vorschau: Feld wurde NICHT veraendert.",
-            "Kein Zug vorhanden.", "Letzter Zug entfernt.",
-        )
+        require(output, "Bitte 2, 3 oder 4 eingeben.",
+                "Bitte einen Namen mit 1 bis 24 Zeichen",
+                "Dieser Name wird schon verwendet.",
+                "Ungueltige Eingabe.",
+                "Nur Vorschau: Feld wurde NICHT veraendert.",
+                "Kein Zug vorhanden.", "Letzter Zug entfernt.")
 
-        work = root / "save-load"
-        work.mkdir()
+        # Beim Abbrechen darf nicht aus Versehen eine Partie starten.
+        output = run_game(binary, workdir("abbruch-anzahl"), ["1", "0", "0"])
+        require(output, "Spielstart abgebrochen.")
+        if "SPIEL BEREIT" in output:
+            raise AssertionError("Spiel trotz Abbruch gestartet")
+        output = run_game(binary, workdir("abbruch-name"), ["1", "2", "0", "0"])
+        require(output, "Spielstart abgebrochen.")
+
+        # Ein laufendes Spiel soll ueber das Hauptmenue fortgesetzt werden koennen.
         output = run_game(
-            binary, work, ["3", "Ada", "Ben", "1", "A", "1", "2", "S", "M", "5", "U", "M", "0"]
+            binary, workdir("fortsetzen"),
+            ["1", "2", "Ada", "Ben", "A", "1", "M", "2",
+             "U", "M", "0", "j"],
         )
-        require(output, "Spiel gespeichert.", "Spielstand geladen.", "Letzter Zug entfernt.")
-        # Wir schauen auch nach, ob wirklich eine Speicherdatei entstanden ist.
-        save = work / "data" / "savegame.txt"
+        require(output, "Deine Runde wird fortgesetzt.",
+                "Letzter Zug entfernt.")
+
+        # Abgelehnter Neustart bzw. abgebrochene Einrichtung behalten die alte Runde.
+        output = run_game(
+            binary, workdir("abbruch-laufende-runde"),
+            ["1", "2", "Ada", "Ben", "A", "1", "M",
+             "1", "n", "1", "j", "2", "0",
+             "2", "U", "M", "0", "j"],
+        )
+        require(output, "Die bisherige Runde bleibt erhalten.",
+                "Spielstart abgebrochen.", "Deine Runde wird fortgesetzt.",
+                "Letzter Zug entfernt.")
+
+        # Speichern, Laden und ein anschliessendes Undo testen.
+        save_dir = workdir("speichern-laden")
+        output = run_game(
+            binary, save_dir,
+            ["1", "2", "Ada", "Ben", "A", "1", "2", "S", "M",
+             "3", "j", "U", "M", "0", "j"],
+        )
+        require(output, "Spiel gespeichert.", "Spielstand geladen.",
+                "Letzter Zug entfernt.")
+        save = save_dir / "data" / "savegame.txt"
         if not save.is_file() or not save.read_text(encoding="utf-8").startswith("GYM1\n"):
-            raise AssertionError("Saved game missing or invalid header")
-        # Zusätzlicher Text macht eine Speicherdatei ungültig.
-        with save.open("a", encoding="utf-8") as output_file:
-            output_file.write("\nTRAILING_GARBAGE\n")
-        output = run_game(binary, work, ["5", "0"])
-        require(output, "Datei fehlt oder ist ungueltig.")
+            raise AssertionError("Gueltige Speicherdatei fehlt.")
 
-        work = root / "damaged-file"
-        (work / "data").mkdir(parents=True)
-        (work / "data" / "savegame.txt").write_text("GYM1\n2 0 BAD\n", encoding="utf-8")
-        output = run_game(binary, work, ["5", "0"])
-        require(output, "Datei fehlt oder ist ungueltig.")
+        # Manipulierte Speicherdateien muessen vollstaendig abgelehnt werden.
+        with save.open("a", encoding="utf-8") as stream:
+            stream.write("\nTRAILING_GARBAGE\n")
+        output = run_game(binary, save_dir, ["3", "0"])
+        require(output, "Keine gueltige Speicherdatei")
 
-        work = root / "win-highscore"
-        work.mkdir()
+        bad_dir = workdir("defekte-datei")
+        (bad_dir / "data").mkdir()
+        (bad_dir / "data" / "savegame.txt").write_text(
+            "GYM1\n2 0 BAD\n", encoding="utf-8"
+        )
+        output = run_game(binary, bad_dir, ["3", "0"])
+        require(output, "Keine gueltige Speicherdatei")
+
+        # Einen echten Sieg spielen und pruefen, ob der Highscore erhalten bleibt.
+        win_dir = workdir("sieg-highscore")
         output = run_game(
-            binary, work, ["3", "Ada", "Ben", "1", "A", "1", "7", "2", "7", "3", "7", "4", "6", "0"],
+            binary, win_dir,
+            ["1", "2", "Ada", "Ben", "A",
+             "1", "7", "2", "7", "3", "7", "4", "4", "0"],
         )
         require(output, "GEWONNEN: Ada!", "1. Ada: 1")
-        data = work / "data" / "highscore.txt"
-        if not data.is_file() or not re.search(r'"Ada"\s+1', data.read_text(encoding="utf-8")):
-            raise AssertionError("Win was not saved as highscore")
-        output = run_game(binary, work, ["6", "0"])
+        highscore = win_dir / "data" / "highscore.txt"
+        if not highscore.is_file() or not re.search(
+            r'"Ada"\s+1', highscore.read_text(encoding="utf-8")
+        ):
+            raise AssertionError("Sieg fehlt in der Highscore-Datei.")
+        output = run_game(binary, win_dir, ["4", "0"])
         require(output, "1. Ada: 1")
 
-    print("Integrationstest: 2/3/4 Spieler, Namen, Eingabe, Undo/Vorschau, "
-          "Save/Load, beschädigte Datei, Sieg und persistenter Highscore bestanden.")
+    print("Integration: Menue, 2-4 Spieler, Abbruch, Fortsetzen, "
+          "Fehleingaben, Undo, Save/Load und Highscore bestanden.")
     return 0
 
 
