@@ -82,3 +82,12 @@ jobs:
       - name: Test headless GUI core without a desktop
         shell: bash
         run: ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke'
+      - name: Upload Windows 2D game executable
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: gym-edition-2d-windows-msvc
+          path: |
+            build-gui/**/vier-gewinnt-gui.exe
+            build-gui/**/sfml-*.dll
+          if-no-files-found: error
