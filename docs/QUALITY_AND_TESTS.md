@@ -60,6 +60,21 @@ Neue automatisierte Akzeptanzfälle in `tests/integration_smoke.py`:
 
 **Nachweisstatus:** Die Tests sind als ausführbarer Code vorhanden. Ein erfolgreicher CTest-/Windows-Lauf muss separat belegt werden; hier wird keiner behauptet.
 
+## 2c. Gym-Edition-Arena und Testabdeckung
+
+Die Spielfelddarstellung wurde in `ConsoleUI.h` / `ConsoleUI.cpp` vom Spielezustand getrennt. `Board::winningCells()` berechnet die tatsächliche Gewinnreihe zur Anzeige.
+
+| ID | Neu implementierter Test | Quelle | Nachweis |
+|:--|:--|:--|:--|
+| Q-12 | UI-Layout mit 2/4 Spielern, Terminal-Arena, Spielernamen, Gesamtsiegen, 11×10-Raster | `tests/console_ui_tests.cpp` | Ausführung noch prüfen |
+| Q-13 | Vorschau ohne Spielstandsänderung, Gewinnanzeige und vier hervorgehobene Hanteln | `tests/console_ui_tests.cpp` | Ausführung noch prüfen |
+| Q-14 | Zwei aufeinanderfolgende Siegrunden mit acht markierten Hanteln und korrektem Highscore | `tests/integration_smoke.py` | Ausführung noch prüfen |
+| Q-15 | Keine zusätzliche Spielfeld-Ausgabe nach Hilfe, Info und ungültiger Eingabe | `tests/integration_smoke.py` | Ausführung noch prüfen |
+
+Das Hauptmenü und die Spielfeldanzeige verwenden im interaktiven Terminal feste Bildschirminhalte mit optionaler ANSI-Farbe. Umgeleitete Ausgabe bleibt normales Textformat. Das ist eine bewusst begrenzte Windows-/Linux-kompatible Konsolentechnik, keine grafische Fensteroberfläche.
+
+**Status:** Die neu erzeugten Dateien und Verweise wurden auf GitHub kontrolliert. Ein tatsächlich erfolgreicher Compilerlauf auf allen Plattformen ist hier noch nicht belegt und darf nicht als bestanden gelten.
+
 ## 3. Lokal reproduzieren
 
 Voraussetzungen: CMake 3.16+, C++17-Compiler, Python 3 für Integrationstests.
