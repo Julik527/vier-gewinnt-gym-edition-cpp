@@ -6,6 +6,7 @@
 
 #include "Game.h"
 #include "ConsoleUI.h"
+#include "AtomicFile.h"
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
@@ -25,45 +26,6 @@
 
 namespace {
 const char SYMBOLS[] = {'R', 'B', 'G', 'Y'};
-
-// Schreibt erst in eine Zwischendatei. Nur wenn alles geschrieben wurde,
-// ersetzt sie die bisherige Datei. Das Format selbst bleibt unveraendert.
-template <typename Writer>
-bool writeSafely(const std::string& name, Writer writer) {
-    namespace fs = std::filesystem;
-    const fs::path target = fs::u8path(name);
-    fs::path temporary = target;
-    temporary += ".tmp";
-    {
-        std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
-        if (!output) return false;
-        writer(output);
-        output.flush();
-        const bool valid = static_cast<bool>(output);
-        output.close();
-        if (!valid || !output) {
-            std::error_code ignored;
-            fs::remove(temporary, ignored);
-            return false;
-        }
-    }
-
-#ifdef _WIN32
-    // Windows ersetzt eine bestehende Datei nur mit diesem Flag.
-    const bool success = MoveFileExW(
-        temporary.c_str(), target.c_str(),
-        MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH) != 0;
-#else
-    std::error_code error;
-    fs::rename(temporary, target, error);
-    const bool success = !error;
-#endif
-    if (!success) {
-        std::error_code ignored;
-        fs::remove(temporary, ignored);
-    }
-    return success;
-}
 
 // Entfernt Leerzeichen am Anfang und Ende einer Eingabe.
 std::string trim(const std::string& text) {
@@ -374,7 +336,7 @@ void Game::play() {
 // Speichert den Spielstand als Textdatei, damit man später weiterspielen kann.
 bool Game::saveGame(const std::string& path) const {
     if (!active_) return false;
-    return writeSafely(path, [this](std::ostream& out) {
+    return gym::writeSafely(path, [this](std::ostream& out) {
         // GYM1 ist die bisherige Kennung und bleibt voll kompatibel.
         out << "GYM1\n";
         out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
@@ -472,7 +434,7 @@ void Game::loadHighscores() {
 
 // Schreibt alle aktuellen Siege in die Highscore-Datei.
 bool Game::saveHighscores() const {
-    return writeSafely("data/highscore.txt", [this](std::ostream& out) {
+    return gym::writeSafely("data/highscore.txt", [this](std::ostream& out) {
         for (const auto& item : highscores_) {
             out << std::quoted(item.first) << ' ' << item.second << '\n';
         }
