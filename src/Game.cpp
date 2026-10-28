@@ -308,7 +308,8 @@ void Game::play() {
             continue;
         }
         char symbol = players_[current_].getSymbol();
-        if (animation_) board_.animateDrop(zeroCol, symbol, landing);
+        if (animation_) console_ui::animateDrop(board_, players_, current_, round_,
+                                                highscores_, zeroCol, landing, symbol);
         int row;
         if (!board_.drop(zeroCol, symbol, row)) continue;
         history_.push_back({row, zeroCol, current_});
