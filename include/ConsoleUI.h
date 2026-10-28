@@ -27,7 +27,14 @@ std::string arena(const Board& board, const std::vector<Player>& players,
                   int currentPlayer, int round,
                   const std::map<std::string, int>& highscores,
                   int previewColumn = -1, char previewSymbol = '.',
-                  const std::vector<std::pair<int, int>>& winningCells = {});
+                  const std::vector<std::pair<int, int>>& winningCells = {},
+                  int animationRow = -2);
+
+// Animiert eine Hantel in mehreren sichtbaren Spielfeld-Frames.
+void animateDrop(const Board& board, const std::vector<Player>& players,
+                 int currentPlayer, int round,
+                 const std::map<std::string, int>& highscores,
+                 int column, int landingRow, char symbol);
 
 std::string result(const Board& board, const std::vector<Player>& players,
                    const std::map<std::string, int>& highscores,
