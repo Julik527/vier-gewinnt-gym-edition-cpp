@@ -17,7 +17,7 @@ import sys
 import tempfile
 
 
-# Startet das Spiel so, als wuerde ein Benutzer die Befehle eintippen.
+# Startet das Spiel so, als würde ein Benutzer die Befehle eintippen.
 def run_game(binary: pathlib.Path, directory: pathlib.Path, commands: list[str]) -> str:
     result = subprocess.run(
         [str(binary)],
