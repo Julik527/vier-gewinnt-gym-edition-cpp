@@ -47,6 +47,15 @@ bool validName(const std::string& name) {
         && name.find('\n') == std::string::npos
         && name.find('\r') == std::string::npos;
 }
+
+// Fuer Sicherheitsabfragen zaehlen nur J oder JA als Zustimmung.
+bool confirmed(const std::string& answer) {
+    std::string lower = trim(answer);
+    for (char& letter : lower) {
+        letter = static_cast<char>(std::tolower(static_cast<unsigned char>(letter)));
+    }
+    return lower == "j" || lower == "ja";
+}
 }
 
 // Standardmäßig startet das Projekt mit zwei Spielern.
@@ -58,41 +67,73 @@ Game::Game() : board_(2) {
     loadHighscores();
 }
 
-// Hier wird die Spielerzahl für die nächste Runde eingestellt.
-void Game::configurePlayers() {
-    int number;
+// Schritt 1: Spielerzahl auswaehlen. Mit 0 kann man zum Menue zurueck.
+bool Game::configurePlayers(int& playerCount) {
+    std::cout << "\n  NEUES SPIEL  |  SCHRITT 1 VON 2\n"
+              << "  -----------------------------\n"
+              << "  Wie viele Spieler machen mit? (2, 3 oder 4)\n"
+              << "  0 = Abbrechen\n\n";
     for (;;) {
-        if (wholeInt(ask("Spieleranzahl [2-4]: "), number)
-            && number >= 2 && number <= 4) break;
-        std::cout << "Bitte nur 2, 3 oder 4 eingeben.\n";
+        int number = 0;
+        if (wholeInt(ask("  Spieleranzahl [2-4]: "), number)) {
+            if (number == 0) return false;
+            if (number >= 2 && number <= 4) {
+                playerCount = number;
+                return true;
+            }
+        }
+        std::cout << "  Bitte 2, 3 oder 4 eingeben. Mit 0 abbrechen.\n";
     }
-    chosenPlayers_ = number;
-    chosenNames_.assign(number, "");
-    std::cout << "Naechstes neues Spiel: " << number << " Spieler.\n";
 }
 
-// Jeder Spieler soll einen eigenen Namen haben.
-void Game::configureNames() {
-    chosenNames_.assign(chosenPlayers_, "");
-    for (int i = 0; i < chosenPlayers_; ++i) {
+// Schritt 2: Namen nacheinander eingeben. Die alte Runde bleibt bis
+// zum fertigen Spielstart unveraendert.
+bool Game::configureNames(int playerCount, std::vector<std::string>& names) {
+    std::cout << "\n  NEUES SPIEL  |  SCHRITT 2 VON 2\n"
+              << "  -----------------------------\n"
+              << "  Bitte fuer jeden Spieler einen Namen eingeben.\n"
+              << "  0 = Abbrechen\n\n";
+    names.clear();
+    names.reserve(static_cast<std::size_t>(playerCount));
+    for (int i = 0; i < playerCount; ++i) {
         for (;;) {
-            std::string name = ask("Name fuer Spieler " + std::to_string(i + 1) + ": ");
-            bool duplicate = std::find(chosenNames_.begin(), chosenNames_.end(), name)
-                             != chosenNames_.end();
-            if (validName(name) && !duplicate) {
-                chosenNames_[i] = name;
-                break;
+            const std::string name = ask("  Spieler " + std::to_string(i + 1)
+                + " [" + SYMBOLS[i] + "]: ");
+            if (name == "0") return false;
+            if (!validName(name)) {
+                std::cout << "  Bitte einen Namen mit 1 bis 24 Zeichen eingeben.\n";
+                continue;
             }
-            std::cout << "Name darf nicht leer/doppelt sein (maximal 24 Zeichen).\n";
+            if (std::find(names.begin(), names.end(), name) != names.end()) {
+                std::cout << "  Dieser Name wird schon verwendet.\n";
+                continue;
+            }
+            names.push_back(name);
+            break;
         }
     }
+    return true;
 }
 
-// Für eine neue Runde werden Feld, Spieler und Zugliste zurückgesetzt.
+// Neues Spiel ist ein zusammenhaengender Ablauf, kein weiteres Untermenue.
 void Game::newGame() {
-    bool namesMissing = static_cast<int>(chosenNames_.size()) != chosenPlayers_;
-    for (const auto& name : chosenNames_) if (!validName(name)) namesMissing = true;
-    if (namesMissing) configureNames();
+    // Eine unterbrochene Runde nicht einfach ohne Rueckfrage verwerfen.
+    if (active_ && !confirmed(ask(
+        "\n  Eine Runde laeuft noch. Neue Runde starten? [j/N]: "))) {
+        std::cout << "  Die bisherige Runde bleibt erhalten.\n";
+        return;
+    }
+
+    int nextCount = 2;
+    std::vector<std::string> nextNames;
+    if (!configurePlayers(nextCount) || !configureNames(nextCount, nextNames)) {
+        std::cout << "\n  Spielstart abgebrochen. Zurueck zum Hauptmenue.\n";
+        return;
+    }
+
+    // Erst nach beiden Schritten wird die bisherige Partie ersetzt.
+    chosenPlayers_ = nextCount;
+    chosenNames_ = nextNames;
     players_.clear();
     for (int i = 0; i < chosenPlayers_; ++i) {
         players_.emplace_back(chosenNames_[i], SYMBOLS[i]);
@@ -101,20 +142,32 @@ void Game::newGame() {
     history_.clear();
     current_ = 0;
     active_ = true;
-    std::cout << "\nNeues Spiel: " << board_.columns() << " Spalten x "
-              << board_.rows() << " Reihen.\n";
+
+    std::cout << "\n  SPIEL BEREIT\n"
+              << "  " << chosenPlayers_ << " Spieler | "
+              << board_.columns() << " Spalten x " << board_.rows()
+              << " Reihen\n";
+    for (const auto& player : players_) {
+        std::cout << "  [" << player.getSymbol() << "] " << player.getName() << "\n";
+    }
+    std::cout << "\n  Los geht's!\n";
     play();
 }
 
-// Eine kleine Erklärung der Steuerung direkt im Programm.
+// Die Hilfe funktioniert im Hauptmenue und waehrend einer Spielrunde.
 void Game::showHelp() const {
-    std::cout << "\nHILFE | GYM EDITION\n"
-              << "Zahl: Kurzhantel in Spalte fallen lassen (1-" << board_.columns() << ")\n"
-              << "V 4: Vorschau fuer Spalte 4 (passt sich an)\n"
-              << "U: letzten gueltigen Zug rueckgaengig machen\n"
-              << "S: aktuellen Spielstand speichern | I: Information\n"
-              << "H: diese Hilfe | A: Animation ein/aus | M: zum Hauptmenue\n"
-              << "Vier eigene Kurzhanteln horizontal, vertikal oder diagonal gewinnen.\n";
+    std::cout << "\n  ANLEITUNG  |  GYM EDITION\n"
+              << "  ---------------------------\n"
+              << "  Ziel: Vier eigene Kurzhanteln in eine Reihe bringen.\n"
+              << "  Das geht waagerecht, senkrecht oder diagonal.\n\n"
+              << "  1-7 / 1-9 / 1-11   Spalte auswaehlen (je nach Spielerzahl)\n"
+              << "  V 4                Vorschau fuer Spalte 4\n"
+              << "  U                  Letzten gueltigen Zug zuruecknehmen\n"
+              << "  S                  Spielstand speichern\n"
+              << "  I                  Spielinformationen\n"
+              << "  A                  Fall-Animation ein/aus\n"
+              << "  H                  Diese Anleitung\n"
+              << "  M                  Zum Hauptmenue (Runde bleibt erhalten)\n";
 }
 
 // Zeigt Feldgröße, belegte Felder und Spieler an.
@@ -129,6 +182,8 @@ void Game::showInfo() const {
 
 // In dieser Schleife wechseln sich die Spieler mit ihren Zügen ab.
 void Game::play() {
+    std::cout << "\n  SPIELFELD  |  " << players_.size()
+              << " Spieler  |  H = Hilfe  |  M = Hauptmenue\n";
     while (active_) {
         board_.print();
         std::cout << "Am Zug: " << players_[current_].getName() << " =["
@@ -324,28 +379,72 @@ void Game::showHighscores() const {
     for (const auto& item : order) std::cout << rank++ << ". " << item.first << ": " << item.second << '\n';
 }
 
-// Hauptmenü: Hier waehlt man die Funktionen mit den Zahlen 0 bis 6.
+// Das Hauptmenue bleibt bewusst einfach: ein Spiel starten, fortsetzen,
+// laden oder die Ergebnisse ansehen. Die Vorbereitung passiert bei Neues Spiel.
 void Game::run() {
     while (true) {
-        std::cout << "\n==============================================\n"
-                  << "   VIER GEWINNT | GYM EDITION | C++17\n"
-                  << "==============================================\n"
-                  << "1  Neues Spiel\n2  Spieleranzahl festlegen\n3  Namen eingeben\n"
-                  << "4  Spiel speichern\n5  Spiel laden\n6  Highscore\n0  Beenden\n";
-        int option;
-        if (!wholeInt(ask("Auswahl: "), option)) option = -1;
+        std::cout << "\n"
+                  << "  +---------------------------------------------------+\n"
+                  << "  | JK AXIS  |  VIER GEWINNT  :  GYM EDITION         |\n"
+                  << "  | C++17   |  LOKALER MEHRSPIELER-MODUS            |\n"
+                  << "  +---------------------------------------------------+\n"
+                  << "  |  1  Neues Spiel                                  |\n"
+                  << "  |  2  Spiel fortsetzen                             |\n"
+                  << "  |  3  Spielstand laden                             |\n"
+                  << "  |  4  Highscore                                    |\n"
+                  << "  |  5  Anleitung                                    |\n"
+                  << "  |  0  Beenden                                      |\n"
+                  << "  +---------------------------------------------------+\n";
+        if (active_) {
+            std::cout << "  Laufende Runde: "
+                      << players_.size() << " Spieler, "
+                      << board_.tokenCount() << " Zuege auf dem Feld.\n";
+        }
+
+        int option = -1;
+        if (!wholeInt(ask("  Deine Auswahl: "), option)) option = -1;
         switch (option) {
-        case 1: newGame(); break;
-        case 2: configurePlayers(); break;
-        case 3: configureNames(); break;
-        case 4: std::cout << (saveGame() ? "Gespeichert.\n" : "Kein aktives Spiel / Fehler.\n"); break;
-        case 5:
-            if (loadGame()) { std::cout << "Spielstand geladen.\n"; play(); }
-            else std::cout << "Datei fehlt oder ist ungueltig. Laufender Spielstand bleibt erhalten.\n";
+        case 1:
+            newGame();
             break;
-        case 6: showHighscores(); break;
-        case 0: std::cout << "Programm beendet.\n"; return;
-        default: std::cout << "Nur 0 bis 6 erlaubt.\n";
+        case 2:
+            if (active_) {
+                std::cout << "\n  Deine Runde wird fortgesetzt.\n";
+                play();
+            } else {
+                std::cout << "\n  Keine Runde aktiv. Starte mit 1 ein neues Spiel.\n";
+            }
+            break;
+        case 3:
+            if (active_ && !confirmed(ask(
+                "\n  Laufende Runde durch Speicherstand ersetzen? [j/N]: "))) {
+                std::cout << "  Die bisherige Runde bleibt erhalten.\n";
+                break;
+            }
+            if (loadGame()) {
+                std::cout << "\n  Spielstand geladen. Viel Erfolg!\n";
+                play();
+            } else {
+                std::cout << "\n  Keine gueltige Speicherdatei gefunden.\n"
+                          << "  Eine laufende Runde wurde nicht veraendert.\n";
+            }
+            break;
+        case 4:
+            showHighscores();
+            break;
+        case 5:
+            showHelp();
+            break;
+        case 0:
+            if (active_ && !confirmed(ask(
+                "\n  Die laufende Runde verlassen? Ungespeicherte Zuege gehen verloren. [j/N]: "))) {
+                std::cout << "  Zurueck zum Hauptmenue.\n";
+                break;
+            }
+            std::cout << "\n  Programm beendet. Bis zum naechsten Spiel!\n";
+            return;
+        default:
+            std::cout << "\n  Bitte 0 bis 5 eingeben.\n";
         }
     }
 }
