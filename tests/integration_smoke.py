@@ -5,7 +5,11 @@
 # Aufgabe: Prüft das Spiel automatisch mit echten Menü-Eingaben.
 # ------------------------------------------------------------
 
-"""Repeatable black-box tests. Only Python's standard library is required."""
+"""Prüft die wichtigsten Spielabläufe mit eingegebenen Menübefehlfolgen.
+
+Dafür reichen die Python-Standardbibliotheken. Das Spiel wird in einem
+separaten Testordner gestartet, damit keine echten Spielstände betroffen sind.
+"""
 import pathlib
 import re
 import subprocess
