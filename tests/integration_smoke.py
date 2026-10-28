@@ -85,7 +85,7 @@ def main() -> int:
                 ["1", str(n), *names, "A", "M", "0", "j"],
             )
             require(output, "SCHRITT 1 VON 2", "SCHRITT 2 VON 2",
-                    f"{n} Spieler | {cols} Spalten x {rows} Reihen.",
+                    f"{n} Spieler | {cols} Spalten x {rows} Reihen",
                     "SPIEL BEREIT", "Zurueck zum Hauptmenue.")
             count(output, "SCHRITT 1 VON 2", 1)
             count(output, "SCHRITT 2 VON 2", 1)
