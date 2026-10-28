@@ -17,7 +17,8 @@ MatchSession::MatchSession() {
 }
 
 bool MatchSession::validName(const std::string& name) {
-    if (name.empty() || name.size() > 24) return false;
+    if (name.empty() || name.size() > 24
+        || name.find_first_not_of(' ') == std::string::npos) return false;
     for (unsigned char c : name) if (c < 32 || c == 127) return false;
     return true;
 }
