@@ -63,8 +63,16 @@ if(GYM_BUILD_GUI)
     add_executable(vier-gewinnt-gui src/gui/Main.cpp)
     target_link_libraries(vier-gewinnt-gui PRIVATE gym_match SFML::Graphics)
     if(WIN32)
-        # A Windows console remains useful for early errors and diagnostics.
+        # Keep a console for initial error diagnostics and headless CI.
         set_target_properties(vier-gewinnt-gui PROPERTIES WIN32_EXECUTABLE FALSE)
+        # Dynamically linked SFML DLLs must travel with the resulting EXE.
+        if(BUILD_SHARED_LIBS)
+            add_custom_command(TARGET vier-gewinnt-gui POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy -t
+                    "$<TARGET_FILE_DIR:vier-gewinnt-gui>"
+                    $<TARGET_RUNTIME_DLLS:vier-gewinnt-gui>
+                COMMAND_EXPAND_LISTS)
+        endif()
     endif()
 endif()
 
