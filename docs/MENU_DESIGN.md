@@ -24,7 +24,7 @@ Ich möchte, dass ein neues Spiel ohne Umwege startet. Deshalb fragt das Program
   | C++17  |  LOKALER MEHRSPIELER-MODUS               |
   +---------------------------------------------------+
   | 1   Neues Spiel                                  |
-  | 2   Spiel fortsetzen                             |
+  | 2   Spiel fortsetzen (keine Runde)                |
   | 3   Spielstand laden                             |
   | 4   Highscore                                    |
   | 5   Anleitung                                    |
