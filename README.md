@@ -46,6 +46,26 @@ Die mitgelieferten Einstellungen benutzen:
 
 Falls **F5** nicht startet: Über **Terminal → Buildaufgabe ausführen** zunächst die Aufgabe **„Vier Gewinnt bauen“** starten und die erste rote Fehlermeldung im Terminal ansehen. Ohne einen erfolgreichen Build lässt sich der Debugger nicht korrekt starten.
 
+## Grafische Gym Edition (SFML 3.1)
+
+Neben der bisherigen Terminal-Anwendung gibt es jetzt ein **eigenes grafisches Ziel** `vier-gewinnt-gui` mit Mausbedienung, über mehrere Frames fallenden Hanteln, Spielerübersicht, Bestenliste, Anleitung, Revanche und den Spielständen im bisherigen `GYM1`-Format. Die gemeinsame `Board`-Klasse übernimmt Gewinnregeln und Schwerkraft. `MatchSession` kapselt Spielfluss und Dateioperationen ohne SFML-Abhängigkeit.
+
+**Abhängigkeit:** SFML **3.1.0**, im CMake-Projekt festgelegt. Benötigt CMake **3.28 oder neuer**; bei aktivierter Grafik wird SFML entweder aus einer passenden Installation verwendet oder reproduzierbar über `FetchContent` bezogen. Die Konsole benötigt SFML ausdrücklich nicht. Offizielle Projektquelle: https://github.com/SFML/SFML
+
+```bash
+cmake -S . -B build-gui -DGYM_BUILD_GUI=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build build-gui --config Release --target vier-gewinnt-gui
+ctest --test-dir build-gui -C Release --output-on-failure
+```
+
+Unter Windows entsteht die EXE je nach Generator unter `build-gui/Release/vier-gewinnt-gui.exe` (Visual Studio) oder `build-gui/vier-gewinnt-gui.exe` (Ninja/MinGW). Für MSYS2 UCRT64 zuerst den UCRT64-Compiler und CMake/Ninja verfügbar machen; die GUI hat eine eigene Abhängigkeitskette und wird nicht von der alten `g++`-Task kompiliert.
+
+**Bedienung:** Hauptmenü anklicken, Spielerzahl 2–4 wählen, Namen nacheinander eingeben und starten. Während des Spiels eine Spalte anklicken oder mit **Links/Rechts + Leertaste** auswählen. `U` nimmt zurück, `S` speichert, `A` schaltet die Fallanimation um, `Esc` wechselt ins Menü. Nach Sieg/Remis stehen Revanche, neue Spieler und Hauptmenü bereit.
+
+**Systemschrift:** Für Text benutzt die GUI vorhandene Schriftdateien (Segoe UI/Arial unter Windows, DejaVu/Liberation unter Linux). Schriftdateien werden nicht im Repository kopiert.
+
+**Automatisierte Prüfung:** `match_session_tests` kontrolliert Spielzustand, Sicherung, Laden, Gewinn, Revanche und bestehende Highscores ohne grafischen Bildschirm. `vier-gewinnt-gui --self-test` prüft den minimalen GUI-Kern ohne Fenster. Ein tatsächlicher interaktiver Windows-/Linux-Sichttest mit Maus und Tastatur ist weiterhin gesondert zu protokollieren.
+
 ## Reproduzierbarer CMake-Build
 
 Die kompakte `g++`-Variante oben bleibt für den Unterricht nutzbar. Für Debug, Release und automatische Tests:
