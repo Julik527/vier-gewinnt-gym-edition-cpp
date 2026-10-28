@@ -5,12 +5,13 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 
 class GymBeat {
     sf::SoundBuffer buffer_;
-    sf::Sound sound_{buffer_};
+    std::unique_ptr<sf::Sound> sound_;
 
 public:
     GymBeat() {
@@ -49,9 +50,17 @@ public:
         if (!buffer_.loadFromSamples(samples.data(), samples.size(), 1, rate,
                                      {sf::SoundChannel::Mono}))
             throw std::runtime_error("Gym-Beat konnte nicht initialisiert werden.");
-        sound_.setLooping(true);
-        sound_.setVolume(25.f);
+        // Erst NACH dem Laden an die SoundBuffer-Instanz binden.
+        sound_ = std::make_unique<sf::Sound>(buffer_);
+        sound_->setLooping(true);
+        sound_->setVolume(65.f);
     }
-    void play() { sound_.play(); }
-    void stop() { sound_.stop(); }
+    bool play() {
+        sound_->play();
+        return sound_->getStatus() == sf::SoundSource::Status::Playing;
+    }
+    void stop() { if (sound_) sound_->stop(); }
+    bool playing() const {
+        return sound_ && sound_->getStatus() == sf::SoundSource::Status::Playing;
+    }
 };
