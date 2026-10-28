@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# JK AXIS | GOLD MASTER
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/rebrand_assets.py
+# Aufgabe: Dokumentiert den einmaligen Austausch der alten Projektlogos.
+# ------------------------------------------------------------
+
 """Safe JK AXIS | GOLD MASTER replacement for project presentation and PDFs."""
 from pathlib import Path
 from io import BytesIO
@@ -11,11 +17,13 @@ PPTX=ROOT/"praesentation/Vier_Gewinnt_Praesentation_FINAL.pptx"
 REPORT=ROOT/"docs/BRAND_QA_REPORT.md"
 OLD_ID="JK-CD-DE-2026-003"
 NEW_ID="JK AXIS | GOLD MASTER"
+# Die alte Bildkennung hilft, gezielt das fruehere Logo zu erkennen.
 LEGACY_HASH="bffb61e37fae"
 
 def sha(blob):
     return hashlib.sha256(blob).hexdigest()
 
+# Baut eine Version des JK-AXIS-Symbols fuer dunkle Hintergruende.
 def new_brand_icon():
     # Precision geometry, derived from the master SVG stored in assets/brand.
     # The dark-background symbol preserves official white/blue/navy colors.
@@ -29,6 +37,7 @@ def new_brand_icon():
     im.save(out,format="PNG",optimize=True)
     return out.getvalue()
 
+# Vergleicht zwei Bilder, damit nicht aus Versehen ein anderes Bild ersetzt wird.
 def similarity(a,b):
     try:
         a=ImageOps.fit(Image.open(BytesIO(a)).convert("RGB"),(80,80))
@@ -37,6 +46,7 @@ def similarity(a,b):
     except Exception:
         return 1
 
+# Sucht das alte Logo in den PowerPoint-Folien und ersetzt die Bilddaten.
 def update_presentation(new_image):
     presentation=Presentation(PPTX)
     matched={}
@@ -67,6 +77,7 @@ def update_presentation(new_image):
         os.replace(tmp,PPTX)
     return old_image, {"slides":len(presentation.slides),"replaced_logo_occurrences":count,"updated_design_labels":footers}
 
+# Ersetzt nur eingebettete Bilder, die wirklich zum alten Logo passen.
 def patch_pdf(path,old_logo,new_logo):
     doc=fitz.open(path)
     pages=len(doc)
@@ -99,6 +110,7 @@ def patch_pdf(path,old_logo,new_logo):
         doc.close()
     return {"pages":pages,"replaced_logo_images":len(found)}
 
+# Dieses Skript war fuer die einmalige Umstellung der Dokumente gedacht.
 def main():
     if not PPTX.is_file():raise FileNotFoundError(PPTX)
     icon=new_brand_icon()
