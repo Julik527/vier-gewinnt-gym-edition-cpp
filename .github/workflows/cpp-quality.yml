@@ -90,4 +90,5 @@ jobs:
           path: |
             build-gui/**/vier-gewinnt-gui.exe
             build-gui/**/sfml-*.dll
+            build-gui/**/assets/school/bernd-blindow-schulen.jpg
           if-no-files-found: error
