@@ -127,28 +127,13 @@ void Board::print(int previewColumn, char previewSymbol) const {
 
 // Die Animation zeigt nur Bilder nacheinander. Das eigentliche Feld bleibt unverändert.
 void Board::animateDrop(int column, char symbol, int landingRow) const {
-    // Nur Konsolen-Animation. Es wird kein zweiter Stein gespeichert.
-    // ANSI-Steuerzeichen funktionieren z. B. in Windows Terminal / VS Code.
+    // Eine kurze Zeile statt dauernd den ganzen Bildschirm zu loeschen.
+    // Das klappt auch in Terminals ohne besondere ANSI-Unterstuetzung.
+    std::cout << "  [" << symbol << "] Spalte " << (column + 1) << ": ";
     for (int row = 0; row <= landingRow; ++row) {
-        std::cout << "\x1b[2J\x1b[H";
-        std::cout << "VIER GEWINNT | GYM EDITION | Kurzhantel faellt...\n";
-        std::cout << "    ";
-        for (int col = 0; col < columns_; ++col) {
-            std::cout << ' ';
-            if (col + 1 < 10) std::cout << ' ';
-            std::cout << col + 1 << "   ";
-        }
-        std::cout << "\n";
-        for (int r = 0; r < rows_; ++r) {
-            std::cout << "    ";
-            for (int c = 0; c < columns_; ++c) {
-                char v = (r == row && c == column) ? symbol : grid_[r][c];
-                if (v == '.') std::cout << "|  .  ";
-                else std::cout << "|=[" << v << "]= ";
-            }
-            std::cout << "|\n";
-        }
+        std::cout << '.';
         std::cout.flush();
-        std::this_thread::sleep_for(std::chrono::milliseconds(65));
+        std::this_thread::sleep_for(std::chrono::milliseconds(35));
     }
+    std::cout << " gesetzt.\n";
 }
