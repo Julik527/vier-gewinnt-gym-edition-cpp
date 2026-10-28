@@ -8,7 +8,7 @@
 | Anforderungen | FR-01–FR-18, Anforderungsanalyse | Mit Lehrer abstimmen |
 | Product Backlog | `docs/PRODUCT_BACKLOG.md` mit 18 Punkten | Priorität verfolgen |
 | Klassenentwurf | Game, Board, Player, Move; UML-PDF unter `reference/` auf GitHub | Im Fachgespräch erklären |
-| Menü-Prototyp | `Game::run()`, Punkte 0–6, Smoke-Test | Am Schulrechner vorführen |
+| Menü-Prototyp | `Game::run()`, Hauptmenü 0–5, geführter Spielstart; neue Integrationstests vorbereitet | Am Schulrechner und in CI ausführen, Ergebnis dokumentieren |
 | GitHub | Öffentliches Repository, Textdateien plus acht PDFs/PPTX-Dateien (Commit `53612455`) | Build vorführen und ggf. Download auf Schulrechner testen |
 | KI-Dokumentation | Promptregister als Markdown und PDF unter `reference/` | Vollständige Chat-Exportpflicht ggf. separat klären |
 
