@@ -172,11 +172,12 @@ std::string arena(const Board& board, const std::vector<Player>& players,
     for (std::size_t i = 0; i < players.size(); ++i) {
         const auto& player = players[i];
         const bool onTurn = static_cast<int>(i) == currentPlayer;
+        const int wins = score(highscores, player.getName());
         out << (onTurn ? "  >> " : "     ")
             << paint("[" + std::string(1, player.getSymbol()) + "]",
                      playerColor(player.getSymbol()))
             << ' ' << player.getName() << "  |  "
-            << score(highscores, player.getName()) << " Siege"
+            << wins << (wins == 1 ? " Sieg" : " Siege")
             << (onTurn ? "  < AM ZUG" : "") << '\n';
     }
     boardArea(out, board, previewColumn, previewSymbol, winningCells);
@@ -206,8 +207,9 @@ std::string result(const Board& board, const std::vector<Player>& players,
     boardArea(out, board, -1, '.', winningCells);
     out << "  GESAMTSIEGE\n";
     for (const auto& player : players) {
+        const int wins = score(highscores, player.getName());
         out << "  [" << player.getSymbol() << "] " << player.getName() << ": "
-            << score(highscores, player.getName()) << " Siege\n";
+            << wins << (wins == 1 ? " Sieg\n" : " Siege\n");
     }
     separator(out);
     menuLine(out, "1  Revanche (gleiche Spieler)");
