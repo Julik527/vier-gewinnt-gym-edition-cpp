@@ -6,6 +6,8 @@
 
 #include "ConsoleUI.h"
 #include <cstdlib>
+#include <chrono>
+#include <thread>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -86,16 +88,23 @@ bool winningCell(const std::vector<std::pair<int, int>>& cells,
 
 void boardArea(std::ostringstream& out, const Board& board,
                int previewColumn, char previewSymbol,
-               const std::vector<std::pair<int, int>>& win) {
+               const std::vector<std::pair<int, int>>& win, int animationRow) {
     out << "\n     ";
     for (int col = 1; col <= board.columns(); ++col) {
         out << std::right << std::setw(6) << col;
+    }
+    if (animationRow == -1 && previewColumn >= 0) {
+        out << "\n     ";
+        for (int col = 0; col < board.columns(); ++col)
+            out << (col == previewColumn ? " (" + std::string(1, previewSymbol) + ")  " : "      ");
     }
     out << "\n    +";
     for (int col = 0; col < board.columns(); ++col) out << "-----+";
     out << "\n";
 
-    const int previewRow = previewColumn < 0 ? -1 : board.nextFreeRow(previewColumn);
+    const int previewRow = animationRow >= 0
+        ? animationRow : (animationRow == -1 || previewColumn < 0
+                          ? -1 : board.nextFreeRow(previewColumn));
     for (int row = 0; row < board.rows(); ++row) {
         out << "    |";
         for (int col = 0; col < board.columns(); ++col) {
@@ -191,7 +200,7 @@ std::string arena(const Board& board, const std::vector<Player>& players,
                   int currentPlayer, int round,
                   const std::map<std::string, int>& highscores,
                   int previewColumn, char previewSymbol,
-                  const std::vector<std::pair<int, int>>& winningCells) {
+                  const std::vector<std::pair<int, int>>& winningCells, int animationRow) {
     std::ostringstream out;
     separator(out);
     menuLine(out, "JK AXIS  /  VIER GEWINNT  /  GYM EDITION");
@@ -209,7 +218,7 @@ std::string arena(const Board& board, const std::vector<Player>& players,
             << wins << (wins == 1 ? " Sieg" : " Siege")
             << (onTurn ? "  < AM ZUG" : "") << '\n';
     }
-    boardArea(out, board, previewColumn, previewSymbol, winningCells);
+    boardArea(out, board, previewColumn, previewSymbol, winningCells, animationRow);
     out << "  " << paint("TRAININGSSTAND", "1;94")
         << "  |  Zug " << board.tokenCount() + (winningCells.empty() ? 1 : 0)
         << "  |  " << board.columns() << " Spalten\n";
@@ -219,6 +228,19 @@ std::string arena(const Board& board, const std::vector<Player>& players,
         << "  H Hilfe  |  I Info  |  A Animation  |  M Menue\n";
     separator(out);
     return out.str();
+}
+
+void animateDrop(const Board& board, const std::vector<Player>& players,
+                 int currentPlayer, int round,
+                 const std::map<std::string, int>& highscores,
+                 int column, int landingRow, char symbol) {
+    // Nur die Darstellung wird animiert; Board::drop() folgt genau einmal.
+    for (int row = -1; row <= landingRow; ++row) {
+        present(arena(board, players, currentPlayer, round, highscores,
+                      column, symbol, {}, row));
+        if (row < landingRow)
+            std::this_thread::sleep_for(std::chrono::milliseconds(45));
+    }
 }
 
 std::string result(const Board& board, const std::vector<Player>& players,
@@ -233,7 +255,7 @@ std::string result(const Board& board, const std::vector<Player>& players,
     out << "\n  " << (winner.empty() ? "REMIS: Spielfeld voll."
                        : "GEWONNEN: " + winner + "!") << "\n";
     if (!winner.empty()) out << "  Vier Hanteln in einer Reihe!\n";
-    boardArea(out, board, -1, '.', winningCells);
+    boardArea(out, board, -1, '.', winningCells, -2);
     out << "  GESAMTSIEGE\n";
     for (const auto& player : players) {
         const int wins = score(highscores, player.getName());
