@@ -661,6 +661,18 @@ private:
 
 int main(int argc, char** argv) {
     try {
+        if (argc > 1 && std::string(argv[1]) == "--audio-devices") {
+            const auto devices = sf::PlaybackDevice::getAvailableDevices();
+            std::cout << "Erkannte Ausgabegeraete: " << devices.size() << '\n';
+            for (const auto& device : devices)
+                std::cout << " - " << device << '\n';
+            if (devices.empty()) {
+                std::cerr << "Kein aktives Windows-Audiogeraet. Lautsprecher, "
+                             "Mixer und Windows-Ausgabe pruefen.\n";
+                return 2;
+            }
+            return 0;
+        }
         if (argc > 1 && std::string(argv[1]) == "--self-test") {
             MatchSession test;
             if (!test.begin({"Ada", "Ben"})) return 1;
