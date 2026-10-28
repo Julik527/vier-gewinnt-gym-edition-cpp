@@ -59,11 +59,11 @@ Auf Linux mit GCC/Clang kannst du beim Konfigurieren zusätzlich `-DCMAKE_BUILD_
 
 Im Spiel: Spaltennummer eingeben; `V 4` für Vorschau, `U` Undo, `S` Speichern, `H` Hilfe, `I` Info, `A` Animation an/aus, `M` Menü.
 
-## Kommentare und Dateikoepfe
+## Kommentare und Dateiköpfe
 
-Die C++-Quelldateien und Header besitzen jetzt einheitliche **JK AXIS | GOLD MASTER**-Dateikoepfe. Die Kommentare sind bewusst einfach geschrieben: Sie erklaeren vor allem Spielregeln, wichtige Entscheidungen und schwerere Stellen, ohne jede Codezeile zu wiederholen. Auch die Test- und Hilfsskripte sind beschrieben.
+Die C++-Quelldateien und Header besitzen jetzt einheitliche **JK AXIS | GOLD MASTER**-Dateiköpfe. Die Kommentare sind bewusst einfach geschrieben: Sie erklären vor allem Spielregeln, wichtige Entscheidungen und schwierigere Stellen, ohne jede Codezeile zu wiederholen. Auch die Test- und Hilfsskripte sind beschrieben.
 
-Der [Code- und Kommentarleitfaden](docs/CODE_STYLE_JK_AXIS.md) zeigt den Aufbau und erklaert die Aufgaben jeder Datei anhand eines echten Beispiels. Die Ergaenzungen am 28.10.2026 sind reine Kommentierung; die vorhandene Programmlogik wurde dabei nicht veraendert.
+Der [Code- und Kommentarleitfaden](docs/CODE_STYLE_JK_AXIS.md) zeigt den Aufbau und erklärt die Aufgaben jeder Datei anhand eines Beispiels. Die Ergänzungen vom 28.10.2026 betreffen Kommentare und Dateibeschreibungen; die Programmlogik wurde dabei nicht verändert.
 
 ## Architektur
 
