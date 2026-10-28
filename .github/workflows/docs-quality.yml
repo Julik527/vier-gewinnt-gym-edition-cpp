@@ -1,3 +1,9 @@
+# JK AXIS | GOLD MASTER
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   .github/workflows/docs-quality.yml
+# Aufgabe: Prueft die veroeffentlichten Dokumente ohne sie zu ueberschreiben.
+# ------------------------------------------------------------
+
 name: Document & Brand QA
 
 on:
@@ -25,6 +31,7 @@ on:
 permissions:
   contents: read
 
+# Der Check veraendert keine Dateien im Repository.
 jobs:
   validate-artifacts:
     runs-on: ubuntu-latest
@@ -36,5 +43,6 @@ jobs:
           python-version: "3.11"
       - name: Install format validators
         run: python -m pip install python-pptx PyMuPDF
+      # So merken wir, wenn eine Folie, PDF-Seite oder ein Dateilink kaputt ist.
       - name: Technical preflight for all published documents
         run: python scripts/document_preflight.py
