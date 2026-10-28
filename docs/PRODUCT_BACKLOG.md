@@ -38,3 +38,11 @@ Die Spalte „Stand“ unterscheidet **implementiert** von **abgenommen**. Noch 
 **Abgenommen:** alle zugehörigen Tests ausgeführt und protokolliert.
 
 Optional können PB-01 bis PB-18 als GitHub Issues übernommen werden.
+## Qualitätsfortschritt 28.10.2026
+
+- Für PB-01 bis PB-12 liegen jetzt zusätzliche automatisierte Unit- und Integrationstestfälle vor (`tests/board_tests.cpp`, `tests/integration_smoke.py`).
+- Speziell für PB-11 wurde die Ladefunktion um eine Prüfung gegen unerwartete Zusatzdaten ergänzt.
+- GitHub Actions soll die Tests auf Linux und Windows in Debug und Release prüfen; der konkrete Erfolg ist im Workflow-Verlauf nachzuweisen.
+- Die Dokumente werden durch einen separat eingerichteten Read-only-Preflight auf Integrität geprüft.
+
+**Status ist nicht gleich Abnahme:** Neue Tests sind implementiert, ihre Ergebnisse auf dem Zielsystem bzw. in der CI-Matrix sind vor einem Statuswechsel auf „abgenommen“ zu kontrollieren.
