@@ -468,6 +468,7 @@ void Game::run() {
                 play();
             } else {
                 std::cout << "\n  Keine Runde aktiv. Starte mit 1 ein neues Spiel.\n";
+                console_ui::pauseForReading();
             }
             break;
         case 3:
@@ -482,13 +483,16 @@ void Game::run() {
             } else {
                 std::cout << "\n  Keine gueltige Speicherdatei gefunden.\n"
                           << "  Eine laufende Runde wurde nicht veraendert.\n";
+                console_ui::pauseForReading();
             }
             break;
         case 4:
             showHighscores();
+            console_ui::pauseForReading();
             break;
         case 5:
             showHelp();
+            console_ui::pauseForReading();
             break;
         case 0:
             if (active_ && !confirmed(ask(
