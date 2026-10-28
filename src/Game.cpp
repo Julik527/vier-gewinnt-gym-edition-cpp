@@ -49,7 +49,7 @@ bool validName(const std::string& name) {
 }
 }
 
-// Standardmaessig startet das Projekt mit zwei Spielern.
+// Standardmäßig startet das Projekt mit zwei Spielern.
 Game::Game() : board_(2) {
     chosenNames_.resize(2);
     std::error_code error;
@@ -88,7 +88,7 @@ void Game::configureNames() {
     }
 }
 
-// Fuer eine neue Runde werden Feld, Spieler und Zugliste zurückgesetzt.
+// Für eine neue Runde werden Feld, Spieler und Zugliste zurückgesetzt.
 void Game::newGame() {
     bool namesMissing = static_cast<int>(chosenNames_.size()) != chosenPlayers_;
     for (const auto& name : chosenNames_) if (!validName(name)) namesMissing = true;
@@ -106,7 +106,7 @@ void Game::newGame() {
     play();
 }
 
-// Eine kleine Erklaerung der Steuerung direkt im Programm.
+// Eine kleine Erklärung der Steuerung direkt im Programm.
 void Game::showHelp() const {
     std::cout << "\nHILFE | GYM EDITION\n"
               << "Zahl: Kurzhantel in Spalte fallen lassen (1-" << board_.columns() << ")\n"
@@ -269,7 +269,7 @@ bool Game::loadGame(const std::string& path) {
     std::string trailingToken;
     if (in >> trailingToken) return false;
 
-    // Ausschliesslich nach vollständiger Prüfung den echten Spielstand ersetzen.
+    // Ausschließlich nach vollständiger Prüfung den echten Spielstand ersetzen.
     // Bis hierhin ist die Datei gültig. Jetzt wird der Spielstand übernommen.
     board_ = std::move(candidate);
     players_ = std::move(loadedPlayers);
@@ -324,7 +324,7 @@ void Game::showHighscores() const {
     for (const auto& item : order) std::cout << rank++ << ". " << item.first << ": " << item.second << '\n';
 }
 
-// Hauptmenue: Hier waehlt man die Funktionen mit den Zahlen 0 bis 6.
+// Hauptmenü: Hier waehlt man die Funktionen mit den Zahlen 0 bis 6.
 void Game::run() {
     while (true) {
         std::cout << "\n==============================================\n"
