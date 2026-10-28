@@ -12,24 +12,24 @@ class Board {
 private:
     int rows_;
     int columns_;
-    // Jede Zeile enthaelt die Zeichen der einzelnen Spalten.
+    // Jede Zeile enthält die Zeichen der einzelnen Spalten.
     std::vector<std::vector<char>> grid_;
 
     bool inside(int row, int column) const;
     int countDirection(int row, int column, int dRow, int dColumn, char symbol) const;
 public:
-    // Erstellt ein passendes Feld fuer 2, 3 oder 4 Spieler.
+    // Erstellt ein passendes Feld für 2, 3 oder 4 Spieler.
     explicit Board(int playerCount = 2);
     int rows() const { return rows_; }
     int columns() const { return columns_; }
     int tokenCount() const;
-    // Liefert die naechste freie Zeile von unten oder -1 bei voller Spalte.
+    // Liefert die nächste freie Zeile von unten oder -1 bei voller Spalte.
     int nextFreeRow(int column) const;
-    // Setzt eine Hantel. Die tatsaechliche Zeile kommt in rowPlaced.
+    // Setzt eine Hantel. Die tatsächliche Zeile kommt in rowPlaced.
     bool drop(int column, char symbol, int& rowPlaced);
     // Entfernt nur einen Stein, der nicht unter anderen Steinen liegt.
     bool undo(int row, int column);
-    // Prueft von einem Feld aus alle vier Gewinnrichtungen.
+    // Prüft von einem Feld aus alle vier Gewinnrichtungen.
     bool hasWon(int row, int column, char symbol) const;
     bool isFull() const;
     const std::vector<std::vector<char>>& cells() const { return grid_; }
