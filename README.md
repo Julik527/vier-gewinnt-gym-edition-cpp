@@ -10,9 +10,14 @@
 
 <p align="center"><strong>C++17 · Objektorientierte Programmierung · Schulprojekt</strong></p>
 
+<p align="center">
+  <a href="https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/workflows/cpp-quality.yml"><img alt="C++ CI: Linux und Windows" src="https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/workflows/cpp-quality.yml/badge.svg"></a>
+  <a href="https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/workflows/docs-quality.yml"><img alt="Dokumentenprüfung" src="https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/workflows/docs-quality.yml/badge.svg"></a>
+</p>
+
 **C++17-Schulprojekt (ITA / Programmiertechnik, 2026/27)**  
 **GitHub:** https://github.com/Julik527/vier-gewinnt-gym-edition-cpp · öffentlich.  
-**Status: Lern- und Entwicklungsstand vom 25.10.2026.** Das Repository stellt **keine bereits benotete oder vollständig abgenommene Endfassung** dar.
+**Status: Entwicklungsstand vom 28.10.2026.** Das Repository stellt **keine bereits benotete oder vollständig abgenommene Endfassung** dar.
 
 ## Projektziel
 Objektorientiertes Vier-Gewinnt-Konsolenspiel für **2 bis 4 Personen** mit variablen Spielfeldgrößen (7×6, 9×8, 11×10), Spielerverwaltung, vier Gewinnrichtungen, Remis, Eingabekontrolle und lokalem Speichern/Laden sowie Highscore. Die ASCII-Kurzhanteln sind die Gym-Edition-Darstellung. Eine fotorealistische oder klickbare 3D-GUI ist **nicht implementiert**; entsprechende Bilder sind Mockups.
@@ -27,6 +32,18 @@ g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/
 ```
 
 Auf Linux/macOS entsprechend ohne `.exe` kompilieren. Die Dateipfade `data/` sind relativ zum Projektordner.
+
+## Reproduzierbarer CMake-Build
+
+Die kompakte `g++`-Variante oben bleibt für den Unterricht nutzbar. Für Debug, Release und automatische Tests:
+
+```bash
+cmake -S . -B build
+cmake --build build --config Release
+ctest --test-dir build -C Release --output-on-failure
+```
+
+Auf Linux mit GCC/Clang kannst du beim Konfigurieren zusätzlich `-DCMAKE_BUILD_TYPE=Release` angeben. CTest führt die Board-Unit-Tests und, wenn Python 3 vorhanden ist, die Integrationstests aus. In GitHub Actions sind Linux/Windows und Debug/Release als Prüfmatrix eingerichtet.
 
 ## Spielablauf / Menü
 
@@ -50,20 +67,23 @@ Im Spiel: Spaltennummer eingeben; `V 4` für Vorschau, `U` Undo, `S` Speichern, 
 - `Move` (`include/Game.h`) speichert Zugdaten der Undo-Historie.
 - `src/main.cpp` erzeugt das `Game`-Objekt und ruft `run()` auf.
 
-## Tests
+## Tests und Qualitätsnachweise
 
 ```bash
-g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude tests/board_tests.cpp src/Board.cpp -o board_tests
-./board_tests
+cmake -S . -B build
+cmake --build build --config Debug
+ctest --test-dir build -C Debug --output-on-failure
 ```
 
-Am 25.10.2026 wurden Kompilierung, vorhandene Board-Assertions und ein Konsolenmenü-Smoke-Test erfolgreich ausgeführt (GCC 14.2.0 / Linux). **Offen:** vollständige interaktive Abnahmetests, Save/Load-Fehlerfälle, Windows-Reproduktion und Lehrerfreigabe. Siehe [`docs/QUALITY_AND_TESTS.md`](docs/QUALITY_AND_TESTS.md).
+Die Tests umfassen Spielfeldgrößen, Schwerkraft, Überlauf und Gewinnrichtungen sowie über `tests/integration_smoke.py` die Menüsteuerung, Namen, Vorschau, Undo, Laden/Speichern, beschädigte Dateien, Gewinnen und dauerhafte Highscores.
+
+**Nachweisstand:** Die Board-Tests und der Konsolen-Smoke-Test vom 25.10.2026 wurden historisch auf Linux ausgeführt. Der erweiterte Testkatalog und die GitHub-Actions-Matrix wurden am 28.10.2026 ergänzt. Die erfolgreichen CI-Läufe und der Windows-Schulrechner müssen anhand ihrer tatsächlichen Ergebnisse bestätigt werden. Keine Schul- oder Produktfreigabe wird daraus abgeleitet. Siehe [Qualität und Tests](docs/QUALITY_AND_TESTS.md).
 
 ## Design und Dateien
 
 Die Projektpräsentation, Anforderungsanalyse, UML-Dokumentation, Meilensteinbericht, KI-Prompt-Dokumentation, Gesamtdokumentation und der Vortragsleitfaden wurden am 28.10.2026 technisch auf **JK AXIS | GOLD MASTER** aktualisiert. In der PowerPoint wurden 17 Legacy-Logos und 17 ältere Designkennzeichnungen ersetzt. Weitere acht identifizierte Logobilder wurden in den PDFs ausgetauscht; die Präsentations-PDF wurde aus der neuen PowerPoint erzeugt.
 
-Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_REPORT.md) nachgewiesen. Eine vollständige visuelle Prüfung aller Dokumentseiten und der Darstellung in Microsoft PowerPoint bleibt als Qualitätskontrolle offen.
+Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_REPORT.md) nachgewiesen. Die [technische Dokumentprüfung](scripts/document_preflight.py) prüft PDF-Seiten, PowerPoint-Struktur, SVG-Grafiken und lokale README-Links. Für eine endgültige Freigabe bleibt die visuelle Einzelkontrolle und ein PowerPoint-Test am Zielgerät notwendig.
 
 ## Dokumentation und Sprintstart
 
@@ -79,4 +99,4 @@ Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_
 
 > **GitHub-Stand (25.10.2026):** C++-Quellcode, Tests und Markdown-Dokumentation sind öffentlich hochgeladen. Die acht PDF-/PPTX-Originaldateien wurden in Commit [`53612455`](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/53612455ee21bf4363b7d5627fe8cd388a8c7e8b) unter `reference/` und `praesentation/` hochgeladen. Die alte lokale ZIP-Historie unterscheidet sich von den über die GitHub-Integration erstellten Commits. Für die weitere Arbeit das Online-Repository neu klonen.
 
-**© 2026 Julian Krauß · JK AXIS | GOLD MASTER.** Dokumentationsstand 25.10.2026.
+**© 2026 Julian Krauß · JK AXIS | GOLD MASTER.** Aktualisiert am 28.10.2026.
