@@ -6,9 +6,9 @@ Die Spalte „Stand“ unterscheidet **implementiert** von **abgenommen**. Noch 
 
 | ID | Prio | Backlog Item | Anforderung | Akzeptanzkriterium | Nachweis / Stand |
 |:--|:--|:--|:--|:--|:--|
-| PB-01 | MUST | Startmenü 0–6 | FR-01 | Ungültige Auswahl wird abgefangen | Code vorhanden; Smoke-Test bestanden |
-| PB-02 | MUST | Spielerzahl 2–4 | FR-02 | Andere Eingaben abgewiesen | Code vorhanden, manueller Test offen |
-| PB-03 | MUST | Eindeutige Spielernamen | FR-03 | Leere / doppelte Namen abgewiesen | Code vorhanden, manueller Test offen |
+| PB-01 | MUST | Einheitliches Hauptmenü 0–5 | FR-01 | Ungültige Eingaben abgefangen; neues Spiel führt durch Spielerzahl und Namen | Menü überarbeitet; neue Integrationstests erstellt, CI-Ergebnis offen |
+| PB-02 | MUST | Spielerzahl 2–4 | FR-02 | Direkt nach „Neues Spiel“ auswählen, 0 bricht ab | Im neuen Startablauf implementiert, CI-Ergebnis offen |
+| PB-03 | MUST | Eindeutige Spielernamen | FR-03 | Namen nacheinander, leere / doppelte Namen abgewiesen | Im neuen Startablauf implementiert, CI-Ergebnis offen |
 | PB-04 | MUST | Dynamische Feldgrößen | FR-04 | 7×6 / 9×8 / 11×10 | Board-Assertions bestanden |
 | PB-05 | MUST | Zugabgabe und Schwerkraft | FR-05 | Stein fällt auf unterstes Feld | Board teilweise geprüft, Integration offen |
 | PB-06 | MUST | Spielerwechsel | FR-06 | Nach ungültigem Zug gleicher Spieler | Code vorhanden, manueller Test offen |
