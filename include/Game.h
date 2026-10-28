@@ -10,6 +10,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <utility>
 
 // Ein Move merkt sich, wo ein Stein liegt und welcher Spieler ihn gesetzt hat.
 struct Move {
@@ -35,6 +36,8 @@ private:
     // Nach Sieg oder Remis zeigt das Hauptprogramm ein Ergebnis-Menue.
     bool resultPending_ = false;
     std::string lastWinner_;
+    std::vector<std::pair<int, int>> lastWinningCells_;
+    int round_ = 1;
     bool animation_ = false; // Standard: ruhig, ohne Animation.
     std::map<std::string, int> highscores_;
 
