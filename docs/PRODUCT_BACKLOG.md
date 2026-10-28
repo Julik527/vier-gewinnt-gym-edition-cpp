@@ -31,6 +31,14 @@ Die Spalte „Stand“ unterscheidet **implementiert** von **abgenommen**. Noch 
 3. Das öffentliche Repository enthält Quellcode, Tests, README und diese Planung.
 4. Als Abschlussnachweis GitHub-Link, Commit-URL, Build- und Menü-Screenshot sichern.
 
+## Zusätzliche UI-Anforderungen vom 28.10.2026
+
+- **UI-01:** Ergebnisbildschirm nach Sieg oder Remis mit den drei Aktionen Revanche, Neues Spiel und Hauptmenü. Im Code vorhanden, automatisierte Abnahme offen.
+- **UI-02:** Revanche ohne neue Namenseingabe, mit leerem Feld und unveränderten Spielern. Im Code vorhanden, automatisierte Abnahme offen.
+- **UI-03:** Highscore bei mehrfacher Revanche exakt einmal pro Sieg erhöhen. Testfall implementiert, Ergebnis offen.
+- **UI-04:** Aktive Spieler und nächster Zug im Hauptmenü, inaktives Fortsetzen kenntlich machen. Im Code vorhanden.
+- **UI-05:** Keine unnötigen wiederholten Spielfeld-Ausgaben; optionale, ANSI-freie Animation. Im Code vorhanden, Regressionstest implementiert.
+
 ## Statusregel
 **Geplant:** noch nicht implementiert.
 **Code vorhanden:** Implementierung erkennbar, aber nicht automatisch abgenommen.
