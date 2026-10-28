@@ -72,7 +72,7 @@ jobs:
           python-version: "3.11"
       - name: Install X11/OpenGL build dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libxi-dev libudev-dev libfreetype-dev libgl1-mesa-dev libx11-dev libxext-dev
+        run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libxi-dev libudev-dev libfreetype-dev libgl1-mesa-dev libx11-dev libxext-dev libharfbuzz-dev
       - name: Configure SFML 3.1 graphics target
         shell: bash
         run: cmake -S . -B build-gui -DGYM_BUILD_GUI=ON -DCMAKE_BUILD_TYPE=Release
