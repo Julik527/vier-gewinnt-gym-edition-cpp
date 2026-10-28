@@ -32,6 +32,19 @@ Diese Tabelle dokumentiert die alte Testausführung und belegt **nicht** den Erf
 
 **Wichtige Korrektur:** Die Unit-Tests verwenden eigene Prüfbedingungen statt `assert()`, damit die Kontrolle auch in Release-Builds mit `NDEBUG` erhalten bleibt. Die Ladefunktion weist außerdem Spielstände mit zusätzlichen Tokens nach dem Raster zurück.
 
+## 2a. Neuer Menüablauf vom 28.10.2026
+
+Die Benutzerführung wurde auf ein einzelnes Hauptmenü und einen geführten Zwei-Schritt-Spielstart umgestellt. Neue Tests prüfen:
+
+- **Neues Spiel:** Spielerzahl 2–4, nacheinander eingegebene Namen und direkter Spielstart.
+- **Fehleingaben:** Ungültige Spielerzahl, leerer oder mehrfach verwendeter Name.
+- **Abbruch:** `0` während des Setups verändert die laufende Runde nicht.
+- **Fortsetzen:** `M` kehrt zum Hauptmenü zurück; Auswahl `2` setzt die Partie fort.
+- **Sicherheitsabfragen:** Eine aktive Partie wird vor einem Neustart oder dem Laden einer anderen Datei nicht ungefragt überschrieben.
+- **Regression:** Undo, Vorschau, Speichern/Laden, beschädigte Spielstände und Highscore.
+
+Diese Szenarien liegen in `tests/integration_smoke.py`. **Implementierter Testcode ist noch kein bestätigtes Testergebnis**. Die erfolgreiche Ausführung auf dem GitHub-CI-System beziehungsweise einem Windows-Rechner muss separat geprüft werden.
+
 ## 3. Lokal reproduzieren
 
 Voraussetzungen: CMake 3.16+, C++17-Compiler, Python 3 für Integrationstests.
