@@ -218,10 +218,10 @@ private:
                 add(b, "2 SPIELER", 390, 275, 500, 2);
                 add(b, "3 SPIELER", 390, 344, 500, 3);
                 add(b, "4 SPIELER", 390, 413, 500, 4);
-                add(b, "ZURUECK", 390, 530, 500, 0);
+                add(b, "ZURÜCK", 390, 530, 500, 0);
                 break;
             case Screen::Names:
-                add(b, "NAME UEBERNEHMEN (ENTER)", 390, 420, 500, 1, !input_.empty());
+                add(b, "NAME ÜBERNEHMEN (ENTER)", 390, 420, 500, 1, !input_.empty());
                 add(b, "ABBRECHEN", 390, 510, 500, 0);
                 break;
             case Screen::Confirm:
@@ -231,7 +231,7 @@ private:
                 break;
             case Screen::Arena:
                 // Erst unterhalb aller vier Spielernamen beginnen.
-                compact(b, "LETZTEN ZUG ZURUECK", 506, 1);
+                compact(b, "LETZTEN ZUG ZURÜCK", 506, 1);
                 compact(b, "SPIEL SPEICHERN", 554, 2);
                 compact(b, animation_ ? "ANIMATION: AN" : "ANIMATION: AUS", 602, 3);
                 compact(b, "ANLEITUNG", 650, 4);
@@ -243,11 +243,11 @@ private:
                 compact(b, "HAUPTMENUE", 620, 0);
                 break;
             case Screen::Scores: case Screen::Help:
-                add(b, "ZURUECK", 420, 673, 440, 0);
+                add(b, "ZURÜCK", 420, 673, 440, 0);
                 break;
             case Screen::ConfirmNew: case Screen::ConfirmLoad: case Screen::ConfirmExit:
                 add(b, "JA, WEITER", 385, 436, 242, 1);
-                add(b, "NEIN, ZURUECK", 654, 436, 242, 0);
+                add(b, "NEIN, ZURÜCK", 654, 436, 242, 0);
                 break;
         }
         return b;
@@ -490,7 +490,7 @@ private:
         box(949, 160, 292, 605, panel);
         label(end ? "TRAINING BEENDET" : "TRAININGSSTATUS", 968, 178, 20, white, true);
         label("RUNDE " + std::to_string(match_.round()), 968, 217, 17, muted);
-        label("ZUEGE  " + std::to_string(match_.board().tokenCount()), 968, 243, 17, muted);
+        label("ZÜGE  " + std::to_string(match_.board().tokenCount()), 968, 243, 17, muted);
         for (std::size_t i = 0; i < match_.players().size(); ++i) {
             const auto& player = match_.players()[i];
             const float y = 278 + static_cast<float>(i) * 54;
@@ -498,7 +498,8 @@ private:
                 box(960, y - 3, 273, 48, sf::Color(42, 80, 129));
             dumbbell(981, y + 20, 26, tokenColor(static_cast<int>(i)));
             label(player.getName(), 1008, y + 2, 17);
-            label(std::to_string(match_.wins(player.getName())) + " Siege", 1008, y + 26, 14, muted);
+            const int count = match_.wins(player.getName());
+            label(std::to_string(count) + (count == 1 ? " Sieg" : " Siege"), 1008, y + 26, 14, muted);
         }
         if (end) {
             box(77, 710, 829, 58, sf::Color(34, 65, 96));
@@ -506,7 +507,7 @@ private:
                      : "GEWONNEN: " + match_.winner(), 95, 719, 24, green, true);
             if (!match_.scoreSaved()) label("Warnung: Highscore konnte nicht gespeichert werden.", 96, 751, 12);
         } else {
-            label(falling_ ? "HANTEL FAELLT ..." : "MAUS: SPALTE WAEHLEN  /  LEERTASTE: SETZEN",
+            label(falling_ ? "HANTEL FÄLLT ..." : "MAUS: SPALTE WAEHLEN  /  LEERTASTE: SETZEN",
                   89, 710, 17, muted);
         }
     }
@@ -517,12 +518,12 @@ private:
               : screen_ == Screen::Menu ? "HAUPTMENUE" : "GYM EDITION");
         switch (screen_) {
             case Screen::Menu:
-                label("WAeHLE DEIN TRAINING", 425, 165, 27, white, true);
+                label("WÄHLE DEIN TRAINING", 425, 165, 27, white, true);
                 if (match_.active()) label("Eine Runde kann fortgesetzt werden.", 424, 194, 17, muted);
                 break;
             case Screen::Count:
                 label("WIE VIELE ATHLETEN SPIELEN?", 390, 190, 26, white, true);
-                label("Je nach Spielerzahl waechst das Feld auf 7x6, 9x8 oder 11x10.", 390, 230, 17, muted);
+                label("Je nach Spielerzahl wächst das Feld auf 7x6, 9x8 oder 11x10.", 390, 230, 17, muted);
                 break;
             case Screen::Names:
                 label("SPIELER " + std::to_string(names_.size() + 1) + " VON " +
@@ -541,7 +542,7 @@ private:
             case Screen::Arena: arena(false); break;
             case Screen::Result: arena(true); break;
             case Screen::Scores: {
-                label("BESTENLISTE - HARTES TRAINING ZAeHLT", 335, 150, 25, white, true);
+                label("BESTENLISTE - HARTES TRAINING ZÄHLT", 335, 150, 25, white, true);
                 std::vector<std::pair<std::string, int>> sorted(match_.scores().begin(), match_.scores().end());
                 std::sort(sorted.begin(), sorted.end(), [](const auto& a, const auto& b) {
                     return a.second != b.second ? a.second > b.second : a.first < b.first;
@@ -550,7 +551,7 @@ private:
                 for (std::size_t i = 0; i < sorted.size() && i < 11; ++i) {
                     label(std::to_string(i + 1) + ".  " + sorted[i].first, 365,
                           227 + 36 * i, 20, i == 0 ? green : white);
-                    label(std::to_string(sorted[i].second) + " Siege", 760,
+                    label(std::to_string(sorted[i].second) + (sorted[i].second == 1 ? " Sieg" : " Siege"), 760,
                           227 + 36 * i, 20, muted);
                 }
                 break;
