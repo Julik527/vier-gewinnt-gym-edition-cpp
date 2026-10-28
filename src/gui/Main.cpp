@@ -56,15 +56,29 @@ struct Button {
 
 class App {
 public:
-    App() : window_(sf::VideoMode({1280u, 800u}), "JK AXIS | Vier Gewinnt - Gym Edition"),
+    explicit App(const std::filesystem::path& executable) :
+            window_(sf::VideoMode({1280u, 800u}), "JK AXIS | Vier Gewinnt - Gym Edition"),
             font_(systemFont()) {
         window_.setFramerateLimit(60);
         resizeView();
         // Das originale Schul-Logo wird unveraendert aus einer lokalen Bilddatei geladen,
         // sofern es fuer das Schulprojekt zur Verfuegung gestellt wurde.
-        if (std::filesystem::exists("assets/school/bernd-blindow-schulen.jpg"))
-            schoolLogoReady_ = schoolLogo_.loadFromFile(
-                "assets/school/bernd-blindow-schulen.jpg");
+        // Bei F5 und beim Start direkt aus dem Build-Ordner das Asset finden.
+        const auto executableDir = std::filesystem::absolute(executable).parent_path();
+        const auto asset = std::filesystem::path("assets/school/bernd-blindow-schulen.jpg");
+        const std::array<std::filesystem::path, 4> candidates = {{
+            std::filesystem::current_path() / asset,
+            executableDir / asset,
+            executableDir.parent_path() / asset,
+            executableDir.parent_path().parent_path() / asset
+        }};
+        for (const auto& location : candidates) {
+            if (std::filesystem::is_regular_file(location) &&
+                schoolLogo_.loadFromFile(location)) {
+                schoolLogoReady_ = true;
+                break;
+            }
+        }
     }
 
     void run(int maxFrames = -1) {
@@ -209,9 +223,9 @@ private:
             sf::Sprite school(schoolLogo_);
             const auto size = schoolLogo_.getSize();
             if (size.x != 0 && size.y != 0) {
-                const float scale = std::min(215.f / size.x, 48.f / size.y);
-                box(1005, 42, 245, 59, white);
-                school.setPosition({1017.f, 47.f});
+                const float scale = std::min(221.f / size.x, 86.f / size.y);
+                box(998, 8, 252, 96, white);
+                school.setPosition({1010.f, 13.f});
                 school.setScale({scale, scale});
                 window_.draw(school);
             }
@@ -276,8 +290,8 @@ private:
                 break;
         }
         // Auf allen Bildschirmen erreichbar, aber standardmaessig stumm.
-        b.push_back({musicOn_ ? "MUSIK AUS" : "MUSIK AN",
-                     sf::FloatRect({1065.f, 114.f}, {175.f, 37.f}), 99, true});
+        b.push_back({musicOn_ ? "MUSIK AUS (F9)" : "MUSIK AN (F9)",
+                     sf::FloatRect({1048.f, 114.f}, {192.f, 39.f}), 99, true});
         return b;
     }
     void drawButtons() {
@@ -306,10 +320,17 @@ private:
             return;
         }
         try {
+            // Ohne echtes Ausgabegeraet wuerde SFML ggf. stumm spielen.
+            if (sf::PlaybackDevice::getAvailableDevices().empty()) {
+                musicOn_ = false;
+                notice_ = "Kein Windows-Audiogeraet erkannt.";
+                return;
+            }
             if (!beat_) beat_ = std::make_unique<GymBeat>();
-            beat_->play();
-            musicOn_ = true;
-            notice_ = "Eigener 120-BPM Gym-Beat aktiviert.";
+            musicOn_ = beat_->play();
+            notice_ = musicOn_
+                ? "GYM BEAT laeuft mit 65% Lautstaerke. F9 = Aus."
+                : "Audio konnte nicht gestartet werden. Windows-Ausgabe pruefen.";
         } catch (const std::exception&) {
             musicOn_ = false;
             notice_ = "Kein Audio-Ausgabegeraet verfuegbar.";
@@ -627,6 +648,9 @@ private:
                       : "Spiel beenden und laufende Runde verlassen?", 330, 317, 20, muted);
                 break;
         }
+        if (musicOn_)
+            label("120 BPM  |  MUSIK LAEUFT  |  F9 = AUS",
+                  758, 758, 13, green, true);
         if (!notice_.empty())
             label(notice_, 78, 758, 16, sf::Color(254, 213, 132));
         drawButtons();
@@ -645,12 +669,12 @@ int main(int argc, char** argv) {
             return 0;
         }
         if (argc > 1 && std::string(argv[1]) == "--window-smoke") {
-            App app;
+            App app(argc > 0 ? argv[0] : "");
             app.run(12);
             std::cout << "GUI graphical window: 12 frames rendered and closed.\n";
             return 0;
         }
-        App app;
+        App app(argc > 0 ? argv[0] : "");
         app.run();
         return 0;
     } catch (const std::exception& error) {
