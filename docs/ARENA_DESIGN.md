@@ -25,7 +25,7 @@ Die Oberfläche ist in der Klasse beziehungsweise im Namensraum `console_ui` gek
   | TRAININGS-ARENA  |  RUNDE 1                                       |
   +-------------------------------------------------------------------+
   >> [R] Ada  |  3 Siege  < AM ZUG
-     [B] Ben  |  1 Siege
+     [B] Ben  |  1 Sieg
 
            1     2     3     4     5     6     7
     +-----+-----+-----+-----+-----+-----+-----+
