@@ -21,6 +21,14 @@ public:
         std::vector<std::int16_t> samples(rate * 8u);
         const float bassNotes[] = {110.f, 110.f, 87.31f, 87.31f,
                                    130.81f, 130.81f, 98.00f, 98.00f};
+        // Eigenstaendige, gut hoerbare Melodie im Mittenbereich.
+        // Notebook-Lautsprecher geben tiefe Bassnoten oft kaum wieder.
+        const float leadNotes[] = {
+            392.f, 466.16f, 523.25f, 392.f,
+            349.23f, 392.f, 466.16f, 349.23f,
+            311.13f, 392.f, 466.16f, 523.25f,
+            349.23f, 311.13f, 392.f, 466.16f
+        };
         // Simple original rhythm: kick / snare / hats / warm bass.
         std::uint32_t random = 0xBEEFBEEFu;
         for (std::size_t i = 0; i < samples.size(); ++i) {
@@ -43,8 +51,15 @@ public:
                 * std::min(1.f, (1.f - std::fmod(t, 1.f)) * 12.f);
             const float bass = .19f * gate * (std::sin(2 * pi * hz * t)
                           + .19f * std::sin(2 * pi * 2.f * hz * t));
+            const int step = std::min(15, static_cast<int>(t * 2.f));
+            const float leadPhase = std::fmod(t, .5f);
+            const float leadEnv = std::min(1.f, leadPhase * 35.f)
+                                * std::exp(-leadPhase * 4.8f);
+            const float lead = .23f * leadEnv
+                * (std::sin(2 * pi * leadNotes[step] * t)
+                   + .12f * std::sin(4 * pi * leadNotes[step] * t));
             const float edge = std::min(1.f, std::min(t, duration - t) * 24.f);
-            const float value = std::clamp((kick + snare + hat + bass) * edge, -1.f, 1.f);
+            const float value = std::clamp((kick + snare + hat + bass + lead) * edge, -1.f, 1.f);
             samples[i] = static_cast<std::int16_t>(value * 18000.f);
         }
         if (!buffer_.loadFromSamples(samples.data(), samples.size(), 1, rate,
