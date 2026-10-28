@@ -66,6 +66,8 @@ Das Hauptmenü ist bewusst kompakt. **Neues Spiel** führt in einem Ablauf durch
 
 **JK-AXIS-Trainings-Arena:** Neues Terminal-Layout mit Titel, Gym-Edition-Motto, klar nummerierten Spalten, durchgehenden Feldlinien, farblich hervorgehobenen Hantelsymbolen `[R]`, `[B]`, `[G]`, `[Y]`, Spielerübersicht, Gesamtsiegen, Zugstatus und festen Tastenhinweisen. Beim Sieg werden die zusammenhängenden Gewinnfelder mit `{R}` beziehungsweise dem passenden Symbol markiert. Der Ergebnisbildschirm zeigt die letzte Runde und die Revanche-Auswahl.
 
+**Lesbare Infoseiten:** Anleitung, Bestenliste und wichtige Meldungen bleiben auf einem echten Terminal sichtbar, bis du Enter drückst. Bei automatisierten Tests mit umgeleiteter Eingabe erfolgt kein zusätzlicher Stopp.
+
 **Ruhige Terminaldarstellung:** Das Spielfeld wird nur bei wichtigen Änderungen neu aufgebaut. In kompatiblen interaktiven Terminals aktualisiert es sich an derselben Bildschirmposition. Bei Umleitung, fehlender ANSI-Unterstützung oder `NO_COLOR` bleiben Rahmen, Buchstaben und Texte ohne Farbcodes lesbar. Die optionale, kurze Animation ist standardmäßig ausgeschaltet; `A` schaltet sie um. Ein Fensterprogramm oder eine Maussteuerung ist noch nicht Bestandteil dieser Ausgabe.
 
 Die neue Arena mit Spielerfarben, Hantelsymbolen, Gewinnmarkierung und Terminal-Kompatibilität ist im [JK-AXIS-Arena-Leitfaden](docs/ARENA_DESIGN.md) dokumentiert. Die komplette Menüführung, Beispiele und Abnahmeszenarien stehen in [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md).
