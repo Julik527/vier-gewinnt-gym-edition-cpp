@@ -60,11 +60,13 @@ ctest --test-dir build-gui -C Release --output-on-failure
 
 Unter Windows entsteht die EXE je nach Generator unter `build-gui/Release/vier-gewinnt-gui.exe` (Visual Studio) oder `build-gui/vier-gewinnt-gui.exe` (Ninja/MinGW). Für MSYS2 UCRT64 zuerst den UCRT64-Compiler und CMake/Ninja verfügbar machen; die GUI hat eine eigene Abhängigkeitskette und wird nicht von der alten `g++`-Task kompiliert.
 
+**VS Code F5:** In `.vscode/launch.json` gibt es zwei Profile: `Vier Gewinnt | Gym Edition` (Konsole) und `Vier Gewinnt | Gym Edition 2D` (Grafik). Das neue GUI-Profil ruft über `.vscode/tasks.json` die Ninja/CMake-Konfiguration auf. Benötigt CMake 3.28+, Ninja sowie die MSYS2-UCRT64-Compiler in `C:/msys64/ucrt64/bin`.
+
 **Bedienung:** Hauptmenü anklicken, Spielerzahl 2–4 wählen, Namen nacheinander eingeben und starten. Während des Spiels eine Spalte anklicken oder mit **Links/Rechts + Leertaste** auswählen. `U` nimmt zurück, `S` speichert, `A` schaltet die Fallanimation um, `Esc` wechselt ins Menü. Nach Sieg/Remis stehen Revanche, neue Spieler und Hauptmenü bereit.
 
 **Systemschrift:** Für Text benutzt die GUI vorhandene Schriftdateien (Segoe UI/Arial unter Windows, DejaVu/Liberation unter Linux). Schriftdateien werden nicht im Repository kopiert.
 
-**Automatisierte Prüfung:** `match_session_tests` kontrolliert Spielzustand, Sicherung, Laden, Gewinn, Revanche und bestehende Highscores ohne grafischen Bildschirm. `vier-gewinnt-gui --self-test` prüft den minimalen GUI-Kern ohne Fenster. Ein tatsächlicher interaktiver Windows-/Linux-Sichttest mit Maus und Tastatur ist weiterhin gesondert zu protokollieren.
+**Automatisierte Prüfung:** `match_session_tests` kontrolliert Spielzustand, Sicherung, Laden, Gewinn, Revanche und bestehende Highscores ohne grafischen Bildschirm. `vier-gewinnt-gui --self-test` prüft den minimalen GUI-Kern ohne Fenster. Ein tatsächlicher interaktiver Windows-/Linux-Sichttest mit Maus und Tastatur ist weiterhin gesondert zu protokollieren; siehe [GUI-Testplan](docs/GUI_TESTPLAN.md).
 
 ## Reproduzierbarer CMake-Build
 
@@ -105,7 +107,7 @@ Das Hauptmenü ist bewusst kompakt. **Neues Spiel** führt in einem Ablauf durch
 
 **Lesbare Infoseiten:** Anleitung, Bestenliste und wichtige Meldungen bleiben auf einem echten Terminal sichtbar, bis du Enter drückst. Bei automatisierten Tests mit umgeleiteter Eingabe erfolgt kein zusätzlicher Stopp.
 
-**Ruhige Terminaldarstellung:** Das Spielfeld wird nur bei wichtigen Änderungen neu aufgebaut. In kompatiblen interaktiven Terminals aktualisiert es sich an derselben Bildschirmposition. Bei Umleitung, fehlender ANSI-Unterstützung oder `NO_COLOR` bleiben Rahmen, Buchstaben und Texte ohne Farbcodes lesbar. Die optionale, kurze Animation ist standardmäßig ausgeschaltet; `A` schaltet sie um. Ein Fensterprogramm oder eine Maussteuerung ist noch nicht Bestandteil dieser Ausgabe.
+**Ruhige Terminaldarstellung:** Das Spielfeld wird nur bei wichtigen Änderungen neu aufgebaut. In kompatiblen interaktiven Terminals aktualisiert es sich an derselben Bildschirmposition. Bei Umleitung, fehlender ANSI-Unterstützung oder `NO_COLOR` bleiben Rahmen, Buchstaben und Texte ohne Farbcodes lesbar. Die optionale Animation zeigt echte Positionsänderungen der Hantel innerhalb des Feldes über mehrere Frames; sie ist standardmäßig ausgeschaltet und kann mit `A` aktiviert werden. Ein Fensterprogramm oder eine Maussteuerung ist noch nicht Bestandteil dieser Ausgabe.
 
 Die neue Arena mit Spielerfarben, Hantelsymbolen, Gewinnmarkierung und Terminal-Kompatibilität ist im [JK-AXIS-Arena-Leitfaden](docs/ARENA_DESIGN.md) dokumentiert. Die komplette Menüführung, Beispiele und Abnahmeszenarien stehen in [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md).
 
