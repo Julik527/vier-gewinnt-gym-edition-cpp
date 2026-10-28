@@ -17,16 +17,16 @@ PPTX=ROOT/"praesentation/Vier_Gewinnt_Praesentation_FINAL.pptx"
 REPORT=ROOT/"docs/BRAND_QA_REPORT.md"
 OLD_ID="JK-CD-DE-2026-003"
 NEW_ID="JK AXIS | GOLD MASTER"
-# Die alte Bildkennung hilft, gezielt das fruehere Logo zu erkennen.
+# Die alte Bildkennung hilft, gezielt das frühere Logo zu erkennen.
 LEGACY_HASH="bffb61e37fae"
 
 def sha(blob):
     return hashlib.sha256(blob).hexdigest()
 
-# Baut eine Version des JK-AXIS-Symbols fuer dunkle Hintergruende.
+# Baut eine Version des JK-AXIS-Symbols für dunkle Hintergründe.
 def new_brand_icon():
-    # Precision geometry, derived from the master SVG stored in assets/brand.
-    # The dark-background symbol preserves official white/blue/navy colors.
+    # Die Form wird hier aus festen Eckpunkten zusammengesetzt.
+    # Für dunkle Hintergründe nutzen wir Weiß, Blau und Navy.
     im=Image.new("RGB",(512,512),(16,30,50))
     d=ImageDraw.Draw(im)
     def polygon(points, color):
@@ -110,7 +110,7 @@ def patch_pdf(path,old_logo,new_logo):
         doc.close()
     return {"pages":pages,"replaced_logo_images":len(found)}
 
-# Dieses Skript war fuer die einmalige Umstellung der Dokumente gedacht.
+# Dieses Skript war für die einmalige Umstellung der Dokumente gedacht.
 def main():
     if not PPTX.is_file():raise FileNotFoundError(PPTX)
     icon=new_brand_icon()
@@ -119,7 +119,7 @@ def main():
     presentation_pdf=ROOT/"praesentation/Vier_Gewinnt_Praesentation_FINAL.pdf"
     converter=shutil.which("libreoffice") or shutil.which("soffice")
     if presentation["replaced_logo_occurrences"] and converter:
-        # Synchronize exported PDF with actual PPTX, including changed footers.
+        # Die PDF wird passend zur neuen Präsentation erzeugt.
         folder=presentation_pdf.parent/"_brand_export"
         folder.mkdir(exist_ok=True)
         try:
