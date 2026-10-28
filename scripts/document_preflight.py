@@ -5,11 +5,10 @@
 # Aufgabe: Kontrolliert Präsentation, PDFs und Dateilinks, ohne sie zu ändern.
 # ------------------------------------------------------------
 
-"""Read-only preflight for the published JK AXIS Gym Edition artifacts.
+"""Prüft die veröffentlichten Projektdateien auf technische Fehler.
 
-Checks format validity, expected PDF page counts, every PDF page's rasterizability,
-all presentation slides, official SVG assets, and local README links.
-Does not modify or re-encode documents.
+Kontrolliert die erwarteten PDF-Seiten, jede PowerPoint-Folie, SVG-Dateien
+und lokale Verweise der README. Die Dateien werden nicht verändert.
 """
 from __future__ import annotations
 import argparse
