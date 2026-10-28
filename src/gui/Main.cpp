@@ -200,6 +200,10 @@ private:
                       float w, int action, bool enabled = true) {
             b.push_back({name, sf::FloatRect({x, y}, {w, 53.f}), action, enabled});
         };
+        const auto compact = [](std::vector<Button>& b, const char* name, float y,
+                                int action) {
+            b.push_back({name, sf::FloatRect({965.f, y}, {269.f, 42.f}), action, true});
+        };
         std::vector<Button> b;
         switch (screen_) {
             case Screen::Menu:
@@ -226,16 +230,17 @@ private:
                 add(b, "ABBRECHEN", 390, 630, 500, 0);
                 break;
             case Screen::Arena:
-                add(b, "LETZTEN ZUG ZURUECK", 965, 359, 269, 1);
-                add(b, "SPIEL SPEICHERN", 965, 423, 269, 2);
-                add(b, animation_ ? "ANIMATION: AN" : "ANIMATION: AUS", 965, 487, 269, 3);
-                add(b, "ANLEITUNG", 965, 551, 269, 4);
-                add(b, "HAUPTMENUE", 965, 615, 269, 0);
+                // Erst unterhalb aller vier Spielernamen beginnen.
+                compact(b, "LETZTEN ZUG ZURUECK", 506, 1);
+                compact(b, "SPIEL SPEICHERN", 554, 2);
+                compact(b, animation_ ? "ANIMATION: AN" : "ANIMATION: AUS", 602, 3);
+                compact(b, "ANLEITUNG", 650, 4);
+                compact(b, "HAUPTMENUE", 698, 0);
                 break;
             case Screen::Result:
-                add(b, "REVANCHE", 965, 455, 269, 1);
-                add(b, "NEUE SPIELER", 965, 519, 269, 2);
-                add(b, "HAUPTMENUE", 965, 583, 269, 0);
+                compact(b, "REVANCHE", 516, 1);
+                compact(b, "NEUE SPIELER", 568, 2);
+                compact(b, "HAUPTMENUE", 620, 0);
                 break;
             case Screen::Scores: case Screen::Help:
                 add(b, "ZURUECK", 420, 673, 440, 0);
@@ -482,7 +487,7 @@ private:
     }
     void arena(bool end) {
         renderBoard(end);
-        box(949, 160, 292, 531, panel);
+        box(949, 160, 292, 605, panel);
         label(end ? "TRAINING BEENDET" : "TRAININGSSTATUS", 968, 178, 20, white, true);
         label("RUNDE " + std::to_string(match_.round()), 968, 217, 17, muted);
         label("ZUEGE  " + std::to_string(match_.board().tokenCount()), 968, 243, 17, muted);
