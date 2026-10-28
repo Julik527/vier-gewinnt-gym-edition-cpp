@@ -46,6 +46,22 @@ Die mitgelieferten Einstellungen benutzen:
 
 Falls **F5** nicht startet: Über **Terminal → Buildaufgabe ausführen** zunächst die Aufgabe **„Vier Gewinnt bauen“** starten und die erste rote Fehlermeldung im Terminal ansehen. Ohne einen erfolgreichen Build lässt sich der Debugger nicht korrekt starten.
 
+## Schulvorführung: Logo, Musik und zwei Versionen
+
+**Schullogo:** Das Schulkennzeichen der **Bernd-Blindow-Schulen Ravensburg** wird in der 2D-Version als originales JPG gezeigt, wenn `assets/school/bernd-blindow-schulen.jpg` existiert. Mit `powershell -File scripts/install-school-logo.ps1` kann es aus Wikimedia Commons geladen werden. Die Nutzung und das CC-BY-SA-4.0-Attribut sind in [docs/SCHOOL_LOGO.md](docs/SCHOOL_LOGO.md) dokumentiert. Bei fehlender Grafik wird der Schulname als Text angezeigt, nicht als erfundenes Logo. In der PowerShell-Version steht der Schulname im Menü und über der Arena.
+
+**Musik:** Die 2D-Version enthält einen selbst programmierten, instrumentalen **120-BPM-Gym-Beat** (Kick, Snare, Hi-Hat und Bass). Er besteht nur aus synthetisch berechneten C++-Samples, enthält keine fremde Aufnahme und läuft in einer kurzen Schleife. Aus Rücksicht auf Unterricht und Präsentationen bleibt die Musik beim Start **aus**. Schalte sie mit dem Knopf `MUSIK AN` oben rechts oder **F9** an und wieder aus. Audio funktioniert nur mit einem verfügbaren Ausgabegerät. Die Terminalversion bleibt bewusst ohne Musik, damit beide Varianten ihren jeweiligen Charakter behalten.
+
+**Beide Versionen nacheinander demonstrieren:** Starte im Projektstamm:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\demo.ps1 -Mode Both
+```
+
+Zuerst läuft das grafische Fenster. Wenn du es schließt, beginnt der Terminaldurchlauf in PowerShell. Alternativ funktionieren `-Mode GUI` und `-Mode Terminal`. Das Skript baut die Programme mit CMake/Ninja beziehungsweise MSYS2 g++; mit `-NoBuild` verwendet es bereits vorhandene EXE-Dateien. Die zwei Durchläufe erfolgen nacheinander, um konkurrierende Schreibvorgänge an `data/savegame.txt` und `data/highscore.txt` zu vermeiden.
+
+**Bekannte kommerzielle Songs** sind nicht in GitHub eingecheckt. Für eine separate Präsentationsplaylist gelten die Lizenz- und Aufführungsregeln des jeweiligen Musikdienstes.
+
 ## Grafische Gym Edition (SFML 3.1)
 
 Neben der bisherigen Terminal-Anwendung gibt es jetzt ein **eigenes grafisches Ziel** `vier-gewinnt-gui` mit Mausbedienung, über mehrere Frames fallenden Hanteln, Spielerübersicht, Bestenliste, Anleitung, Revanche und den Spielständen im bisherigen `GYM1`-Format. Die gemeinsame `Board`-Klasse übernimmt Gewinnregeln und Schwerkraft. `MatchSession` kapselt Spielfluss und Dateioperationen ohne SFML-Abhängigkeit.
