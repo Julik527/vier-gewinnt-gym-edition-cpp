@@ -171,6 +171,7 @@ std::string mainMenu(const std::vector<Player>& players, const Board& board,
     separator(out);
     menuLine(out, "JK AXIS  /  VIER GEWINNT  /  GYM EDITION", "1;94");
     menuLine(out, "HEBEN. SETZEN. SIEGEN.  |  C++17", "1;97");
+    menuLine(out, "BERND-BLINDOW-SCHULEN  /  RAVENSBURG");
     separator(out);
     menuLine(out, active ? "STATUS: TRAININGSRUNDE LAEUFT" : "STATUS: BEREIT FUER DEIN MATCH");
     menuLine(out, "1  Neues Spiel");
@@ -205,6 +206,7 @@ std::string arena(const Board& board, const std::vector<Player>& players,
     separator(out);
     menuLine(out, "JK AXIS  /  VIER GEWINNT  /  GYM EDITION");
     menuLine(out, "TRAININGS-ARENA  |  RUNDE " + std::to_string(round), "1;97");
+    menuLine(out, "BERND-BLINDOW-SCHULEN  /  RAVENSBURG");
     separator(out);
 
     for (std::size_t i = 0; i < players.size(); ++i) {
@@ -251,6 +253,7 @@ std::string result(const Board& board, const std::vector<Player>& players,
     separator(out);
     menuLine(out, "JK AXIS  /  GYM EDITION  /  RUNDENENDE", "1;94");
     menuLine(out, "TRAINING ABGESCHLOSSEN  |  RUNDE " + std::to_string(round));
+    menuLine(out, "BERND-BLINDOW-SCHULEN  /  RAVENSBURG");
     separator(out);
     out << "\n  " << (winner.empty() ? "REMIS: Spielfeld voll."
                        : "GEWONNEN: " + winner + "!") << "\n";
