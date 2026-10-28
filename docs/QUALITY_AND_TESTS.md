@@ -75,6 +75,22 @@ Das Hauptmenü und die Spielfeldanzeige verwenden im interaktiven Terminal feste
 
 **Status:** Die neu erzeugten Dateien und Verweise wurden auf GitHub kontrolliert. Ein tatsächlich erfolgreicher Compilerlauf auf allen Plattformen ist hier noch nicht belegt und darf nicht als bestanden gelten.
 
+## 2d. P0/P1-Stabilisierung auf Entwicklungsbranch
+
+**Branch:** `quality/gameplay-persistence-2026-10-28` · **Pull Request:** [#1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1) · **Zielbranch `main` bleibt unangetastet.**
+
+| Prioritaet | Nachgewiesener Ausgangszustand | Korrektur | Kontrollfall |
+|:--|:--|:--|:--|
+| P0 | `saveGame()` und `saveHighscores()` haben die vorhandenen Dateien direkt mit `std::ios::trunc` geoeffnet; ein Schreibfehler konnte den alten Stand zerstoeren | Zuerst `.tmp` im selben Ordner schreiben, Stream auf Fehler pruefen, danach unter Windows per `MoveFileExW` beziehungsweise unter Linux per `rename` ersetzen; bei Fehler Original erhalten | `tests/integration_smoke.py`: blockierte Temp-Datei bei bestehendem Spielstand und Highscore |
+| P1 | Die Vorschau wurde durch `redraw = true` vor der naechsten Eingabe im ANSI-Terminal sofort wieder entfernt | Vorschau nicht sofort neu zeichnen | Integrationstest kontrolliert, dass zwischen Vorschau und naechster Eingabe keine neue Arena erscheint |
+| P1 | Bei vier langen Spielernamen wurde die Statuszeile zu breit | Spieler einzeln untereinander zeigen | Integrationstest mit vier Namen zu je 24 Bytes |
+| P1 | Spieler konnten ESC-/Steuerzeichen in ihren Namen verwenden | ASCII-Steuerzeichen bei der Namenseingabe und beim Laden ablehnen | Integrationstest mit ESC-Sequenz |
+| P2 | Mehr Effekte, 2D-Mausoberflaeche | Bewusst nicht Teil des Korrektur-Patches; keine neue Abhaengigkeit | Separater Architekturentscheid erforderlich |
+
+**Kompatibilitaet:** Das Speicherformat bleibt `GYM1`. Bereits vorhandene Spielstands- und Highscore-Dateien werden nicht migriert. Die temporären Dateien dienen ausschliesslich dazu, den bisherigen Stand vor fehlgeschlagenen Schreibvorgaengen zu schuetzen.
+
+**Nachweisgrenze:** Eingebaute Tests allein belegen keine erfolgreiche Ausfuehrung. Den CI-Status im Pull Request pruefen; interaktive Windows-11-F5-Tests im manuellen Testplan dokumentieren.
+
 ## 3. Lokal reproduzieren
 
 Voraussetzungen: CMake 3.16+, C++17-Compiler, Python 3 für Integrationstests.
