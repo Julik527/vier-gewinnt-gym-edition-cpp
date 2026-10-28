@@ -14,6 +14,10 @@
 
 **Hinweis:** Eine ältere PDF-Prüffassung entstand vor dem tatsächlichen GitHub-Upload. Der Repositorystatus ist in dieser Markdown-Datei aktualisiert.
 
+## Erweiterung der Menüführung vom 28.10.2026
+
+Das Projekt enthält jetzt einen Ergebnisbildschirm, Revanche mit denselben Spielern, einen aktiven Menüstatus sowie eine ruhigere Terminaldarstellung. Die ergänzten Akzeptanztests in `tests/integration_smoke.py` prüfen unter anderem zwei aufeinanderfolgende Siege und das korrekte Highscore-Verhalten. **Diese Ergänzung ist ein Implementierungsstand, keine bestätigte Schul- oder Windows-Abnahme.**
+
 ## Ausstehend
 Manuelle vollständige Systemtests, Windows-Präsentation, finale Prüfung der erzeugten Dokumente, ggf. Aufgabenabnahme am 29.10.2026.
 ## Update vom 28.10.2026
