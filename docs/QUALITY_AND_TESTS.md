@@ -45,6 +45,21 @@ Die Benutzerführung wurde auf ein einzelnes Hauptmenü und einen geführten Zwe
 
 Diese Szenarien liegen in `tests/integration_smoke.py`. **Implementierter Testcode ist noch kein bestätigtes Testergebnis**. Die erfolgreiche Ausführung auf dem GitHub-CI-System beziehungsweise einem Windows-Rechner muss separat geprüft werden.
 
+## 2b. Ergebnisbildschirm und Revanche
+
+Neu ab 28.10.2026: `Game::showResultMenu()` bietet nach einer abgeschlossenen Partie die Auswahl **Revanche / Neues Spiel / Hauptmenü**. Die Revanche verwendet die vorhandenen Spieler und Symbole, setzt aber Spielfeld, Zugliste und aktiven Spieler zurück. Die Entscheidung wird außerhalb der Spielschleife in `Game::run()` bearbeitet, um rekursive Spielstarts zu vermeiden.
+
+Neue automatisierte Akzeptanzfälle in `tests/integration_smoke.py`:
+
+- Zwei aufeinanderfolgende Siege über den Revanche-Befehl, ohne Namen erneut einzugeben.
+- Highscore steigt für diese zwei Siege auf **2**, nicht häufiger.
+- Ergebnisoption „Neues Spiel“ führt wieder durch Spielerzahl und Namen.
+- Ungültige Ergebnisauswahl wird abgelehnt.
+- Hilfe, Info und ungültige Befehle erzeugen keine zusätzlichen Spielfeldabdrucke.
+- Hauptmenü zeigt bei laufender Partie die Namen und den nächsten Spieler.
+
+**Nachweisstatus:** Die Tests sind als ausführbarer Code vorhanden. Ein erfolgreicher CTest-/Windows-Lauf muss separat belegt werden; hier wird keiner behauptet.
+
 ## 3. Lokal reproduzieren
 
 Voraussetzungen: CMake 3.16+, C++17-Compiler, Python 3 für Integrationstests.
