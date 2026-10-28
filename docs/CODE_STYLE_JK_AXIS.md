@@ -32,7 +32,7 @@ Die ergänzenden Python-, CMake- und GitHub-Actions-Dateien verwenden denselben 
 - **Einfach und direkt:** So, dass ich den Code meinem Lehrer oder einem Mitschüler erklären könnte.
 - **Vor einem wichtigen Schritt:** Zum Beispiel bei einer Spielregel, einem Spielerwechsel oder beim sicheren Laden.
 - **Warum statt nur was:** `// Wir prüfen alle vier Gewinnrichtungen.` ist hilfreicher als `// for-Schleife`.
-- **Nicht jede Zeile kommentieren:** `++count;` muss nicht extra erklaert werden, wenn der Zusammenhang klar ist.
+- **Nicht jede Zeile kommentieren:** `++count;` muss nicht extra erklärt werden, wenn der Zusammenhang klar ist.
 - **Passend zum echten Programm:** Keine Aussagen über Funktionen, die erst noch geplant sind.
 - **Wenn sich der Code ändert:** Den zugehörigen Kommentar ebenfalls prüfen.
 
