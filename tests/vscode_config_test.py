@@ -43,8 +43,8 @@ def main() -> int:
           "Debug-Build benoetigt Symbole und ausgeschaltete Optimierung")
 
     # Beide CMake-Ziele muessen im manuellen g++-Build enthalten sein.
-    game = re.search(r"add_executable\\(vier-gewinnt\\s+([^)]*)\\)", cmake)
-    board = re.search(r"add_library\\(gym_board\\s+STATIC\\s+([^)]*)\\)", cmake)
+    game = re.search(r"add_executable\(vier-gewinnt\s+([^)]*)\)", cmake)
+    board = re.search(r"add_library\(gym_board\s+STATIC\s+([^)]*)\)", cmake)
     check(game is not None and board is not None, "CMake-Quelldateien fehlen")
     expected = set(game.group(1).split() + board.group(1).split())
     provided = {item for item in task["args"] if item.endswith(".cpp")}
