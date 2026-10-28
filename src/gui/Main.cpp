@@ -1,6 +1,7 @@
 // JK AXIS | Gym Edition -- eigenstaendiges 2D-Spiel, SFML 3.1.
 // Die Regeln und das kompatible GYM1-Format kommen aus MatchSession / Board.
 #include "MatchSession.h"
+#include "GymBeat.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -8,6 +9,7 @@
 #include <cmath>
 #include <filesystem>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -58,6 +60,10 @@ public:
             font_(systemFont()) {
         window_.setFramerateLimit(60);
         resizeView();
+        // Das originale Schul-Logo wird unveraendert aus einer lokalen Bilddatei geladen,
+        // sofern es fuer das Schulprojekt zur Verfuegung gestellt wurde.
+        schoolLogoReady_ = schoolLogo_.loadFromFile(
+            "assets/school/bernd-blindow-schulen.png");
     }
 
     void run(int maxFrames = -1) {
@@ -100,6 +106,10 @@ public:
 private:
     sf::RenderWindow window_;
     sf::Font font_;
+    sf::Texture schoolLogo_;
+    bool schoolLogoReady_ = false;
+    std::unique_ptr<GymBeat> beat_;
+    bool musicOn_ = false;
     MatchSession match_;
     Screen screen_ = Screen::Menu;
     Screen helpReturn_ = Screen::Menu;
@@ -193,7 +203,21 @@ private:
         brandSymbol(20, 5, .75f);
         label("JK AXIS  |  VIER GEWINNT", 132, 19, 29, white, true);
         label("GYM EDITION  /  HEBEN. SETZEN. SIEGEN.", 133, 60, 17, muted);
-        label(subtitle, 800, 39, 21, sf::Color(154, 207, 255));
+        label(subtitle, 800, 18, 19, sf::Color(154, 207, 255));
+        if (schoolLogoReady_) {
+            sf::Sprite school(schoolLogo_);
+            const auto size = schoolLogo_.getSize();
+            if (size.x != 0 && size.y != 0) {
+                const float scale = std::min(215.f / size.x, 48.f / size.y);
+                box(1005, 42, 245, 59, white);
+                school.setPosition({1017.f, 47.f});
+                school.setScale({scale, scale});
+                window_.draw(school);
+            }
+        } else {
+            // Der Schulname wird nicht als gefaelschtes Logo ausgegeben.
+            label("BERND BLINDOW SCHULEN | RAVENSBURG", 797, 72, 15, muted);
+        }
     }
     std::vector<Button> buttons() const {
         auto add = [](std::vector<Button>& b, const char* name, float x, float y,
@@ -250,6 +274,9 @@ private:
                 add(b, "NEIN, ZURÜCK", 654, 436, 242, 0);
                 break;
         }
+        // Auf allen Bildschirmen erreichbar, aber standardmaessig stumm.
+        b.push_back({musicOn_ ? "MUSIK AUS" : "MUSIK AN",
+                     sf::FloatRect({1065.f, 114.f}, {175.f, 37.f}), 99, true});
         return b;
     }
     void drawButtons() {
@@ -270,7 +297,28 @@ private:
         notice_.clear();
         screen_ = Screen::Count;
     }
+    void toggleMusic() {
+        if (musicOn_) {
+            if (beat_) beat_->stop();
+            musicOn_ = false;
+            notice_ = "Musik ausgeschaltet.";
+            return;
+        }
+        try {
+            if (!beat_) beat_ = std::make_unique<GymBeat>();
+            beat_->play();
+            musicOn_ = true;
+            notice_ = "Eigener 120-BPM Gym-Beat aktiviert.";
+        } catch (const std::exception&) {
+            musicOn_ = false;
+            notice_ = "Kein Audio-Ausgabegeraet verfuegbar.";
+        }
+    }
     void act(int choice) {
+        if (choice == 99) {
+            toggleMusic();
+            return;
+        }
         switch (screen_) {
             case Screen::Menu:
                 if (choice == 1) {
@@ -402,6 +450,10 @@ private:
             for (const auto byte : utf8) input_.push_back(static_cast<char>(byte));
     }
     void keyDown(sf::Keyboard::Key key) {
+        if (key == sf::Keyboard::Key::F9) {
+            toggleMusic();
+            return;
+        }
         if (key == sf::Keyboard::Key::Escape) {
             if (screen_ == Screen::Arena && falling_) return;
             if (screen_ == Screen::Arena || screen_ == Screen::Result) screen_ = Screen::Menu;
@@ -562,6 +614,8 @@ private:
                 label("Maus: Spalte anklicken oder Hantel ueber dem Feld waehlen.", 304, 297, 19, muted);
                 label("Tastatur: Pfeile links/rechts, Leertaste oder Enter zum Setzen.", 304, 339, 19, muted);
                 label("U = Rueckgaengig   S = Speichern   A = Animation an/aus.", 304, 381, 19, muted);
+                label("Musik: Schalter oben rechts oder F9 (standardmaessig aus).",
+                      304, 509, 18, muted);
                 label("Escape = Hauptmenue   H = Anleitung.", 304, 423, 19, muted);
                 label("Nach einem Sieg: Revanche mit denselben Spielern moeglich.", 304, 465, 19, muted);
                 break;
