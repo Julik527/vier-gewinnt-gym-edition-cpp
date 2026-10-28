@@ -62,8 +62,9 @@ public:
         resizeView();
         // Das originale Schul-Logo wird unveraendert aus einer lokalen Bilddatei geladen,
         // sofern es fuer das Schulprojekt zur Verfuegung gestellt wurde.
-        schoolLogoReady_ = schoolLogo_.loadFromFile(
-            "assets/school/bernd-blindow-schulen.png");
+        if (std::filesystem::exists("assets/school/bernd-blindow-schulen.jpg"))
+            schoolLogoReady_ = schoolLogo_.loadFromFile(
+                "assets/school/bernd-blindow-schulen.jpg");
     }
 
     void run(int maxFrames = -1) {
