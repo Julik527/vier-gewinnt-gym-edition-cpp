@@ -55,6 +55,6 @@ private:
     void addWin(const std::string& name);
 public:
     Game();
-    // Startet das Hauptmenue und reagiert auf die Auswahl.
+    // Startet das Hauptmenü und reagiert auf die Auswahl.
     void run();
 };
