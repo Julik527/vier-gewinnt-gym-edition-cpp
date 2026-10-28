@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# JK AXIS | GOLD MASTER
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   tests/integration_smoke.py
+# Aufgabe: Prueft das Spiel automatisch mit echten Menue-Eingaben.
+# ------------------------------------------------------------
+
 """Repeatable black-box tests. Only Python's standard library is required."""
 import pathlib
 import re
@@ -7,6 +13,7 @@ import sys
 import tempfile
 
 
+# Startet das Spiel so, als wuerde ein Benutzer die Befehle eintippen.
 def run_game(binary: pathlib.Path, directory: pathlib.Path, commands: list[str]) -> str:
     result = subprocess.run(
         [str(binary)],
@@ -14,6 +21,7 @@ def run_game(binary: pathlib.Path, directory: pathlib.Path, commands: list[str])
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        # Jeder Test nutzt seinen eigenen Ordner, damit sich Spielstaende nicht mischen.
         cwd=directory,
         timeout=20,
         check=False,
@@ -29,12 +37,14 @@ def run_game(binary: pathlib.Path, directory: pathlib.Path, commands: list[str])
     return result.stdout
 
 
+# Sucht nach Antworten, die das Spiel bei diesem Test zeigen muss.
 def require(text: str, *fragments: str) -> None:
     for fragment in fragments:
         if fragment not in text:
             raise AssertionError(f"Expected {fragment!r}. Output tail: {text[-1800:]!r}")
 
 
+# Hier testen wir die wichtigsten Ablaufe Schritt fuer Schritt.
 def main() -> int:
     if len(sys.argv) != 2:
         print("Usage: integration_smoke.py <path-to-vier-gewinnt>", file=sys.stderr)
@@ -43,6 +53,7 @@ def main() -> int:
     if not binary.is_file():
         raise FileNotFoundError(binary)
 
+    # Alle Testdateien werden danach automatisch wieder entfernt.
     with tempfile.TemporaryDirectory(prefix="gym-edition-test-") as temp:
         root = pathlib.Path(temp)
 
@@ -72,6 +83,7 @@ def main() -> int:
             binary, work, ["3", "Ada", "Ben", "1", "A", "1", "2", "S", "M", "5", "U", "M", "0"]
         )
         require(output, "Spiel gespeichert.", "Spielstand geladen.", "Letzter Zug entfernt.")
+        # Wir schauen auch nach, ob wirklich eine Speicherdatei entstanden ist.
         save = work / "data" / "savegame.txt"
         if not save.is_file() or not save.read_text(encoding="utf-8").startswith("GYM1\n"):
             raise AssertionError("Saved game missing or invalid header")
