@@ -60,7 +60,8 @@ public:
         resizeView();
     }
 
-    void run() {
+    void run(int maxFrames = -1) {
+        int rendered = 0;
         sf::Clock frame;
         while (window_.isOpen()) {
             const float dt = std::min(frame.restart().asSeconds(), 0.08f);
@@ -93,6 +94,7 @@ public:
                 }
             }
             render();
+            if (maxFrames > 0 && ++rendered >= maxFrames) window_.close();
         }
     }
 private:
@@ -551,6 +553,12 @@ int main(int argc, char** argv) {
             if (!test.begin({"Ada", "Ben"})) return 1;
             if (!test.drop(0) || test.board().tokenCount() != 1) return 1;
             std::cout << "GUI match core: OK\n";
+            return 0;
+        }
+        if (argc > 1 && std::string(argv[1]) == "--window-smoke") {
+            App app;
+            app.run(12);
+            std::cout << "GUI graphical window: 12 frames rendered and closed.\n";
             return 0;
         }
         App app;
