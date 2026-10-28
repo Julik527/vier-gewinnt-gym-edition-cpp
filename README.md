@@ -59,6 +59,12 @@ g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude tests/board_tests.cpp src/Board
 
 Am 25.10.2026 wurden Kompilierung, vorhandene Board-Assertions und ein Konsolenmenü-Smoke-Test erfolgreich ausgeführt (GCC 14.2.0 / Linux). **Offen:** vollständige interaktive Abnahmetests, Save/Load-Fehlerfälle, Windows-Reproduktion und Lehrerfreigabe. Siehe [`docs/QUALITY_AND_TESTS.md`](docs/QUALITY_AND_TESTS.md).
 
+## Design und Dateien
+
+Die Projektpräsentation, Anforderungsanalyse, UML-Dokumentation, Meilensteinbericht, KI-Prompt-Dokumentation, Gesamtdokumentation und der Vortragsleitfaden wurden am 28.10.2026 technisch auf **JK AXIS | GOLD MASTER** aktualisiert. In der PowerPoint wurden 17 Legacy-Logos und 17 ältere Designkennzeichnungen ersetzt. Weitere acht identifizierte Logobilder wurden in den PDFs ausgetauscht; die Präsentations-PDF wurde aus der neuen PowerPoint erzeugt.
+
+Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_REPORT.md) nachgewiesen. Eine vollständige visuelle Prüfung aller Dokumentseiten und der Darstellung in Microsoft PowerPoint bleibt als Qualitätskontrolle offen.
+
 ## Dokumentation und Sprintstart
 
 - [`docs/PROJECT_CHARTER.md`](docs/PROJECT_CHARTER.md) – Projektauftrag, Ziele, Grenzen
