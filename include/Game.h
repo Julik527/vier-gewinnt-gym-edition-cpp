@@ -1,3 +1,9 @@
+// JK AXIS | GOLD MASTER
+// Projekt: Vier Gewinnt | Gym Edition (C++17)
+// Datei:   include/Game.h
+// Aufgabe: Beschreibt Spielablauf, Eingaben und den gespeicherten Spielstand.
+// ------------------------------------------------------------
+
 #pragma once
 #include "Board.h"
 #include "Player.h"
@@ -5,37 +11,50 @@
 #include <string>
 #include <vector>
 
+// Ein Move merkt sich, wo ein Stein liegt und welcher Spieler ihn gesetzt hat.
 struct Move {
     int row;
     int column;
     int player;
 };
 
+// Game steuert das Menue. Board kuemmert sich nur um das Spielfeld.
 class Game {
 private:
+    // Einstellung fuer die naechste Runde.
     int chosenPlayers_ = 2;
     std::vector<std::string> chosenNames_;
     std::vector<Player> players_;
     Board board_;
+    // Diese Liste brauchen wir fuer den Undo-Befehl.
     std::vector<Move> history_;
+    // Index des Spielers, der als Naechstes dran ist.
     int current_ = 0;
+    // Zeigt an, ob gerade eine Runde laeuft.
     bool active_ = false;
     bool animation_ = true;
     std::map<std::string, int> highscores_;
 
+    // Spielerzahl und Spielernamen werden ueber das Menue eingestellt.
     void configurePlayers();
     void configureNames();
+    // Startet eine frische Runde mit leerem Feld.
     void newGame();
+    // Hier finden Spielerwechsel und Zuege statt.
     void play();
     void showHelp() const;
     void showInfo() const;
     void showHighscores() const;
+    // Speichert die aktive Runde in einer Textdatei.
     bool saveGame(const std::string& path = "data/savegame.txt") const;
+    // Laedt nur einen vollstaendig geprueften Spielstand.
     bool loadGame(const std::string& path = "data/savegame.txt");
+    // Liest die Siegerliste beim Programmstart ein.
     void loadHighscores();
     bool saveHighscores() const;
     void addWin(const std::string& name);
 public:
     Game();
+    // Startet das Hauptmenue und reagiert auf die Auswahl.
     void run();
 };
