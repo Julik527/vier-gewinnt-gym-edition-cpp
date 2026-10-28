@@ -16,6 +16,7 @@ on:
       - "assets/brand/**"
       - "docs/**"
       - "scripts/document_preflight.py"
+      - "tests/testplan_lint.py"
       - ".github/workflows/docs-quality.yml"
   pull_request:
     paths:
@@ -44,5 +45,7 @@ jobs:
       - name: Install format validators
         run: python -m pip install python-pptx PyMuPDF
       # So merken wir, wenn eine Folie, PDF-Seite oder ein Dateilink kaputt ist.
+      - name: Validate Markdown test tables
+        run: python tests/testplan_lint.py
       - name: Technical preflight for all published documents
         run: python scripts/document_preflight.py
