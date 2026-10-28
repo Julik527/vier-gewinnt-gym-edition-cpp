@@ -1,7 +1,7 @@
 # JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   .github/workflows/docs-quality.yml
-# Aufgabe: Prueft die veroeffentlichten Dokumente ohne sie zu ueberschreiben.
+# Aufgabe: Prüft die veröffentlichten Dokumente ohne sie zu überschreiben.
 # ------------------------------------------------------------
 
 name: Document & Brand QA
@@ -31,7 +31,7 @@ on:
 permissions:
   contents: read
 
-# Der Check veraendert keine Dateien im Repository.
+# Der Check verändert keine Dateien im Repository.
 jobs:
   validate-artifacts:
     runs-on: ubuntu-latest
