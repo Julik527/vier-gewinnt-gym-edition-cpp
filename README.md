@@ -27,7 +27,7 @@ Objektorientiertes Vier-Gewinnt-Konsolenspiel für **2 bis 4 Personen** mit vari
 Im Projektstammordner ein Terminal öffnen:
 
 ```powershell
-g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/Game.cpp -o vier-gewinnt.exe
+g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/Game.cpp src/ConsoleUI.cpp -o vier-gewinnt.exe
 .\vier-gewinnt.exe
 ```
 
@@ -64,7 +64,9 @@ Das Hauptmenü ist bewusst kompakt. **Neues Spiel** führt in einem Ablauf durch
 
 **Nach einem Sieg oder Remis** erscheint ein eigener Ergebnisbildschirm. Dort gibt es **1 Revanche** (dieselben Spieler, neues leeres Feld), **2 Neues Spiel** (mit neuer Spieler-Einrichtung) oder **0 Hauptmenü**. Bei der Revanche bleiben Namen und Symbole erhalten. Der Ergebnisbildschirm zeigt zusätzlich die bisherigen Gesamtsiege aller beteiligten Spieler. Der Highscore steigt nur einmal pro tatsächlich gewonnener Partie.
 
-**Ruhige Terminaldarstellung:** Das Spielfeld wird nicht bei jeder Hilfe- oder Fehleingabe komplett neu ausgegeben, sondern vor allem nach echten Spielzügen, Undo oder einer Vorschau. Die optionale Animation ist standardmäßig ausgeschaltet und verwendet keine ANSI-Bildschirmlöschung. Mit `A` lässt sie sich im Spiel aktivieren.
+**JK-AXIS-Trainings-Arena:** Neues Terminal-Layout mit Titel, Gym-Edition-Motto, klar nummerierten Spalten, durchgehenden Feldlinien, farblich hervorgehobenen Hantelsymbolen `[R]`, `[B]`, `[G]`, `[Y]`, Spielerübersicht, Gesamtsiegen, Zugstatus und festen Tastenhinweisen. Beim Sieg werden die zusammenhängenden Gewinnfelder mit `{R}` beziehungsweise dem passenden Symbol markiert. Der Ergebnisbildschirm zeigt die letzte Runde und die Revanche-Auswahl.
+
+**Ruhige Terminaldarstellung:** Das Spielfeld wird nur bei wichtigen Änderungen neu aufgebaut. In kompatiblen interaktiven Terminals aktualisiert es sich an derselben Bildschirmposition. Bei Umleitung, fehlender ANSI-Unterstützung oder `NO_COLOR` bleiben Rahmen, Buchstaben und Texte ohne Farbcodes lesbar. Die optionale, kurze Animation ist standardmäßig ausgeschaltet; `A` schaltet sie um. Ein Fensterprogramm oder eine Maussteuerung ist noch nicht Bestandteil dieser Ausgabe.
 
 Die komplette Menüführung, Beispiele und Abnahmeszenarien stehen in [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md).
 
@@ -77,6 +79,7 @@ Der [Code- und Kommentarleitfaden](docs/CODE_STYLE_JK_AXIS.md) zeigt den Aufbau 
 ## Architektur
 
 - `Game` (`include/Game.h`, `src/Game.cpp`) steuert Menü, Spielerwechsel und Persistenz.
+- `ConsoleUI` (`include/ConsoleUI.h`, `src/ConsoleUI.cpp`) zeichnet das Gym-Edition-Layout für Hauptmenü, Arena und Ergebnis.
 - `Board` (`include/Board.h`, `src/Board.cpp`) hält das Raster und prüft Spielzüge/Gewinn.
 - `Player` (`include/Player.h`) speichert Name und Symbol.
 - `Move` (`include/Game.h`) speichert Zugdaten der Undo-Historie.
