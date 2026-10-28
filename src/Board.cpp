@@ -125,7 +125,7 @@ void Board::print(int previewColumn, char previewSymbol) const {
     std::cout << "    " << std::string(columns_ * 6 + 1, '-') << "\n";
 }
 
-// Die Animation zeigt nur Bilder nacheinander. Das eigentliche Feld bleibt unverändert.
+// Die kurze Animation zeigt Punkte statt den Bildschirm zu leeren.
 void Board::animateDrop(int column, char symbol, int landingRow) const {
     // Eine kurze Zeile statt dauernd den ganzen Bildschirm zu loeschen.
     // Das klappt auch in Terminals ohne besondere ANSI-Unterstuetzung.
