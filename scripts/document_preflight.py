@@ -2,13 +2,13 @@
 # JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   scripts/document_preflight.py
-# Aufgabe: Kontrolliert Präsentation, PDFs und Dateilinks, ohne sie zu ändern.
+# Aufgabe: Kontrolliert Präsentation, PDFs und alle Markdown-Dateilinks, ohne sie zu ändern.
 # ------------------------------------------------------------
 
 """Prüft die veröffentlichten Projektdateien auf technische Fehler.
 
 Kontrolliert die erwarteten PDF-Seiten, jede PowerPoint-Folie, SVG-Dateien
-und lokale Verweise der README. Die Dateien werden nicht verändert.
+und lokale Verweise aller Markdown-Dateien. Die Dateien werden nicht verändert.
 """
 from __future__ import annotations
 import argparse
@@ -20,13 +20,13 @@ import xml.etree.ElementTree as ET
 
 # Diese Seitenzahlen erwarten wir bei den veröffentlichten PDFs.
 EXPECTED_PDFS = {
-    "reference/Anforderungsanalyse_JK-CD-DE-2026-003.pdf": 19,
-    "reference/Gesamt_Dokumentation_Vier_Gewinnt_Gym_Edition.pdf": 84,
-    "reference/KI_Prompt_Dokumentation_JK-CD-DE-2026-003.pdf": 16,
-    "reference/Meilenstein_2026-10-29_Pruefbericht.pdf": 7,
-    "reference/UML_Klassendiagramm_JK-CD-DE-2026-003.pdf": 6,
+    "reference/Anforderungsanalyse_JK-CD-DE-2026-003.pdf": 23,
+    "reference/Gesamt_Dokumentation_Vier_Gewinnt_Gym_Edition.pdf": 92,
+    "reference/KI_Prompt_Dokumentation_JK-CD-DE-2026-003.pdf": 27,
+    "reference/Meilenstein_2026-10-29_Pruefbericht.pdf": 10,
+    "reference/UML_Klassendiagramm_JK-CD-DE-2026-003.pdf": 11,
     "praesentation/Vier_Gewinnt_Praesentation_FINAL.pdf": 17,
-    "praesentation/Vier_Gewinnt_Vortragsleitfaden_FINAL.pdf": 2,
+    "praesentation/Vier_Gewinnt_Vortragsleitfaden_FINAL.pdf": 3,
 }
 PPTX = "praesentation/Vier_Gewinnt_Praesentation_FINAL.pptx"
 LEGACY_IMAGE_SHA_PREFIX = "bffb61e37fae"
@@ -100,6 +100,10 @@ def check(root: Path, presentation_only: bool = False) -> int:
                         errors.append(f"{relative}: page {index} has invalid dimensions")
                         continue
                     # Alle Seiten prüfen, nicht nur die erste.
+                    # Interne PDF-Sprungziele muessen nach neuen Nachtraegen stimmen.
+                    for link in page.get_links():
+                        if link.get("kind") == fitz.LINK_GOTO and not 0 <= link.get("page", -1) < len(pdf):
+                            errors.append(f"{relative}: page {index} links outside the document")
                     pix = page.get_pixmap(matrix=fitz.Matrix(0.65, 0.65), alpha=False)
                     if pix.width <= 0 or pix.height <= 0:
                         errors.append(f"{relative}: page {index} rendered empty")
@@ -108,18 +112,23 @@ def check(root: Path, presentation_only: bool = False) -> int:
             errors.append(f"{relative}: cannot open/render PDF: {error}")
 
     if not presentation_only:
-        readme = root / "README.md"
-        if readme.is_file():
-            md = readme.read_text(encoding="utf-8")
-            # Hier prüfen wir lokale Links aus der README auf fehlende Dateien.
+        if not (root / "README.md").is_file():
+            errors.append("README.md is missing")
+        markdown_files = sorted(root.rglob("*.md"))
+        markdown_files = [file for file in markdown_files
+                          if ".git" not in file.relative_to(root).parts
+                          and not any(part.startswith("build") for part in file.relative_to(root).parts)]
+        for file in markdown_files:
+            md = file.read_text(encoding="utf-8")
+            if any(ord(char) < 32 and char not in "\n\r\t" for char in md):
+                errors.append(f"Unexpected control character in {file.relative_to(root)}")
             for link in re.findall(r"\]\(([^)]+)\)", md):
-                address = link.split("#", 1)[0]
+                address = link.split("#", 1)[0].strip("<>")
                 if not address or "://" in address or address.startswith("mailto:"):
                     continue
-                if not (root / address).exists():
-                    errors.append(f"Broken README link: {address}")
-        else:
-            errors.append("README.md is missing")
+                if not (file.parent / address).resolve().exists():
+                    errors.append(f"Broken Markdown link: {file.relative_to(root)} -> {address}")
+        notes.append(f"Markdown: {len(markdown_files)} files checked for local links")
 
     print("\n".join(notes))
     if errors:

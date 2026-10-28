@@ -1,27 +1,34 @@
-# Meilenstein – Donnerstag, 29.10.2026
+# Meilenstein am Donnerstag, 29.10.2026
 
-**Stand des Projektchecks:** 25.10.2026. Dokumentstatus von Testergebnissen und Remote-Nachweisen getrennt prüfen.
+**Aktualisierter Prüfstand:** Arbeitstag 28.10.2026 · **Ausgangscommit:** `02eb79f8`
+Der Bericht dokumentiert den technischen Entwicklungsstand. Eine schulische Freigabe wird nicht vorweggenommen.
 
-| Bereich | Nachweis | Offene Kontrolle |
+| Bereich | Aktueller Nachweis | Noch offen |
 |:--|:--|:--|
-| Projektstart | Entwicklungsdateien seit 22.10.2026 | Falls nötig schriftlich bestätigen |
-| Anforderungen | FR-01–FR-18, Anforderungsanalyse | Mit Lehrer abstimmen |
-| Product Backlog | `docs/PRODUCT_BACKLOG.md` mit 18 Punkten | Priorität verfolgen |
-| Klassenentwurf | Game, Board, Player, Move; UML-PDF unter `reference/` auf GitHub | Im Fachgespräch erklären |
-| Menü-Prototyp | `Game::run()`, Hauptmenü 0–5, geführter Spielstart; neue Integrationstests vorbereitet | Am Schulrechner und in CI ausführen, Ergebnis dokumentieren |
-| GitHub | Öffentliches Repository, Textdateien plus acht PDFs/PPTX-Dateien (Commit `53612455`) | Build vorführen und ggf. Download auf Schulrechner testen |
-| KI-Dokumentation | Promptregister als Markdown und PDF unter `reference/` | Vollständige Chat-Exportpflicht ggf. separat klären |
+| Projektstart | Entwicklungsstand seit 22.10.2026, Projektauftrag aktualisiert | Projektziel selbst erläutern |
+| Anforderungen | FR-01–FR-18 erhalten, neue GUI-/Audio-/Logo-Ergänzungen getrennt dokumentiert | Mit Lehrkraft abgleichen |
+| Product Backlog | PB-01–PB-18 erhalten, PB-19–PB-24 ergänzen Zusatzumfang und Abnahme | Priorität und offenen Status verfolgen |
+| Klassenentwurf | Game, Board, Player, Move sowie ConsoleUI, MatchSession, GymMove und App beschrieben | Unterschiede am Code erklären |
+| Menü | Geführter Start, Fortsetzen, Ergebnis und Revanche | Am Schulrechner vorführen |
+| GitHub | Öffentliches Repository mit acht PDF-/PPTX-Dateien, aktueller Zusatzstand in Draft-PR #1 | Kein automatischer Merge nach main |
+| Automatische Qualität | Sechs C++-/GUI-Jobs und Dokumentenjob am Ausgangsstand erfolgreich | Zielgeräteprüfung ergänzen |
+| KI-Dokumentation | Historisches Register erhalten, heutige Aufträge und Fehler ergänzt | Kein vollständiger technischer Chat-Export behauptet |
+| Vortrag | PPTX/PDF und Leitfaden auf Konsole plus 2D-GUI aktualisiert | PowerPoint- und Beamerprobe |
 
-**Hinweis:** Eine ältere PDF-Prüffassung entstand vor dem tatsächlichen GitHub-Upload. Der Repositorystatus ist in dieser Markdown-Datei aktualisiert.
+## Heutiger Fortschritt
 
-## Erweiterung der Menüführung vom 28.10.2026
+Die JK-AXIS-Gestaltung und die schülergerechten Kommentarrichtlinien sind dokumentiert. Das Terminalspiel erhielt eine Trainings-Arena und einen durchgängigen Menüablauf. Der Entwicklungsbranch ergänzt eine echte SFML-2D-Anwendung, sicheren Dateiersatz, GUI-unabhängige MatchSession-Tests, Musikschalter, Schullogo und ein Skript für die nacheinander ausgeführte Vorführung.
 
-Das Projekt enthält jetzt einen Ergebnisbildschirm, Revanche mit denselben Spielern, einen aktiven Menüstatus sowie eine ruhigere Terminaldarstellung. Die ergänzten Akzeptanztests in `tests/integration_smoke.py` prüfen unter anderem zwei aufeinanderfolgende Siege und das korrekte Highscore-Verhalten. **Diese Ergänzung ist ein Implementierungsstand, keine bestätigte Schul- oder Windows-Abnahme.**
+Wikimedia antwortete beim Logo-Download mit HTTP 429. Das Projekt verwendet einen dokumentierten alternativen Bildhost und enthält inzwischen eine skalierte JPEG-Kopie. Der zuletzt gemeldete F5-Fehler betraf CMake im Suchpfad. Die Build-Aufgaben wurden korrigiert. Der erfolgreiche lokale Wiederholungsversuch ist noch nicht belegt.
 
-## Ausstehend
-Manuelle vollständige Systemtests, Windows-Präsentation, finale Prüfung der erzeugten Dokumente, ggf. Aufgabenabnahme am 29.10.2026.
-## Update vom 28.10.2026
+## Nachweise
 
-Die Projektdateien wurden auf JK AXIS | GOLD MASTER gebrandet, die Quelltexte wurden um eine strengere Savegame-Prüfung ergänzt und ein CMake-/CTest-Projekt samt GitHub-Actions-Workflows eingerichtet. Diese Ergänzungen sind **keine rückwirkende schulische Freigabe**.
+- [Aktueller C++-/GUI-Lauf](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779797878) und [Dokumentenlauf](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779798112).
+- [Gesicherter CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json).
+- [Entwicklungsprotokoll](DEVELOPMENT_LOG_2026-10-28.md), [Architektur](ARCHITECTURE.md) und [Dokumentenaudit](DOCUMENTATION_AUDIT_2026-10-28.md).
 
-**Vor dem Termin am 29.10.2026:** Die GitHub-Actions-Ergebnisse prüfen, möglichst einen vollständigen Build und eine Spielrunde unter Windows vorführen, das Dokumenten-Preflight-Ergebnis sichern und die Visualisierung der Präsentation auf dem Vorführgerät testen. Siehe [Qualitätssicherung](QUALITY_AND_TESTS.md).
+Die ältere sieben Seiten lange PDF-Prüfung beschreibt den Stand vom 25.10.2026. Der aktualisierte PDF-Nachtrag stellt den heutigen Stand vor diesen historischen Teil. Die dortige Aussage „GitHub-Veröffentlichung offen“ gilt nur für den damaligen Prüfzeitpunkt.
+
+## Vor dem Unterricht
+
+Beide F5-Profile auf dem vorgesehenen Rechner starten. Eine Runde mit Revanche und Speichern/Laden testen. Schullogo und Audio prüfen. Präsentation und Codeerklärung proben. Beobachtungen erst nach dem tatsächlichen Test in die manuellen Pläne eintragen.

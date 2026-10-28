@@ -1,0 +1,34 @@
+# Änderungsprotokoll
+
+## 28.10.2026: Entwicklungsstand Gym Edition 2.0
+
+### Gestaltung und Projektdokumentation
+
+- JK-AXIS-Präzisionssymbol in README und Projektunterlagen integriert. Historische Logo-Migration: `ea8bbef8`.
+- Kommentarrichtlinien mit Dateiköpfen und verständlicher Schülersprache ergänzt.
+- Heutigen Entwicklungsverlauf, Fehlerberichte, KI-Prompts, tatsächliche CI-Ergebnisse und offene Zielgeräteprüfung dokumentiert.
+- Präsentation auf Konsole plus echte 2D-GUI aktualisiert. Alte Planungsunterlagen in den PDF-Nachträgen eindeutig als historisch eingeordnet.
+
+### Bedienung und Stabilität
+
+- Geführter Start, Fortsetzen, Ergebnisbildschirm und Revanche.
+- Trainings-Arena, dauerhafte Vorschau, lesbare lange Namen und sichtbare Gewinnlinie.
+- Sicherer Dateiersatz über `.tmp`; vorhandene Dateien bleiben bei den geprüften Fehlerfällen erhalten (`30ea62f`, danach gemeinsamer Helfer `34765ca`).
+- Echte Fallbilder statt Punkt-Fortschritt (`4558ba3`, `3a13d28`).
+- Beschädigten Markdown-Testplan repariert und Strukturprüfung ergänzt (`681b663`, `bb96456`).
+
+### Zusätzliche 2D-Version
+
+- Optionales SFML-3.1.0-Ziel mit Maus/Tastatur und testbarer MatchSession (`17d5aee`, `fa594f3`).
+- Synthetischer 120-BPM-Beat, F9-Schalter, gut hörbarer Melodiebereich und Audio-Gerätediagnose (`939e5f2`, `ff83551`, `274d98a`). Hörtest bleibt offen.
+- Schullogo mit Quellenhinweis, alternativer Bezugsquelle bei HTTP 429 und lokaler Installation. Skalierte JPEG-Kopie eingecheckt (`b7c9f44`, `7c50fef`, `702bdf7`).
+- Beide Vorführwege nacheinander über `scripts/demo.ps1` (`6e42b08`).
+- UCRT64-Suchpfad in beide GUI-Build-Aufgaben aufgenommen (`ab83df11`). Lokaler Wiederholungsversuch noch offen.
+
+### Verifikation und Übergabe
+
+Sechs C++-/GUI-Jobs und Dokumentenjob am Ausgangscommit `02eb79f8` erfolgreich. Beleg: [CI-Snapshot](docs/evidence/CI_SNAPSHOT_2026-10-28.json). Keine automatische Übernahme des [Draft-PR #1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1) nach `main`. Windows-F5, Hörtest, vollständige manuelle Spielrunde und PowerPoint-/Beamerprobe sind weiterhin offen.
+
+## 25.10.2026: Abgabegrundlage
+
+Anforderungsanalyse, ursprüngliches Klassenmodell, Backlog, KI-Protokoll, Präsentation und historische Linux-Tests. Die acht PDF-/PPTX-Dateien wurden im Upload-Commit `53612455` veröffentlicht. Die ursprünglichen Nachweise bleiben als Historie erhalten.

@@ -9,8 +9,8 @@
 # JK AXIS | GOLD MASTER
 ## Kommentar- und Codeleitfaden – Vier Gewinnt | Gym Edition
 
-**Projekt:** C++17 · Programmiertechnik · Schulprojekt  
-**Stand:** 28.10.2026  
+**Projekt:** C++17 · Programmiertechnik · Schulprojekt
+**Stand:** 28.10.2026
 **Ziel:** Der Code soll ordentlich aussehen und sich im Unterricht einfach erklären lassen.
 
 ### 1. Einheitlicher Dateikopf
@@ -70,3 +70,23 @@ int Board::nextFreeRow(int column) const {
 Das **JK-AXIS-Präzisionslogo** steht in der Projekt-README und in diesem Leitfaden. In den Quelltexten sorgt ein kompakter Dateikopf für Wiedererkennung. Farben, große Schriftzüge oder Sonderzeichen im C++-Code würden die Lesbarkeit im Editor eher verschlechtern.
 
 **Wichtig:** Kommentare helfen beim Verstehen. Sie ersetzen weder funktionsfähigen Code noch Tests. Die aktuelle technische Testabdeckung steht in [QUALITY_AND_TESTS.md](QUALITY_AND_TESTS.md).
+
+### 6. Ergänzte Dateien der 2D-Version
+
+| Datei | Aufgabe |
+|:--|:--|
+| `include/ConsoleUI.h`, `src/ConsoleUI.cpp` | Terminalansichten und echte Animationsbilder |
+| `include/MatchSession.h`, `src/MatchSession.cpp` | Testbarer Spielzustand der GUI, ohne SFML |
+| `include/AtomicFile.h` | Gemeinsamer sicherer Dateiersatz |
+| `src/gui/Main.cpp` | SFML-Fenster, Bildschirmzustände, Eingaben und Darstellung |
+| `src/gui/GymBeat.h` | Synthetischer 120-BPM-Loop und Audio-Schalter |
+| `tests/match_session_tests.cpp` | GUI-Spielkern, Dateien, Revanche und Highscore |
+| `tests/testplan_lint.py` | Struktur und IDs des manuellen Konsolentestplans |
+| `tests/verify_school_logo.py` | JPEG-Daten, Bildabmessungen und bekannte Original-Prüfsumme |
+| `tests/vscode_config_test.py` | Zusammenhang zwischen F5, Aufgaben und CMake-Quelldateien |
+| `scripts/demo.ps1` | GUI und Terminal nacheinander bauen und starten |
+| `scripts/install-school-logo.ps1` | Gültiges Schullogo aus Datei oder dokumentierter Quelle installieren |
+
+**Prüfbefund:** Die später ergänzten GUI-/Match-Dateien verwenden teilweise kürzere oder englische Kommentare. Die einheitlichen ausführlichen Dateiköpfe sind dort noch nicht überall vorhanden. Dieser Leitfaden beschreibt den gewünschten Stil und die tatsächlichen Aufgaben, behauptet aber keine bereits vollständige Kommentarvereinheitlichung.
+
+**Erklärungsbeispiel:** „Board kennt die Regeln des Rasters. MatchSession merkt sich zusätzlich, wer gerade dran ist, welche Züge gemacht wurden und ob die Runde beendet ist. App zeigt diese Daten im Fenster und verarbeitet die Eingaben.“

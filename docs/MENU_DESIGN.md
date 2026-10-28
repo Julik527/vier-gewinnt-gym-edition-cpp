@@ -9,7 +9,7 @@
 # Vier Gewinnt | Gym Edition
 ## Menüführung und Spielstart · JK AXIS | GOLD MASTER
 
-**Sprache:** C++17 · **Oberfläche:** Konsolenmenü  
+**Sprache:** C++17 · **Oberfläche:** Konsolenmenü
 **Version:** 28.10.2026
 
 ### Ziel
@@ -93,7 +93,7 @@ Nach einer gewonnenen Partie oder einem Remis erscheint ein eigener Bildschirm m
 Anleitung und Bestenliste bleiben auf einem interaktiven Terminal bis zum Bestätigen mit Enter sichtbar. Diese Pause wird bei automatisch umgeleiteter Testeingabe übersprungen.
 
 
-Das Spielfeld wird nach einem erfolgreichen Zug, einem Undo oder einer Vorschau neu ausgegeben. Hilfe, Info, Speichern und ungültige Eingaben drucken das unveränderte Spielfeld nicht noch einmal. Die Animation ist standardmäßig **ausgeschaltet**, lässt sich im Spiel aber mit `A` einschalten. Statt des dauernden Löschens des Terminals zeigt sie eine kurze Fortschrittszeile. Dadurch bleibt die Konsole auch ohne ANSI-Steuerzeichen lesbar.
+Das Spielfeld wird nach einem erfolgreichen Zug, einem Undo oder einer Vorschau neu ausgegeben. Hilfe, Info, Speichern und ungültige Eingaben drucken das unveränderte Spielfeld nicht noch einmal. Die Animation ist standardmäßig **ausgeschaltet**, lässt sich im Spiel aber mit `A` einschalten. Die aktuelle Umsetzung zeigt mehrere vollständige Spielfeldbilder mit fallender Hantel. Dabei erfolgt keine wiederholte komplette Terminal-Löschung. Die frühere Fortschrittszeile ist historisch. Ohne geeignete Terminalunterstützung bleibt eine einfache Textdarstellung verfügbar.
 
 ### Was passiert bei Fehlern?
 
@@ -126,4 +126,10 @@ Das Spielfeld wird nach einem erfolgreichen Zug, einem Undo oder einer Vorschau 
 
 Die Datei [`tests/integration_smoke.py`](../tests/integration_smoke.py) enthält automatisierte Szenarien für das neue Menü einschließlich Start, fehlerhafter Eingaben, Abbruch, Fortsetzen, Laden, Revanche und zwei aufeinanderfolgenden Siegen. Ein erfolgreicher Testlauf muss über CTest beziehungsweise GitHub Actions bestätigt werden. Die Dokumentation behauptet keine bestandene Windows-Prüfung ohne tatsächliches Ergebnis.
 
-**Gestaltung:** Einheitliches JK-AXIS-Logo und ruhige ASCII-Struktur. Die Benutzeroberfläche bleibt absichtlich ein Terminalprogramm; eine grafische Windows-GUI wurde nicht vorgetäuscht.
+**Gestaltung dieses Frontends:** Einheitliche JK-AXIS-Bezeichnung und ruhige ASCII-Struktur. Dieser Leitfaden beschreibt das Terminalmenü. Die zusätzliche echte SFML-2D-GUI besitzt einen eigenen Startassistenten und Bildschirmzustände.
+
+## Unterschied zur 2D-Version und aktueller Nachweis
+
+In der Konsole beginnt die Runde direkt nach der letzten Namenseingabe. Die GUI zeigt davor noch eine Zusammenfassung mit Startbestätigung. Der GUI-Abbruch erfolgt über Schaltflächen oder Esc. Beide Varianten behalten eine laufende Runde bei abgebrochener Einrichtung bei. Die Konsole verwendet `Game`, die GUI `App` mit `MatchSession`.
+
+Die beschriebenen automatisierten Konsolenszenarien sind am Ausgangsstand `02eb79f8` in der Linux-/Windows-Matrix erfolgreich. Beleg: [CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json). Der vollständige manuelle Durchlauf bleibt in den Testplänen offen.

@@ -15,12 +15,12 @@
   <a href="https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/workflows/docs-quality.yml"><img alt="Dokumentenprüfung" src="https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/workflows/docs-quality.yml/badge.svg"></a>
 </p>
 
-**C++17-Schulprojekt (ITA / Programmiertechnik, 2026/27)**  
-**GitHub:** https://github.com/Julik527/vier-gewinnt-gym-edition-cpp · öffentlich.  
-**Status: Entwicklungsstand vom 28.10.2026.** Das Repository stellt **keine bereits benotete oder vollständig abgenommene Endfassung** dar.
+**C++17-Schulprojekt (ITA / Programmiertechnik, 2026/27)**
+**GitHub:** https://github.com/Julik527/vier-gewinnt-gym-edition-cpp · öffentlich.
+**Status: Entwicklungsstand vom 28.10.2026.** Konsole plus optionale SFML-2D-GUI. Der aktuelle Zusatzumfang liegt im [Draft-Pull-Request #1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1) auf `quality/gameplay-persistence-2026-10-28` und ist noch nicht in `main` übernommen. Die schulische Endabnahme bleibt offen.
 
 ## Projektziel
-Objektorientiertes Vier-Gewinnt-Konsolenspiel für **2 bis 4 Personen** mit variablen Spielfeldgrößen (7×6, 9×8, 11×10), Spielerverwaltung, vier Gewinnrichtungen, Remis, Eingabekontrolle und lokalem Speichern/Laden sowie Highscore. Die ASCII-Kurzhanteln sind die Gym-Edition-Darstellung. Eine fotorealistische oder klickbare 3D-GUI ist **nicht implementiert**; entsprechende Bilder sind Mockups.
+Objektorientiertes Vier-Gewinnt-Spiel für **2 bis 4 Personen** mit variablen Spielfeldgrößen (7×6, 9×8, 11×10), vier Gewinnrichtungen, Remis, Eingabekontrolle, Speichern/Laden und Highscore. Es gibt zwei getrennte Programme: die C++17-Konsole mit Hantelsymbolen und die zusätzliche SFML-2D-Anwendung mit Maus/Tastatur, fallenden Hanteln, schaltbarem Gym-Beat und Schullogo. Die älteren fotorealistischen 3D-Bilder bleiben Design-Mockups. [Architektur](docs/ARCHITECTURE.md) und [heutiges Entwicklungsprotokoll](docs/DEVELOPMENT_LOG_2026-10-28.md) erklären den tatsächlichen Stand.
 
 ## Schnellstart (Windows mit MSYS2 UCRT64 / g++)
 
@@ -48,7 +48,7 @@ Falls **F5** nicht startet: Über **Terminal → Buildaufgabe ausführen** zunä
 
 ## Schulvorführung: Logo, Musik und zwei Versionen
 
-**Schullogo:** Das Schulkennzeichen der **Bernd-Blindow-Schulen Ravensburg** wird in der 2D-Version als originales JPG gezeigt, wenn `assets/school/bernd-blindow-schulen.jpg` existiert. Mit `powershell -File scripts/install-school-logo.ps1` kann es aus Wikimedia Commons geladen werden. Die Nutzung und das CC-BY-SA-4.0-Attribut sind in [docs/SCHOOL_LOGO.md](docs/SCHOOL_LOGO.md) dokumentiert. Bei fehlender Grafik wird der Schulname als Text angezeigt, nicht als erfundenes Logo. In der PowerShell-Version steht der Schulname im Menü und über der Arena.
+**Schullogo:** Das Schulkennzeichen der **Bernd-Blindow-Schulen Ravensburg** liegt bereits als dokumentierte skalierte JPEG-Kopie unter `assets/school/bernd-blindow-schulen.jpg` im Entwicklungsbranch. Die GUI lädt es aus dem Projekt- oder EXE-Umfeld, CMake kopiert es neben die EXE. Falls es lokal fehlt, unterstützt `scripts/install-school-logo.ps1` eine alternative Bildquelle, Wikimedia als weiteren Versuch und `-LocalFile`. Damit wird die gemeldete HTTP-429-Sperre berücksichtigt. Die Nutzung und das CC-BY-SA-4.0-Attribut sind in [docs/SCHOOL_LOGO.md](docs/SCHOOL_LOGO.md) dokumentiert. Bei fehlender Grafik wird der Schulname als Text angezeigt, nicht als erfundenes Logo. In der PowerShell-Version steht der Schulname im Menü und über der Arena.
 
 **Musik:** Die 2D-Version enthält einen selbst programmierten instrumentalen **120-BPM-Gym-Beat** ohne fremde Aufnahme. Standardmäßig ist sie **aus**: Oben rechts `MUSIK AN (F9)` anklicken oder **F9** drücken. Die Lautstärke des Spielsignals beträgt jetzt 65 %; zusätzlich wirkt der Windows-Lautstärkemixer. Die Anzeige meldet den Abspielstatus oder ein fehlendes Audiogerät. Überprüfe bei Stille die Windows-Ausgabe (Lautsprecher/Kopfhörer, App-Lautstärkemixer). Mit `vier-gewinnt-gui.exe --audio-devices` werden erkannte Geräte im Terminal ausgegeben.
 
@@ -71,7 +71,7 @@ Neben der bisherigen Terminal-Anwendung gibt es jetzt ein **eigenes grafisches Z
 ```bash
 cmake -S . -B build-gui -DGYM_BUILD_GUI=ON -DCMAKE_BUILD_TYPE=Release
 cmake --build build-gui --config Release --target vier-gewinnt-gui
-ctest --test-dir build-gui -C Release --output-on-failure
+ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_window_smoke'
 ```
 
 Unter Windows entsteht die EXE je nach Generator unter `build-gui/Release/vier-gewinnt-gui.exe` (Visual Studio) oder `build-gui/vier-gewinnt-gui.exe` (Ninja/MinGW). Für MSYS2 UCRT64 zuerst den UCRT64-Compiler und CMake/Ninja verfügbar machen; die GUI hat eine eigene Abhängigkeitskette und wird nicht von der alten `g++`-Task kompiliert.
@@ -92,7 +92,7 @@ Für manuelle Build-Befehle in einem PowerShell-Terminal gilt dessen eigener Suc
 
 **Systemschrift:** Für Text benutzt die GUI vorhandene Schriftdateien (Segoe UI/Arial unter Windows, DejaVu/Liberation unter Linux). Schriftdateien werden nicht im Repository kopiert.
 
-**Automatisierte Prüfung:** `match_session_tests` kontrolliert Spielzustand, Sicherung, Laden, Gewinn, Revanche und bestehende Highscores ohne grafischen Bildschirm. `vier-gewinnt-gui --self-test` prüft den minimalen GUI-Kern ohne Fenster. Ein tatsächlicher interaktiver Windows-/Linux-Sichttest mit Maus und Tastatur ist weiterhin gesondert zu protokollieren; siehe [GUI-Testplan](docs/GUI_TESTPLAN.md).
+**Automatisierte Prüfung:** Vor dem obigen CTest-Aufruf auch `cmake --build build-gui --config Release --target match_session_tests` ausführen. Ohne eingeschränkten `-R`-Filter müssen zuerst alle Testziele gebaut werden. `match_session_tests` kontrolliert Spielzustand, Sicherung, Laden, Gewinn, Revanche und bestehende Highscores ohne grafischen Bildschirm. `vier-gewinnt-gui --self-test` prüft den minimalen GUI-Kern ohne Fenster. Ein tatsächlicher interaktiver Windows-/Linux-Sichttest mit Maus und Tastatur ist weiterhin gesondert zu protokollieren; siehe [GUI-Testplan](docs/GUI_TESTPLAN.md).
 
 ## Reproduzierbarer CMake-Build
 
@@ -133,7 +133,7 @@ Das Hauptmenü ist bewusst kompakt. **Neues Spiel** führt in einem Ablauf durch
 
 **Lesbare Infoseiten:** Anleitung, Bestenliste und wichtige Meldungen bleiben auf einem echten Terminal sichtbar, bis du Enter drückst. Bei automatisierten Tests mit umgeleiteter Eingabe erfolgt kein zusätzlicher Stopp.
 
-**Ruhige Terminaldarstellung:** Das Spielfeld wird nur bei wichtigen Änderungen neu aufgebaut. In kompatiblen interaktiven Terminals aktualisiert es sich an derselben Bildschirmposition. Bei Umleitung, fehlender ANSI-Unterstützung oder `NO_COLOR` bleiben Rahmen, Buchstaben und Texte ohne Farbcodes lesbar. Die optionale Animation zeigt echte Positionsänderungen der Hantel innerhalb des Feldes über mehrere Frames; sie ist standardmäßig ausgeschaltet und kann mit `A` aktiviert werden. Ein Fensterprogramm oder eine Maussteuerung ist noch nicht Bestandteil dieser Ausgabe.
+**Ruhige Terminaldarstellung:** Das Spielfeld wird nur bei wichtigen Änderungen neu aufgebaut. In kompatiblen interaktiven Terminals aktualisiert es sich an derselben Bildschirmposition. Bei Umleitung, fehlender ANSI-Unterstützung oder `NO_COLOR` bleiben Rahmen, Buchstaben und Texte ohne Farbcodes lesbar. Die optionale Animation zeigt echte Positionsänderungen der Hantel innerhalb des Feldes über mehrere Frames; sie ist standardmäßig ausgeschaltet und kann mit `A` aktiviert werden. Diese Beschreibung gilt für die Terminalausgabe. Die zusätzliche SFML-Version besitzt ein eigenes Fenster und Maussteuerung.
 
 Die neue Arena mit Spielerfarben, Hantelsymbolen, Gewinnmarkierung und Terminal-Kompatibilität ist im [JK-AXIS-Arena-Leitfaden](docs/ARENA_DESIGN.md) dokumentiert. Die komplette Menüführung, Beispiele und Abnahmeszenarien stehen in [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md).
 
@@ -151,6 +151,12 @@ Der [Code- und Kommentarleitfaden](docs/CODE_STYLE_JK_AXIS.md) zeigt den Aufbau 
 - `Player` (`include/Player.h`) speichert Name und Symbol.
 - `Move` (`include/Game.h`) speichert Zugdaten der Undo-Historie.
 - `src/main.cpp` erzeugt das `Game`-Objekt und ruft `run()` auf.
+- `MatchSession` kapselt den Partiezustand der GUI ohne SFML. Die Konsole nutzt weiterhin `Game`.
+- `App` in `src/gui/Main.cpp` verarbeitet Fensterereignisse und zeichnet die GUI.
+- `GymBeat` in `src/gui/GymBeat.h` erzeugt den synthetischen Soundtrack.
+- `gym::writeSafely` in `include/AtomicFile.h` ersetzt Dateien nach erfolgreichem Schreiben.
+
+Der genaue Zusammenhang steht in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Tests und Qualitätsnachweise
 
@@ -162,15 +168,23 @@ ctest --test-dir build -C Debug --output-on-failure
 
 Die Tests umfassen Spielfeldgrößen, Schwerkraft, Gewinnlinien samt Markierung, ConsoleUI-Darstellung für 2/4 Spieler sowie über `tests/integration_smoke.py` den durchgängigen Spielstart, Abbruch/Fortsetzen, Namen, Vorschau, Undo, Laden/Speichern, beschädigte Dateien, Gewinnen, Revanche mit unveränderten Namen, Ergebnisnavigation, ruhige Darstellung und dauerhafte Highscores.
 
-**Nachweisstand:** Die Board-Tests und der Konsolen-Smoke-Test vom 25.10.2026 wurden historisch auf Linux ausgeführt. Der erweiterte Testkatalog und die GitHub-Actions-Matrix wurden am 28.10.2026 ergänzt. Die erfolgreichen CI-Läufe und der Windows-Schulrechner müssen anhand ihrer tatsächlichen Ergebnisse bestätigt werden. Keine Schul- oder Produktfreigabe wird daraus abgeleitet. Siehe [Qualität und Tests](docs/QUALITY_AND_TESTS.md).
+**Nachweisstand:** Am Ausgangscommit `02eb79f8` sind [alle sechs C++-/GUI-Jobs](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779797878) sowie der [Dokumentenjob](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779798112) erfolgreich. Der [CI-Snapshot](docs/evidence/CI_SNAPSHOT_2026-10-28.json) enthält die abgefragten Jobstatus. Das belegt automatisierte Runner-Prüfungen. Der zuletzt gemeldete lokale CMake-/F5-Fehler, echte Audioausgabe, vollständige Bedienrunde und PowerPoint-/Beamerprobe müssen am Zielgerät erneut geprüft werden. Siehe [Qualität und Tests](docs/QUALITY_AND_TESTS.md).
 
 ## Design und Dateien
 
 Die Projektpräsentation, Anforderungsanalyse, UML-Dokumentation, Meilensteinbericht, KI-Prompt-Dokumentation, Gesamtdokumentation und der Vortragsleitfaden wurden am 28.10.2026 technisch auf **JK AXIS | GOLD MASTER** aktualisiert. In der PowerPoint wurden 17 Legacy-Logos und 17 ältere Designkennzeichnungen ersetzt. Weitere acht identifizierte Logobilder wurden in den PDFs ausgetauscht; die Präsentations-PDF wurde aus der neuen PowerPoint erzeugt.
 
-Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_REPORT.md) nachgewiesen. Die [technische Dokumentprüfung](scripts/document_preflight.py) prüft PDF-Seiten, PowerPoint-Struktur, SVG-Grafiken und lokale README-Links. Für eine endgültige Freigabe bleibt die visuelle Einzelkontrolle und ein PowerPoint-Test am Zielgerät notwendig.
+Die zusätzliche Dokumentationsrunde aktualisiert alle 17 Folien und ergänzt die fünf Referenz-PDFs um aktuelle Nachträge. Die historischen Originalseiten bleiben gekennzeichnet erhalten. Der Vortragsleitfaden ist neu auf drei Seiten gesetzt. Der aktuelle Bestand umfasst 183 PDF-Seiten. Promptregister, Architektur, Entwicklungsprotokoll und Dateiaudit sind aufeinander abgestimmt.
+
+Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_REPORT.md) nachgewiesen. Die [technische Dokumentprüfung](scripts/document_preflight.py) prüft PDF-Seiten, PowerPoint-Struktur, SVG-Grafiken und lokale Verweise aller Markdown-Dateien. Für die endgültige Vorführung bleiben PowerPoint- und Beamerprüfung am Zielgerät notwendig.
 
 ## Dokumentation und Sprintstart
+
+- [Entwicklungsprotokoll 28.10.2026](docs/DEVELOPMENT_LOG_2026-10-28.md): Markenintegration, Menü, Stabilisierung, 2D-GUI, Musik, Logo und CMake-Fehler.
+- [Architektur](docs/ARCHITECTURE.md): gemeinsame Regeln und getrennte Frontends.
+- [Dokumentenaudit](docs/DOCUMENTATION_AUDIT_2026-10-28.md): alle geprüften Dokumente, Korrekturen und Archivteile.
+- [Vortragsleitfaden als Text](praesentation/VORTRAGSLEITFADEN.md): 15 Minuten Projekt plus 15 Minuten Code und beide Programme.
+- [Änderungsprotokoll](CHANGELOG.md): die wesentlichen Entwicklungsschritte.
 
 - [`docs/PROJECT_CHARTER.md`](docs/PROJECT_CHARTER.md) – Projektauftrag, Ziele, Grenzen
 - [`docs/PRODUCT_BACKLOG.md`](docs/PRODUCT_BACKLOG.md) – priorisierte Anforderungen und Abnahmebedingungen

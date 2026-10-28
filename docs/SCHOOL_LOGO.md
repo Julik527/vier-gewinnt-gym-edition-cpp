@@ -30,3 +30,11 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-school-logo.ps1 -Loca
 Die lokale Zieladresse ist `assets/school/bernd-blindow-schulen.jpg`. Die grafische Anwendung prüft den Projektordner und den Ordner der EXE. Der grafische CMake-Build nutzt ebenfalls die alternative Quelle vor Wikimedia und kopiert das Bild neben die EXE. Ohne verfügbares Logo erscheint der Schulname als Text, statt eines gefälschten Symbols.
 
 Die Terminalversion zeigt den Schulnamen nur als Text. Für jede öffentliche Präsentation sind die Vorgaben der Schule zu beachten.
+
+## Vorhandenes Asset und geprüfter Stand
+
+Am Ausgangscommit `02eb79f8` ist die JPEG-Datei bereits im Repository enthalten (Upload `702bdf7`). Sie ist eine skalierte Kopie mit 1200×518 Pixeln. Der erneute Download ist für einen frischen Checkout deshalb normalerweise nicht nötig. Der CI-Schritt für das verpackte Schullogo ist unter Ubuntu und Windows erfolgreich. Der Abgleich der ursprünglichen Wikimedia-Datei nennt 2185×945 Pixel und die oben angegebene SHA-1.
+
+Die JPEG-Plausibilitätsprüfung bestätigt Format und Abmessungen. Bei der alternativen Kopie ist sie kein unabhängiger Echtheits- oder Lizenzbeweis. Die dokumentierte Herkunft und die visuelle Kontrolle des Motivs bleiben dafür maßgeblich. Die Namensnennung lautet: „Logo der Bernd-Blindow-Schulen, Bernd Blindow Gruppe, via Wikimedia Commons, CC BY-SA 4.0. Verwendete Kopie skaliert.“
+
+Quellenprüfung: [Wikimedia-Dateiseite](https://commons.wikimedia.org/wiki/File:Logo_BBS_standard_quer.jpg), einschließlich Urheber, Lizenz und Original-Prüfsumme. Das Logo kennzeichnet das Schulprojekt und keine offizielle Veröffentlichung der Schule.

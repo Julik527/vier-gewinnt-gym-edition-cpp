@@ -1,56 +1,39 @@
-# Product Backlog – Vier Gewinnt | Gym Edition
+# Product Backlog: Vier Gewinnt | Gym Edition
 
-**Version:** 1.1 · **Erstellt:** 25.10.2026 · **Basis:** Anforderungsanalyse (FR-01–18 / EX-01–07) und vorhandener C++17-Code.
+**Version:** 2.0 · **Aktualisiert:** 28.10.2026 · **Anforderungen:** FR-01–18 und EX-01–07
+**Belegstand:** `02eb79f8` auf `quality/gameplay-persistence-2026-10-28`
 
-Die Spalte „Stand“ unterscheidet **implementiert** von **abgenommen**. Noch nicht getestete Funktionen gelten nicht als fachlich freigegeben.
+Die Zeilen unterscheiden automatische Prüfung und manuelle Freigabe. **CI bestanden** bedeutet nur die tatsächlich abgedeckten Kontrollen des verlinkten Laufes. Eine vollständige Schulabnahme bleibt offen.
 
-| ID | Prio | Backlog Item | Anforderung | Akzeptanzkriterium | Nachweis / Stand |
+| ID | Prio | Thema | Anforderung | Akzeptanzkriterium | Nachweis und Stand |
 |:--|:--|:--|:--|:--|:--|
-| PB-01 | MUST | Einheitliches Hauptmenü 0–5 | FR-01 | Ungültige Eingaben abgefangen; neues Spiel führt durch Spielerzahl und Namen | Menü überarbeitet; neue Integrationstests erstellt, CI-Ergebnis offen |
-| PB-02 | MUST | Spielerzahl 2–4 | FR-02 | Direkt nach „Neues Spiel“ auswählen, 0 bricht ab | Im neuen Startablauf implementiert, CI-Ergebnis offen |
-| PB-03 | MUST | Eindeutige Spielernamen | FR-03 | Namen nacheinander, leere / doppelte Namen abgewiesen | Im neuen Startablauf implementiert, CI-Ergebnis offen |
-| PB-04 | MUST | Dynamische Feldgrößen | FR-04 | 7×6 / 9×8 / 11×10 | Board-Assertions bestanden |
-| PB-05 | MUST | Zugabgabe und Schwerkraft | FR-05 | Stein fällt auf unterstes Feld | Board teilweise geprüft, Integration offen |
-| PB-06 | MUST | Spielerwechsel | FR-06 | Nach ungültigem Zug gleicher Spieler | Code vorhanden, manueller Test offen |
-| PB-07 | MUST | Gewinnerkennung | FR-07 | Vier horizontale/vertikale/diagonale Steine | Board-Assertions bestanden, E2E offen |
-| PB-08 | MUST | Remis und Abschluss | FR-08/13 | Ohne Sieger voll = Remis | Code vorhanden, Abnahmetest offen |
-| PB-09 | MUST | Ungültige Eingaben | FR-09 | Keine Zustandsänderung | Grenztests teils bestanden |
-| PB-10 | MUST | Spiel speichern | FR-10 | Vollständige, lesbare Datei | Code vorhanden, Endtest offen |
-| PB-11 | MUST | Sicher laden | FR-11/14 | Defekte Dateien ohne Zustandsbeschädigung abweisen | Negativtest offen |
-| PB-12 | MUST | Highscore | FR-12 | Sieg genau +1, dauerhaft, sortiert | Persistenztest offen |
-| PB-13 | MUST | GitHub-Versionierung | FR-15 | Öffentliches Repo, Quellcode, Commits | Dateien über GitHub-Integration hochgeladen; History des ursprünglichen lokalen ZIP weicht ab |
-| PB-14 | MUST | KI-Prompts | FR-16 | Eingaben, Ergebnisse, eigene Kontrollen | `docs/KI_PROMPT_DOKUMENTATION.md` |
-| PB-15 | MUST | Vortrag/Handout | FR-17/18 | Architektur und Code erklärbar | Präsentation erstellt; Generalprobe offen |
-| PB-16 | SHOULD | Hantel-ASCII/Hilfe | EX-01/05 | Hilfe verändert Spielstand nicht | Code vorhanden, Sichttest offen |
-| PB-17 | COULD | Vorschau, Undo, Speichern | EX-02–04 | Gültige Zustandsübergänge | Undo geprüft, andere Integration offen |
-| PB-18 | COULD | Info & Animation | EX-06/07 | Standardmäßig ruhig, Animation optional, ohne ANSI-Löschung | Implementiert, Terminaltest offen |
+| PB-01 | MUST | Hauptmenü | FR-01 | Hauptmenü 0–5, geführter Start, ungültige Auswahl abfangen | Konsolen-Integration in CI bestanden |
+| PB-02 | MUST | Spielerzahl | FR-02 | Nur 2, 3 oder 4, Einrichtung abbrechbar | Konsolen-Integration für alle drei Größen bestanden |
+| PB-03 | MUST | Namen | FR-03 | Nacheinander, nicht leer, eindeutig, 24 Bytes, keine Steuerzeichen | Integrations- und MatchSession-Prüfungen bestanden |
+| PB-04 | MUST | Feldgrößen | FR-04 | 7×6, 9×8 oder 11×10 | Board-Tests und Konsolen-Integration bestanden |
+| PB-05 | MUST | Schwerkraft | FR-05 | Unterstes freies Feld, volle Spalte ablehnen | Board-Tests bestanden |
+| PB-06 | MUST | Spielerwechsel | FR-06 | Wechsel nur nach gültigem Zug | Unit- und Integrationstests bestanden |
+| PB-07 | MUST | Sieg | FR-07 | Waagerecht, senkrecht, zwei Diagonalen | Board-Tests sowie gespielte Siegfolgen bestanden |
+| PB-08 | MUST | Remis und Rundenende | FR-08/13 | Volles Feld ohne Sieg, Ergebnisnavigation | Board-Fülltests und Ergebnisnavigation bestanden, vollständige manuelle Remispartie offen |
+| PB-09 | MUST | Eingabekontrolle | FR-09 | Fehler ändern keine gültige Partie | Negative Tests bestanden, interaktive Gesamtprüfung offen |
+| PB-10 | MUST | Speichern | FR-10 | Lesbares GYM1, alter Stand bei getestetem Schreibfehler erhalten | Integration und MatchSession bestanden |
+| PB-11 | MUST | Laden | FR-11/14 | Defekte Datei ablehnen und aktive Partie erhalten | Negative Integrations- und MatchSession-Fälle bestanden |
+| PB-12 | MUST | Highscore | FR-12 | Sieg +1, sortiert, nach Neustart erhalten | Zwei Siegfolgen, Neustart und Schreibfehler geprüft |
+| PB-13 | MUST | GitHub | FR-15 | Quellcode, Dokumente und nachvollziehbare Commits | Öffentliches Repository vorhanden, Zusatzentwicklung in Draft-PR #1 |
+| PB-14 | MUST | KI-Prompts | FR-16 | Original oder Rekonstruktion, Ergebnis, Kontrolle und Grenzen | Register um den heutigen Verlauf ergänzt, kein vollständiger Chat-Export |
+| PB-15 | MUST | Vortrag und Handout | FR-17/18 | Beide Versionen und Architektur verständlich erklären | Unterlagen aktualisiert, Generalprobe und Schulabnahme offen |
+| PB-16 | SHOULD | Hanteln und Hilfe | EX-01/05 | Eindeutige Symbole, Hilfe verändert keine Partie | UI- und Integrationstests bestanden, Sichtprüfung offen |
+| PB-17 | COULD | Vorschau, Undo und S | EX-02–04 | Korrekte Zustandsübergänge | Automatische Kontrollen bestanden |
+| PB-18 | COULD | Info und Animation | EX-06/07 | Optional, unterschiedliche Fallbilder, ohne Farbe lesbar | ConsoleUI-Frames geprüft, visuelle Wirkung am Zielgerät offen |
+| PB-19 | SHOULD | Zusätzliche 2D-GUI | GUI-01 | Separates Ziel, Maus/Tastatur, 2–4 Personen, Board weiterverwenden | Linux-/Windows-GUI-Build und Kernprüfungen bestanden, Bedienabnahme offen |
+| PB-20 | SHOULD | Menü und Revanche | UI-01–05 | Fortsetzen, Ergebnis, gleiche Spieler, exakt ein Siegpunkt | Konsolen-Integration und MatchSession bestanden |
+| PB-21 | COULD | Gym-Beat | AUDIO-01 | F9/Schalter, Standard aus, Fehlermeldung bei fehlendem Gerät | Code und Audio-Linkage vorhanden, tatsächlicher Hörtest offen |
+| PB-22 | SHOULD | Schullogo | BRAND-01 | Originalmotiv, proportional, Quellen/Lizenz, lokaler Fallback | JPEG liegt im Repository, CI-Verpackung bestanden, Sichtprüfung offen |
+| PB-23 | MUST | Lokales Windows-Setup | DEV-01 | CMake/Ninja und beide F5-Profile funktionieren | Task-PATH korrigiert, lokale Wiederholung nach CMake-Fehler offen |
+| PB-24 | MUST | Vollständige Dokumentation | DOC-01 | Markdown, PDFs und PPTX widerspruchsfrei zum Prüfstand | [Dokumentenaudit](DOCUMENTATION_AUDIT_2026-10-28.md), aktualisierte Nachträge und Folien |
 
-## Meilenstein Donnerstag, 29.10.2026
-1. Anforderungen und Klassenmodell sind dokumentiert.
-2. C++17-Konsolenmenü ist implementiert; dokumentierter Smoke-Test liegt vor.
-3. Das öffentliche Repository enthält Quellcode, Tests, README und diese Planung.
-4. Als Abschlussnachweis GitHub-Link, Commit-URL, Build- und Menü-Screenshot sichern.
+## Belege und nächste Abnahme
 
-## Zusätzliche UI-Anforderungen vom 28.10.2026
+[C++-/GUI-Lauf](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779797878), [Dokumentenlauf](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779798112), [gesicherte Jobstatus](evidence/CI_SNAPSHOT_2026-10-28.json). Die historischen 18 Backlog-IDs bleiben erhalten. PB-19 bis PB-24 sind projektinterne Ergänzungen und keine nachträglich erfundenen Pflichtpunkte des Aufgabenblatts.
 
-- **UI-01:** Ergebnisbildschirm nach Sieg oder Remis mit den drei Aktionen Revanche, Neues Spiel und Hauptmenü. Im Code vorhanden, automatisierte Abnahme offen.
-- **UI-02:** Revanche ohne neue Namenseingabe, mit leerem Feld und unveränderten Spielern. Im Code vorhanden, automatisierte Abnahme offen.
-- **UI-03:** Highscore bei mehrfacher Revanche exakt einmal pro Sieg erhöhen. Testfall implementiert, Ergebnis offen.
-- **UI-04:** Aktive Spieler und nächster Zug im Hauptmenü, inaktives Fortsetzen kenntlich machen. Im Code vorhanden.
-- **UI-05:** Keine unnötigen wiederholten Spielfeld-Ausgaben; optionale, ANSI-freie Animation. Im Code vorhanden, Regressionstest implementiert.
-
-## Statusregel
-**Geplant:** noch nicht implementiert.
-**Code vorhanden:** Implementierung erkennbar, aber nicht automatisch abgenommen.
-**Teilweise geprüft:** nur Teilmenge der Akzeptanztests erfolgreich.
-**Abgenommen:** alle zugehörigen Tests ausgeführt und protokolliert.
-
-Optional können PB-01 bis PB-18 als GitHub Issues übernommen werden.
-## Qualitätsfortschritt 28.10.2026
-
-- Für PB-01 bis PB-12 liegen jetzt zusätzliche automatisierte Unit- und Integrationstestfälle vor (`tests/board_tests.cpp`, `tests/integration_smoke.py`).
-- Speziell für PB-11 wurde die Ladefunktion um eine Prüfung gegen unerwartete Zusatzdaten ergänzt.
-- GitHub Actions soll die Tests auf Linux und Windows in Debug und Release prüfen; der konkrete Erfolg ist im Workflow-Verlauf nachzuweisen.
-- Die Dokumente werden durch einen separat eingerichteten Read-only-Preflight auf Integrität geprüft.
-
-**Status ist nicht gleich Abnahme:** Neue Tests sind implementiert, ihre Ergebnisse auf dem Zielsystem bzw. in der CI-Matrix sind vor einem Statuswechsel auf „abgenommen“ zu kontrollieren.
+Zum Meilenstein am 29.10.2026 müssen Projekt, Anforderungen, Backlog, Repository, Klassenentwurf und Menü vorgeführt werden. Die GUI ist Zusatzumfang. Vor der Vorführung den lokalen CMake-/F5-Fehler beheben, beide Programme nacheinander testen und die tatsächlichen Beobachtungen in den Testplänen eintragen.

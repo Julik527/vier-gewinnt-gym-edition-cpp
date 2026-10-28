@@ -78,7 +78,7 @@ Bei ANSI-Unterstützung bewegt sich die Anzeige zum Anfang des Terminals und üb
 
 Die Darstellung verwendet `ConsoleUI.h` und `ConsoleUI.cpp`. Das Spielfeld wird als Text aus dem aktuellen `Board` aufgebaut und in einem Stück ausgegeben. Bei einem geeigneten interaktiven Terminal verwendet `present()` ANSI-Codes zur Aktualisierung derselben Bildschirmposition. Bei umgeleiteter Ausgabe, `NO_COLOR`, unbekannter oder alter Terminalunterstützung wird normales Textformat verwendet.
 
-Die kurze Animation ist standardmäßig aus. Mit `A` kann sie für einzelne Züge aktiviert werden. Sie verwendet keine wiederholte komplette Terminal-Löschung.
+Die Fallanimation ist in der Konsole standardmäßig aus. `A` schaltet sie um. `console_ui::animateDrop` zeigt mehrere Spielfeldbilder mit wechselnder Hantelposition. Sie verändert den Endzustand des Boards nicht und verwendet keine wiederholte komplette Terminal-Löschung. Die frühere reine Fortschrittszeile wurde ersetzt.
 
 `Board::winningCells()` liefert die tatsächlichen zusammenhängenden Gewinnfelder. Dadurch ist die Hervorhebung keine bloße optische Vermutung.
 
@@ -94,4 +94,8 @@ cmake --build build --config Release
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-**Abgrenzung:** Dies ist eine professionell gestaltete C++-Konsolenanwendung, keine native GUI mit Maus oder 3D-Grafiken. Ein erfolgreiches Windows-Testprotokoll und die visuelle Prüfung am Zielgerät gehören zur endgültigen Abnahme.
+**Abgrenzung dieses Leitfadens:** Hier wird die Terminalversion beschrieben. Zusätzlich gibt es im Entwicklungsbranch eine eigenständige SFML-2D-GUI mit Mausbedienung. Die gemeinsame Regelbasis und die getrennten Controller stehen in [ARCHITECTURE.md](ARCHITECTURE.md). Eine 3D-Version ist nicht implementiert. Sichtprüfung und vollständige Windows-Abnahme bleiben offen.
+
+## Nachweisstand
+
+Die ConsoleUI- und Konsolen-Integrationstests sind am Ausgangsstand `02eb79f8` unter Windows und Ubuntu erfolgreich. [CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json). Die Terminalversion zeigt zusätzlich den Schulnamen. Die tatsächliche Darstellung mit langen Namen und ohne Farben am Schulrechner muss noch bestätigt werden.
