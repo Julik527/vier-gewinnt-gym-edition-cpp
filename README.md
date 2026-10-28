@@ -78,6 +78,16 @@ Unter Windows entsteht die EXE je nach Generator unter `build-gui/Release/vier-g
 
 **VS Code F5:** In `.vscode/launch.json` gibt es zwei Profile: `Vier Gewinnt | Gym Edition` (Konsole) und `Vier Gewinnt | Gym Edition 2D` (Grafik). Das neue GUI-Profil ruft über `.vscode/tasks.json` die Ninja/CMake-Konfiguration auf. Benötigt CMake 3.28+, Ninja sowie die MSYS2-UCRT64-Compiler in `C:/msys64/ucrt64/bin`.
 
+**Falls PowerShell „cmake wird nicht erkannt“ meldet:** Öffne über das Windows-Startmenü **MSYS2 UCRT64**. Aktualisiere MSYS2 mit `pacman -Syu`. Falls dabei das Terminal geschlossen werden muss, öffne MSYS2 UCRT64 erneut und wiederhole `pacman -Syu`. Installiere anschließend dort die passenden Werkzeuge:
+
+```bash
+pacman -S --needed mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-gdb
+```
+
+Die beiden GUI-Build-Aufgaben ergänzen `C:/msys64/ucrt64/bin` selbst für ihren Prozess. So finden bereits Konfiguration und Build CMake, Ninja und die Compiler-DLLs; die `PATH`-Angabe in `launch.json` allein würde erst beim späteren Spielstart wirken. Der übrige Suchpfad bleibt erhalten. Nach dem Aktualisieren der Projektdateien den fehlgeschlagenen Task beenden und **F5 → Vier Gewinnt | Gym Edition 2D** erneut starten. Es ist keine systemweite `PATH`-Änderung nötig.
+
+Für manuelle Build-Befehle in einem PowerShell-Terminal gilt dessen eigener Suchpfad. Ergänze ihn bei Bedarf für die aktuelle Sitzung mit `$env:Path = "C:\msys64\ucrt64\bin;$env:Path"` und prüfe mit `cmake --version` sowie `ninja --version`, ob beide Programme gefunden werden. Diese Terminal-Einstellung wird nicht automatisch an separat gestartete VS-Code-Tasks weitergegeben.
+
 **Bedienung:** Hauptmenü anklicken, Spielerzahl 2–4 wählen, Namen nacheinander eingeben und starten. Während des Spiels eine Spalte anklicken oder mit **Links/Rechts + Leertaste** auswählen. `U` nimmt zurück, `S` speichert, `A` schaltet die Fallanimation um, `Esc` wechselt ins Menü. Nach Sieg/Remis stehen Revanche, neue Spieler und Hauptmenü bereit.
 
 **Systemschrift:** Für Text benutzt die GUI vorhandene Schriftdateien (Segoe UI/Arial unter Windows, DejaVu/Liberation unter Linux). Schriftdateien werden nicht im Repository kopiert.
