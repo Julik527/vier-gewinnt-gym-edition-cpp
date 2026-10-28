@@ -1,3 +1,9 @@
+// JK AXIS | GOLD MASTER
+// Projekt: Vier Gewinnt | Gym Edition (C++17)
+// Datei:   src/Game.cpp
+// Aufgabe: Steuert Menue, Spielerwechsel, Spielstand und Highscore.
+// ------------------------------------------------------------
+
 #include "Game.h"
 #include <algorithm>
 #include <cctype>
@@ -12,6 +18,7 @@
 
 namespace {
 const char SYMBOLS[] = {'R', 'B', 'G', 'Y'};
+// Entfernt Leerzeichen am Anfang und Ende einer Eingabe.
 std::string trim(const std::string& text) {
     size_t start = text.find_first_not_of(" \t\r\n");
     if (start == std::string::npos) return "";
@@ -19,12 +26,14 @@ std::string trim(const std::string& text) {
     return text.substr(start, end - start + 1);
 }
 
+// Eine Eingabe wie "3abc" soll keine gueltige Zahl sein.
 bool wholeInt(const std::string& raw, int& result) {
     std::istringstream in(trim(raw));
     char extra;
     return (in >> result) && !(in >> extra);
 }
 
+// Holt eine ganze Zeile vom Benutzer und bereinigt sie.
 std::string ask(const std::string& message) {
     std::cout << message;
     std::string line;
@@ -32,6 +41,7 @@ std::string ask(const std::string& message) {
     return trim(line);
 }
 
+// Namen duerfen nicht leer oder zu lang sein.
 bool validName(const std::string& name) {
     return !name.empty() && name.size() <= 24
         && name.find('\n') == std::string::npos
@@ -39,6 +49,7 @@ bool validName(const std::string& name) {
 }
 }
 
+// Standardmaessig startet das Projekt mit zwei Spielern.
 Game::Game() : board_(2) {
     chosenNames_.resize(2);
     std::error_code error;
@@ -47,6 +58,7 @@ Game::Game() : board_(2) {
     loadHighscores();
 }
 
+// Hier wird die Spielerzahl fuer die naechste Runde eingestellt.
 void Game::configurePlayers() {
     int number;
     for (;;) {
@@ -59,6 +71,7 @@ void Game::configurePlayers() {
     std::cout << "Naechstes neues Spiel: " << number << " Spieler.\n";
 }
 
+// Jeder Spieler soll einen eigenen Namen haben.
 void Game::configureNames() {
     chosenNames_.assign(chosenPlayers_, "");
     for (int i = 0; i < chosenPlayers_; ++i) {
@@ -75,6 +88,7 @@ void Game::configureNames() {
     }
 }
 
+// Fuer eine neue Runde werden Feld, Spieler und Zugliste zurueckgesetzt.
 void Game::newGame() {
     bool namesMissing = static_cast<int>(chosenNames_.size()) != chosenPlayers_;
     for (const auto& name : chosenNames_) if (!validName(name)) namesMissing = true;
@@ -92,6 +106,7 @@ void Game::newGame() {
     play();
 }
 
+// Eine kleine Erklaerung der Steuerung direkt im Programm.
 void Game::showHelp() const {
     std::cout << "\nHILFE | GYM EDITION\n"
               << "Zahl: Kurzhantel in Spalte fallen lassen (1-" << board_.columns() << ")\n"
@@ -102,6 +117,7 @@ void Game::showHelp() const {
               << "Vier eigene Kurzhanteln horizontal, vertikal oder diagonal gewinnen.\n";
 }
 
+// Zeigt Feldgroesse, belegte Felder und Spieler an.
 void Game::showInfo() const {
     std::cout << "\nINFO: " << board_.columns() << " Spalten, " << board_.rows()
               << " Reihen; belegte Felder: " << board_.tokenCount()
@@ -111,6 +127,7 @@ void Game::showInfo() const {
     }
 }
 
+// In dieser Schleife wechseln sich die Spieler mit ihren Zuegen ab.
 void Game::play() {
     while (active_) {
         board_.print();
@@ -127,6 +144,7 @@ void Game::play() {
             std::cout << (saveGame() ? "Spiel gespeichert.\n" : "Speichern fehlgeschlagen.\n");
             continue;
         }
+        // Bei Undo wird der letzte gueltige Zug zurueckgenommen.
         if (upper == "U") {
             if (history_.empty()) { std::cout << "Kein Zug vorhanden.\n"; continue; }
             Move last = history_.back();
@@ -137,6 +155,7 @@ void Game::play() {
             } else std::cout << "Zug konnte nicht entfernt werden.\n";
             continue;
         }
+        // Vorschau: Nur anzeigen, noch nichts ins Spielfeld schreiben.
         if (upper.size() >= 2 && upper[0] == 'V' && upper[1] == ' ') {
             int col;
             if (!wholeInt(upper.substr(2), col) || col < 1 || col > board_.columns()
@@ -153,6 +172,7 @@ void Game::play() {
             std::cout << "Ungueltige Eingabe. Bitte eine Spalte waehlen.\n";
             continue;
         }
+        // Menschen zaehlen ab 1, die Vektoren im Code ab 0.
         int zeroCol = col - 1;
         int landing = board_.nextFreeRow(zeroCol);
         if (landing == -1) { std::cout << "Spalte ist voll. Erneut waehlen.\n"; continue; }
@@ -160,6 +180,7 @@ void Game::play() {
         if (animation_) board_.animateDrop(zeroCol, symbol, landing);
         int row;
         if (!board_.drop(zeroCol, symbol, row)) continue;
+        // Der Zug kommt in die Liste, damit Undo spaeter funktioniert.
         history_.push_back({row, zeroCol, current_});
         if (board_.hasWon(row, zeroCol, symbol)) {
             board_.print();
@@ -178,10 +199,12 @@ void Game::play() {
     }
 }
 
+// Speichert den Spielstand als Textdatei, damit man spaeter weiterspielen kann.
 bool Game::saveGame(const std::string& path) const {
     if (!active_) return false;
     std::ofstream out(path, std::ios::trunc);
     if (!out) return false;
+    // GYM1 ist die Kennung unseres Speicherformats.
     out << "GYM1\n";
     out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
         << board_.columns() << ' ' << history_.size() << '\n';
@@ -197,6 +220,7 @@ bool Game::saveGame(const std::string& path) const {
     return static_cast<bool>(out);
 }
 
+// Erst alles in einem neuen Spielfeld pruefen, dann wirklich laden.
 bool Game::loadGame(const std::string& path) {
     std::ifstream in(path);
     std::string signature;
@@ -204,6 +228,7 @@ bool Game::loadGame(const std::string& path) {
     int n, current, rows, cols, moves;
     if (!(in >> n >> current >> rows >> cols >> moves)) return false;
     if (n < 2 || n > 4 || current < 0 || current >= n) return false;
+    // Das Test-Spielfeld verhindert, dass eine kaputte Datei die Runde veraendert.
     Board candidate(n);
     if (rows != candidate.rows() || cols != candidate.columns()
         || moves < 0 || moves > rows * cols) return false;
@@ -220,6 +245,7 @@ bool Game::loadGame(const std::string& path) {
         loadedPlayers.emplace_back(name, symbol);
     }
     std::vector<Move> loadedMoves;
+    // Die gespeicherten Zuege werden einzeln nachgespielt und kontrolliert.
     for (int i = 0; i < moves; ++i) {
         int savedRow, column, player;
         if (!(in >> savedRow >> column >> player) || player != i % n) return false;
@@ -244,6 +270,7 @@ bool Game::loadGame(const std::string& path) {
     if (in >> trailingToken) return false;
 
     // Ausschliesslich nach vollstaendiger Pruefung den echten Spielstand ersetzen.
+    // Bis hierhin ist die Datei gueltig. Jetzt wird der Spielstand uebernommen.
     board_ = std::move(candidate);
     players_ = std::move(loadedPlayers);
     history_ = std::move(loadedMoves);
@@ -255,6 +282,7 @@ bool Game::loadGame(const std::string& path) {
     return true;
 }
 
+// Liest die bisher gespeicherten Siege aus der Highscore-Datei.
 void Game::loadHighscores() {
     highscores_.clear();
     std::ifstream in("data/highscore.txt");
@@ -266,6 +294,7 @@ void Game::loadHighscores() {
     }
 }
 
+// Schreibt alle aktuellen Siege in die Highscore-Datei.
 bool Game::saveHighscores() const {
     std::ofstream out("data/highscore.txt", std::ios::trunc);
     if (!out) return false;
@@ -276,11 +305,13 @@ bool Game::saveHighscores() const {
     return static_cast<bool>(out);
 }
 
+// Nach einem Sieg bekommt der Gewinner genau einen Punkt dazu.
 void Game::addWin(const std::string& name) {
     ++highscores_[name];
     if (!saveHighscores()) std::cerr << "Warnung: Highscore konnte nicht gespeichert werden.\n";
 }
 
+// Die meisten Siege sollen in der Liste ganz oben stehen.
 void Game::showHighscores() const {
     std::vector<std::pair<std::string, int>> order(highscores_.begin(), highscores_.end());
     std::sort(order.begin(), order.end(), [](const auto& a, const auto& b) {
@@ -293,6 +324,7 @@ void Game::showHighscores() const {
     for (const auto& item : order) std::cout << rank++ << ". " << item.first << ": " << item.second << '\n';
 }
 
+// Hauptmenue: Hier waehlt man die Funktionen mit den Zahlen 0 bis 6.
 void Game::run() {
     while (true) {
         std::cout << "\n==============================================\n"
