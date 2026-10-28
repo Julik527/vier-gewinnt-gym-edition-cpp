@@ -29,4 +29,10 @@
 | G21 | Bei laufender Partie `Neues Spiel` oder `Laden` wählen und ablehnen | Kein Datenverlust | nicht geprüft | offen |
 | G22 | Programm über Fenster-X oder Menü beenden | Fenster schließt sicher, ggf. mit Bestätigung | nicht geprüft | offen |
 
+| G23 | Originalschullogo mit `scripts/install-school-logo.ps1` laden und GUI starten | Korrekt proportioniertes Original in weißem Bereich, Quellenangabe vorhanden | nicht geprüft | offen |
+| G24 | Ohne Schullogo starten | Kein Absturz, eindeutiger Schulname als Text | nicht geprüft | offen |
+| G25 | Musikschalter/F9 mehrfach drücken | 120-BPM-Beat startet/stoppt ohne Spielstandsänderung | nicht geprüft | offen |
+| G26 | Programm ohne Audioausgabegerät starten | Spiel bleibt spielbar, Hinweis statt Absturz | nicht geprüft | offen |
+| G27 | `scripts/demo.ps1 -Mode Both` starten | Erst GUI, danach PowerShell-Spiel; keine gleichzeitigen Schreibzugriffe | nicht geprüft | offen |
+
 Bei Testdurchführung Datum, Kompilerversion und echte Screenshots oder Fehlermeldungen eintragen. **CI-Tests sind kein Ersatz für diese interaktiven Prüfungen.**
