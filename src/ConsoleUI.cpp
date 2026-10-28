@@ -62,9 +62,13 @@ void separator(std::ostringstream& out) {
     out << "  +" << std::string(WIDTH - 2, '-') << "+\n";
 }
 
-void menuLine(std::ostringstream& out, const std::string& text) {
-    // Nur feste ASCII-Texte in den Rahmen schreiben, keine langen Namen.
-    out << "  | " << std::left << std::setw(WIDTH - 4) << text << " |\n";
+void menuLine(std::ostringstream& out, const std::string& text,
+              const char* accent = nullptr) {
+    // Die Abstaende kommen VOR der Farbe. So bleibt der Rahmen gerade.
+    std::ostringstream cell;
+    cell << std::left << std::setw(WIDTH - 4) << text;
+    out << "  | " << (accent == nullptr ? cell.str() : paint(cell.str(), accent))
+        << " |\n";
 }
 
 int score(const std::map<std::string, int>& scores, const std::string& name) {
@@ -128,8 +132,8 @@ std::string mainMenu(const std::vector<Player>& players, const Board& board,
                      bool active, int currentPlayer, int round) {
     std::ostringstream out;
     separator(out);
-    menuLine(out, "JK AXIS  /  VIER GEWINNT  /  GYM EDITION");
-    menuLine(out, "HEBEN. SETZEN. SIEGEN.  |  C++17");
+    menuLine(out, "JK AXIS  /  VIER GEWINNT  /  GYM EDITION", "1;94");
+    menuLine(out, "HEBEN. SETZEN. SIEGEN.  |  C++17", "1;97");
     separator(out);
     menuLine(out, active ? "STATUS: TRAININGSRUNDE LAEUFT" : "STATUS: BEREIT FUER DEIN MATCH");
     menuLine(out, "1  Neues Spiel");
@@ -162,7 +166,7 @@ std::string arena(const Board& board, const std::vector<Player>& players,
     std::ostringstream out;
     separator(out);
     menuLine(out, "JK AXIS  /  VIER GEWINNT  /  GYM EDITION");
-    menuLine(out, "TRAININGS-ARENA  |  RUNDE " + std::to_string(round));
+    menuLine(out, "TRAININGS-ARENA  |  RUNDE " + std::to_string(round), "1;97");
     separator(out);
 
     for (std::size_t i = 0; i < players.size(); ++i) {
@@ -193,7 +197,7 @@ std::string result(const Board& board, const std::vector<Player>& players,
                    const std::vector<std::pair<int, int>>& winningCells) {
     std::ostringstream out;
     separator(out);
-    menuLine(out, "JK AXIS  /  GYM EDITION  /  RUNDENENDE");
+    menuLine(out, "JK AXIS  /  GYM EDITION  /  RUNDENENDE", "1;94");
     menuLine(out, "TRAINING ABGESCHLOSSEN  |  RUNDE " + std::to_string(round));
     separator(out);
     out << "\n  " << (winner.empty() ? "REMIS: Spielfeld voll."
