@@ -32,7 +32,43 @@ target_link_libraries(board_tests PRIVATE gym_board)
 add_executable(console_ui_tests tests/console_ui_tests.cpp src/ConsoleUI.cpp)
 target_link_libraries(console_ui_tests PRIVATE gym_board)
 
-foreach(target gym_board vier-gewinnt board_tests console_ui_tests)
+# GUI-unabhaengiger Spielzustand: kann auch ohne grafisches Display getestet werden.
+add_library(gym_match STATIC src/MatchSession.cpp)
+target_link_libraries(gym_match PUBLIC gym_board)
+target_include_directories(gym_match PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+add_executable(match_session_tests tests/match_session_tests.cpp)
+target_link_libraries(match_session_tests PRIVATE gym_match)
+
+# Die GUI ist optional, damit das vorhandene Konsolenspiel ohne SFML baubar bleibt.
+option(GYM_BUILD_GUI "Build the standalone SFML 3.1 graphical Gym Edition" OFF)
+if(GYM_BUILD_GUI)
+    if(CMAKE_VERSION VERSION_LESS 3.28)
+        message(FATAL_ERROR "The SFML 3.1 GUI build requires CMake 3.28 or later.")
+    endif()
+    find_package(SFML 3.1 COMPONENTS Graphics QUIET)
+    if(NOT SFML_FOUND)
+        include(FetchContent)
+        set(SFML_BUILD_AUDIO OFF CACHE BOOL "" FORCE)
+        set(SFML_BUILD_NETWORK OFF CACHE BOOL "" FORCE)
+        set(SFML_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+        set(SFML_BUILD_TEST_SUITE OFF CACHE BOOL "" FORCE)
+        FetchContent_Declare(SFML
+            GIT_REPOSITORY https://github.com/SFML/SFML.git
+            GIT_TAG 3.1.0
+            GIT_SHALLOW ON
+            EXCLUDE_FROM_ALL
+            SYSTEM)
+        FetchContent_MakeAvailable(SFML)
+    endif()
+    add_executable(vier-gewinnt-gui src/gui/Main.cpp)
+    target_link_libraries(vier-gewinnt-gui PRIVATE gym_match SFML::Graphics)
+    if(WIN32)
+        # A Windows console remains useful for early errors and diagnostics.
+        set_target_properties(vier-gewinnt-gui PROPERTIES WIN32_EXECUTABLE FALSE)
+    endif()
+endif()
+
+foreach(target gym_board vier-gewinnt board_tests console_ui_tests gym_match match_session_tests)
     if(MSVC)
         target_compile_options(${target} PRIVATE /W4)
     else()
@@ -44,6 +80,10 @@ endforeach()
 include(CTest)
 if(BUILD_TESTING)
     add_test(NAME board_unit_tests COMMAND board_tests)
+    add_test(NAME match_session_unit_tests COMMAND match_session_tests)
+    if(GYM_BUILD_GUI)
+        add_test(NAME gui_core_smoke COMMAND vier-gewinnt-gui --self-test)
+    endif()
     add_test(NAME console_ui_unit_tests COMMAND console_ui_tests)
     find_package(Python3 COMPONENTS Interpreter)
     if(Python3_Interpreter_FOUND)
