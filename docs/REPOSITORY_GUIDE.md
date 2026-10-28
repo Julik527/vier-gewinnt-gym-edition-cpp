@@ -26,3 +26,7 @@ g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/
 
 ## Nachweise
 Dateien auf GitHub, aktuelle Commit-Historie und Menüdemo separat für die Abgabe dokumentieren. Der Online-Upload ist nicht identisch mit einer abgeschlossenen Softwareabnahme.
+
+## JK AXIS | GOLD MASTER
+
+Seit 28.10.2026 verwendet die Projektdokumentation das aktuelle JK-AXIS-Präzisionslogo. Die Datei `.github/workflows/gym-brand-refresh.yml` protokolliert die automatische Aktualisierung der PPTX- und PDF-Dateien; `scripts/rebrand_assets.py` enthält die konservative Bild-Erkennung. Prüfnachweise: [BRAND_QA_REPORT.md](BRAND_QA_REPORT.md). Die Python- und GitHub-Actions-Prüfung ist keine abschließende Sichtabnahme in PowerPoint und PDF-Viewer.
