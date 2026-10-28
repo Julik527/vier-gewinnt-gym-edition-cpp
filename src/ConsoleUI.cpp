@@ -139,11 +139,21 @@ void pauseForReading() {
 }
 
 void present(const std::string& screen) {
-    // Nur an einem echten Terminal aktualisieren wir dieselbe Bildschirmseite.
-    // Bei umgeleiteter Ausgabe bleiben die Texte fuer automatische Tests lesbar.
-    if (ansiEnabled()) std::cout << "\x1b[H\x1b[2J";
-    else std::cout << "\n";
-    std::cout << screen << std::flush;
+    if (!ansiEnabled()) {
+        // Umgeleitete Ausgabe enthaelt keine Steuerzeichen.
+        std::cout << '\n' << screen << std::flush;
+        return;
+    }
+
+    // Nicht zuerst den ganzen Bildschirm leeren: das vermeidet Flackern.
+    // Jede kuerzere Zeile wird separat bereinigt, ebenso der Rest unten.
+    std::cout << "\x1b[H";
+    std::istringstream lines(screen);
+    std::string line;
+    while (std::getline(lines, line)) {
+        std::cout << line << "\x1b[K\n";
+    }
+    std::cout << "\x1b[J" << std::flush;
 }
 
 std::string mainMenu(const std::vector<Player>& players, const Board& board,
