@@ -5,6 +5,7 @@
 // ------------------------------------------------------------
 
 #pragma once
+#include <utility>
 #include <vector>
 
 // In Board liegt das ganze Spielfeld. Die Klasse kennt keine Spielernamen.
@@ -31,6 +32,8 @@ public:
     bool undo(int row, int column);
     // Prüft von einem Feld aus alle vier Gewinnrichtungen.
     bool hasWon(int row, int column, char symbol) const;
+    // Liefert die zusammenhaengende Viererreihe fuer die Gewinnmarkierung.
+    std::vector<std::pair<int, int>> winningCells(int row, int column, char symbol) const;
     bool isFull() const;
     const std::vector<std::vector<char>>& cells() const { return grid_; }
     // Gibt das Spielfeld im Terminal aus. Eine Vorschau ist optional.
