@@ -16,9 +16,55 @@
 #include <sstream>
 #include <stdexcept>
 #include <utility>
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
 
 namespace {
 const char SYMBOLS[] = {'R', 'B', 'G', 'Y'};
+
+// Schreibt erst in eine Zwischendatei. Nur wenn alles geschrieben wurde,
+// ersetzt sie die bisherige Datei. Das Format selbst bleibt unveraendert.
+template <typename Writer>
+bool writeSafely(const std::string& name, Writer writer) {
+    namespace fs = std::filesystem;
+    const fs::path target = fs::u8path(name);
+    fs::path temporary = target;
+    temporary += ".tmp";
+    {
+        std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
+        if (!output) return false;
+        writer(output);
+        output.flush();
+        const bool valid = static_cast<bool>(output);
+        output.close();
+        if (!valid || !output) {
+            std::error_code ignored;
+            fs::remove(temporary, ignored);
+            return false;
+        }
+    }
+
+#ifdef _WIN32
+    // Windows ersetzt eine bestehende Datei nur mit diesem Flag.
+    const bool success = MoveFileExW(
+        temporary.c_str(), target.c_str(),
+        MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH) != 0;
+#else
+    std::error_code error;
+    fs::rename(temporary, target, error);
+    const bool success = !error;
+#endif
+    if (!success) {
+        std::error_code ignored;
+        fs::remove(temporary, ignored);
+    }
+    return success;
+}
+
 // Entfernt Leerzeichen am Anfang und Ende einer Eingabe.
 std::string trim(const std::string& text) {
     size_t start = text.find_first_not_of(" \t\r\n");
@@ -324,22 +370,22 @@ void Game::play() {
 // Speichert den Spielstand als Textdatei, damit man später weiterspielen kann.
 bool Game::saveGame(const std::string& path) const {
     if (!active_) return false;
-    std::ofstream out(path, std::ios::trunc);
-    if (!out) return false;
-    // GYM1 ist die Kennung unseres Speicherformats.
-    out << "GYM1\n";
-    out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
-        << board_.columns() << ' ' << history_.size() << '\n';
-    for (const auto& p : players_) {
-        out << std::quoted(p.getName()) << ' ' << p.getSymbol() << '\n';
-    }
-    for (const auto& m : history_) out << m.row << ' ' << m.column << ' ' << m.player << '\n';
-    for (const auto& row : board_.cells()) {
-        for (char value : row) out << value;
-        out << '\n';
-    }
-    out.flush();
-    return static_cast<bool>(out);
+    return writeSafely(path, [this](std::ostream& out) {
+        // GYM1 ist die bisherige Kennung und bleibt voll kompatibel.
+        out << "GYM1\n";
+        out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
+            << board_.columns() << ' ' << history_.size() << '\n';
+        for (const auto& player : players_) {
+            out << std::quoted(player.getName()) << ' ' << player.getSymbol() << '\n';
+        }
+        for (const auto& move : history_) {
+            out << move.row << ' ' << move.column << ' ' << move.player << '\n';
+        }
+        for (const auto& row : board_.cells()) {
+            for (char value : row) out << value;
+            out << '\n';
+        }
+    });
 }
 
 // Erst alles in einem neuen Spielfeld prüfen, dann wirklich laden.
@@ -422,13 +468,11 @@ void Game::loadHighscores() {
 
 // Schreibt alle aktuellen Siege in die Highscore-Datei.
 bool Game::saveHighscores() const {
-    std::ofstream out("data/highscore.txt", std::ios::trunc);
-    if (!out) return false;
-    for (const auto& item : highscores_) {
-        out << std::quoted(item.first) << ' ' << item.second << '\n';
-    }
-    out.flush();
-    return static_cast<bool>(out);
+    return writeSafely("data/highscore.txt", [this](std::ostream& out) {
+        for (const auto& item : highscores_) {
+            out << std::quoted(item.first) << ' ' << item.second << '\n';
+        }
+    });
 }
 
 // Nach einem Sieg bekommt der Gewinner genau einen Punkt dazu.
