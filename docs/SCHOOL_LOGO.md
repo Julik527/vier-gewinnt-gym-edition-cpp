@@ -1,25 +1,32 @@
-# Original-Schullogo – Bernd-Blindow-Schulen Ravensburg
+# Schullogo – Bernd-Blindow-Schulen Ravensburg
 
-Das hier verwendete Schulkennzeichen ist **nicht** das JK-AXIS-Projektlogo.
+Das Schulkennzeichen ist **nicht** das JK-AXIS-Projektlogo.
 
-- **Werk:** „Logo BBS standard quer.jpg“ (unverändertes Bernd-Blindow-Schulen-Logo)
-- **Urheber:** Bernd Blindow Gruppe
-- **Quelle:** https://commons.wikimedia.org/wiki/File:Logo_BBS_standard_quer.jpg
-- **Lizenz:** Creative Commons Attribution-ShareAlike 4.0 International
-- **Lizenzlink:** https://creativecommons.org/licenses/by-sa/4.0/
-- **Bearbeitung:** Keine. Das Bild wird lediglich proportional innerhalb der Spieloberfläche skaliert.
-- **Hinweis:** Verwendung im Schulprojekt bedeutet nicht, dass die Bernd-Blindow-Schulen die Anwendung herausgeben oder offiziell unterstützen.
+- **Motiv:** Logo der Bernd-Blindow-Schulen, mit Schriftzug und orangem Symbol
+- **Urheber des Ausgangsbildes:** Bernd Blindow Gruppe
+- **Wikimedia-Original:** https://commons.wikimedia.org/wiki/File:Logo_BBS_standard_quer.jpg
+- **Lizenz des Ausgangsbildes:** Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/
+- **Alternative Bildquelle (verkleinerte Kopie desselben Logos):** https://gesundheitsberufe.de/bildungsanbieter/bernd-blindow-schulen-mannheim/
+- **Direkter alternativer Bildhost:** https://storage.googleapis.com/media-ossnar82/media/images/Logo_BBS_standard_quer.max-1200x1200.jpg
+- **Bearbeitung/Variante:** Die alternative Bilddatei ist eine bereits verkleinerte Wiedergabe. Das Spiel skaliert die Vorlage proportional, ohne Inhalte oder Farben zu verändern.
+- **Hinweis:** Die Verwendung in einem Schulprojekt bedeutet keine offizielle Herausgabe oder Unterstützung durch die Bernd-Blindow-Schulen.
 
-## Installation
+## Installation und HTTP 429
 
-Das Bild wird nicht als von uns erfundenes Vektorlogo nachgezeichnet. Installiere die echte, entsprechend lizenzierte Bilddatei auf deinem Rechner:
+Wenn Wikimedia automatisierte Zugriffe mit **429 Too Many Requests** einschränkt, soll das Skript keine wiederholten Wikimedia-Anfragen erzeugen. Es verwendet zuerst die alternative Kopie und danach höchstens einen Versuch über Wikimedia Commons:
 
 ```powershell
-.\scripts\install-school-logo.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\install-school-logo.ps1
 ```
 
-Der **grafische CMake-Build** versucht ebenfalls, die unveränderte Originaldatei automatisch von Wikimedia Commons herunterzuladen, kontrolliert dabei deren SHA-1-Prüfsumme und kopiert sie neben die GUI-EXE in `assets/school/`. Bei einem Offline-Build wird der Schulname als Text gezeigt. Die Anwendung prüft mehrere Asset-Pfade, damit das Logo beim Start aus dem Projektverzeichnis ebenso wie direkt aus dem Build-Ordner sichtbar wird.
+Es werden nur Bilddateien akzeptiert, die mindestens 10 KB groß sind und einen JPEG-Dateikopf haben. Für das Wikimedia-Original wird zusätzlich die bekannte SHA-1-Prüfsumme `71bc2f41e221b85e09907cedaeecb861b025b047` kontrolliert. Das unabhängige CI-Prüfskript kontrolliert JPEG-Bildabmessungen und ein plausibles Seitenverhältnis.
 
-Dadurch wird die Datei `assets/school/bernd-blindow-schulen.jpg` erstellt. Beim Start der grafischen Version lädt das Programm sie aus diesem lokalen Pfad. Fehlt das Bild, zeigt die Anwendung stattdessen korrekt den Text „Bernd Blindow Schulen | Ravensburg“. Die Terminalversion zeigt den Schulnamen als Text, keine vorgetäuschte Bilddatei.
+Wenn beide Quellen nicht erreichbar sind, öffne den Link zur alternativen Bilddatei im Browser, speichere sie als JPG und übergib den Dateipfad:
 
-Bitte prüfe vor einer Veröffentlichung oder Vorführung, ob die Logoverwendung den Vorgaben deiner Schule entspricht. Für die Präsentation darf das originale Logo nicht willkürlich umgefärbt oder verzerrt werden.
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install-school-logo.ps1 -LocalFile "C:\Pfad\zum\Logo.jpg"
+```
+
+Die lokale Zieladresse ist `assets/school/bernd-blindow-schulen.jpg`. Die grafische Anwendung prüft den Projektordner und den Ordner der EXE. Der grafische CMake-Build nutzt ebenfalls die alternative Quelle vor Wikimedia und kopiert das Bild neben die EXE. Ohne verfügbares Logo erscheint der Schulname als Text, statt eines gefälschten Symbols.
+
+Die Terminalversion zeigt den Schulnamen nur als Text. Für jede öffentliche Präsentation sind die Vorgaben der Schule zu beachten.
