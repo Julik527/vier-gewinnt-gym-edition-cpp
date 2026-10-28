@@ -28,7 +28,11 @@ target_link_libraries(vier-gewinnt PRIVATE gym_board)
 add_executable(board_tests tests/board_tests.cpp)
 target_link_libraries(board_tests PRIVATE gym_board)
 
-foreach(target gym_board vier-gewinnt board_tests)
+# Das zweite Testprogramm kontrolliert die Textoberflaeche.
+add_executable(console_ui_tests tests/console_ui_tests.cpp src/ConsoleUI.cpp)
+target_link_libraries(console_ui_tests PRIVATE gym_board)
+
+foreach(target gym_board vier-gewinnt board_tests console_ui_tests)
     if(MSVC)
         target_compile_options(${target} PRIVATE /W4)
     else()
@@ -40,6 +44,7 @@ endforeach()
 include(CTest)
 if(BUILD_TESTING)
     add_test(NAME board_unit_tests COMMAND board_tests)
+    add_test(NAME console_ui_unit_tests COMMAND console_ui_tests)
     find_package(Python3 COMPONENTS Interpreter)
     if(Python3_Interpreter_FOUND)
         add_test(
