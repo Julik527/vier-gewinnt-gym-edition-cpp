@@ -23,7 +23,7 @@ Die Spalte „Stand“ unterscheidet **implementiert** von **abgenommen**. Noch 
 | PB-15 | MUST | Vortrag/Handout | FR-17/18 | Architektur und Code erklärbar | Präsentation erstellt; Generalprobe offen |
 | PB-16 | SHOULD | Hantel-ASCII/Hilfe | EX-01/05 | Hilfe verändert Spielstand nicht | Code vorhanden, Sichttest offen |
 | PB-17 | COULD | Vorschau, Undo, Speichern | EX-02–04 | Gültige Zustandsübergänge | Undo geprüft, andere Integration offen |
-| PB-18 | COULD | Info & Animation | EX-06/07 | Abschaltbar, ohne Effekt spielbar | Terminaltest offen |
+| PB-18 | COULD | Info & Animation | EX-06/07 | Standardmäßig ruhig, Animation optional, ohne ANSI-Löschung | Implementiert, Terminaltest offen |
 
 ## Meilenstein Donnerstag, 29.10.2026
 1. Anforderungen und Klassenmodell sind dokumentiert.
