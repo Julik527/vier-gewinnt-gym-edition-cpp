@@ -35,9 +35,10 @@ private:
     bool animation_ = true;
     std::map<std::string, int> highscores_;
 
-    // Spielerzahl und Spielernamen werden über das Menü eingestellt.
-    void configurePlayers();
-    void configureNames();
+    // Der Startassistent fragt zuerst die Spielerzahl und danach die Namen ab.
+    // Beide Schritte lassen sich mit 0 abbrechen, ohne eine Runde zu verändern.
+    bool configurePlayers(int& playerCount);
+    bool configureNames(int playerCount, std::vector<std::string>& names);
     // Startet eine frische Runde mit leerem Feld.
     void newGame();
     // Hier finden Spielerwechsel und Züge statt.
