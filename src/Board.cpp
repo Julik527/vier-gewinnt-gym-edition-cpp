@@ -89,6 +89,31 @@ bool Board::hasWon(int row, int column, char symbol) const {
     return false;
 }
 
+// So kann das Spielfeld die gewinnende Reihe spaeter extra markieren.
+std::vector<std::pair<int, int>> Board::winningCells(int row, int column,
+                                                      char symbol) const {
+    if (!inside(row, column) || grid_[row][column] != symbol) return {};
+    const int dr[4] = {0, 1, 1, 1};
+    const int dc[4] = {1, 0, 1, -1};
+    for (int i = 0; i < 4; ++i) {
+        int firstRow = row;
+        int firstCol = column;
+        while (inside(firstRow - dr[i], firstCol - dc[i])
+               && grid_[firstRow - dr[i]][firstCol - dc[i]] == symbol) {
+            firstRow -= dr[i];
+            firstCol -= dc[i];
+        }
+        std::vector<std::pair<int, int>> line;
+        for (int r = firstRow, c = firstCol;
+             inside(r, c) && grid_[r][c] == symbol;
+             r += dr[i], c += dc[i]) {
+            line.emplace_back(r, c);
+        }
+        if (line.size() >= 4) return line;
+    }
+    return {};
+}
+
 int Board::tokenCount() const {
     int count = 0;
     for (const auto& row : grid_) {
