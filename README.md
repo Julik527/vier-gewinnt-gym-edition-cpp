@@ -62,7 +62,7 @@ Das Hauptmenü ist bewusst kompakt. **Neues Spiel** führt in einem Ablauf durch
 
 **Während des Spiels:** Eine Spaltennummer legt eine Hantel ab. `V 4` zeigt eine Vorschau, `U` nimmt den letzten Zug zurück, `S` speichert, `H` öffnet die Anleitung, `I` zeigt Spielinformationen, `A` schaltet die Animation um und `M` kehrt zum Hauptmenü zurück. Danach kann die Runde mit **2** fortgesetzt werden. Das Hauptmenü zeigt bei einer aktiven Partie die Spielernamen, den nächsten Spieler und die Anzahl gelegter Hanteln.
 
-**Nach einem Sieg oder Remis** erscheint ein eigener Ergebnisbildschirm. Dort gibt es **1 Revanche** (dieselben Spieler, neues leeres Feld), **2 Neues Spiel** (mit neuer Spieler-Einrichtung) oder **0 Hauptmenü**. Bei der Revanche bleiben Namen und Symbole erhalten. Der Highscore steigt nur einmal pro tatsächlich gewonnener Partie.
+**Nach einem Sieg oder Remis** erscheint ein eigener Ergebnisbildschirm. Dort gibt es **1 Revanche** (dieselben Spieler, neues leeres Feld), **2 Neues Spiel** (mit neuer Spieler-Einrichtung) oder **0 Hauptmenü**. Bei der Revanche bleiben Namen und Symbole erhalten. Der Ergebnisbildschirm zeigt zusätzlich die bisherigen Gesamtsiege aller beteiligten Spieler. Der Highscore steigt nur einmal pro tatsächlich gewonnener Partie.
 
 **Ruhige Terminaldarstellung:** Das Spielfeld wird nicht bei jeder Hilfe- oder Fehleingabe komplett neu ausgegeben, sondern vor allem nach echten Spielzügen, Undo oder einer Vorschau. Die optionale Animation ist standardmäßig ausgeschaltet und verwendet keine ANSI-Bildschirmlöschung. Mit `A` lässt sie sich im Spiel aktivieren.
 
