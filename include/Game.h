@@ -32,6 +32,9 @@ private:
     int current_ = 0;
     // Zeigt an, ob gerade eine Runde läuft.
     bool active_ = false;
+    // Nach Sieg oder Remis zeigt das Hauptprogramm ein Ergebnis-Menue.
+    bool resultPending_ = false;
+    std::string lastWinner_;
     bool animation_ = true;
     std::map<std::string, int> highscores_;
 
@@ -43,6 +46,8 @@ private:
     void newGame();
     // Hier finden Spielerwechsel und Züge statt.
     void play();
+    void rematch();
+    int showResultMenu() const;
     void showHelp() const;
     void showInfo() const;
     void showHighscores() const;
