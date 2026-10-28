@@ -48,6 +48,15 @@ bool validName(const std::string& name) {
         && name.find('\r') == std::string::npos;
 }
 
+// Der Rahmen bekommt immer die gleiche Breite, auch wenn Texte kuerzer sind.
+void menuBorder() {
+    std::cout << "  +" << std::string(51, '-') << "+\n";
+}
+
+void menuRow(const std::string& label) {
+    std::cout << "  | " << std::left << std::setw(49) << label << " |\n";
+}
+
 // Fuer Sicherheitsabfragen zaehlen nur J oder JA als Zustimmung.
 bool confirmed(const std::string& answer) {
     std::string lower = trim(answer);
@@ -383,18 +392,19 @@ void Game::showHighscores() const {
 // laden oder die Ergebnisse ansehen. Die Vorbereitung passiert bei Neues Spiel.
 void Game::run() {
     while (true) {
-        std::cout << "\n"
-                  << "  +---------------------------------------------------+\n"
-                  << "  | JK AXIS  |  VIER GEWINNT  :  GYM EDITION         |\n"
-                  << "  | C++17   |  LOKALER MEHRSPIELER-MODUS            |\n"
-                  << "  +---------------------------------------------------+\n"
-                  << "  |  1  Neues Spiel                                  |\n"
-                  << "  |  2  Spiel fortsetzen                             |\n"
-                  << "  |  3  Spielstand laden                             |\n"
-                  << "  |  4  Highscore                                    |\n"
-                  << "  |  5  Anleitung                                    |\n"
-                  << "  |  0  Beenden                                      |\n"
-                  << "  +---------------------------------------------------+\n";
+        std::cout << "\n";
+        menuBorder();
+        menuRow("JK AXIS  |  VIER GEWINNT : GYM EDITION");
+        menuRow("C++17  |  LOKALER MEHRSPIELER-MODUS");
+        menuBorder();
+        menuRow("1   Neues Spiel");
+        menuRow(active_ ? "2   Spiel fortsetzen"
+                        : "2   Spiel fortsetzen (keine Runde)");
+        menuRow("3   Spielstand laden");
+        menuRow("4   Highscore");
+        menuRow("5   Anleitung");
+        menuRow("0   Beenden");
+        menuBorder();
         if (active_) {
             std::cout << "  Laufende Runde: "
                       << players_.size() << " Spieler, "
