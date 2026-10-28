@@ -1,7 +1,7 @@
 // JK AXIS | GOLD MASTER
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   tests/board_tests.cpp
-// Aufgabe: Testet das Spielfeld mit automatischen Pruefungen.
+// Aufgabe: Testet das Spielfeld mit automatischen Prüfungen.
 // ------------------------------------------------------------
 
 #include "Board.h"
@@ -13,7 +13,7 @@
 namespace {
 // Wenn ein Test falsch ist, soll das Testprogramm sichtbar scheitern.
 void verify(bool condition, const std::string& description) {
-    // Never use assert() in tests that must also run in Release / NDEBUG.
+    // Diese Prüfung muss auch im Release-Build funktionieren.
     if (!condition) throw std::runtime_error("BOARD TEST FAILED: " + description);
 }
 
@@ -29,7 +29,7 @@ int put(Board& board, int column, char symbol) {
 // Hier werden die wichtigen Regeln des Spielfelds durchprobiert.
 int main() {
     try {
-        // Die Feldgroesse soll zur Zahl der Spieler passen.
+        // Die Feldgröße soll zur Zahl der Spieler passen.
         Board standard(2), medium(3), large(4);
         verify(standard.rows() == 6 && standard.columns() == 7, "2-player dimensions");
         verify(medium.rows() == 8 && medium.columns() == 9, "3-player dimensions");
@@ -56,7 +56,7 @@ int main() {
         verify(!standard.hasWon(5, 3, 'B'), "wrong symbol is not winner");
         verify(standard.tokenCount() == 4, "token count after 4 moves");
 
-        // Vier Steine in einer Spalte muessen als Sieg erkannt werden.
+        // Vier Steine in einer Spalte müssen als Sieg erkannt werden.
         Board vertical(2);
         for (int i = 0; i < 4; ++i) put(vertical, 0, 'B');
         verify(vertical.hasWon(2, 0, 'B'), "vertical win at top");
@@ -91,7 +91,7 @@ int main() {
         verify(!fullColumn.drop(0, 'R', row) && row == -1, "reject overfilled column");
         verify(fullColumn.tokenCount() == 6, "full column count");
 
-        // Am Ende pruefen wir auch, ob ein ganz volles Feld erkannt wird.
+        // Am Ende prüfen wir auch, ob ein ganz volles Feld erkannt wird.
         Board full(2);
         for (int col = 0; col < full.columns(); ++col) {
             for (int k = 0; k < full.rows(); ++k) put(full, col, 'R');
