@@ -361,7 +361,7 @@ private:
     struct Grid {float x, y, cell;};
     Grid grid() const {
         const float cell = std::min(72.f,
-             std::min(540.f / match_.board().rows(), 835.f / match_.board().columns()));
+             std::min(520.f / match_.board().rows(), 835.f / match_.board().columns()));
         return {100.f + (815.f - cell * match_.board().columns()) / 2.f,
                 185.f, cell};
     }
