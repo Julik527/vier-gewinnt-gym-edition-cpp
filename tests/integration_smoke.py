@@ -160,24 +160,53 @@ def main() -> int:
         output = run_game(binary, bad_dir, ["3", "0"])
         require(output, "Keine gueltige Speicherdatei")
 
-        # Einen echten Sieg spielen und pruefen, ob der Highscore erhalten bleibt.
-        win_dir = workdir("sieg-highscore")
+        # Hilfe, Info und ungueltige Eingaben sollen das Feld nicht staendig neu zeichnen.
+        output = run_game(
+            binary, workdir("ruhige-anzeige"),
+            ["1", "2", "Ada", "Ben", "H", "I", "A", "xyz", "M", "0", "j"],
+        )
+        count(output, "|  .  ", 42)  # Genau ein einziges leeres 7x6-Feld.
+
+        # Zwei Siege hintereinander, ohne neue Namen einzugeben.
+        win_dir = workdir("revanche-highscore")
+        winning_moves = ["1", "7", "2", "7", "3", "7", "4"]
         output = run_game(
             binary, win_dir,
-            ["1", "2", "Ada", "Ben", "A",
-             "1", "7", "2", "7", "3", "7", "4", "4", "0"],
+            ["1", "2", "Ada", "Ben", *winning_moves,
+             "1", *winning_moves, "0", "4", "0"],
         )
-        require(output, "GEWONNEN: Ada!", "1. Ada: 1")
+        require(output, "GEWONNEN: Ada!", "RUNDENENDE",
+                "Revanche (gleiche Spieler)", "REVANCHE", "1. Ada: 2")
+        count(output, "GEWONNEN: Ada!", 2)
+        count(output, "SCHRITT 1 VON 2", 1)
+        count(output, "SCHRITT 2 VON 2", 1)
         highscore = win_dir / "data" / "highscore.txt"
         if not highscore.is_file() or not re.search(
-            r'"Ada"\s+1', highscore.read_text(encoding="utf-8")
+            r'"Ada"\s+2', highscore.read_text(encoding="utf-8")
         ):
-            raise AssertionError("Sieg fehlt in der Highscore-Datei.")
+            raise AssertionError("Zwei Siege fehlen in der Highscore-Datei.")
         output = run_game(binary, win_dir, ["4", "0"])
-        require(output, "1. Ada: 1")
+        require(output, "1. Ada: 2")
 
-    print("Integration: Menue, 2-4 Spieler, Abbruch, Fortsetzen, "
-          "Fehleingaben, Undo, Save/Load und Highscore bestanden.")
+        # Nach dem Ergebnis kann man stattdessen ganz neue Spieler einrichten.
+        output = run_game(
+            binary, workdir("neustart-nach-sieg"),
+            ["1", "2", "Ada", "Ben", *winning_moves,
+             "2", "3", "Cleo", "Dana", "Eli", "M", "0", "j"],
+        )
+        require(output, "GEWONNEN: Ada!", "SCHRITT 1 VON 2",
+                "3 Spieler | 9 Spalten x 8 Reihen", "Cleo", "Dana", "Eli")
+        count(output, "SCHRITT 1 VON 2", 2)
+
+        # Falsche Eingabe beim Ergebnisbildschirm nicht als neue Aktion behandeln.
+        output = run_game(
+            binary, workdir("result-input"),
+            ["1", "2", "Ada", "Ben", *winning_moves, "5", "x", "0", "0"],
+        )
+        require(output, "Bitte 0, 1 oder 2 eingeben.", "Programm beendet.")
+
+    print("Integration: Menue, ruhige Anzeige, 2-4 Spieler, Abbruch, "
+          "Fortsetzen, Undo, Save/Load, Ergebnis und Revanche bestanden.")
     return 0
 
 
