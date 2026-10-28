@@ -59,6 +59,12 @@ Auf Linux mit GCC/Clang kannst du beim Konfigurieren zusätzlich `-DCMAKE_BUILD_
 
 Im Spiel: Spaltennummer eingeben; `V 4` für Vorschau, `U` Undo, `S` Speichern, `H` Hilfe, `I` Info, `A` Animation an/aus, `M` Menü.
 
+## Kommentare und Dateikoepfe
+
+Die C++-Quelldateien und Header besitzen jetzt einheitliche **JK AXIS | GOLD MASTER**-Dateikoepfe. Die Kommentare sind bewusst einfach geschrieben: Sie erklaeren vor allem Spielregeln, wichtige Entscheidungen und schwerere Stellen, ohne jede Codezeile zu wiederholen. Auch die Test- und Hilfsskripte sind beschrieben.
+
+Der [Code- und Kommentarleitfaden](docs/CODE_STYLE_JK_AXIS.md) zeigt den Aufbau und erklaert die Aufgaben jeder Datei anhand eines echten Beispiels. Die Ergaenzungen am 28.10.2026 sind reine Kommentierung; die vorhandene Programmlogik wurde dabei nicht veraendert.
+
 ## Architektur
 
 - `Game` (`include/Game.h`, `src/Game.cpp`) steuert Menü, Spielerwechsel und Persistenz.
@@ -90,6 +96,7 @@ Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_
 - [`docs/PROJECT_CHARTER.md`](docs/PROJECT_CHARTER.md) – Projektauftrag, Ziele, Grenzen
 - [`docs/PRODUCT_BACKLOG.md`](docs/PRODUCT_BACKLOG.md) – priorisierte Anforderungen und Abnahmebedingungen
 - [`docs/MILESTONE_2026-10-29.md`](docs/MILESTONE_2026-10-29.md) – Meilensteinstatus
+- [`docs/CODE_STYLE_JK_AXIS.md`](docs/CODE_STYLE_JK_AXIS.md) – Dateikoepfe, Kommentare und Erklaerungen auf Schuelerniveau
 - [`docs/QUALITY_AND_TESTS.md`](docs/QUALITY_AND_TESTS.md) – Testnachweise/noch offene Tests
 - [`docs/REPOSITORY_GUIDE.md`](docs/REPOSITORY_GUIDE.md) – GitHub-Veröffentlichung und Weiterarbeit
 - [`docs/KI_PROMPT_DOKUMENTATION.md`](docs/KI_PROMPT_DOKUMENTATION.md) – Promptregister (FR-16)
