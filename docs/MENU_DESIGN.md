@@ -90,6 +90,9 @@ Nach einer gewonnenen Partie oder einem Remis erscheint ein eigener Bildschirm m
 
 ### Ruhigere Konsolendarstellung
 
+Anleitung und Bestenliste bleiben auf einem interaktiven Terminal bis zum Bestätigen mit Enter sichtbar. Diese Pause wird bei automatisch umgeleiteter Testeingabe übersprungen.
+
+
 Das Spielfeld wird nach einem erfolgreichen Zug, einem Undo oder einer Vorschau neu ausgegeben. Hilfe, Info, Speichern und ungültige Eingaben drucken das unveränderte Spielfeld nicht noch einmal. Die Animation ist standardmäßig **ausgeschaltet**, lässt sich im Spiel aber mit `A` einschalten. Statt des dauernden Löschens des Terminals zeigt sie eine kurze Fortschrittszeile. Dadurch bleibt die Konsole auch ohne ANSI-Steuerzeichen lesbar.
 
 ### Was passiert bei Fehlern?
