@@ -432,10 +432,22 @@ void Game::showHighscores() const {
         if (a.second != b.second) return a.second > b.second;
         return a.first < b.first;
     });
-    std::cout << "\nHIGHSCORE (Siege absteigend)\n";
-    if (order.empty()) std::cout << "Noch keine Siege gespeichert.\n";
+
+    std::ostringstream screen;
+    screen << "\n  +-----------------------------------------------------+\n"
+           << "  | JK AXIS  /  GYM EDITION  /  BESTENLISTE          |\n"
+           << "  +-----------------------------------------------------+\n";
+    if (order.empty()) {
+        screen << "  Noch keine Siege gespeichert.\n"
+               << "  Spiele eine Runde und hol dir Platz 1!\n";
+    }
     int rank = 1;
-    for (const auto& item : order) std::cout << rank++ << ". " << item.first << ": " << item.second << '\n';
+    for (const auto& item : order) {
+        screen << "  " << rank++ << ". " << item.first << ": " << item.second
+               << (item.second == 1 ? " Sieg\n" : " Siege\n");
+    }
+    screen << "  -----------------------------------------------------\n";
+    console_ui::present(screen.str());
 }
 
 // Das Hauptmenue bleibt bewusst einfach: ein Spiel starten, fortsetzen,
