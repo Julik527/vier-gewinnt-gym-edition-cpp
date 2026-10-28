@@ -43,7 +43,7 @@ cmake --build build --config Release
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-Auf Linux mit GCC/Clang kannst du beim Konfigurieren zusätzlich `-DCMAKE_BUILD_TYPE=Release` angeben. CTest führt die Board-Unit-Tests und, wenn Python 3 vorhanden ist, die Integrationstests aus. In GitHub Actions sind Linux/Windows und Debug/Release als Prüfmatrix eingerichtet.
+Auf Linux mit GCC/Clang kannst du beim Konfigurieren zusätzlich `-DCMAKE_BUILD_TYPE=Release` angeben. CTest führt die Board-Unit-Tests und, wenn Python 3 vorhanden ist, die Integrationstests und die neuen ConsoleUI-Tests aus. In GitHub Actions sind Linux/Windows und Debug/Release als Prüfmatrix eingerichtet.
 
 ## Spielmenü und Spielstart
 
@@ -68,7 +68,7 @@ Das Hauptmenü ist bewusst kompakt. **Neues Spiel** führt in einem Ablauf durch
 
 **Ruhige Terminaldarstellung:** Das Spielfeld wird nur bei wichtigen Änderungen neu aufgebaut. In kompatiblen interaktiven Terminals aktualisiert es sich an derselben Bildschirmposition. Bei Umleitung, fehlender ANSI-Unterstützung oder `NO_COLOR` bleiben Rahmen, Buchstaben und Texte ohne Farbcodes lesbar. Die optionale, kurze Animation ist standardmäßig ausgeschaltet; `A` schaltet sie um. Ein Fensterprogramm oder eine Maussteuerung ist noch nicht Bestandteil dieser Ausgabe.
 
-Die komplette Menüführung, Beispiele und Abnahmeszenarien stehen in [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md).
+Die neue Arena mit Spielerfarben, Hantelsymbolen, Gewinnmarkierung und Terminal-Kompatibilität ist im [JK-AXIS-Arena-Leitfaden](docs/ARENA_DESIGN.md) dokumentiert. Die komplette Menüführung, Beispiele und Abnahmeszenarien stehen in [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md).
 
 ## Kommentare und Dateiköpfe
 
@@ -93,7 +93,7 @@ cmake --build build --config Debug
 ctest --test-dir build -C Debug --output-on-failure
 ```
 
-Die Tests umfassen Spielfeldgrößen, Schwerkraft, Überlauf und Gewinnrichtungen sowie über `tests/integration_smoke.py` den durchgängigen Spielstart, Abbruch/Fortsetzen, Namen, Vorschau, Undo, Laden/Speichern, beschädigte Dateien, Gewinnen, Revanche mit unveränderten Namen, Ergebnisnavigation, ruhige Darstellung und dauerhafte Highscores.
+Die Tests umfassen Spielfeldgrößen, Schwerkraft, Gewinnlinien samt Markierung, ConsoleUI-Darstellung für 2/4 Spieler sowie über `tests/integration_smoke.py` den durchgängigen Spielstart, Abbruch/Fortsetzen, Namen, Vorschau, Undo, Laden/Speichern, beschädigte Dateien, Gewinnen, Revanche mit unveränderten Namen, Ergebnisnavigation, ruhige Darstellung und dauerhafte Highscores.
 
 **Nachweisstand:** Die Board-Tests und der Konsolen-Smoke-Test vom 25.10.2026 wurden historisch auf Linux ausgeführt. Der erweiterte Testkatalog und die GitHub-Actions-Matrix wurden am 28.10.2026 ergänzt. Die erfolgreichen CI-Läufe und der Windows-Schulrechner müssen anhand ihrer tatsächlichen Ergebnisse bestätigt werden. Keine Schul- oder Produktfreigabe wird daraus abgeleitet. Siehe [Qualität und Tests](docs/QUALITY_AND_TESTS.md).
 
@@ -109,6 +109,7 @@ Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_
 - [`docs/PRODUCT_BACKLOG.md`](docs/PRODUCT_BACKLOG.md) – priorisierte Anforderungen und Abnahmebedingungen
 - [`docs/MILESTONE_2026-10-29.md`](docs/MILESTONE_2026-10-29.md) – Meilensteinstatus
 - [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md) – Hauptmenü, neuer Spielstart und Ablaufdiagramm
+- [`docs/ARENA_DESIGN.md`](docs/ARENA_DESIGN.md) – Gym-Edition-Trainings-Arena, Farben, Spielsteine, Gewinnmarkierung und Terminalanforderungen
 - [`docs/CODE_STYLE_JK_AXIS.md`](docs/CODE_STYLE_JK_AXIS.md) – Dateikoepfe, Kommentare und Erklaerungen auf Schuelerniveau
 - [`docs/QUALITY_AND_TESTS.md`](docs/QUALITY_AND_TESTS.md) – Testnachweise/noch offene Tests
 - [`docs/REPOSITORY_GUIDE.md`](docs/REPOSITORY_GUIDE.md) – GitHub-Veröffentlichung und Weiterarbeit
