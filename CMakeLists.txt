@@ -52,6 +52,11 @@ if(BUILD_TESTING)
             COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration_smoke.py" "$<TARGET_FILE:vier-gewinnt>"
         )
         set_tests_properties(game_integration_tests PROPERTIES TIMEOUT 60)
+        # Verhindert kaputte F5-Konfigurationen nach neuen Quelldateien.
+        add_test(
+            NAME vscode_config_tests
+            COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/vscode_config_test.py" "${CMAKE_CURRENT_SOURCE_DIR}"
+        )
     else()
         message(WARNING "Python3 missing: interactive integration test not registered")
     endif()
