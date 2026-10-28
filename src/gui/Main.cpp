@@ -121,7 +121,7 @@ private:
     }
     void label(const std::string& value, float x, float y, unsigned size = 22,
                sf::Color color = white, bool bold = false) {
-        sf::Text text(font_, value, size);
+        sf::Text text(font_, sf::String::fromUtf8(value.begin(), value.end()), size);
         text.setFillColor(color);
         if (bold) text.setStyle(sf::Text::Bold);
         text.setPosition({x, y});
@@ -338,8 +338,10 @@ private:
     }
     void textInput(char32_t unicode) {
         if (screen_ != Screen::Names) return;
-        if (unicode >= 32 && unicode <= 126 && input_.size() < 24)
-            input_.push_back(static_cast<char>(unicode));
+        if (unicode < 32 || unicode == 127) return;
+        const auto utf8 = sf::String(unicode).toUtf8();
+        if (input_.size() + utf8.size() <= 24)
+            for (const auto byte : utf8) input_.push_back(static_cast<char>(byte));
     }
     void keyDown(sf::Keyboard::Key key) {
         if (key == sf::Keyboard::Key::Escape) {
@@ -353,7 +355,13 @@ private:
             return;
         }
         if (screen_ == Screen::Names) {
-            if (key == sf::Keyboard::Key::Backspace && !input_.empty()) input_.pop_back();
+            if (key == sf::Keyboard::Key::Backspace && !input_.empty()) {
+                // UTF-8-Zeichen komplett entfernen, nicht nur ein Byte.
+                do {
+                    input_.pop_back();
+                } while (!input_.empty()
+                    && (static_cast<unsigned char>(input_.back()) & 0xC0) == 0x80);
+            }
             if (key == sf::Keyboard::Key::Enter) acceptName();
             return;
         }
