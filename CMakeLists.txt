@@ -1,7 +1,7 @@
 # JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   CMakeLists.txt
-# Aufgabe: Baut das C++-Spiel und fuehrt die automatischen Tests aus.
+# Aufgabe: Baut das C++-Spiel und führt die automatischen Tests aus.
 # ------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.16)
