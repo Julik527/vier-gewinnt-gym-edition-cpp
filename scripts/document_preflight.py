@@ -2,7 +2,7 @@
 # JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   scripts/document_preflight.py
-# Aufgabe: Kontrolliert Praesentation, PDFs und Dateilinks, ohne sie zu aendern.
+# Aufgabe: Kontrolliert Präsentation, PDFs und Dateilinks, ohne sie zu ändern.
 # ------------------------------------------------------------
 
 """Read-only preflight for the published JK AXIS Gym Edition artifacts.
@@ -19,7 +19,7 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 
-# Diese Seitenzahlen erwarten wir bei den veroeffentlichten PDFs.
+# Diese Seitenzahlen erwarten wir bei den veröffentlichten PDFs.
 EXPECTED_PDFS = {
     "reference/Anforderungsanalyse_JK-CD-DE-2026-003.pdf": 19,
     "reference/Gesamt_Dokumentation_Vier_Gewinnt_Gym_Edition.pdf": 84,
@@ -100,7 +100,7 @@ def check(root: Path, presentation_only: bool = False) -> int:
                     if page.rect.width <= 0 or page.rect.height <= 0:
                         errors.append(f"{relative}: page {index} has invalid dimensions")
                         continue
-                    # Rasterize all pages, not merely the first page.
+                    # Alle Seiten prüfen, nicht nur die erste.
                     pix = page.get_pixmap(matrix=fitz.Matrix(0.65, 0.65), alpha=False)
                     if pix.width <= 0 or pix.height <= 0:
                         errors.append(f"{relative}: page {index} rendered empty")
@@ -112,7 +112,7 @@ def check(root: Path, presentation_only: bool = False) -> int:
         readme = root / "README.md"
         if readme.is_file():
             md = readme.read_text(encoding="utf-8")
-            # Hier pruefen wir lokale Links aus der README auf fehlende Dateien.
+            # Hier prüfen wir lokale Links aus der README auf fehlende Dateien.
             for link in re.findall(r"\]\(([^)]+)\)", md):
                 address = link.split("#", 1)[0]
                 if not address or "://" in address or address.startswith("mailto:"):
