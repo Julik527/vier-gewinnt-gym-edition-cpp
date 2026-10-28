@@ -122,6 +122,7 @@ void Game::newGame() {
     if (active_ && !confirmed(ask(
         "\n  Eine Runde laeuft noch. Neue Runde starten? [j/N]: "))) {
         std::cout << "  Die bisherige Runde bleibt erhalten.\n";
+        console_ui::pauseForReading();
         return;
     }
 
@@ -129,6 +130,7 @@ void Game::newGame() {
     std::vector<std::string> nextNames;
     if (!configurePlayers(nextCount) || !configureNames(nextCount, nextNames)) {
         std::cout << "\n  Spielstart abgebrochen. Zurueck zum Hauptmenue.\n";
+        console_ui::pauseForReading();
         return;
     }
 
@@ -475,6 +477,7 @@ void Game::run() {
             if (active_ && !confirmed(ask(
                 "\n  Laufende Runde durch Speicherstand ersetzen? [j/N]: "))) {
                 std::cout << "  Die bisherige Runde bleibt erhalten.\n";
+                console_ui::pauseForReading();
                 break;
             }
             if (loadGame()) {
@@ -504,6 +507,7 @@ void Game::run() {
             return;
         default:
             std::cout << "\n  Bitte 0 bis 5 eingeben.\n";
+            console_ui::pauseForReading();
         }
     }
 }
