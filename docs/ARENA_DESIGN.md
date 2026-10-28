@@ -66,6 +66,10 @@ Die Farben sind optional. Auf kompatiblen Terminals werden die Spielsteine versc
 - **Ergebnis:** Zeigt das endgültige Raster mit markierter Gewinnreihe und die Gesamtsiege.
 - **Danach:** Revanche mit denselben Spielern, neue Einrichtung oder Rückkehr zum Hauptmenü.
 
+## Anleitung und Bestenliste
+
+Weil das Hauptmenü sich in modernen Terminals an derselben Bildschirmposition aktualisiert, würden Anleitung oder Bestenliste ohne weitere Steuerung sofort verschwinden. Deshalb bleibt die Ansicht an echten Terminals bis zur Enter-Taste geöffnet. Bei automatisierten Tests mit umgeleiteter Ein- und Ausgabe wird keine zusätzliche Eingabe verlangt.
+
 ## Technische Entscheidungen
 
 Die Darstellung verwendet `ConsoleUI.h` und `ConsoleUI.cpp`. Das Spielfeld wird als Text aus dem aktuellen `Board` aufgebaut und in einem Stück ausgegeben. Bei einem geeigneten interaktiven Terminal verwendet `present()` ANSI-Codes zur Aktualisierung derselben Bildschirmposition. Bei umgeleiteter Ausgabe, `NO_COLOR`, unbekannter oder alter Terminalunterstützung wird normales Textformat verwendet.
