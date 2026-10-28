@@ -85,7 +85,7 @@ Nach einer gewonnenen Partie oder einem Remis erscheint ein eigener Bildschirm m
 - **1 Revanche:** Das Feld und die Undo-Liste werden geleert. Namen, Symbole und Spieleranzahl bleiben unverändert. Der erste Spieler beginnt wieder.
 - **2 Neues Spiel:** Die Einrichtung mit Spieleranzahl und Namen beginnt neu.
 - **0 Hauptmenü:** Der Ergebnisbildschirm endet; die abgeschlossene Runde kann nicht mehr fortgesetzt werden.
-- Der Highscore wird beim Sieg **genau einmal** erhöht. Bei Remis gibt es keinen Siegerpunkt.
+- Der Ergebnisbildschirm zeigt außerdem die bisherigen Gesamtsiege der beteiligten Spieler. Der Highscore wird beim Sieg **genau einmal** erhöht. Bei Remis gibt es keinen Siegerpunkt.
 - Die Auswahl wird im Hauptprogramm verarbeitet. Es entstehen keine ineinander verschachtelten Spielrunden.
 
 ### Ruhigere Konsolendarstellung
