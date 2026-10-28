@@ -43,4 +43,12 @@ Für das neue Hauptmenü gilt **0–5**. Die Punkte Spieleranzahl und Namen befi
 | T34 | Spiel starten → M | Hauptmenü zeigt Spielernamen, nächsten Spieler, belegte Felder | | |
 | T35 | Animation A ein/aus | Keine ANSI-Bildschirmlöschung, Terminal bleibt lesbar | | |
 
+| T36 | Starten im Windows Terminal | JK AXIS-Kopf, Gym-Motto und saubere Zellbreiten sichtbar | | |
+| T37 | Zwei Spieler, erster Zug | Namen, aktuelle Spielerfarbe, Siege und Hantelzeichen sichtbar | | |
+| T38 | Vier Spieler | Alle 11 Spalten und 10 Reihen vollständig sichtbar | | |
+| T39 | Gewinn durch vier Steine | Genau die Gewinnreihe mit geschweiften Klammern hervorgehoben | | |
+| T40 | NO_COLOR oder umgeleitete Ausgabe | Alle Symbole auch ohne Farben unterscheidbar | | |
+| T41 | Vorschau und Undo | Anzeige korrekt, Spiellogik unverändert | | |
+| T42 | Revanche nach Sieg | Neues leeres Feld, Namen/Symbole bleiben, Gesamtsiege erhalten | | |
+
 Belege in `docs/evidence/` ablegen. Manuelle Tests erst nach der tatsächlichen Durchführung als bestanden markieren.
