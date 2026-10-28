@@ -76,21 +76,44 @@ if(GYM_BUILD_GUI)
     if(EXISTS "${GYM_SCHOOL_LOGO_LOCAL}")
         set(GYM_SCHOOL_LOGO "${GYM_SCHOOL_LOGO_LOCAL}")
     else()
+        # Zuerst eine alternative, abrufbare Fassung desselben Schulkennzeichens.
+        # Wikimedia begrenzt automatisierte Direkt-Downloads mit HTTP 429.
         if(NOT EXISTS "${GYM_SCHOOL_LOGO_DOWNLOAD}")
-            file(DOWNLOAD
-                "https://upload.wikimedia.org/wikipedia/commons/7/7e/Logo_BBS_standard_quer.jpg"
-                "${GYM_SCHOOL_LOGO_DOWNLOAD}"
-                STATUS GYM_SCHOOL_LOGO_STATUS
-                EXPECTED_HASH SHA1=71bc2f41e221b85e09907cedaeecb861b025b047
-                TIMEOUT 25)
-            list(GET GYM_SCHOOL_LOGO_STATUS 0 GYM_SCHOOL_LOGO_CODE)
-            if(NOT GYM_SCHOOL_LOGO_CODE EQUAL 0)
-                message(WARNING "Schullogo konnte nicht geladen werden; Text-Ersatz bleibt sichtbar.")
+            set(GYM_SCHOOL_LOGO_SOURCES
+                "https://storage.googleapis.com/media-ossnar82/media/images/Logo_BBS_standard_quer.max-1200x1200.jpg"
+                "https://upload.wikimedia.org/wikipedia/commons/7/7e/Logo_BBS_standard_quer.jpg")
+            foreach(GYM_SCHOOL_LOGO_URL IN LISTS GYM_SCHOOL_LOGO_SOURCES)
+                file(DOWNLOAD "${GYM_SCHOOL_LOGO_URL}"
+                    "${GYM_SCHOOL_LOGO_DOWNLOAD}"
+                    STATUS GYM_SCHOOL_LOGO_STATUS
+                    TIMEOUT 25)
+                list(GET GYM_SCHOOL_LOGO_STATUS 0 GYM_SCHOOL_LOGO_CODE)
+                if(GYM_SCHOOL_LOGO_CODE EQUAL 0 AND EXISTS "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+                    file(SIZE "${GYM_SCHOOL_LOGO_DOWNLOAD}" GYM_SCHOOL_LOGO_BYTES)
+                    file(READ "${GYM_SCHOOL_LOGO_DOWNLOAD}" GYM_SCHOOL_LOGO_HEADER LIMIT 3 HEX)
+                    if(GYM_SCHOOL_LOGO_BYTES GREATER 10000
+                       AND GYM_SCHOOL_LOGO_HEADER STREQUAL "ffd8ff")
+                        # Das Original aus Wikimedia ist mit der veroeffentlichten SHA-1 gesichert.
+                        if(GYM_SCHOOL_LOGO_URL MATCHES "wikimedia\\.org")
+                            file(SHA1 "${GYM_SCHOOL_LOGO_DOWNLOAD}" GYM_SCHOOL_LOGO_HASH)
+                            if(NOT GYM_SCHOOL_LOGO_HASH STREQUAL "71bc2f41e221b85e09907cedaeecb861b025b047")
+                                file(REMOVE "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+                                continue()
+                            endif()
+                        endif()
+                        break()
+                    endif()
+                endif()
                 file(REMOVE "${GYM_SCHOOL_LOGO_DOWNLOAD}")
-            endif()
+            endforeach()
         endif()
         if(EXISTS "${GYM_SCHOOL_LOGO_DOWNLOAD}")
             set(GYM_SCHOOL_LOGO "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+        else()
+            message(WARNING
+                "Schullogo-Download nicht verfuegbar. "
+                "Die GUI zeigt den Schulnamen als Text. "
+                "Du kannst das Logo mit scripts/install-school-logo.ps1 lokal installieren.")
         endif()
     endif()
     if(GYM_SCHOOL_LOGO)
