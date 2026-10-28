@@ -24,8 +24,16 @@ int main() {
         verify(medium.rows() == 8 && medium.columns() == 9, "3-player dimensions");
         verify(large.rows() == 10 && large.columns() == 11, "4-player dimensions");
 
+        for (int invalidPlayers : {0, 1, 5, 10000}) {
+            bool rejected = false;
+            try { Board invalid(invalidPlayers); }
+            catch (const std::invalid_argument&) { rejected = true; }
+            verify(rejected, "invalid player count rejected");
+        }
+
         int row = -999;
         verify(!standard.drop(-1, 'R', row) && row == -1, "left invalid column");
+        verify(!standard.drop(0, '.', row) && row == -1, "reject empty-cell token");
         verify(!standard.drop(7, 'R', row) && row == -1, "right invalid column");
         verify(standard.nextFreeRow(-1) == -1, "invalid nextFreeRow");
         verify(standard.nextFreeRow(0) == 5, "gravity on empty board");
