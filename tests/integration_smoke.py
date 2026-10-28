@@ -2,7 +2,7 @@
 # JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   tests/integration_smoke.py
-# Aufgabe: Prueft das Spiel automatisch mit echten Menue-Eingaben.
+# Aufgabe: Prüft das Spiel automatisch mit echten Menü-Eingaben.
 # ------------------------------------------------------------
 
 """Repeatable black-box tests. Only Python's standard library is required."""
@@ -21,7 +21,7 @@ def run_game(binary: pathlib.Path, directory: pathlib.Path, commands: list[str])
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        # Jeder Test nutzt seinen eigenen Ordner, damit sich Spielstaende nicht mischen.
+        # Jeder Test nutzt seinen eigenen Ordner, damit sich Spielstände nicht mischen.
         cwd=directory,
         timeout=20,
         check=False,
@@ -44,7 +44,7 @@ def require(text: str, *fragments: str) -> None:
             raise AssertionError(f"Expected {fragment!r}. Output tail: {text[-1800:]!r}")
 
 
-# Hier testen wir die wichtigsten Ablaufe Schritt fuer Schritt.
+# Hier testen wir die wichtigsten Abläufe Schritt für Schritt.
 def main() -> int:
     if len(sys.argv) != 2:
         print("Usage: integration_smoke.py <path-to-vier-gewinnt>", file=sys.stderr)
@@ -57,7 +57,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix="gym-edition-test-") as temp:
         root = pathlib.Path(temp)
 
-        # All supported player counts must create correctly sized boards.
+        # Bei jeder Spielerzahl muss die passende Feldgröße herauskommen.
         for n, cols, rows in [(2, 7, 6), (3, 9, 8), (4, 11, 10)]:
             work = root / f"players-{n}"
             work.mkdir()
@@ -87,7 +87,7 @@ def main() -> int:
         save = work / "data" / "savegame.txt"
         if not save.is_file() or not save.read_text(encoding="utf-8").startswith("GYM1\n"):
             raise AssertionError("Saved game missing or invalid header")
-        # Appending arbitrary data must invalidate the entire saved game.
+        # Zusätzlicher Text macht eine Speicherdatei ungültig.
         with save.open("a", encoding="utf-8") as output_file:
             output_file.write("\nTRAILING_GARBAGE\n")
         output = run_game(binary, work, ["5", "0"])
