@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# JK AXIS | GOLD MASTER
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/document_preflight.py
+# Aufgabe: Kontrolliert Praesentation, PDFs und Dateilinks, ohne sie zu aendern.
+# ------------------------------------------------------------
+
 """Read-only preflight for the published JK AXIS Gym Edition artifacts.
 
 Checks format validity, expected PDF page counts, every PDF page's rasterizability,
@@ -13,6 +19,7 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 
+# Diese Seitenzahlen erwarten wir bei den veroeffentlichten PDFs.
 EXPECTED_PDFS = {
     "reference/Anforderungsanalyse_JK-CD-DE-2026-003.pdf": 19,
     "reference/Gesamt_Dokumentation_Vier_Gewinnt_Gym_Edition.pdf": 84,
@@ -26,6 +33,7 @@ PPTX = "praesentation/Vier_Gewinnt_Praesentation_FINAL.pptx"
 LEGACY_IMAGE_SHA_PREFIX = "bffb61e37fae"
 
 
+# Sammelt gefundene Fehler, damit am Ende alles in einem Bericht steht.
 def check(root: Path, presentation_only: bool = False) -> int:
     import fitz
     from pptx import Presentation
@@ -40,6 +48,7 @@ def check(root: Path, presentation_only: bool = False) -> int:
             prs = Presentation(slides)
             if len(prs.slides) != 17:
                 errors.append(f"Expected 17 slides, found {len(prs.slides)}")
+            # Jede Folie wird auf alte Kennzeichnungen und Logos untersucht.
             for index, slide in enumerate(prs.slides, start=1):
                 for shape in slide.shapes:
                     if shape.has_text_frame and "JK-CD-DE-2026-003" in shape.text:
@@ -86,6 +95,7 @@ def check(root: Path, presentation_only: bool = False) -> int:
                     continue
                 if len(pdf) != expected_pages:
                     errors.append(f"{relative}: expected {expected_pages} pages, found {len(pdf)}")
+                # Auch die letzte PDF-Seite muss sich problemlos darstellen lassen.
                 for index, page in enumerate(pdf, start=1):
                     if page.rect.width <= 0 or page.rect.height <= 0:
                         errors.append(f"{relative}: page {index} has invalid dimensions")
@@ -102,6 +112,7 @@ def check(root: Path, presentation_only: bool = False) -> int:
         readme = root / "README.md"
         if readme.is_file():
             md = readme.read_text(encoding="utf-8")
+            # Hier pruefen wir lokale Links aus der README auf fehlende Dateien.
             for link in re.findall(r"\]\(([^)]+)\)", md):
                 address = link.split("#", 1)[0]
                 if not address or "://" in address or address.startswith("mailto:"):
