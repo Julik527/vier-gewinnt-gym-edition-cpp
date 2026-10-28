@@ -217,6 +217,13 @@ int Game::showResultMenu() const {
         std::cout << "  REMIS: Das Spielfeld ist voll.\n";
     }
     std::cout << "  Gespielte Zuege: " << board_.tokenCount() << "\n";
+    std::cout << "  Bisherige Gesamtsiege:\n";
+    for (const auto& player : players_) {
+        const auto result = highscores_.find(player.getName());
+        const int wins = (result == highscores_.end()) ? 0 : result->second;
+        std::cout << "    [" << player.getSymbol() << "] " << player.getName()
+                  << ": " << wins << ((wins == 1) ? " Sieg\n" : " Siege\n");
+    }
     menuBorder();
     menuRow("1   Revanche (gleiche Spieler)");
     menuRow("2   Neues Spiel (Spieler neu waehlen)");
