@@ -90,9 +90,12 @@ std::string ask(const std::string& message) {
 
 // Namen dürfen nicht leer oder zu lang sein.
 bool validName(const std::string& name) {
-    return !name.empty() && name.size() <= 24
-        && name.find('\n') == std::string::npos
-        && name.find('\r') == std::string::npos;
+    if (name.empty() || name.size() > 24) return false;
+    for (unsigned char ch : name) {
+        // Tab, ESC und andere Steuerzeichen duerfen das Terminal nicht veraendern.
+        if (ch < 32 || ch == 127) return false;
+    }
+    return true;
 }
 
 // Fuer Sicherheitsabfragen zaehlen nur J oder JA als Zustimmung.
@@ -326,7 +329,8 @@ void Game::play() {
                     board_, players_, current_, round_, highscores_,
                     col - 1, players_[current_].getSymbol()));
                 std::cout << "Nur Vorschau: Feld wurde NICHT veraendert.\n";
-                redraw = true;
+                // Die Vorschau bleibt bis zur naechsten Eingabe sichtbar.
+                redraw = false;
             }
             continue;
         }
