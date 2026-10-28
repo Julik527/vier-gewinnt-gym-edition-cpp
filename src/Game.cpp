@@ -238,6 +238,11 @@ bool Game::loadGame(const std::string& path) {
             if (line[col] != candidate.cells()[row][col]) return false;
         }
     }
+    // Kein weiteres Token nach der letzten Rasterzeile akzeptieren.
+    // So werden auch ansonsten plausible, aber manipulierte Spielstaende verworfen.
+    std::string trailingToken;
+    if (in >> trailingToken) return false;
+
     // Ausschliesslich nach vollstaendiger Pruefung den echten Spielstand ersetzen.
     board_ = std::move(candidate);
     players_ = std::move(loadedPlayers);
