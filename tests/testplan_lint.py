@@ -39,6 +39,17 @@ def main() -> int:
     if len(sys.argv) > 1:
         root = Path(sys.argv[1])
     plan = (root / "docs/TESTPLAN.md").read_text(encoding="utf-8")
+    # Kontrolliert auch, dass der Validator die urspruenglichen Defekte erkennt.
+    examples = [
+        "| defektes Tabellenfragment |" + plan,
+        plan.replace("## Rundenende", r"\n## Rundenende", 1),
+        plan.replace("| T47 |", "| T46 |", 1),
+    ]
+    for candidate in examples:
+        if not validate(candidate):
+            print("FAIL: Linter uebersieht einen bekannten Defekt", file=sys.stderr)
+            return 1
+
     failures = validate(plan)
     if failures:
         print("\n".join(f"FAIL: {error}" for error in failures), file=sys.stderr)
