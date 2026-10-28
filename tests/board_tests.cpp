@@ -1,3 +1,9 @@
+// JK AXIS | GOLD MASTER
+// Projekt: Vier Gewinnt | Gym Edition (C++17)
+// Datei:   tests/board_tests.cpp
+// Aufgabe: Testet das Spielfeld mit automatischen Pruefungen.
+// ------------------------------------------------------------
+
 #include "Board.h"
 #include <iostream>
 #include <initializer_list>
@@ -5,11 +11,13 @@
 #include <string>
 
 namespace {
+// Wenn ein Test falsch ist, soll das Testprogramm sichtbar scheitern.
 void verify(bool condition, const std::string& description) {
     // Never use assert() in tests that must also run in Release / NDEBUG.
     if (!condition) throw std::runtime_error("BOARD TEST FAILED: " + description);
 }
 
+// Spart im Test wiederholte Zeilen beim Einwerfen einer Hantel.
 int put(Board& board, int column, char symbol) {
     int row = -999;
     verify(board.drop(column, symbol, row), "drop succeeded");
@@ -18,8 +26,10 @@ int put(Board& board, int column, char symbol) {
 }
 }
 
+// Hier werden die wichtigen Regeln des Spielfelds durchprobiert.
 int main() {
     try {
+        // Die Feldgroesse soll zur Zahl der Spieler passen.
         Board standard(2), medium(3), large(4);
         verify(standard.rows() == 6 && standard.columns() == 7, "2-player dimensions");
         verify(medium.rows() == 8 && medium.columns() == 9, "3-player dimensions");
@@ -46,6 +56,7 @@ int main() {
         verify(!standard.hasWon(5, 3, 'B'), "wrong symbol is not winner");
         verify(standard.tokenCount() == 4, "token count after 4 moves");
 
+        // Vier Steine in einer Spalte muessen als Sieg erkannt werden.
         Board vertical(2);
         for (int i = 0; i < 4; ++i) put(vertical, 0, 'B');
         verify(vertical.hasWon(2, 0, 'B'), "vertical win at top");
@@ -55,6 +66,7 @@ int main() {
         verify(vertical.undo(2, 0), "undo top stone");
         verify(!vertical.hasWon(3, 0, 'B'), "win removed after undo");
 
+        // Eine Diagonale entsteht durch unterschiedlich hohe Stapel.
         Board diagDown(2);
         for (int col = 0; col < 4; ++col) {
             for (int support = 0; support < col; ++support) put(diagDown, col, 'B');
@@ -72,12 +84,14 @@ int main() {
         }
         verify(diagUp.hasWon(2, 0, 'R'), "diagonal left-up");
 
+        // In eine volle Spalte darf kein weiterer Stein fallen.
         Board fullColumn(2);
         for (int i = 0; i < 6; ++i) put(fullColumn, 0, 'R');
         verify(fullColumn.nextFreeRow(0) == -1, "full column nextFreeRow");
         verify(!fullColumn.drop(0, 'R', row) && row == -1, "reject overfilled column");
         verify(fullColumn.tokenCount() == 6, "full column count");
 
+        // Am Ende pruefen wir auch, ob ein ganz volles Feld erkannt wird.
         Board full(2);
         for (int col = 0; col < full.columns(); ++col) {
             for (int k = 0; k < full.rows(); ++k) put(full, col, 'R');
