@@ -1,0 +1,12 @@
+# Document formats and image assets: preserve bytes and review changes deliberately
+*.pdf binary
+*.pptx binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.svg text eol=lf
+*.md text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
