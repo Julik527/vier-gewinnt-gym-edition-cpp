@@ -45,19 +45,24 @@ ctest --test-dir build -C Release --output-on-failure
 
 Auf Linux mit GCC/Clang kannst du beim Konfigurieren zusätzlich `-DCMAKE_BUILD_TYPE=Release` angeben. CTest führt die Board-Unit-Tests und, wenn Python 3 vorhanden ist, die Integrationstests aus. In GitHub Actions sind Linux/Windows und Debug/Release als Prüfmatrix eingerichtet.
 
-## Spielablauf / Menü
+## Spielmenü und Spielstart
 
-| Taste | Funktion |
+Das Hauptmenü ist bewusst kompakt. **Neues Spiel** führt in einem Ablauf durch die Vorbereitung: zuerst **2–4 Spieler wählen**, dann **alle Namen nacheinander eingeben** und unmittelbar danach **die Runde starten**. Die früheren separaten Menüpunkte für Spielerzahl und Namen sind entfallen.
+
+| Taste | Hauptmenü-Funktion |
 |:--|:--|
-| `1` | Neues Spiel |
-| `2` | Spieleranzahl (2-4) |
-| `3` | Namen eingeben |
-| `4` | Spiel speichern |
-| `5` | Spiel laden |
-| `6` | Highscore anzeigen |
+| `1` | Neues Spiel einschließlich Spieler-Einrichtung |
+| `2` | Aktuelle Runde fortsetzen, falls vorhanden |
+| `3` | Spielstand aus `data/savegame.txt` laden |
+| `4` | Highscore anzeigen |
+| `5` | Anleitung und Steuerung |
 | `0` | Programm beenden |
 
-Im Spiel: Spaltennummer eingeben; `V 4` für Vorschau, `U` Undo, `S` Speichern, `H` Hilfe, `I` Info, `A` Animation an/aus, `M` Menü.
+**Einrichtung:** Bei der Spielerzahl und Namenseingabe führt `0` zurück zum Hauptmenü. Ungültige Eingaben werden erneut abgefragt. Bereits laufende Partien werden nicht ohne Bestätigung verworfen; ein Abbruch der Einrichtung lässt sie bestehen.
+
+**Während des Spiels:** Eine Spaltennummer legt eine Hantel ab. `V 4` zeigt eine Vorschau, `U` nimmt den letzten Zug zurück, `S` speichert, `H` öffnet die Anleitung, `I` zeigt Spielinformationen, `A` schaltet die Animation um und `M` kehrt zum Hauptmenü zurück. Danach kann die Runde mit **2** fortgesetzt werden.
+
+Die komplette Menüführung, Beispiele und Abnahmeszenarien stehen in [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md).
 
 ## Kommentare und Dateiköpfe
 
@@ -81,7 +86,7 @@ cmake --build build --config Debug
 ctest --test-dir build -C Debug --output-on-failure
 ```
 
-Die Tests umfassen Spielfeldgrößen, Schwerkraft, Überlauf und Gewinnrichtungen sowie über `tests/integration_smoke.py` die Menüsteuerung, Namen, Vorschau, Undo, Laden/Speichern, beschädigte Dateien, Gewinnen und dauerhafte Highscores.
+Die Tests umfassen Spielfeldgrößen, Schwerkraft, Überlauf und Gewinnrichtungen sowie über `tests/integration_smoke.py` den durchgängigen Spielstart, Abbruch/Fortsetzen, Namen, Vorschau, Undo, Laden/Speichern, beschädigte Dateien, Gewinnen und dauerhafte Highscores.
 
 **Nachweisstand:** Die Board-Tests und der Konsolen-Smoke-Test vom 25.10.2026 wurden historisch auf Linux ausgeführt. Der erweiterte Testkatalog und die GitHub-Actions-Matrix wurden am 28.10.2026 ergänzt. Die erfolgreichen CI-Läufe und der Windows-Schulrechner müssen anhand ihrer tatsächlichen Ergebnisse bestätigt werden. Keine Schul- oder Produktfreigabe wird daraus abgeleitet. Siehe [Qualität und Tests](docs/QUALITY_AND_TESTS.md).
 
@@ -96,6 +101,7 @@ Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_
 - [`docs/PROJECT_CHARTER.md`](docs/PROJECT_CHARTER.md) – Projektauftrag, Ziele, Grenzen
 - [`docs/PRODUCT_BACKLOG.md`](docs/PRODUCT_BACKLOG.md) – priorisierte Anforderungen und Abnahmebedingungen
 - [`docs/MILESTONE_2026-10-29.md`](docs/MILESTONE_2026-10-29.md) – Meilensteinstatus
+- [`docs/MENU_DESIGN.md`](docs/MENU_DESIGN.md) – Hauptmenü, neuer Spielstart und Ablaufdiagramm
 - [`docs/CODE_STYLE_JK_AXIS.md`](docs/CODE_STYLE_JK_AXIS.md) – Dateikoepfe, Kommentare und Erklaerungen auf Schuelerniveau
 - [`docs/QUALITY_AND_TESTS.md`](docs/QUALITY_AND_TESTS.md) – Testnachweise/noch offene Tests
 - [`docs/REPOSITORY_GUIDE.md`](docs/REPOSITORY_GUIDE.md) – GitHub-Veröffentlichung und Weiterarbeit
