@@ -18,5 +18,9 @@
 
 Die Dateien wurden im Root-Bereich `reference/` und `praesentation/` hochgeladen, **nicht** unter `docs/`. Das ist gültig. Die Dateiliste wurde anhand des GitHub-Commits geprüft; separate visuelle Prüfung der binären Downloads am Zielgerät steht ggf. noch aus.
 
+## Branding-Update vom 28.10.2026
+
+Die acht publizierten Dateien wurden durch den GitHub-Actions-Workflow `gym-brand-refresh.yml` verarbeitet. Der Nachweis und die Abgrenzung der noch offenen Sichtprüfung stehen im [Branding-QA-Bericht](BRAND_QA_REPORT.md). Die ursprünglichen Dateipfade blieben zur Wahrung bestehender Links erhalten. Ein unveränderter Dateiname mit älterer Design-ID bedeutet nicht, dass im Dokument weiterhin das alte Logo verwendet wird.
+
 ## Weitere Schritte
 Den Build und die Spielabläufe vor der schulischen Abnahme in der vorgesehenen Windows-Umgebung durchführen. Keine EXE-Dateien, persönlichen Spielstände oder lokalen Highscores veröffentlichen.
