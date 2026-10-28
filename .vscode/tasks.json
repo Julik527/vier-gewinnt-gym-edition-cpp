@@ -54,7 +54,10 @@
         "-DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe"
       ],
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
       },
       "problemMatcher": [],
       "detail": "Einmalige SFML-3.1-Konfiguration; benötigt CMake 3.28+, Ninja und UCRT64."
@@ -76,7 +79,10 @@
       ],
       "dependsOrder": "sequence",
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
       },
       "problemMatcher": [
         "$gcc"
@@ -86,3 +92,4 @@
     }
   ]
 }
+
