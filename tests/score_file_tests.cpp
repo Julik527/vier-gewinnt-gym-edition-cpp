@@ -22,8 +22,9 @@ int main() {
         std::map<std::string, int> scores;
         check(gym::parseScores(good, scores, valid), "valid file");
         check(scores.size() == 2 && scores.at("Ada") == 2, "correct scores");
-        std::istringstream maximumScore("\\"Ada\\" " +
-            std::to_string(std::numeric_limits<int>::max()) + "\\n");
+        std::istringstream maximumScore(
+            std::string(R"("Ada" )") +
+            std::to_string(std::numeric_limits<int>::max()) + "\n");
         check(gym::parseScores(maximumScore, scores, valid), "INT_MAX highscore is valid");
         check(scores.at("Ada") == std::numeric_limits<int>::max(), "maximum parsed");
         reject("\"Ada\" 2\n\"Ben\"", "truncated score");

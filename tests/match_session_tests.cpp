@@ -120,7 +120,7 @@ int main() {
         // INT_MAX is valid legacy data and must never wrap on a new win.
         {
             std::ofstream maximum("data/maximum-scores.txt");
-            maximum << "\\"Ada\\" " << std::numeric_limits<int>::max() << '\\n';
+            maximum << R"("Ada" )" << std::numeric_limits<int>::max() << '\n';
         }
         MatchSession maximumMatch;
         verify(maximumMatch.loadScores("data/maximum-scores.txt"), "load maximum highscore");
