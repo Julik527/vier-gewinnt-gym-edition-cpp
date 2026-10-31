@@ -78,7 +78,7 @@ std::filesystem::path executablePath(const char* argv0) {
 #endif
 }
 
-enum class Screen { Menu: Count, Names, Confirm, Arena, Result, Scores, Help,
+enum class Screen { Menu, Count, Names, Confirm, Arena, Result, Scores, Help,
                     ConfirmNew, ConfirmLoad, ConfirmExit };
 struct Button {
     std::string text;

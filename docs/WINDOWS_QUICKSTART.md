@@ -48,16 +48,16 @@ Ein Systemupdate bei Aufforderung abschließen und MSYS2 gegebenenfalls neu star
 
 **Wichtig:** SFML 3.1.0 wird beim ersten GUI-CMake-Build über FetchContent geladen. Nicht als vermeintliche Lösung einfach das MSYS2-SFML-3.0.x-Paket installieren.
 
-## 3. Unicode-Pfad: GDB-Fehler \`-environment-cd\`
+## 3. Unicode-Pfad: GDB-Fehler `-environment-cd`
 
-**Aktueller Fix:** Der GUI-Prozess verwendet unter Windows ab dem Unicode-Fix \`GetModuleFileNameW\` statt eines schmal kodierten \`argv[0]\`. Damit lässt sich der Spielpfad auch bei \`ß\` im Benutzernamen korrekt ermitteln. Ein alter GUI-Build ist davon nicht automatisch betroffen: Nach \`git pull --ff-only\` das 2D-Programm neu bauen. \`--path-self-test\` testet nur die Pfadverarbeitung ohne grafisches Fenster.
+**Aktueller Fix:** Der GUI-Prozess verwendet unter Windows ab dem Unicode-Fix `GetModuleFileNameW` statt eines schmal kodierten `argv[0]`. Damit lässt sich der Spielpfad auch bei `ß` im Benutzernamen korrekt ermitteln. Ein alter GUI-Build ist davon nicht automatisch betroffen: Nach `git pull --ff-only` das 2D-Programm neu bauen. `--path-self-test` testet nur die Pfadverarbeitung ohne grafisches Fenster.
 
 Für die grafische Anwendung gilt getrennt vom VS-Code-Debugger:
-\`\`\`powershell
+```powershell
 $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
 & .\build-gui\vier-gewinnt-gui.exe --path-self-test
 & .\build-gui\vier-gewinnt-gui.exe
-\`\`\`
+```
 
 
 Unter Windows können Sonderzeichen wie `ß` im Projektpfad dazu führen, dass der GDB-Debugger den Ordner nicht öffnen kann. Der Compiler muss deshalb **nicht** defekt sein.

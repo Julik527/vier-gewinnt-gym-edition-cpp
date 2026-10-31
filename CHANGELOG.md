@@ -2,8 +2,8 @@
 
 ## 31.10.2026: Unicode-Pfadkorrektur der Windows-2D-Anwendung
 
-- GUI-Code verwendet für den tatsächlichen Windows-Programmpfad die UTF-16-API \`GetModuleFileNameW\` statt eines aus \`argv[0]\` konvertierten ANSI-Pfads.
-- \`--path-self-test\` prüft die Dateipfadermittlung ohne Fenster; der MSYS2-UCRT64-CI-Job startet die EXE zusätzlich aus einem Pfad mit \`ß\` und \`Ü\`.
+- GUI-Code verwendet für den tatsächlichen Windows-Programmpfad die UTF-16-API `GetModuleFileNameW` statt eines aus `argv[0]` konvertierten ANSI-Pfads.
+- `--path-self-test` prüft die Dateipfadermittlung ohne Fenster; der MSYS2-UCRT64-CI-Job startet die EXE zusätzlich aus einem Pfad mit `ß` und `Ü`.
 - Unterschied zwischen veralteter lokaler EXE und aktualisiertem Quellcode dokumentiert.
 
 ## 31.10.2026: Lokaler 2D-Start und UCRT64-GUI-Nachweis
