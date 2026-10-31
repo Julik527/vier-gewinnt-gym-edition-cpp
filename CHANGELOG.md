@@ -1,5 +1,15 @@
 # Änderungsprotokoll
 
+## 31.10.2026: Eigenständige OpenGL-3D-Arena
+
+- Freiwilliges `vier-gewinnt-3d`-Programm mit räumlichen Materialien, beleuchteten 3D-Steinen, Metallrahmen, Perspektive, Tiefentest und Orbit-Kamera.
+- Cinematisches, sofort überspringbares Intro, Fallanimationen, pulsierender Auswahlring und Gewinn-Partikel.
+- Kompatible `MatchSession` mit zwei bis vier Spielern, Namenseingabe, Undo, Revanche, GYM1-Speicherung und Highscores.
+- Vorhandener eigener Original-Soundtrack; keine externen Musik-/3D-Assets.
+- SFML-freie 3D-Mathematiktests, OpenGL-CMake-Ziel, VS-Code-F5-Profil, Windows-Preflight und plattformübergreifende CI-Prüfung ergänzt.
+- Sicht- und Hörtests auf der echten Hardware bleiben offen.
+
+
 ## 31.10.2026: Neue 2D-Oberfläche und originaler Soundtrack
 
 - Eigenständige, prozedural generierte elektronische Komposition mit 116 BPM, Stereo, vier Harmonien, Bass, Synth-Pad, Arpeggio, ergänzender Melodie und Drum-Layer.

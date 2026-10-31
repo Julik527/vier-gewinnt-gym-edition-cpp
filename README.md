@@ -52,7 +52,28 @@ Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhänge
 
 **Bereits implementiert:** Konsolenmodus und optionale SFML-2D-Version, Maus-/Tastatursteuerung, Fallanimation, Gewinnmarkierung, Undo, Vorschau (Konsole), Revanche, Highscores, Speichern/Laden, ein eigens komponierter 116-BPM-Stereo-Soundtrack (standardmäßig aus, F9/F10/F11).
 
-**Wichtige Grenzen:** Kein KI-Gegner, kein Netzwerkspiel, keine 3D-Engine. Die GUI und die Konsole verwenden noch separate Ablauf-Controller; gemeinsam sind die Spielregeln im `Board` und die sichere Dateiersatzfunktion.
+**Wichtige Grenzen:** Kein KI-Gegner, kein Netzwerkspiel, keine externe 3D-Engine. Die GUI und die Konsole verwenden noch separate Ablauf-Controller; gemeinsam sind die Spielregeln im `Board` und die sichere Dateiersatzfunktion.
+
+## Gym Edition 3D | Signature Arena
+
+Die freiwillige 3D-Ausbaustufe ergänzt die Konsole und die 2D-Version um eine eigenständige OpenGL-Anwendung mit echten beleuchteten Volumenkörpern, perspektivischem Spielfeld, Tiefenprüfung, steuerbarer Orbit-Kamera und Sieg-Effekten. Die bestehenden Spielregeln, Spielstände (`GYM1`) und Highscores werden über `MatchSession` weiterverwendet.
+
+**Windows 11, MSYS2 UCRT64, PowerShell im Projektordner `C:\Dev\GymEdition`:**
+
+```powershell
+git pull --ff-only
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\preflight-school.ps1" -With3D
+$env:Path = "C:\msys64\ucrt64\bin;$env:Path"
+& .\build-school-3d-preflight\vier-gewinnt-3d.exe
+```
+
+In VS Code ist alternativ das neue Debugprofil **Vier Gewinnt | Gym Edition 3D** verfügbar. Dazu muss tatsächlich der Ordner `C:\Dev\GymEdition` als Workspace geöffnet sein. Der erstmalige SFML-/OpenGL-Build benötigt Internet und dauert länger.
+
+**Bedienung:** Rechte Maustaste ziehen = Kamera drehen; Mausrad = Zoom; A/D und Q/E = Kamera; C = zurücksetzen; linke Maustaste = Spalte wählen/setzen; Pfeile und Leertaste = Spalte/Stein; U = Undo; S = Speichern; Escape = Menü; F9/F10/F11 = Originalmusik/Lautstärke. Im Menü 2, 3 oder 4 Spieler wählen.
+
+[3D-Architektur und Bedienung](docs/3D_ARENA.md) · [3D-Abnahmetests](docs/3D_TESTPLAN.md)
+
+**Grenze:** Diese erste Fassung verwendet klassische OpenGL-Zeichenfunktionen und benötigt einen geeigneten OpenGL-Kompatibilitätskontext der Grafikkarte. Es gibt keine Shader-/PBR-Pipeline und keinen Onlinemodus. Automatische CI-Prüfungen ersetzen nicht den Sicht- und Hörtest auf deinem Rechner.
 
 ## Schnellstart
 
