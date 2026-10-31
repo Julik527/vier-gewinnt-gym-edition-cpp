@@ -8,32 +8,34 @@
 #include <limits>
 #include <utility>
 
+using namespace std;
+
 namespace {
 constexpr char symbols[] = {'R', 'B', 'G', 'Y'};
 }
 
 MatchSession::MatchSession() {
-    std::error_code error;
+    error_code error;
     std::filesystem::create_directories("data", error);
     loadScores();
 }
 
-bool MatchSession::validName(const std::string& name) {
+bool MatchSession::validName(const string& name) {
     if (name.empty() || name.size() > 24
-        || name.find_first_not_of(' ') == std::string::npos) return false;
+        || name.find_first_not_of(' ') == string::npos) return false;
     for (unsigned char c : name) if (c < 32 || c == 127) return false;
     return true;
 }
 
-bool MatchSession::begin(const std::vector<std::string>& names) {
+bool MatchSession::begin(const vector<string>& names) {
     if (names.size() < 2 || names.size() > 4) return false;
-    for (std::size_t i = 0; i < names.size(); ++i) {
+    for (size_t i = 0; i < names.size(); ++i) {
         if (!validName(names[i])) return false;
         if (std::find(names.begin(), names.begin() + static_cast<std::ptrdiff_t>(i), names[i])
             != names.begin() + static_cast<std::ptrdiff_t>(i)) return false;
     }
-    std::vector<Player> next;
-    for (std::size_t i = 0; i < names.size(); ++i)
+    vector<Player> next;
+    for (size_t i = 0; i < names.size(); ++i)
         next.emplace_back(names[i], symbols[i]);
     players_ = std::move(next);
     board_ = Board(static_cast<int>(names.size()));
@@ -63,7 +65,7 @@ bool MatchSession::drop(int column) {
         winLine_ = board_.winningCells(row, column, symbol);
         // Keine Ueberlaeufe bei historischen/manipulierten Maximalwerten.
         auto& victories = scores_[winner_];
-        if (victories < std::numeric_limits<int>::max()) ++victories;
+        if (victories < numeric_limits<int>::max()) ++victories;
         scoreSaved_ = saveScores();
     } else if (board_.isFull()) {
         finished_ = true;
@@ -99,19 +101,19 @@ bool MatchSession::rematch() {
     return true;
 }
 
-int MatchSession::wins(const std::string& name) const {
+int MatchSession::wins(const string& name) const {
     const auto found = scores_.find(name);
     return found == scores_.end() ? 0 : found->second;
 }
 
-bool MatchSession::save(const std::string& path) const {
+bool MatchSession::save(const string& path) const {
     if (!active_) return false;
-    return gym::writeSafely(path, [this](std::ostream& out) {
+    return gym::writeSafely(path, [this](ostream& out) {
         out << "GYM1\n";
         out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
             << board_.columns() << ' ' << moves_.size() << '\n';
         for (const auto& player : players_)
-            out << std::quoted(player.getName()) << ' ' << player.getSymbol() << '\n';
+            out << quoted(player.getName()) << ' ' << player.getSymbol() << '\n';
         for (const auto& move : moves_)
             out << move.row << ' ' << move.column << ' ' << move.player << '\n';
         for (const auto& row : board_.cells()) {
@@ -121,9 +123,9 @@ bool MatchSession::save(const std::string& path) const {
     });
 }
 
-bool MatchSession::load(const std::string& path) {
-    std::ifstream in(path);
-    std::string header;
+bool MatchSession::load(const string& path) {
+    ifstream in(path);
+    string header;
     if (!(in >> header) || header != "GYM1") return false;
     int count, turn, rows, columns, moveCount;
     if (!(in >> count >> turn >> rows >> columns >> moveCount)) return false;
@@ -132,16 +134,16 @@ bool MatchSession::load(const std::string& path) {
     if (rows != candidate.rows() || columns != candidate.columns()
         || moveCount < 0 || moveCount > rows * columns || turn != moveCount % count)
         return false;
-    std::vector<Player> people;
+    vector<Player> people;
     for (int i = 0; i < count; ++i) {
-        std::string name;
+        string name;
         char symbol;
-        if (!(in >> std::quoted(name) >> symbol) || !validName(name)
+        if (!(in >> quoted(name) >> symbol) || !validName(name)
             || symbol != symbols[i]) return false;
         for (const auto& person : people) if (person.getName() == name) return false;
         people.emplace_back(name, symbol);
     }
-    std::vector<GymMove> history;
+    vector<GymMove> history;
     for (int i = 0; i < moveCount; ++i) {
         int savedRow, col, player;
         if (!(in >> savedRow >> col >> player) || player != i % count) return false;
@@ -152,12 +154,12 @@ bool MatchSession::load(const std::string& path) {
     }
     if (candidate.isFull()) return false;
     for (int row = 0; row < rows; ++row) {
-        std::string line;
+        string line;
         if (!(in >> line) || static_cast<int>(line.size()) != columns) return false;
         for (int col = 0; col < columns; ++col)
             if (line[col] != candidate.cells()[row][col]) return false;
     }
-    std::string trailing;
+    string trailing;
     if (in >> trailing) return false;
     board_ = std::move(candidate);
     players_ = std::move(people);
@@ -172,18 +174,18 @@ bool MatchSession::load(const std::string& path) {
     return true;
 }
 
-bool MatchSession::loadScores(const std::string& path) {
-    std::ifstream in(path);
+bool MatchSession::loadScores(const string& path) {
+    ifstream in(path);
     if (!in) return false;
-    std::map<std::string, int> next;
+    map<string, int> next;
     if (!gym::parseScores(in, next, validName)) return false;
     scores_ = std::move(next);
     return true;
 }
 
-bool MatchSession::saveScores(const std::string& path) const {
-    return gym::writeSafely(path, [this](std::ostream& out) {
+bool MatchSession::saveScores(const string& path) const {
+    return gym::writeSafely(path, [this](ostream& out) {
         for (const auto& item : scores_)
-            out << std::quoted(item.first) << ' ' << item.second << '\n';
+            out << quoted(item.first) << ' ' << item.second << '\n';
     });
 }

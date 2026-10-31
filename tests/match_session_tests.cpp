@@ -9,9 +9,11 @@
 #include <stdexcept>
 #include <string>
 
+using namespace std;
+
 namespace {
 void verify(bool value, const char* what) {
-    if (!value) throw std::runtime_error(what);
+    if (!value) throw runtime_error(what);
 }
 void win(MatchSession& match) {
     for (int column : {0, 6, 1, 6, 2, 6, 3})
@@ -23,7 +25,7 @@ int main() {
     namespace fs = std::filesystem;
     const auto original = fs::current_path();
     const auto temp = fs::temp_directory_path() /
-        ("gym_match_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+        ("gym_match_" + to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
     try {
         fs::create_directories(temp);
         fs::current_path(temp);
@@ -41,8 +43,8 @@ int main() {
         verify(session.current() == 0 && session.board().tokenCount() == 0, "undo restores state");
         verify(session.drop(2), "drop before save");
         verify(session.save(), "save GYM1");
-        std::ifstream file("data/savegame.txt");
-        std::string signature;
+        ifstream file("data/savegame.txt");
+        string signature;
         file >> signature;
         file.close();
         verify(signature == "GYM1", "format compatibility");
@@ -54,21 +56,21 @@ int main() {
         verify(!loaded.begin({"Ada", "Ada"}), "invalid new game leaves state intact");
         verify(loaded.board().tokenCount() == 1, "state preserved after bad setup");
         {
-            std::ofstream broken("data/corrupt.txt");
-            broken << "GYM1" << std::endl << "2 0 BAD";
+            ofstream broken("data/corrupt.txt");
+            broken << "GYM1" << endl << "2 0 BAD";
         }
         verify(!loaded.load("data/corrupt.txt"), "reject corrupted save");
         verify(loaded.board().tokenCount() == 1, "load failure leaves state intact");
 
         // An existing file survives a failed replacement.
         {
-            std::ofstream sentinel("data/original.txt");
+            ofstream sentinel("data/original.txt");
             sentinel << "KEEP";
         }
         verify(!loaded.save("data"), "replacing an existing directory rejected");
         {
-            std::ifstream old("data/original.txt");
-            std::string content;
+            ifstream old("data/original.txt");
+            string content;
             old >> content;
             verify(content == "KEEP", "original safe on write failure");
         }
@@ -96,20 +98,20 @@ int main() {
 
         // Failed target replacement must preserve the previous highscore file.
         {
-            std::ifstream before("data/highscore.txt", std::ios::binary);
-            const std::string previous((std::istreambuf_iterator<char>(before)),
-                                       std::istreambuf_iterator<char>());
+            ifstream before("data/highscore.txt", std::ios::binary);
+            const string previous((istreambuf_iterator<char>(before)),
+                                       istreambuf_iterator<char>());
             verify(!loaded.saveScores("data"), "cannot replace an existing directory");
-            std::ifstream after("data/highscore.txt", std::ios::binary);
-            const std::string current((std::istreambuf_iterator<char>(after)),
-                                      std::istreambuf_iterator<char>());
+            ifstream after("data/highscore.txt", std::ios::binary);
+            const string current((istreambuf_iterator<char>(after)),
+                                      istreambuf_iterator<char>());
             verify(current == previous, "previous score file unchanged after failure");
         }
 
         // Reject a truncated score without modifying the in-memory ranking.
         {
-            std::ofstream broken("data/truncated-scores.txt");
-            broken << R"("Ada" 999)" << std::endl << R"("Incomplete")";
+            ofstream broken("data/truncated-scores.txt");
+            broken << R"("Ada" 999)" << endl << R"("Incomplete")";
             broken.close();
             verify(!loaded.loadScores("data/truncated-scores.txt"),
                    "truncated highscore rejected");
@@ -124,25 +126,25 @@ int main() {
                "large board");
         // INT_MAX is valid legacy data and must never wrap on a new win.
         {
-            std::ofstream maximum("data/maximum-scores.txt");
-            maximum << R"("Ada" )" << std::numeric_limits<int>::max() << '\n';
+            ofstream maximum("data/maximum-scores.txt");
+            maximum << R"("Ada" )" << numeric_limits<int>::max() << '\n';
         }
         MatchSession maximumMatch;
         verify(maximumMatch.loadScores("data/maximum-scores.txt"), "load maximum highscore");
         verify(maximumMatch.begin({"Ada", "Ben"}), "start at highscore limit");
         win(maximumMatch);
-        verify(maximumMatch.wins("Ada") == std::numeric_limits<int>::max(),
+        verify(maximumMatch.wins("Ada") == numeric_limits<int>::max(),
                "victory at INT_MAX does not overflow");
 
         fs::current_path(original);
         fs::remove_all(temp);
-        std::cout << "MatchSession: GYM1, invalid files, atomic save, 2/4 players, "
+        cout << "MatchSession: GYM1, invalid files, atomic save, 2/4 players, "
                      "undo, rematch and highscore passed.\n";
         return 0;
-    } catch (const std::exception& ex) {
+    } catch (const exception& ex) {
         fs::current_path(original);
         fs::remove_all(temp);
-        std::cerr << "MatchSession test: " << ex.what() << '\n';
+        cerr << "MatchSession test: " << ex.what() << '\n';
         return 1;
     }
 }

@@ -10,11 +10,13 @@
 #include <stdexcept>
 #include <string>
 
+using namespace std;
+
 namespace {
 // Wenn ein Test falsch ist, soll das Testprogramm sichtbar scheitern.
-void verify(bool condition, const std::string& description) {
+void verify(bool condition, const string& description) {
     // Diese Prüfung muss auch im Release-Build funktionieren.
-    if (!condition) throw std::runtime_error("BOARD TEST FAILED: " + description);
+    if (!condition) throw runtime_error("BOARD TEST FAILED: " + description);
 }
 
 // Spart im Test wiederholte Zeilen beim Einwerfen einer Hantel.
@@ -38,7 +40,7 @@ int main() {
         for (int invalidPlayers : {0, 1, 5, 10000}) {
             bool rejected = false;
             try { Board invalid(invalidPlayers); }
-            catch (const std::invalid_argument&) { rejected = true; }
+            catch (const invalid_argument&) { rejected = true; }
             verify(rejected, "invalid player count rejected");
         }
 
@@ -103,11 +105,11 @@ int main() {
         verify(full.isFull(), "full board detection");
         verify(full.tokenCount() == 42, "full board stone count");
 
-        std::cout << "Board: 2/3/4 Spieler, Grenzen, Schwerkraft, "
+        cout << "Board: 2/3/4 Spieler, Grenzen, Schwerkraft, "
                      "4 Gewinnrichtungen, Undo, volle Spalte, volles Spielfeld OK.\n";
         return 0;
-    } catch (const std::exception& error) {
-        std::cerr << error.what() << '\n';
+    } catch (const exception& error) {
+        cerr << error.what() << '\n';
         return 1;
     }
 }

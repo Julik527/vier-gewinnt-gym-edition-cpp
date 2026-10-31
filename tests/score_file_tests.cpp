@@ -6,27 +6,29 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+
+using namespace std;
 namespace {
-void check(bool ok, const char* why) { if (!ok) throw std::runtime_error(why); }
-bool valid(const std::string& name) { return !name.empty() && name.size() <= 24 && name.find_first_not_of(' ') != std::string::npos; }
-void reject(const std::string& content, const char* why) {
-    std::istringstream stream(content);
-    std::map<std::string, int> scores{{"Existing", 3}};
+void check(bool ok, const char* why) { if (!ok) throw runtime_error(why); }
+bool valid(const string& name) { return !name.empty() && name.size() <= 24 && name.find_first_not_of(' ') != string::npos; }
+void reject(const string& content, const char* why) {
+    istringstream stream(content);
+    map<string, int> scores{{"Existing", 3}};
     check(!gym::parseScores(stream, scores, valid), why);
     check(scores.size() == 1 && scores.at("Existing") == 3, "transactional scores");
 }
 }
 int main() {
     try {
-        std::istringstream good("\"Ada\" 2\n\"Ben\" 0\n\n");
-        std::map<std::string, int> scores;
+        istringstream good("\"Ada\" 2\n\"Ben\" 0\n\n");
+        map<string, int> scores;
         check(gym::parseScores(good, scores, valid), "valid file");
         check(scores.size() == 2 && scores.at("Ada") == 2, "correct scores");
-        std::istringstream maximumScore(
-            std::string(R"("Ada" )") +
-            std::to_string(std::numeric_limits<int>::max()) + "\n");
+        istringstream maximumScore(
+            string(R"("Ada" )") +
+            to_string(numeric_limits<int>::max()) + "\n");
         check(gym::parseScores(maximumScore, scores, valid), "INT_MAX highscore is valid");
-        check(scores.at("Ada") == std::numeric_limits<int>::max(), "maximum parsed");
+        check(scores.at("Ada") == numeric_limits<int>::max(), "maximum parsed");
         reject("\"Ada\" 2\n\"Ben\"", "truncated score");
         reject("\"Ada\" 2\n\"Ada\" 8\n", "duplicate");
         reject("\"Ada\" -1\n", "negative");
@@ -34,10 +36,10 @@ int main() {
         reject("\"Ada\" 999999999999999999999\n", "overflow");
         reject("Ada 2\n", "unquoted");
         reject("\"\" 1\n", "empty name");
-        std::cout << "Highscores: strict loading and failure preservation OK.\n";
+        cout << "Highscores: strict loading and failure preservation OK.\n";
         return 0;
-    } catch (const std::exception& e) {
-        std::cerr << "ScoreFile test: " << e.what() << '\n';
+    } catch (const exception& e) {
+        cerr << "ScoreFile test: " << e.what() << '\n';
         return 1;
     }
 }

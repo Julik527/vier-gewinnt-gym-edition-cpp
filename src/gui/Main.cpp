@@ -21,6 +21,8 @@
 #include <windows.h>
 #endif
 
+using namespace std;
+
 namespace {
 constexpr float W = 1280.f;
 constexpr float H = 800.f;
@@ -35,16 +37,16 @@ const sf::Color sky(125, 196, 255);
 const sf::Color border(48, 82, 122);
 
 sf::Color tokenColor(int player) {
-    const std::array<sf::Color, 4> colors = {
+    const array<sf::Color, 4> colors = {
         sf::Color(83, 164, 255), sf::Color(244, 194, 92),
         sf::Color(94, 224, 166), sf::Color(185, 147, 255)
     };
-    return colors[static_cast<std::size_t>(std::clamp(player, 0, 3))];
+    return colors[static_cast<size_t>(std::clamp(player, 0, 3))];
 }
 
 sf::Font systemFont() {
     sf::Font font;
-    const std::array<const char*, 6> locations = {
+    const array<const char*, 6> locations = {
         "C:/Windows/Fonts/segoeui.ttf", "C:/Windows/Fonts/arial.ttf",
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
         "/usr/share/fonts/TTF/DejaVuSans.ttf",
@@ -52,7 +54,7 @@ sf::Font systemFont() {
         "/System/Library/Fonts/Supplemental/Arial.ttf"
     };
     for (const char* path : locations) if (font.openFromFile(path)) return font;
-    throw std::runtime_error("Keine Systemschrift gefunden (Segoe UI, Arial oder DejaVu Sans).");
+    throw runtime_error("Keine Systemschrift gefunden (Segoe UI, Arial oder DejaVu Sans).");
 }
 
 // Windows supplies argv[0] in a narrow process code page, not necessarily UTF-8.
@@ -61,19 +63,19 @@ sf::Font systemFont() {
 // path in UTF-16, keeping the path wide all the way to std::filesystem.
 std::filesystem::path executablePath(const char* argv0) {
 #ifdef _WIN32
-    std::wstring buffer(512, L'\0');
+    wstring buffer(512, L'\0');
     while (buffer.size() <= 32768) {
         const DWORD length = GetModuleFileNameW(
             nullptr, buffer.data(), static_cast<DWORD>(buffer.size()));
         if (length == 0)
-            throw std::runtime_error("Windows konnte den Programmpfad nicht lesen.");
+            throw runtime_error("Windows konnte den Programmpfad nicht lesen.");
         if (length < buffer.size()) {
             buffer.resize(length);
             return std::filesystem::path(buffer);
         }
         buffer.resize(buffer.size() * 2);
     }
-    throw std::runtime_error("Windows-Programmpfad ist zu lang.");
+    throw runtime_error("Windows-Programmpfad ist zu lang.");
 #else
     return std::filesystem::absolute(
         std::filesystem::u8path(argv0 ? argv0 : ""));
@@ -83,7 +85,7 @@ std::filesystem::path executablePath(const char* argv0) {
 enum class Screen { Menu, Count, Names, Confirm, Arena, Result, Scores, Help,
                     ConfirmNew, ConfirmLoad, ConfirmExit };
 struct Button {
-    std::string text;
+    string text;
     sf::FloatRect box;
     int action;
     bool enabled = true;
@@ -101,7 +103,7 @@ public:
         // Bei F5 und beim Start direkt aus dem Build-Ordner das Asset finden.
         const auto executableDir = std::filesystem::absolute(executable).parent_path();
         const auto asset = std::filesystem::path("assets/school/bernd-blindow-schulen.jpg");
-        const std::array<std::filesystem::path, 4> candidates = {{
+        const array<std::filesystem::path, 4> candidates = {{
             std::filesystem::current_path() / asset,
             executableDir / asset,
             executableDir.parent_path() / asset,
@@ -159,7 +161,7 @@ private:
     sf::Font font_;
     sf::Texture schoolLogo_;
     bool schoolLogoReady_ = false;
-    std::unique_ptr<GymBeat> beat_;
+    unique_ptr<GymBeat> beat_;
     bool musicOn_ = false;
     int musicVolume_ = 40;
     float uiTime_ = 0.f;
@@ -167,9 +169,9 @@ private:
     Screen screen_ = Screen::Menu;
     Screen helpReturn_ = Screen::Menu;
     int number_ = 2;
-    std::vector<std::string> names_;
-    std::string input_;
-    std::string notice_;
+    vector<string> names_;
+    string input_;
+    string notice_;
     bool animation_ = true;
     bool falling_ = false;
     int fallColumn_ = -1;
@@ -210,14 +212,14 @@ private:
         shape.setPointCount(24);
         radius = std::min(radius, std::min(w, h) * .5f);
         constexpr float pi = 3.14159265358979323846f;
-        const std::array<sf::Vector2f, 4> centres = {{
+        const array<sf::Vector2f, 4> centres = {{
             {w - radius, radius}, {w - radius, h - radius},
             {radius, h - radius}, {radius, radius}
         }};
         for (int corner = 0; corner < 4; ++corner) {
             for (int point = 0; point < 6; ++point) {
                 const float angle = (-.5f + corner * .5f + point / 10.f) * pi;
-                shape.setPoint(static_cast<std::size_t>(corner * 6 + point),
+                shape.setPoint(static_cast<size_t>(corner * 6 + point),
                     {centres[corner].x + std::cos(angle) * radius,
                      centres[corner].y + std::sin(angle) * radius});
             }
@@ -263,7 +265,7 @@ private:
 
         const float tile = 49.f, ox = 760.f, oy = 347.f;
         roundedBox(745, 332, 396, 279, 16, sf::Color(7, 20, 39), border);
-        const std::array<std::array<int, 7>, 4> demo = {{
+        const array<array<int, 7>, 4> demo = {{
             {{-1, -1, -1, -1, -1, -1, -1}},
             {{-1, -1, -1, -1, -1, -1, -1}},
             {{-1, -1,  0,  1, -1, -1, -1}},
@@ -274,7 +276,7 @@ private:
                 const float x = ox + col * tile, y = oy + row * tile;
                 roundedBox(x + 2, y + 2, tile - 5, tile - 5, 8,
                            sf::Color(20, 43, 72));
-                const int player = demo[static_cast<std::size_t>(row)][static_cast<std::size_t>(col)];
+                const int player = demo[static_cast<size_t>(row)][static_cast<size_t>(col)];
                 if (player >= 0)
                     dumbbell(x + tile / 2.f, y + tile / 2.f, tile * .61f,
                              tokenColor(player));
@@ -286,7 +288,7 @@ private:
         label("HEBEN. SETZEN.", 132, 185, 33, white, true);
         label("SIEGEN.", 132, 223, 33, green, true);
     }
-    void label(const std::string& value, float x, float y, unsigned size = 22,
+    void label(const string& value, float x, float y, unsigned size = 22,
                sf::Color color = white, bool bold = false) {
         sf::Text text(font_, sf::String::fromUtf8(value.begin(), value.end()), size);
         text.setFillColor(color);
@@ -307,13 +309,13 @@ private:
     void brandSymbol(float x, float y, float scale) {
         // Exakte Dreiecksaufteilung der beiden offiziellen SVG-Polygone.
         // Keine neue Logovariante und keine Bitmap-Skalierung.
-        const std::array<sf::Vector2f, 12> j = {{
+        const array<sf::Vector2f, 12> j = {{
             {17,80}, {17,18}, {50,75},
             {17,80}, {50,75}, {59,120},
             {59,120}, {50,75}, {77,102},
             {50,18}, {50,75}, {17,18}
         }};
-        const std::array<sf::Vector2f, 12> k = {{
+        const array<sf::Vector2f, 12> k = {{
             {60,75}, {88,47}, {77,93},
             {77,93}, {88,47}, {114,57},
             {114,57}, {88,47}, {114,18},
@@ -332,7 +334,7 @@ private:
         drawPart(j, white);
         drawPart(k, sf::Color(121, 165, 255));
     }
-    void title(const std::string& subtitle) {
+    void title(const string& subtitle) {
         box(0, 0, W, 112, sf::Color(9, 24, 45, 245));
         box(0, 110, W, 2, blue);
         box(20, 110, 125, 2, green);
@@ -355,16 +357,16 @@ private:
             label("BERND BLINDOW SCHULEN | RAVENSBURG", 797, 72, 15, muted);
         }
     }
-    std::vector<Button> buttons() const {
-        auto add = [](std::vector<Button>& b, const char* name, float x, float y,
+    vector<Button> buttons() const {
+        auto add = [](vector<Button>& b, const char* name, float x, float y,
                       float w, int action, bool enabled = true) {
             b.push_back({name, sf::FloatRect({x, y}, {w, 53.f}), action, enabled});
         };
-        const auto compact = [](std::vector<Button>& b, const char* name, float y,
+        const auto compact = [](vector<Button>& b, const char* name, float y,
                                 int action) {
             b.push_back({name, sf::FloatRect({965.f, y}, {269.f, 42.f}), action, true});
         };
-        std::vector<Button> b;
+        vector<Button> b;
         switch (screen_) {
             case Screen::Menu:
                 add(b, "NEUES SPIEL", 132, 289, 452, 1);
@@ -468,13 +470,13 @@ private:
                 notice_ = "Kein Windows-Audiogeraet erkannt.";
                 return;
             }
-            if (!beat_) beat_ = std::make_unique<GymBeat>();
+            if (!beat_) beat_ = make_unique<GymBeat>();
             beat_->setVolume(static_cast<float>(musicVolume_));
             musicOn_ = beat_->play();
             notice_ = musicOn_
                 ? "Original-Soundtrack aktiv. F9: Ton / F10-F11: Lautstaerke."
                 : "Audio konnte nicht gestartet werden. Windows-Ausgabe pruefen.";
-        } catch (const std::exception&) {
+        } catch (const exception&) {
             musicOn_ = false;
             notice_ = "Kein Audio-Ausgabegeraet verfuegbar.";
         }
@@ -483,7 +485,7 @@ private:
         if (choice == 97 || choice == 98) {
             musicVolume_ = std::clamp(musicVolume_ + (choice == 98 ? 10 : -10), 0, 100);
             if (beat_) beat_->setVolume(static_cast<float>(musicVolume_));
-            notice_ = "Musiklautstaerke: " + std::to_string(musicVolume_) + "%";
+            notice_ = "Musiklautstaerke: " + to_string(musicVolume_) + "%";
             return;
         }
         if (choice == 99) {
@@ -697,10 +699,10 @@ private:
                 const char symbol = board.cells()[r][c];
                 if (symbol != '.') {
                     int player = 0;
-                    for (std::size_t i = 0; i < match_.players().size(); ++i)
+                    for (size_t i = 0; i < match_.players().size(); ++i)
                         if (match_.players()[i].getSymbol() == symbol) player = static_cast<int>(i);
                     const bool winner = std::find(match_.winLine().begin(), match_.winLine().end(),
-                                                  std::make_pair(r, c)) != match_.winLine().end();
+                                                  make_pair(r, c)) != match_.winLine().end();
                     if (winner)
                         roundedBox(x + 3, y + 3, g.cell - 6, g.cell - 6, 9,
                             sf::Color(29, 100, 81), green);
@@ -714,18 +716,18 @@ private:
                      g.y + (fallRow_ + .5f) * g.cell, g.cell * .78f,
                      tokenColor(match_.current()));
         for (int col = 0; col < board.columns(); ++col)
-            label(std::to_string(col + 1), g.x + (col + .5f) * g.cell - 6, g.y - 58, 19, muted);
+            label(to_string(col + 1), g.x + (col + .5f) * g.cell - 6, g.y - 58, 19, muted);
     }
     void arena(bool end) {
         renderBoard(end);
         roundedBox(947, 168, 300, 594, 18, sf::Color(16, 35, 60), border);
         box(967, 206, 64, 3, end ? green : blue);
         label(end ? "MATCH BEENDET" : "LIVE-MATCH", 967, 180, 20, white, true);
-        label("RUNDE " + std::to_string(match_.round()) +
-              "    /    " + std::to_string(match_.board().tokenCount()) + " ZUEGE",
+        label("RUNDE " + to_string(match_.round()) +
+              "    /    " + to_string(match_.board().tokenCount()) + " ZUEGE",
               967, 224, 16, muted);
         label(end ? "ERGEBNIS" : "AKTIVER SPIELER", 967, 259, 14, sky, true);
-        for (std::size_t i = 0; i < match_.players().size(); ++i) {
+        for (size_t i = 0; i < match_.players().size(); ++i) {
             const auto& player = match_.players()[i];
             const float y = 296 + static_cast<float>(i) * 48.f;
             if (static_cast<int>(i) == match_.current() && !end)
@@ -733,7 +735,7 @@ private:
             dumbbell(983, y + 17, 25, tokenColor(static_cast<int>(i)));
             label(player.getName(), 1007, y, 16);
             const int count = match_.wins(player.getName());
-            label(std::to_string(count) + (count == 1 ? " SIEG" : " SIEGE"),
+            label(to_string(count) + (count == 1 ? " SIEG" : " SIEGE"),
                   1007, y + 23, 13, muted);
         }
         if (end) {
@@ -765,15 +767,15 @@ private:
                 label("Je nach Spielerzahl wächst das Feld auf 7x6, 9x8 oder 11x10.", 390, 230, 17, muted);
                 break;
             case Screen::Names:
-                label("SPIELER " + std::to_string(names_.size() + 1) + " VON " +
-                      std::to_string(number_), 390, 237, 28, white, true);
+                label("SPIELER " + to_string(names_.size() + 1) + " VON " +
+                      to_string(number_), 390, 237, 28, white, true);
                 label("Name eingeben, dann Enter druecken.", 390, 295, 18, muted);
                 box(390, 343, 500, 59, panel, blue);
                 label(input_ + "_", 409, 358, 25, white, true);
                 break;
             case Screen::Confirm:
                 label("DEIN TEAM IST BEREIT", 390, 194, 28, white, true);
-                for (std::size_t i = 0; i < names_.size(); ++i) {
+                for (size_t i = 0; i < names_.size(); ++i) {
                     dumbbell(408, 267 + 52 * i, 26, tokenColor(static_cast<int>(i)));
                     label(names_[i], 443, 252 + 52 * i, 23);
                 }
@@ -782,15 +784,15 @@ private:
             case Screen::Result: arena(true); break;
             case Screen::Scores: {
                 label("BESTENLISTE - HARTES TRAINING ZÄHLT", 335, 150, 25, white, true);
-                std::vector<std::pair<std::string, int>> sorted(match_.scores().begin(), match_.scores().end());
+                vector<pair<string, int>> sorted(match_.scores().begin(), match_.scores().end());
                 std::sort(sorted.begin(), sorted.end(), [](const auto& a, const auto& b) {
                     return a.second != b.second ? a.second > b.second : a.first < b.first;
                 });
                 if (sorted.empty()) label("Noch keine Siege eingetragen.", 410, 283, 22, muted);
-                for (std::size_t i = 0; i < sorted.size() && i < 11; ++i) {
-                    label(std::to_string(i + 1) + ".  " + sorted[i].first, 365,
+                for (size_t i = 0; i < sorted.size() && i < 11; ++i) {
+                    label(to_string(i + 1) + ".  " + sorted[i].first, 365,
                           227 + 36 * i, 20, i == 0 ? green : white);
-                    label(std::to_string(sorted[i].second) + (sorted[i].second == 1 ? " Sieg" : " Siege"), 760,
+                    label(to_string(sorted[i].second) + (sorted[i].second == 1 ? " Sieg" : " Siege"), 760,
                           227 + 36 * i, 20, muted);
                 }
                 break;
@@ -813,7 +815,7 @@ private:
                       : "Spiel beenden und laufende Runde verlassen?", 330, 317, 20, muted);
                 break;
         }
-        label("MUSIK  " + std::to_string(musicVolume_) + "%", 826, 124, 14,
+        label("MUSIK  " + to_string(musicVolume_) + "%", 826, 124, 14,
               musicOn_ ? green : muted, true);
         if (musicOn_)
             label("116 BPM  |  ORIGINAL SOUNDTRACK", 958, 768, 12, green, true);
@@ -827,46 +829,46 @@ private:
 
 int main(int argc, char** argv) {
     try {
-        if (argc > 1 && std::string(argv[1]) == "--path-self-test") {
+        if (argc > 1 && string(argv[1]) == "--path-self-test") {
             const auto executable = executablePath(argc > 0 ? argv[0] : "");
-            std::error_code error;
+            error_code error;
             if (!std::filesystem::is_regular_file(executable, error) || error)
                 return 1;
             const auto directory = std::filesystem::current_path();
             if (directory.empty()) return 1;
-            std::cout << "Unicode-safe executable path: OK\n";
+            cout << "Unicode-safe executable path: OK\n";
             return 0;
         }
-        if (argc > 1 && std::string(argv[1]) == "--audio-devices") {
+        if (argc > 1 && string(argv[1]) == "--audio-devices") {
             const auto devices = sf::PlaybackDevice::getAvailableDevices();
-            std::cout << "Erkannte Ausgabegeraete: " << devices.size() << '\n';
+            cout << "Erkannte Ausgabegeraete: " << devices.size() << '\n';
             for (const auto& device : devices)
-                std::cout << " - " << device << '\n';
+                cout << " - " << device << '\n';
             if (devices.empty()) {
-                std::cerr << "Kein aktives Windows-Audiogeraet. Lautsprecher, "
+                cerr << "Kein aktives Windows-Audiogeraet. Lautsprecher, "
                              "Mixer und Windows-Ausgabe pruefen.\n";
                 return 2;
             }
             return 0;
         }
-        if (argc > 1 && std::string(argv[1]) == "--self-test") {
+        if (argc > 1 && string(argv[1]) == "--self-test") {
             MatchSession test;
             if (!test.begin({"Ada", "Ben"})) return 1;
             if (!test.drop(0) || test.board().tokenCount() != 1) return 1;
-            std::cout << "GUI match core: OK\n";
+            cout << "GUI match core: OK\n";
             return 0;
         }
-        if (argc > 1 && std::string(argv[1]) == "--window-smoke") {
+        if (argc > 1 && string(argv[1]) == "--window-smoke") {
             App app(executablePath(argc > 0 ? argv[0] : ""));
             app.run(12);
-            std::cout << "GUI graphical window: 12 frames rendered and closed.\n";
+            cout << "GUI graphical window: 12 frames rendered and closed.\n";
             return 0;
         }
         App app(executablePath(argc > 0 ? argv[0] : ""));
         app.run();
         return 0;
-    } catch (const std::exception& error) {
-        std::cerr << "Gym Edition GUI: " << error.what() << '\n';
+    } catch (const exception& error) {
+        cerr << "Gym Edition GUI: " << error.what() << '\n';
         return 1;
     }
 }

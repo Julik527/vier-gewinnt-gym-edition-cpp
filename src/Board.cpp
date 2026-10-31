@@ -9,11 +9,13 @@
 #include <string>
 #include <stdexcept>
 
+using namespace std;
+
 namespace {
 // Die Spielerzahl bestimmt, wie groß das Spielfeld wird.
 int rowCountForPlayers(int players) {
     if (players < 2 || players > 4) {
-        throw std::invalid_argument("Spieleranzahl muss 2 bis 4 sein.");
+        throw invalid_argument("Spieleranzahl muss 2 bis 4 sein.");
     }
     return 6 + 2 * (players - 2);
 }
@@ -23,7 +25,7 @@ int rowCountForPlayers(int players) {
 Board::Board(int playerCount)
     : rows_(rowCountForPlayers(playerCount)),
       columns_(rows_ + 1),
-      grid_(rows_, std::vector<char>(columns_, '.')) {}
+      grid_(rows_, vector<char>(columns_, '.')) {}
 
 bool Board::inside(int row, int column) const {
     return row >= 0 && row < rows_ && column >= 0 && column < columns_;
@@ -88,7 +90,7 @@ bool Board::hasWon(int row, int column, char symbol) const {
 }
 
 // So kann das Spielfeld die gewinnende Reihe spaeter extra markieren.
-std::vector<std::pair<int, int>> Board::winningCells(int row, int column,
+vector<pair<int, int>> Board::winningCells(int row, int column,
                                                       char symbol) const {
     if (!inside(row, column) || grid_[row][column] != symbol) return {};
     const int dr[4] = {0, 1, 1, 1};
@@ -101,7 +103,7 @@ std::vector<std::pair<int, int>> Board::winningCells(int row, int column,
             firstRow -= dr[i];
             firstCol -= dc[i];
         }
-        std::vector<std::pair<int, int>> line;
+        vector<pair<int, int>> line;
         for (int r = firstRow, c = firstCol;
              inside(r, c) && grid_[r][c] == symbol;
              r += dr[i], c += dc[i]) {
@@ -128,22 +130,22 @@ bool Board::isFull() const {
 // Zeichnet das Spielfeld im Terminal, auf Wunsch mit einer Zug-Vorschau.
 void Board::print(int previewColumn, char previewSymbol) const {
     int previewRow = (previewColumn == -1) ? -1 : nextFreeRow(previewColumn);
-    std::cout << "\n    ";
+    cout << "\n    ";
     for (int col = 0; col < columns_; ++col) {
-        std::cout << ' ';
-        if (col + 1 < 10) std::cout << ' ';
-        std::cout << col + 1 << "   ";
+        cout << ' ';
+        if (col + 1 < 10) cout << ' ';
+        cout << col + 1 << "   ";
     }
-    std::cout << "\n";
+    cout << "\n";
     for (int row = 0; row < rows_; ++row) {
-        std::cout << "    ";
+        cout << "    ";
         for (int col = 0; col < columns_; ++col) {
             char value = grid_[row][col];
             if (row == previewRow && col == previewColumn) value = previewSymbol;
-            if (value == '.') std::cout << "|  .  ";
-            else std::cout << "|=[" << value << "]= "; // ASCII-Kurzhantel
+            if (value == '.') cout << "|  .  ";
+            else cout << "|=[" << value << "]= "; // ASCII-Kurzhantel
         }
-        std::cout << "|\n";
+        cout << "|\n";
     }
-    std::cout << "    " << std::string(columns_ * 6 + 1, '-') << "\n";
+    cout << "    " << string(columns_ * 6 + 1, '-') << "\n";
 }
