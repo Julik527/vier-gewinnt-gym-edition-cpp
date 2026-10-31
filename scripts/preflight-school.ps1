@@ -64,7 +64,7 @@ Write-Host "JK AXIS | Automatischer Schul-Vorabtest | $folder"
 Write-Host "Quelle: $root"
 Write-Host "Bestehende Spielstaende und regulaere Build-Verzeichnisse werden nicht veraendert."
 
-Invoke-Checked $cmake @(
+Invoke-Checked -Executable $cmake -Arguments @(
     "-S", $root,
     "-B", $build,
     "-G", "Ninja",
@@ -73,15 +73,15 @@ Invoke-Checked $cmake @(
     "-DCMAKE_CXX_COMPILER=$gxx",
     "-DGYM_BUILD_GUI=$guiSetting"
 )
-Invoke-Checked $cmake @("--build", $build, "--parallel", "2")
-Invoke-Checked $ctest @("--test-dir", $build, "--output-on-failure", "-C", "Release")
+Invoke-Checked -Executable $cmake -Arguments @("--build", $build, "--parallel", "2")
+Invoke-Checked -Executable $ctest -Arguments @("--test-dir", $build, "--output-on-failure", "-C", "Release")
 
 if ($WithGui) {
     $exe = Join-Path $build "vier-gewinnt-gui.exe"
     if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) {
         Stop-Preflight "2D-EXE fehlt nach dem GUI-Build."
     }
-    Invoke-Checked $exe @("--path-self-test")
+    Invoke-Checked -Executable $exe -Arguments @("--path-self-test")
 }
 Write-Host "[OK] CMake-Build, CTest und automatische Vorpruefung erfolgreich." -ForegroundColor Green
 Write-Host "[OFFEN] Echter Windows-F5-Start, Maus, Tastatur, Musik, Layout und persoenliche Codeerklaerung."
