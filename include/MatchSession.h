@@ -24,6 +24,8 @@ public:
     bool load(const std::string& path = "data/savegame.txt");
     bool loadScores(const std::string& path = "data/highscore.txt");
     bool saveScores(const std::string& path = "data/highscore.txt") const;
+    // Retry a previously failed win-score write without awarding a second win.
+    bool retryPendingScoreSave();
 
     const Board& board() const { return board_; }
     const std::vector<Player>& players() const { return players_; }

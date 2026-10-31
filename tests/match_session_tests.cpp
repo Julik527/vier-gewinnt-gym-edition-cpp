@@ -136,6 +136,25 @@ int main() {
         verify(maximumMatch.wins("Ada") == numeric_limits<int>::max(),
                "victory at INT_MAX does not overflow");
 
+        // The outcome is credited exactly once even if disk access fails,
+        // then the same score can be persisted after fixing the directory.
+        {
+            fs::remove("data/highscore.txt");
+            fs::create_directory("data/highscore.txt");
+            MatchSession pending;
+            verify(pending.begin({"Ada", "Ben"}), "begin score retry game");
+            win(pending);
+            verify(!pending.scoreSaved(), "failed automatic score save is visible");
+            verify(pending.wins("Ada") == 1, "win credited once in memory");
+            verify(!pending.retryPendingScoreSave(), "retry fails while blocked");
+            fs::remove("data/highscore.txt");
+            verify(pending.retryPendingScoreSave(), "retry succeeds after unblocking");
+            verify(pending.scoreSaved(), "score save status now true");
+            verify(pending.wins("Ada") == 1, "retry must not award twice");
+            MatchSession reloaded;
+            verify(reloaded.wins("Ada") == 1, "retry survives process restart");
+        }
+
         fs::current_path(original);
         fs::remove_all(temp);
         cout << "MatchSession: GYM1, invalid files, atomic save, 2/4 players, "

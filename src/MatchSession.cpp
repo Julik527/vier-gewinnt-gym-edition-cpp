@@ -101,6 +101,13 @@ bool MatchSession::rematch() {
     return true;
 }
 
+bool MatchSession::retryPendingScoreSave() {
+    if(scoreSaved_) return true;
+    if(!finished_ || winner_.empty()) return false;
+    scoreSaved_=saveScores();
+    return scoreSaved_;
+}
+
 int MatchSession::wins(const string& name) const {
     const auto found = scores_.find(name);
     return found == scores_.end() ? 0 : found->second;

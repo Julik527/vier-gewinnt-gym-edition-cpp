@@ -348,6 +348,12 @@ private:
             case 21: playerCount_=3;break;
             case 22: playerCount_=4;break;
             case 16: startNames();break;
+            case 18:
+                if(match_.retryPendingScoreSave())
+                    notice("HIGHSCORE ERFOLGREICH GESPEICHERT");
+                else
+                    notice("HIGHSCORE NOCH NICHT GESPEICHERT - DATEIZUGRIFF PRUEFEN");
+                break;
             case 17:
                 if(match_.load()) {
                     selected_=match_.board().columns()/2;
@@ -602,8 +608,13 @@ private:
                 text(to_string(i+1)+".  "+names_[i],96,486+40.f*i,22,white);
         } else if(page_==Page::Playing||page_==Page::Result) {
             text("DIE 3D-ARENA",88,135,21,white,true);
-            if(page_==Page::Result)
-                text(match_.winner().empty()?"UNENTSCHIEDEN!":"SIEG: "+match_.winner(),80,806,31,green,true);
+            if(page_==Page::Result) {
+                text(match_.winner().empty()?"UNENTSCHIEDEN!":"SIEG: "+match_.winner(),
+                     80,806,31,green,true);
+                if(!match_.scoreSaved())
+                    text("HIGHSCORE NICHT GESPEICHERT - RECHTS ERNEUT VERSUCHEN",
+                         82,759,16,sf::Color(255,194,116),true);
+            }
             else text(dropActive_?"DEIN STEIN FAELLT ...":"SPALTE "+to_string(selected_+1)+
                  " / "+to_string(match_.board().columns())+"  -  ZUG "+to_string(match_.board().tokenCount()+1),
                  82,821,21,muted);
@@ -663,6 +674,8 @@ private:
                 button("SPEICHERN",1100,buttonY+120,300,6,!dropActive_);
             } else {
                 button("REVANCHE",1100,buttonY+40,300,9);
+                if(!match_.scoreSaved())
+                    button("HIGHSCORE ERNEUT SICHERN",1100,buttonY+105,300,18);
             }
             button("HAUPTMENUE",1100,743,300,5);
         } else if(page_==Page::Help) {

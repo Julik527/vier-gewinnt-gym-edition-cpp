@@ -56,3 +56,7 @@ Der 3D-Code erhält getrennte Geometrie-/Kamera-Unit-Tests, GUI-Headless-Smokete
 Die 3D-Auswahl berechnet nun per Ray-Plane-Intersection die getroffene Spalte. Die Tests decken alle Rastergrößen, neun Kamerapositionen und Klicks außerhalb des Brettes ab. Beim Bewegen der Maus ohne gedrückte rechte Taste folgt die Spaltenvorschau dem Zeiger; ein Klick außerhalb des Brettes löst keinen Zug aus. Wird das Fenster deaktiviert, endet eine eventuell begonnene Kamera-Drag-Geste.
 
 **Sichern und beenden** beendet die Anwendung nur nach erfolgreichem Schreiben. Scheitert das Speichern (zum Beispiel bei einem schreibgeschützten Verzeichnis), bleibt die Partie geöffnet und zeigt eine Fehlermeldung. Der Befehl **Ohne Sichern beenden** bleibt eine separate, ausdrücklich bezeichnete Entscheidung.
+
+## Schutz beim Highscore-Schreiben
+
+Schlägt die automatische Speicherung eines Gewinns fehl, erscheint auf dem Siegerbildschirm ein Warnhinweis und der Knopf **Highscore erneut sichern**. Dieser schreibt den bereits im Speicher gezählten Sieg erneut, ohne einen weiteren Sieg hinzuzufügen. Ein eigener C++-Regressionstest blockiert die Zieldatei bewusst und prüft anschließendes Wiederholen sowie das Laden durch eine neue `MatchSession`.

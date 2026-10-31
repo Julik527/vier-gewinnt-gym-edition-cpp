@@ -36,3 +36,5 @@ Nach realer Durchführung eintragen: Datum, Commit, Compiler, GPU/Treiber, Windo
 | D23 | Maus ohne Klick über das Brett bewegen | Auswahl folgt dem Cursor, kein Stein wird gesetzt | offen |
 | D24 | Beim Kameradrehen Fensterfokus verlieren und Maus lösen | Keine dauerhaft blockierte Drag-Geste | offen |
 | D25 | `data` absichtlich schreibschützen und „Sichern und beenden“ wählen | Schreibfehler hält die laufende Partie offen; keine stille Datenlöschung | offen |
+
+| D26 | Highscore-Dateiziel blockieren, einen Sieg erzielen und nach Freigabe „Highscore erneut sichern“ betätigen | Warnung bei Fehler, danach korrekter gespeicherter Sieg ohne Doppelzählung | offen |
