@@ -1,72 +1,86 @@
-# JK AXIS | Gym Edition 2D | Read-only Windows environment diagnosis.
-# Does not install packages, switch Git branches or delete any files.
-param(
-    [switch]$Strict
-)
+# JK AXIS | Gym Edition 2D | read-only Windows diagnosis
+param([switch]$Strict)
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
-$root = Split-Path -Parent $PSScriptRoot
-$toolRoot = "C:\msys64\ucrt64\bin"
-$issues = New-Object System.Collections.Generic.List[string]
 
-function Show-Check {
-    param([string]$Label, [bool]$Ok, [string]$Message)
-    $state = if ($Ok) { "OK" } else { "FEHLT" }
-    Write-Host ("[{0}] {1}: {2}" -f $state, $Label, $Message)
-    if (-not $Ok) { $script:issues.Add($Label + ": " + $Message) }
+$root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
+$ucrtBin = "C:\msys64\ucrt64\bin"
+$issues = New-Object 'System.Collections.Generic.List[string]'
+
+function Report([string]$Label, [bool]$Okay, [string]$Details) {
+    $state = if ($Okay) { "OK" } else { "FEHLT" }
+    Write-Host ("[{0}] {1}: {2}" -f $state, $Label, $Details)
+    if (-not $Okay) { $script:issues.Add($Label + ": " + $Details) }
+}
+function Find-Tool([string]$Name) {
+    $fixed = Join-Path $ucrtBin $Name
+    if (Test-Path -LiteralPath $fixed -PathType Leaf) { return $fixed }
+    $result = Get-Command -Name $Name -CommandType Application -ErrorAction SilentlyContinue |
+        Select-Object -First 1
+    if ($null -ne $result) { return $result.Source }
+    return $null
 }
 
-Write-Host "JK AXIS | Vier Gewinnt 2D | Diagnose"
+Write-Host "JK AXIS | 2D-Diagnose ohne Aenderungen"
 Write-Host "Projekt: $root"
 Write-Host ""
+$source = Test-Path -LiteralPath (Join-Path $root "src\gui\Main.cpp") -PathType Leaf
+Report "2D-Quellcode" $source $(if ($source) { "vorhanden" } else { "fehlt; Git-Branch pruefen" })
 
-$source = Join-Path $root "src\gui\Main.cpp"
-$sourceOk = Test-Path -LiteralPath $source -PathType Leaf
-Show-Check "2D-Quellcode" $sourceOk $(if ($sourceOk) { "src/gui/Main.cpp vorhanden" } else { "Du bist vermutlich noch auf main. Entwicklungsbranch auschecken." })
+$git = Find-Tool "git.exe"
+if ($git) {
+    $branch = (& $git -C $root branch --show-current 2>$null | Select-Object -First 1)
+    Write-Host ("[INFO] Git-Branch: {0}" -f $(if ($branch) { $branch } else { "(unbekannt)" }))
+    $changes = @(& $git -C $root status --short 2>$null)
+    Write-Host ("[INFO] Git-Status: {0}" -f $(if ($changes.Count -eq 0) { "sauber" } else { "lokale Aenderungen vorhanden" }))
+} else { Report "Git" $false "git.exe fehlt" }
 
-$gitExe = Get-Command git -ErrorAction SilentlyContinue
-if ($null -ne $gitExe) {
-    $ref = (& git -C $root branch --show-current 2>$null | Select-Object -First 1)
-    if (-not $ref) { $ref = "(kein Branch erkannt)" }
-    Write-Host "Git-Branch: $ref"
-    if (-not $sourceOk) {
-        Write-Host "VOR BRANCHWECHSEL: git status --short"
-        Write-Host "Danach, nur wenn lokale Aenderungen gesichert sind:"
-        Write-Host "git fetch origin"
-        Write-Host "git switch --track origin/quality/gameplay-persistence-2026-10-28"
+$gxx = Find-Tool "g++.exe"
+$gdb = Find-Tool "gdb.exe"
+$cmake = Find-Tool "cmake.exe"
+$ninja = Find-Tool "ninja.exe"
+Report "G++" ($null -ne $gxx) $(if ($gxx) { $gxx } else { "g++.exe fehlt" })
+Report "GDB" ($null -ne $gdb) $(if ($gdb) { $gdb } else { "gdb.exe fehlt" })
+Report "CMake" ($null -ne $cmake) $(if ($cmake) { $cmake } else { "cmake.exe weder in MSYS2 noch PATH" })
+Report "Ninja" ($null -ne $ninja) $(if ($ninja) { $ninja } else { "ninja.exe weder in MSYS2 noch PATH" })
+
+if ($cmake) {
+    try {
+        $version = (& $cmake --version | Select-Object -First 1)
+        Write-Host "[INFO] $version"
+        if ($version -match 'version (\d+)\.(\d+)') {
+            $major = [int]$Matches[1]
+            $minor = [int]$Matches[2]
+            Report "CMake >= 3.28" (($major -gt 3) -or ($major -eq 3 -and $minor -ge 28)) $version
+        }
+    } catch { Report "CMake-Start" $false $_.Exception.Message }
+}
+
+if ($root -match '[^\x00-\x7F]') {
+    Write-Warning "Unicode im Quellpfad: SFML-FetchContent kann fehlerhafte Include-Pfade erzeugen."
+    Write-Host "Empfohlen: separate Git-Kopie unter C:\Dev\GymEdition anlegen und dort frisch bauen."
+    Write-Host "subst V: behebt nicht sicher jeden Unicode- oder langen Abhaengigkeitspfad."
+}
+if ($root.Length -gt 90) {
+    Write-Warning "Langer Quellpfad ($($root.Length) Zeichen); moeglichst kurz klonen."
+}
+foreach ($name in @("build-gui", "build-gui-signature", "build-gui-unicode")) {
+    $cache = Join-Path (Join-Path $root $name) "CMakeCache.txt"
+    if (Test-Path -LiteralPath $cache -PathType Leaf) {
+        $home = Get-Content -LiteralPath $cache |
+            Where-Object { $_ -match '^CMAKE_HOME_DIRECTORY:INTERNAL=' } |
+            Select-Object -First 1
+        if ($home -and $home -match '[^\x00-\x7F]') {
+            Write-Warning "Veralteter CMake-Cache in $name mit Unicode-Quellpfad; nicht in neuen Klon uebernehmen."
+        }
     }
-} else {
-    Show-Check "Git" $false "Git ist im Terminal nicht erreichbar."
 }
-
-$tools = @("g++.exe", "gdb.exe", "cmake.exe", "ninja.exe")
-foreach ($name in $tools) {
-    $path = Join-Path $toolRoot $name
-    $found = Test-Path -LiteralPath $path -PathType Leaf
-    Show-Check $name $found $(if ($found) { $path } else { "MSYS2 UCRT64 installieren/aktualisieren." })
-}
-
-$containsUnicode = $root -match '[^\x00-\x7F]'
-if ($containsUnicode) {
-    Write-Warning "Der Projektpfad enthaelt Sonderzeichen. GDB kann bei -environment-cd scheitern."
-    Write-Host "Das Repository in VS Code ueber ein ASCII-Laufwerk (z. B. V:\) oeffnen."
-    Write-Host 'Beispiel im Projektordner: subst V: "$((Get-Location).Path)"'
-    Write-Host "V: vorher nicht ueberschreiben, wenn der Buchstabe schon belegt ist."
-}
-
 $exe = Join-Path $root "build-gui\vier-gewinnt-gui.exe"
-$exeExists = Test-Path -LiteralPath $exe -PathType Leaf
-Write-Host ("[INFO] F5-GUI-EXE: {0}" -f $(if ($exeExists) { "vorhanden" } else { "noch nicht gebaut" }))
-$cachePath = Join-Path $root "build-gui\CMakeCache.txt"
-if (Test-Path -LiteralPath $cachePath -PathType Leaf) {
-    $cache = Get-Content -LiteralPath $cachePath -Raw
-    $generator = ($cache -split "\r?\n" | Where-Object { $_ -match '^CMAKE_GENERATOR:INTERNAL=' } | Select-Object -First 1)
-    if ($generator) { Write-Host "CMake: $generator" }
-}
+Write-Host ("[INFO] 2D-EXE: {0}" -f $(if (Test-Path -LiteralPath $exe -PathType Leaf) { "vorhanden, Aktualitaet ungeprueft" } else { "noch nicht gebaut" }))
 Write-Host ""
 if ($issues.Count -eq 0) {
-    Write-Host "Grundvoraussetzungen vorhanden. In VS Code: Profil 'Vier Gewinnt | Gym Edition 2D' und F5."
+    Write-Host "[OK] Grundwerkzeuge erkannt. Der echte GUI-Start ist damit noch nicht abgenommen."
 } else {
-    Write-Host ("{0} Voraussetzung(en) fehlen. Hinweise oben befolgen." -f $issues.Count)
+    Write-Host ("{0} technische Voraussetzung(en) offen." -f $issues.Count)
     if ($Strict) { exit 1 }
 }
