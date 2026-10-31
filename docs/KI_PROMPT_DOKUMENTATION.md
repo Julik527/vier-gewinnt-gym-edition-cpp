@@ -436,6 +436,13 @@ Die folgenden Belege stammen aus dem sichtbaren Projektgespräch. Technische Feh
 
 **Abnahmegrenze:** Ein automatisierter Test belegt Rechenregeln und Codeausführung, nicht die tatsächliche Qualität des visuellen Renderings, die Audioausgabe oder die Bedienung auf dem Zielrechner. Die Prüfläufe sind für den jeweiligen Commit separat zu kontrollieren. Ein schulischer Bewertungsanspruch „10/10“ ist kein Prüfergebnis.
 
+### P-47: Wiederherstellung nach fehlgeschlagenem Highscore-Speichern
+**Datum:** 31.10.2026 · **Auftrag:** Alle Aspekte der 3D-Gym-Edition professionell und präzise optimieren.
+
+**Technische Umsetzung:** Die `MatchSession` besitzt `retryPendingScoreSave()`, um ein fehlgeschlagenes Highscore-Schreiben nach einem Sieg erneut auszuführen, ohne einen zusätzlichen Sieg zu vergeben. Die 3D-Ergebnisansicht zeigt einen Warnhinweis und eine Aktion zum erneuten Sichern. Ein Regressionstest blockiert das Dateiziel, prüft den Fehlerfall und speichert nach Freigabe die ursprüngliche Punktzahl.
+
+**Abnahme:** Automatisierte Tests sind nur für tatsächlich durchgelaufene Commits verbindlich. Der reale Ausfall eines Speichermediums, Grafik- und Audioqualität sowie die schulische Vorführung bleiben manuell zu prüfen.
+
 ## Quellen, Vollständigkeit und Eigenprüfung
 
 Die heutigen Originalbelege stammen aus dem für diese Bearbeitung bereitgestellten Gesprächsauszug. P-24, P-25 und P-26 sind ausdrücklich rekonstruierte Arbeitsaufträge. Frühere Einträge behalten die damaligen Quellenangaben. Ein späterer technischer Chat-Export kann zusätzliche Eingaben enthalten. Dieses Register ist deshalb eine nachvollziehbare Projektakte, kein als vollständig bescheinigter Chat-Export.
