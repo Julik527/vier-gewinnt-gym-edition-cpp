@@ -32,6 +32,22 @@ Die Zeilen unterscheiden automatische Prüfung und manuelle Freigabe. **CI besta
 | PB-23 | MUST | Lokales Windows-Setup | DEV-01 | CMake/Ninja und beide F5-Profile funktionieren | Task-PATH korrigiert, lokale Wiederholung nach CMake-Fehler offen |
 | PB-24 | MUST | Vollständige Dokumentation | DOC-01 | Markdown, PDFs und PPTX widerspruchsfrei zum Prüfstand | [Dokumentenaudit](DOCUMENTATION_AUDIT_2026-10-28.md), aktualisierte Nachträge und Folien |
 
+## Abgleich zum Aufgabenblatt 51 am 31.10.2026
+
+Die ursprünglichen historischen 24 Backlog-Einträge bleiben als Entwicklungsstand erhalten. Neue, besonders für die schulische Endabnahme wichtige Punkte:
+
+| ID | Priorität | Offene oder ergänzte Arbeit | Nachweis |
+|---|---|---|---|
+| PB-25 | MUST | Handout mit allen Vorgaben des Aufgabenblatts | [Handout](HANDOUT_AUFGABENBLATT_51.md), Inhalt erstellt; Druckprüfung offen |
+| PB-26 | MUST | Anforderungen, Code, Tests und Abnahme zuordnen | [AB51-Nachweismatrix](SCHULANFORDERUNGEN_51_STATUS.md) |
+| PB-27 | MUST | Wöchentliche echte Kanban-Reviews/Retrospektiven | [Zwischenstandsprotokoll](SPRINT_REVIEW_2026-10-31.md); künftige Termine nicht durchgeführt |
+| PB-28 | MUST | 30-Minuten-Generalprobe und persönliche Code-Erklärung | [Vorführplan](GENERALPROBE_2027.md); 11.02.2027 noch offen |
+| PB-29 | SHOULD | Sichere 2- und 4-Personen-Vorführspielstände | [Fixtures](../tests/fixtures/), neu registrierter CTest; eigene Vorführung offen |
+| PB-30 | MUST | GUI auf kurzem Windows-Pfad lokal zum Laufen bringen | Unicode-/Build-Fix in GitHub vorhanden; lokaler GUI-Build zuletzt nicht bestanden |
+| PB-31 | MUST | KI-Prompts vom 29.–31.10. nachtragen | [Promptregister](KI_PROMPT_DOKUMENTATION.md), P-35 ff. |
+
+**Priorität laut Aufgabenblatt:** Programm 60 %, Präsentation 20 %, Handout 20 %. Zusätzliche Grafik und Musik sind nicht Bestandteil der Muss-Merkmale.
+
 ## Belege und nächste Abnahme
 
 [C++-/GUI-Lauf](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779797878), [Dokumentenlauf](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779798112), [gesicherte Jobstatus](evidence/CI_SNAPSHOT_2026-10-28.json). Die historischen 18 Backlog-IDs bleiben erhalten. PB-19 bis PB-24 sind projektinterne Ergänzungen und keine nachträglich erfundenen Pflichtpunkte des Aufgabenblatts.
