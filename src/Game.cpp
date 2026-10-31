@@ -429,7 +429,7 @@ void Game::loadHighscores() {
     if (!in) return;
     std::map<std::string, int> verified;
     if (!gym::parseScores(in, verified, validName)) {
-        std::cerr << "Warnung: Beschaedigte Bestenliste wird ignoriert.\\n";
+        std::cerr << "Warnung: Beschaedigte Bestenliste wird ignoriert." << std::endl;
         return;
     }
     highscores_ = std::move(verified);

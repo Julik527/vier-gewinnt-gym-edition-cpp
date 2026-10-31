@@ -54,7 +54,8 @@ int main() {
         verify(loaded.board().tokenCount() == 1, "state preserved after bad setup");
         {
             std::ofstream broken("data/corrupt.txt");
-            broken << "\"Ada\" 999\n\"Incomplete\"";
+            broken << std::quoted(std::string("Ada")) << " 999" << std::endl
+                   << std::quoted(std::string("Incomplete"));
         }
         verify(!loaded.load("data/corrupt.txt"), "reject corrupted save");
         verify(loaded.board().tokenCount() == 1, "load failure leaves state intact");
