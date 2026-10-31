@@ -79,3 +79,13 @@ Erkläre das Format `GYM1`: welche Daten es speichert und warum der Loader das R
 ## Qualitätskriterium
 
 **Du hast Teil D wirklich verstanden, wenn du den Weg `Mausklick → Spalte → Animation → Board::drop → Siegprüfung → 3D-Zeichnung` mit eigenem Code und ohne auswendig gelernte Floskeln erklären kannst.** Die ursprüngliche schulische Pflicht bleibt die funktionierende Konsole.
+
+## Qualitätsnachtrag: präzise Kameraauswahl
+
+**Datei:** `src/gui/Gym3DPicking.h`. Bei einem Klick erzeugt das Spiel aus dem Mauspunkt und den Kamerabasis-Vektoren einen Strahl durch die Perspektive. Dieser Strahl wird mit der Ebene des 3D-Bretts geschnitten. Aus dem **Weltkoordinaten-x** der Treffstelle ergibt sich die getroffene Spalte. Nur ein Treffer innerhalb der tatsächlichen Breite und Höhe des Bretts wird akzeptiert.
+
+**Warum ist das wichtig?** Die alte Lösung verglich nur Bildschirm-x mit der obersten Zellenreihe. Bei stark gedrehter Kamera unterscheiden sich die x-Werte zwischen oberen und unteren Zellen. Die neue Lösung verwendet zusätzlich die Höhe des Klickpunkts und den Kamerawinkel.
+
+**Zum Üben:** In `tests/scene3d_tests.cpp` werden Klicks auf sämtliche Zellen von 7×6, 9×8 und 11×10 bei neun Kameraausrichtungen getestet. Erkläre anhand eines Skalarprodukts und der Gleichung für den Schnitt einer Geraden mit einer Ebene, warum ein außerhalb liegender Klick verworfen wird.
+
+**Datensicherheit:** Suche in `Arena3D::act` die Aktion „Sichern und beenden“. Erkläre den Unterschied zwischen erfolgreichem Schreiben und fehlgeschlagenem Schreiben. Demonstriere, warum die Anwendung beim Fehler offen bleiben muss. Während eines fliegenden Steins werden destruktive Navigationsaktionen vorübergehend blockiert.

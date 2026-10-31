@@ -160,7 +160,9 @@ public:
                     if(resized->size.x&&resized->size.y)resizeView();
                 }
                 if(event->is<sf::Event::Closed>()) {
-                    if(match_.active()) page_=Page::ConfirmExit;
+                    if(match_.active() && dropActive_) {
+                        notice("WARTEN BIS DER SPIELSTEIN LIEGT");
+                    } else if(match_.active()) page_=Page::ConfirmExit;
                     else window_.close();
                 }
                 if(const auto* key=event->getIf<sf::Event::KeyPressed>()) keyPressed(key->code);
@@ -309,16 +311,20 @@ private:
     void act(int action) {
         switch(action) {
             case 1:
+                if(dropActive_) {notice("WARTEN BIS DER SPIELSTEIN LIEGT");break;}
                 if(match_.active())page_=Page::ConfirmNew;
                 else startNames();
                 break;
             case 2: if(match_.active())page_=Page::Playing;break;
             case 3:
+                if(dropActive_) {notice("WARTEN BIS DER SPIELSTEIN LIEGT");break;}
                 if(match_.active())page_=Page::ConfirmLoad;
                 else act(17);
                 break;
             case 4: page_=Page::Help;break;
-            case 5: page_=Page::Menu;break;
+            case 5:
+                if(dropActive_) {notice("WARTEN BIS DER SPIELSTEIN LIEGT");break;}
+                page_=Page::Menu;break;
             case 6: if(match_.active()&&!dropActive_&&match_.save())notice("SPIELSTAND GESPEICHERT");else notice("SPEICHERN NICHT MOEGLICH");break;
             case 7: if(match_.active()&&!dropActive_&&match_.undo())notice("LETZTER ZUG RUECKGAENGIG");else notice("RUECKGAENGIG NICHT MOEGLICH");break;
             case 8: startDrop();break;
@@ -360,6 +366,7 @@ private:
         if(key==K::F10) {volumeBy(-10);return;}
         if(key==K::F11) {volumeBy(10);return;}
         if(key==K::Escape) {
+            if(dropActive_) {notice("WARTEN BIS DER SPIELSTEIN LIEGT");return;}
             if(page_==Page::Intro)page_=Page::Menu;
             else if(page_==Page::Playing||page_==Page::Result)page_=Page::Menu;
             else if(page_==Page::ConfirmExit||page_==Page::ConfirmNew||page_==Page::ConfirmLoad)

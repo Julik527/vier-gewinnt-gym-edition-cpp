@@ -429,6 +429,13 @@ Die folgenden Belege stammen aus dem sichtbaren Projektgespräch. Technische Feh
 
 **Fachliche Grenze:** Das ist eine freiwillige Erweiterung über Aufgabenblatt 51 hinaus. Auch grüne CI kann den echten Windows-/Audio-/Grafiktest und das persönliche Verständnis nicht ersetzen. Die moderne Shader-/PBR-Pipeline gehört nicht zum Funktionsumfang dieser ersten OpenGL-Kompatibilitätsfassung. Die tatsächliche persönliche Durchführung der Vorführtests ist offen.
 
+### P-46: Qualitätssicherung und Bedienpräzision der 3D-Arena
+**Datum:** 31.10.2026 · **Originalauftrag:** „Mache alle Aspekte auf 10 von 10 First Class sehr professionell und sehr vollkommen und sehr penibel und sehr präzise auf Gold Standard“.
+
+**Umsetzung mit KI-Unterstützung:** Die bisherige ausschließlich horizontale Klickerkennung wurde durch eine perspektivisch korrekte Ray-Plane-Intersection ersetzt. Das neue Hilfsmodul `Gym3DPicking.h` ist ohne SFML/OpenGL testbar. Zusätzliche Regressionstests überprüfen 2/3/4-Spieler-Felder bei unterschiedlichen Kameradrehungen, Höhen und Klicks außerhalb des Spielfelds. Mausbewegung erzeugt eine Vorschau, nicht sofort einen Zug. Schlägt „Sichern und beenden“ fehl, bleibt das laufende Match geöffnet. Navigations- und Schließaktionen warten während einer noch laufenden Fallanimation.
+
+**Abnahmegrenze:** Ein automatisierter Test belegt Rechenregeln und Codeausführung, nicht die tatsächliche Qualität des visuellen Renderings, die Audioausgabe oder die Bedienung auf dem Zielrechner. Die Prüfläufe sind für den jeweiligen Commit separat zu kontrollieren. Ein schulischer Bewertungsanspruch „10/10“ ist kein Prüfergebnis.
+
 ## Quellen, Vollständigkeit und Eigenprüfung
 
 Die heutigen Originalbelege stammen aus dem für diese Bearbeitung bereitgestellten Gesprächsauszug. P-24, P-25 und P-26 sind ausdrücklich rekonstruierte Arbeitsaufträge. Frühere Einträge behalten die damaligen Quellenangaben. Ein späterer technischer Chat-Export kann zusätzliche Eingaben enthalten. Dieses Register ist deshalb eine nachvollziehbare Projektakte, kein als vollständig bescheinigter Chat-Export.

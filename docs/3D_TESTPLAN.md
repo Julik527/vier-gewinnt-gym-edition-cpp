@@ -28,6 +28,10 @@
 
 Nach realer Durchführung eintragen: Datum, Commit, Compiler, GPU/Treiber, Windows-Version, DPI, erwartetes und tatsächliches Verhalten, Screenshot/Fehlermeldung und Status. Keine Häkchen ohne Nachweis.
 
+## Neue Abnahmetests: Kamera und Datensicherheit
+
+| ID | Test / Erwartung | Ergebnis |
+|---|---|---|
 | D22 | Mit gedrehter/gekippter Kamera die äußersten und unteren Zellen anklicken | Richtige Spalte; kein Zug außerhalb des Brettes | offen |
 | D23 | Maus ohne Klick über das Brett bewegen | Auswahl folgt dem Cursor, kein Stein wird gesetzt | offen |
 | D24 | Beim Kameradrehen Fensterfokus verlieren und Maus lösen | Keine dauerhaft blockierte Drag-Geste | offen |
