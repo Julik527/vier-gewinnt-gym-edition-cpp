@@ -179,6 +179,19 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: ./scripts/package-windows.ps1 -BuildDirectory build-gui
+      - name: Package tested Windows 3D game and verify SHA-256
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/package-3d.ps1 -BuildDirectory build-gui
+      - name: Upload portable Windows 3D ZIP and SHA-256
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: gym-edition-3d-windows-msvc
+          path: |
+            dist/Gym-Edition-3D-Windows.zip
+            dist/SHA256SUMS_3D.txt
+          if-no-files-found: error
       - name: Upload tested Windows ZIP and SHA-256
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
