@@ -89,6 +89,15 @@ void disc(float x,float y,float z,float radius,float thickness,sf::Color tint) {
     glEnd();
     glPopMatrix();
 }
+// Embossed barbell mark on the face of every volumetric token.
+void dumbbellRelief(float x,float y,float z) {
+    const sf::Color steel(228,238,248),highlight(135,189,235);
+    cube(x,y,z+.17f,.53f,.09f,.07f,steel);
+    cube(x-.24f,y,z+.18f,.11f,.35f,.09f,steel);
+    cube(x+.24f,y,z+.18f,.11f,.35f,.09f,steel);
+    cube(x-.31f,y,z+.20f,.045f,.26f,.06f,highlight);
+    cube(x+.31f,y,z+.20f,.045f,.26f,.06f,highlight);
+}
 void ring(float x,float y,float z,float outer,float inner,sf::Color tint) {
     constexpr int segments=24;
     color(tint);
@@ -491,6 +500,7 @@ private:
                 const sf::Color tint=forSymbol(symbol);
                 disc(p.x,p.y,.21f,.39f,.22f,tint);
                 ring(p.x,p.y,.34f,.35f,.31f,sf::Color(203,229,250));
+                dumbbellRelief(p.x,p.y,.21f);
             }
         }
         // Selected column: pulsing emissive holographic indicator in front of the board.
@@ -507,6 +517,7 @@ private:
             const float target=p.y;
             const float y=gym3d::dropHeight(dropTime_,.44f,height*.5f+1.6f,target);
             disc(p.x,y,.23f,.39f,.22f,colors[static_cast<size_t>(dropPlayer_)]);
+            dumbbellRelief(p.x,y,.23f);
         }
         if(page_==Page::Result&&!match_.winLine().empty()) {
             glDisable(GL_LIGHTING);
