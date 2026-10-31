@@ -186,27 +186,35 @@ def main() -> int:
         if (save_dir / "data" / "savegame.txt.tmp").exists():
             raise AssertionError("Eine temporaere Datei blieb nach erfolgreichem Save liegen.")
 
-        # Eine fehlgeschlagene Sicherung darf die gueltige Datei nicht zerstoeren.
+        # Die frueher feste .tmp-Datei darf neue Speichervorgaenge
+        # nicht mehr blockieren. Der neue Dateiname ist jeweils eindeutig.
         original = save.read_bytes()
         blocked_temp = save_dir / "data" / "savegame.txt.tmp"
         blocked_temp.mkdir()
         try:
             output = run_game(
                 binary, save_dir,
-                ["1", "2", "Ada", "Ben", "1", "S", "M", "0", "j"],
+                ["1", "2", "Ada", "Ben", "1", "2", "S", "M", "0", "j"],
             )
-            require(output, "Speichern fehlgeschlagen.")
-            if save.read_bytes() != original:
-                raise AssertionError("Ein fehlgeschlagener Save hat den alten Stand ersetzt.")
+            require(output, "Spiel gespeichert.")
+            if save.read_bytes() == original:
+                raise AssertionError("Alte .tmp-Kollision blockiert einen gueltigen Save.")
+            leftovers = [
+                p for p in (save_dir / "data").glob("savegame.txt.*.tmp")
+                if p.is_file()
+            ]
+            if leftovers:
+                raise AssertionError("Temporäre Dateien nach erfolgreichem Save: " + str(leftovers))
         finally:
             blocked_temp.rmdir()
 
-        # Gleiches Prinzip auch fuer die langfristig gespeicherten Siege.
+        # Auch die Bestenliste wird trotz eines alten .tmp-Verzeichnisses
+        # korrekt aktualisiert. Fehlerszenarien des Dateiersatzes deckt
+        # match_session_tests.cpp gesondert ab.
         safe_score_dir = workdir("highscore-sicher")
         (safe_score_dir / "data").mkdir()
-        previous_score = b'"Ada" 2\n'
         high_file = safe_score_dir / "data" / "highscore.txt"
-        high_file.write_bytes(previous_score)
+        high_file.write_bytes(b'"Ada" 2\\n')
         blocked_high_temp = safe_score_dir / "data" / "highscore.txt.tmp"
         blocked_high_temp.mkdir()
         try:
@@ -216,8 +224,8 @@ def main() -> int:
                  "3", "7", "4", "0", "0"],
             )
             require(output, "GEWONNEN: Ada!")
-            if high_file.read_bytes() != previous_score:
-                raise AssertionError("Fehlgeschlagenes Highscore-Speichern zerstoerte Datei.")
+            if high_file.read_bytes() != b'"Ada" 3\\n':
+                raise AssertionError("Highscore wurde trotz neuer Temp-Datei nicht aktualisiert.")
         finally:
             blocked_high_temp.rmdir()
 
