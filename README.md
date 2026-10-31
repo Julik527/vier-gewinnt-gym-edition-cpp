@@ -17,7 +17,7 @@
 
 **ITA-Programmierprojekt 2026/27 · JK AXIS · C++17 · SFML 3.1.0 · CMake / CTest**
 
-> **Versionsstatus:** Die weiterentwickelte 2D-Version befindet sich noch im [Draft-PR #1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1). Der Branch \`main\` enthält bisher die stabile Konsolenbasis. Ein erfolgreicher automatischer Testlauf ist keine vollständige Freigabe des interaktiven Windows-Spiels.
+> **Versionsstatus:** Die weiterentwickelte 2D-Version befindet sich noch im [Draft-PR #1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1). Der Branch `main` enthält bisher die stabile Konsolenbasis. Ein erfolgreicher automatischer Testlauf ist keine vollständige Freigabe des interaktiven Windows-Spiels.
 
 ## Das Spiel
 
@@ -31,7 +31,7 @@ Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhänge
 
 **Bereits implementiert:** Konsolenmodus und optionale SFML-2D-Version, Maus-/Tastatursteuerung, Fallanimation, Gewinnmarkierung, Undo, Vorschau (Konsole), Revanche, Highscores, Speichern/Laden, ein synthetischer und standardmäßig ausgeschalteter Gym-Beat.
 
-**Wichtige Grenzen:** Kein KI-Gegner, kein Netzwerkspiel, keine 3D-Engine. Die GUI und die Konsole verwenden noch separate Ablauf-Controller; gemeinsam sind die Spielregeln im \`Board\` und die sichere Dateiersatzfunktion.
+**Wichtige Grenzen:** Kein KI-Gegner, kein Netzwerkspiel, keine 3D-Engine. Die GUI und die Konsole verwenden noch separate Ablauf-Controller; gemeinsam sind die Spielregeln im `Board` und die sichere Dateiersatzfunktion.
 
 ## Schnellstart
 
@@ -39,36 +39,36 @@ Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhänge
 
 **Für Entwickler, Konsolenspiel (Windows mit MSYS2 UCRT64):**
 
-\`\`\`powershell
+```powershell
 g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/Game.cpp src/ConsoleUI.cpp -o vier-gewinnt.exe
 .\vier-gewinnt.exe
-\`\`\`
+```
 
 **CMake, Debug und automatische Tests (Linux/Windows):**
 
-\`\`\`bash
+```bash
 cmake -S . -B build
 cmake --build build --config Debug
 ctest --test-dir build -C Debug --output-on-failure
-\`\`\`
+```
 
 **Optional: SFML-Grafikversion (CMake mindestens 3.28):**
 
-\`\`\`bash
+```bash
 cmake -S . -B build-gui -DGYM_BUILD_GUI=ON -DCMAKE_BUILD_TYPE=Release
 cmake --build build-gui --config Release --target vier-gewinnt-gui
 ctest --test-dir build-gui -C Release --output-on-failure
-\`\`\`
+```
 
 SFML 3.1.0 wird bei Bedarf über CMake FetchContent eingebunden. Auf Windows müssen ein geeigneter Compiler und die entsprechenden Laufzeitbibliotheken verfügbar sein.
 
-**VS Code:** Zwei F5-Profile für Konsole und GUI liegen in \`.vscode/\`. Für den MSYS2-UCRT64-GUI-Build sind CMake, Ninja und die UCRT64-Toolchain erforderlich. [Details und Fehlerbehebung](docs/REPOSITORY_GUIDE.md).
+**VS Code:** Zwei F5-Profile für Konsole und GUI liegen in `.vscode/`. Für den MSYS2-UCRT64-GUI-Build sind CMake, Ninja und die UCRT64-Toolchain erforderlich. [Details und Fehlerbehebung](docs/REPOSITORY_GUIDE.md).
 
-**Schul-Demo in PowerShell:** \`.\scripts\demo.ps1 -Mode Both\` baut und startet zunächst die Grafik- und danach die Konsolenversion. Die Programme werden absichtlich **nicht parallel** ausgeführt, da sie dieselben lokalen Dateien verwenden.
+**Schul-Demo in PowerShell:** `.\scripts\demo.ps1 -Mode Both` baut und startet zunächst die Grafik- und danach die Konsolenversion. Die Programme werden absichtlich **nicht parallel** ausgeführt, da sie dieselben lokalen Dateien verwenden.
 
 ## Architektur und Codequalität
 
-\`\`\`text
+```text
 include/              Board, Player, Game, MatchSession, AtomicFile, ScoreFile
 src/Board.cpp         Schwerkraft, Züge, Siegerkennung
 src/Game.cpp          Ablauf der Konsole
@@ -81,11 +81,11 @@ tests/                Unit-, Integrations- und Konfigurationsprüfungen
 docs/                 Architektur, Testpläne und Projektverlauf
 praesentation/        Präsentation und Vortragsleitfaden
 reference/            Schulische Referenzdokumente
-\`\`\`
+```
 
-- **Regeln:** \`Board\` kennt die Spielpositionen, aber keine Fenster oder Namen.
-- **Zustand:** \`Game\` (Konsole) und \`MatchSession\` (GUI) koordinieren ihre jeweilige Partie.
-- **Persistenz:** \`GYM1\`-Spielstände werden vor dem Übernehmen geprüft. Highscores werden strikt eingelesen; unvollständige Dateien dürfen keine gültigen Ergebnisse überschreiben.
+- **Regeln:** `Board` kennt die Spielpositionen, aber keine Fenster oder Namen.
+- **Zustand:** `Game` (Konsole) und `MatchSession` (GUI) koordinieren ihre jeweilige Partie.
+- **Persistenz:** `GYM1`-Spielstände werden vor dem Übernehmen geprüft. Highscores werden strikt eingelesen; unvollständige Dateien dürfen keine gültigen Ergebnisse überschreiben.
 - **Tests:** CTest umfasst Spielfeld, Spielzustand, Textoberfläche und Integration. Die GitHub-Actions-Matrix prüft unterschiedliche Compiler- und Betriebssystemkonfigurationen.
 
 [Architektur im Detail](docs/ARCHITECTURE.md) · [Tests und Nachweise](docs/QUALITY_AND_TESTS.md) · [Windows-GUI-Testplan](docs/GUI_TESTPLAN.md)
