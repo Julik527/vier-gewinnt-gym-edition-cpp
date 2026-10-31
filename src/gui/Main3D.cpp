@@ -123,6 +123,7 @@ public:
     Arena3D():window_(sf::VideoMode({1440u,900u}),"JK AXIS | Gym Edition 3D"),
               font_(loadFont()) {
         window_.setFramerateLimit(60);
+        resizeView();
         camera_.distance=16.f;
         window_.setKeyRepeatEnabled(false);
     }
@@ -145,6 +146,9 @@ public:
             }
             if(page_==Page::Result) victoryTime_+=dt;
             while(const auto event=window_.pollEvent()) {
+                if(const auto* resized=event->getIf<sf::Event::Resized>()) {
+                    if(resized->size.x&&resized->size.y)resizeView();
+                }
                 if(event->is<sf::Event::Closed>()) {
                     if(match_.active()) page_=Page::ConfirmExit;
                     else window_.close();
@@ -196,7 +200,25 @@ private:
     bool drag_=false;
     sf::Vector2i lastMouse_{};
     vector<Hit> hits_;
+    sf::FloatRect viewport_{{0.f,0.f},{1.f,1.f}};
 
+    void resizeView() {
+        const auto sz=window_.getSize();
+        if(!sz.x||!sz.y)return;
+        const float displayRatio=static_cast<float>(sz.x)/static_cast<float>(sz.y);
+        const float designRatio=W/H;
+        viewport_={{0.f,0.f},{1.f,1.f}};
+        if(displayRatio>designRatio) {
+            viewport_.size.x=designRatio/displayRatio;
+            viewport_.position.x=(1.f-viewport_.size.x)*.5f;
+        } else {
+            viewport_.size.y=displayRatio/designRatio;
+            viewport_.position.y=(1.f-viewport_.size.y)*.5f;
+        }
+        sf::View view(sf::FloatRect({0.f,0.f},{W,H}));
+        view.setViewport(viewport_);
+        window_.setView(view);
+    }
     void notice(string message) {info_=std::move(message);messageTime_=4.f;}
     void musicToggle() {
         if(music_) {if(beat_)beat_->stop(); music_=false;notice("MUSIK PAUSIERT");return;}
@@ -393,9 +415,13 @@ private:
     }
     void renderWorld() {
         const auto size=window_.getSize();
-        const unsigned vw=max(1u,static_cast<unsigned>(size.x*viewportWidth/W));
-        const unsigned vh=max(1u,static_cast<unsigned>(size.y*viewportHeight/H));
-        glViewport(0,0,static_cast<GLsizei>(vw),static_cast<GLsizei>(vh));
+        const unsigned contentW=max(1u,static_cast<unsigned>(size.x*viewport_.size.x));
+        const unsigned contentH=max(1u,static_cast<unsigned>(size.y*viewport_.size.y));
+        const unsigned vw=max(1u,static_cast<unsigned>(contentW*viewportWidth/W));
+        const unsigned vh=max(1u,static_cast<unsigned>(contentH*viewportHeight/H));
+        const GLint left=static_cast<GLint>(size.x*viewport_.position.x);
+        const GLint bottom=static_cast<GLint>(size.y*viewport_.position.y);
+        glViewport(left,bottom,static_cast<GLsizei>(vw),static_cast<GLsizei>(vh));
         glClearDepth(1.0);glClear(GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);glDepthFunc(GL_LEQUAL);
         glEnable(GL_NORMALIZE);
