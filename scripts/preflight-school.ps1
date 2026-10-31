@@ -4,7 +4,6 @@ param([switch]$WithGui)
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 $root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
-$ucrtBin = "C:\msys64\ucrt64\bin"
 
 function Stop-Preflight([string]$Message) {
     Write-Host "[FEHLER] $Message" -ForegroundColor Red
@@ -25,19 +24,38 @@ function Invoke-Checked([string]$Executable, [string[]]$Arguments) {
     }
 }
 
-$cmake = Find-Tool "cmake.exe"
-$ninja = Find-Tool "ninja.exe"
-$ctest = Find-Tool "ctest.exe"
+# MSYS2/setup-msys2 can install UCRT64 under a runner-specific directory.
+# Prefer explicit runner/user setting; otherwise find the compiler on PATH.
+$ucrtBin = $null
+if ($env:GYM_UCRT64_BIN) {
+    $ucrtBin = $env:GYM_UCRT64_BIN
+} elseif (Test-Path -LiteralPath "C:\msys64\ucrt64\bin\g++.exe" -PathType Leaf) {
+    $ucrtBin = "C:\msys64\ucrt64\bin"
+} else {
+    $discovered = Get-Command -Name "g++.exe" -CommandType Application -ErrorAction SilentlyContinue |
+        Select-Object -First 1
+    if ($null -ne $discovered) { $ucrtBin = Split-Path -Parent $discovered.Source }
+}
+if (-not $ucrtBin) {
+    Stop-Preflight "MSYS2-UCRT64 nicht gefunden. GYM_UCRT64_BIN setzen oder g++.exe in PATH aufnehmen."
+}
+$ucrtBin = [System.IO.Path]::GetFullPath($ucrtBin)
 $gcc = Join-Path $ucrtBin "gcc.exe"
 $gxx = Join-Path $ucrtBin "g++.exe"
 if (-not (Test-Path -LiteralPath $gcc -PathType Leaf) -or
     -not (Test-Path -LiteralPath $gxx -PathType Leaf)) {
-    Stop-Preflight "gcc.exe und g++.exe aus C:\msys64\ucrt64\bin fehlen."
+    Stop-Preflight "gcc.exe und g++.exe im ermittelten UCRT64-Ordner fehlen: $ucrtBin"
 }
+# Ensure CMake, CTest, Ninja and GCC come from one matching toolchain.
+$env:Path = "$ucrtBin;$env:Path"
+$cmake = Find-Tool "cmake.exe"
+$ninja = Find-Tool "ninja.exe"
+$ctest = Find-Tool "ctest.exe"
+Write-Host "[INFO] UCRT64-Compiler: $gxx"
+Write-Host "[INFO] CMake: $cmake / Ninja: $ninja"
 if ($WithGui -and $root -match '[^\x00-\x7F]') {
     Stop-Preflight "GUI nicht im Unicode-Quellpfad bauen. Erst separat nach C:\Dev\GymEdition klonen."
 }
-$env:Path = "$ucrtBin;$env:Path"
 $folder = if ($WithGui) { "build-school-gui-preflight" } else { "build-school-console-preflight" }
 $build = Join-Path $root $folder
 $guiSetting = if ($WithGui) { "ON" } else { "OFF" }

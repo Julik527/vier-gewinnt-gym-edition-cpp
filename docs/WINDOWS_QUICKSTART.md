@@ -112,6 +112,8 @@ Nur die C++-Konsole einschließlich Tests, ohne persönliche Spielstände zu än
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\preflight-school.ps1"
 ```
 
+Das Skript ermittelt den UCRT64-Compiler über `C:\msys64\ucrt64\bin`, die vorhandene `PATH`-Variable oder den optionalen Parameter `GYM_UCRT64_BIN`. Auf GitHub Actions wird der tatsächliche MSYS2-Pfad automatisch an PowerShell übergeben, statt `C:\msys64` vorauszusetzen.
+
 Optional der vollständige grafische Build inklusive automatischer GUI-/Pfad-Tests:
 
 ```powershell
