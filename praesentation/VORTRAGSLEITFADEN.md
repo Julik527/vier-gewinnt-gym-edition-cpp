@@ -3,6 +3,14 @@
 **Stand:** 28.10.2026 · **Ziel:** 15 Minuten Projektvorstellung und 15 Minuten Code mit Demo
 Die Sprechtexte sind Übungsformulierungen mit KI-Unterstützung. Sie belegen keine bereits selbstständig gehaltene Präsentation.
 
+## Aktueller schulischer Stand (31.10.2026)
+
+Das [Aufgabenblatt 51](../docs/SCHULANFORDERUNGEN_51_STATUS.md) verlangt vor allem die **objektorientierte C++-Konsole**. Die bestehende 2D-Anwendung ist freiwilliger Zusatz. Der detaillierte, auf 27 Minuten Vortrag/Demo und 3 Minuten Fragen ausgerichtete Ablauf mit vorbereiteten Testdaten steht unter [GENERALPROBE_2027.md](../docs/GENERALPROBE_2027.md). Die vorhandenen 17 Präsentationsfolien umfassen drei Reservefolien; die im Aufgabenblatt genannten 10–12 Folien sind ein Richtwert. Vor der Generalprobe Inhalt und tatsächliche Folienzahl final prüfen.
+
+**Aktualisierung zur Musik:** Der frühere 120-BPM-Gym-Beat wurde durch einen eigens komponierten **116-BPM-Stereo-Soundtrack** ersetzt. F9 startet/pausiert ihn, F10/F11 steuern die Lautstärke. Der Hörtest auf dem realen Laptop ist noch offen. Beim Vortrag die frühere Angabe „120 BPM“ nicht mehr verwenden.
+
+**Letzter bestätigter C++-Nachweis vor diesem AB51-Nachtrag:** [9/9 Jobs, Commit 466f5530](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41202025895). Die weiteren Vorführdaten-Tests sind separat am jeweiligen Folgecommit zu prüfen.
+
 ## 1. Einstieg in etwa 40 Sekunden
 
 „Mein Projekt ist ein Vier-Gewinnt-Spiel in C++17 für zwei bis vier Personen. Ich habe es als Gym Edition mit Hantel-Spielsteinen gestaltet. Es gibt eine Terminalversion und zusätzlich eine grafische 2D-Anwendung mit SFML. Die Regeln liegen in Board. Die Konsole nutzt Game, die grafische Version eine MatchSession. Dazu kommen Speichern und Laden, eine Bestenliste, Revanche und ein schaltbarer synthetischer Gym-Beat. Bei der Entwicklung habe ich KI-Unterstützung genutzt. Die wichtigsten Funktionen erkläre ich direkt am Code.“
