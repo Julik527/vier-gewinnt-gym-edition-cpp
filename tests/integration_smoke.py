@@ -214,7 +214,7 @@ def main() -> int:
         safe_score_dir = workdir("highscore-sicher")
         (safe_score_dir / "data").mkdir()
         high_file = safe_score_dir / "data" / "highscore.txt"
-        high_file.write_bytes(b'"Ada" 2\\n')
+        high_file.write_bytes(b'"Ada" 2\n')
         blocked_high_temp = safe_score_dir / "data" / "highscore.txt.tmp"
         blocked_high_temp.mkdir()
         try:
@@ -224,7 +224,7 @@ def main() -> int:
                  "3", "7", "4", "0", "0"],
             )
             require(output, "GEWONNEN: Ada!")
-            if high_file.read_bytes() != b'"Ada" 3\\n':
+            if high_file.read_bytes() != b'"Ada" 3\n':
                 raise AssertionError("Highscore wurde trotz neuer Temp-Datei nicht aktualisiert.")
         finally:
             blocked_high_temp.rmdir()
