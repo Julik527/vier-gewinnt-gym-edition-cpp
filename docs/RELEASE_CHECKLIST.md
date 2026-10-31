@@ -3,6 +3,23 @@
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 / SFML 3.1
 **Stand:** 31.10.2026. Diese Datei enthält keine erfundenen Testresultate.
 
+## Schulische Freigabe nach Aufgabenblatt 51 (31.10.2026)
+
+Die verbindliche Nachweisgrundlage liegt in [SCHULANFORDERUNGEN_51_STATUS.md](SCHULANFORDERUNGEN_51_STATUS.md). **Programm 60 %, Präsentation 20 %, Handout 20 %.**
+
+- [x] Eigenes Handout in [Markdown](HANDOUT_AUFGABENBLATT_51.md) erarbeitet und eine dreiseitige PDF-Fassung für die Abgabe erstellt (PDF separat bereitgestellt).
+- [x] Prüfbarkeit der Pflichtanforderungen in einer Nachweismatrix dokumentiert.
+- [x] Zeitplan, offene Freigaben und aktuelles Kanban/Review als [Bestandsaufnahme](SPRINT_REVIEW_2026-10-31.md) dokumentiert.
+- [x] 30-Min.-Vorführablauf, Sicherheitskonzept und isolierte Beispiel-Spielstände vorbereitet.
+- [ ] Handout durch den Schüler selbst gelesen, ausgedruckt und auf fachliche Erklärbarkeit geprüft.
+- [ ] Konsolen-Testplan mit tatsächlichen Windows-Beobachtungen ausgefüllt.
+- [ ] Konsole auf dem Schulgerät demonstriert; Schüler kann Board/Game/Player/Algorithmus erklären.
+- [ ] Tatsächliche Donnerstagssprints samt Lehrkraftfeedback protokolliert.
+- [ ] Generalprobe 11.02.2027 mit Stoppuhr durchgeführt; Abschluss 18.02.2027.
+- [ ] Entsprechenden schulischen Meilensteinrelease/tag nach Freigabe erstellt.
+
+**Wichtig:** Die Checkboxen „erstellt“ sind Dateinachweise, keine bestandene Schulevaluation.
+
 ## 1. Automatisierte Qualitätsprüfungen
 - [ ] Letzter `main`-Commit: Linux/Windows Debug und Release erfolgreich
 - [ ] Zusätzlicher MSYS2-UCRT64-Build in Debug und Release erfolgreich
