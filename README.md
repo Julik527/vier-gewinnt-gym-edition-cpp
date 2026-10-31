@@ -19,6 +19,19 @@
 
 > **Versionsstatus:** Die weiterentwickelte 2D-Version befindet sich noch im [Draft-PR #1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1). Der Branch `main` enthält bisher die stabile Konsolenbasis. Ein erfolgreicher automatischer Testlauf ist keine vollständige Freigabe des interaktiven Windows-Spiels.
 
+## Schulabgabe: Aufgabenblatt 51
+
+Die fachlichen Pflichtpunkte richten sich nach **Dr. Michael Literas Aufgabenblatt 51 (Programmiertechnik 2026/2027)**. Die Konsolenversion hat Priorität vor zusätzlichen 2D-Effekten.
+
+- [Handout für die Präsentation](docs/HANDOUT_AUFGABENBLATT_51.md)
+- [Muss-Anforderungen mit Umsetzungs- und Abnahmestatus](docs/SCHULANFORDERUNGEN_51_STATUS.md)
+- [Kanban, Review und Retrospektive vom 31.10.2026](docs/SPRINT_REVIEW_2026-10-31.md)
+- [Generalprobe und 30-Minuten-Vorführung](docs/GENERALPROBE_2027.md)
+- [Geprüfte, isolierte Vorführspielstände](tests/fixtures/)
+- [Aktuelles KI-Promptregister](docs/KI_PROMPT_DOKUMENTATION.md)
+
+**Achtung:** Eine erfolgreiche GitHub-CI ist kein Nachweis, dass die neueste GUI auf dem Schulrechner startet oder dass ein mündliches Fachgespräch bereits bestanden wurde. Manuelle Testfälle und Lehrkraftbewertungen bleiben offen.
+
 ## Das Spiel
 
 Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhängende Symbole gewinnen, horizontal, vertikal oder diagonal. Die Spielbreite passt sich der Spielerzahl an.
