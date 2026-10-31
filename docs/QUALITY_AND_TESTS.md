@@ -3,7 +3,15 @@
 **Stand:** Arbeitstag 28.10.2026 · **Quellcodebasis:** `02eb79f8c432ef4578cf650ca2b74efa4d448769`
 **Branch:** `quality/gameplay-persistence-2026-10-28` · **Übergabe:** Draft-PR #1
 
-## 1. Aktuell verifizierte GitHub-Ergebnisse
+## Update: Aufgabenblatt-51-Prüfung vom 31.10.2026
+
+Der historische CI-Snapshot unten bleibt als Stand vom 28.10. dokumentiert. Danach waren am Commit [466f5530](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/466f5530ea72b13c6068188c755fb6b44b142804) die [9 C++-/GUI-Jobs erfolgreich](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41202025895) und die [Dokumentenprüfung erfolgreich](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41202025887). Das deckt unter anderem MSYS2 UCRT64, Linux, Windows und GUI-Tests ab.
+
+Für die Unterrichtsdemo wurden nach diesem Commit zwei GYM1-Fixtures unter \`tests/fixtures/\` ergänzt und in \`tests/school_demo_fixture_tests.cpp\` ein eigener CTest registriert. Ein neuer erfolgreicher Workflow-Status muss diesen späteren Commit ausdrücklich nennen. Die [Anforderungsmatrix](SCHULANFORDERUNGEN_51_STATUS.md) trennt Implementierung/CI von echter manueller Abnahme.
+
+Der zuletzt übermittelte lokale SFML-Build in einem Windows-Benutzerverzeichnis mit \`ß\` ist fehlgeschlagen; eine reale, aktuelle GUI-Vorführung wird deshalb weiterhin **nicht** behauptet.
+
+## 1. Historisch verifizierte GitHub-Ergebnisse
 
 Die abgefragten Läufe am genannten Ausgangscommit sind erfolgreich abgeschlossen:
 
