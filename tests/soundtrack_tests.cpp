@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-static void require(bool passed, const char* message) {
+static void require(bool passed, const char* message = "Audio invariant violated") {
     if (!passed) throw std::runtime_error(message);
 }
 #include <cmath>
