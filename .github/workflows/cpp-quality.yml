@@ -57,6 +57,35 @@ jobs:
         shell: bash
         run: ctest --test-dir build -C ${{ matrix.build_type }} --output-on-failure
 
+  ucrt64-console:
+    name: MSYS2 UCRT64 / ${{ matrix.build_type }}
+    runs-on: windows-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-python
+      - name: Configure with the same GCC toolchain as the classroom
+        shell: msys2 {0}
+        run: cmake -S . -B build-ucrt64 -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGYM_BUILD_GUI=OFF
+      - name: Compile
+        shell: msys2 {0}
+        run: cmake --build build-ucrt64 --parallel 2
+      - name: Test the rules, persistence and console
+        shell: msys2 {0}
+        run: ctest --test-dir build-ucrt64 --output-on-failure
+
   gui-build:
     name: SFML 3.1 GUI / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -85,13 +114,16 @@ jobs:
       - name: Test headless GUI core without a desktop
         shell: bash
         run: ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_window_smoke'
-      - name: Upload Windows 2D game executable
+      - name: Verify and package a portable Windows ZIP
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/package-windows.ps1 -BuildDirectory build-gui
+      - name: Upload tested Windows ZIP and SHA-256
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: gym-edition-2d-windows-msvc
           path: |
-            build-gui/**/vier-gewinnt-gui.exe
-            build-gui/**/sfml-*.dll
-            build-gui/**/assets/school/bernd-blindow-schulen.jpg
+            dist/Gym-Edition-Windows.zip
+            dist/SHA256SUMS.txt
           if-no-files-found: error
