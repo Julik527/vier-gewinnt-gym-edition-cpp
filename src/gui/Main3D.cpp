@@ -230,11 +230,38 @@ private:
             } else notice("SPIELSTART FEHLGESCHLAGEN");
         }
     }
+    static string encodeUtf8(unsigned int code) {
+        string out;
+        if(code<0x80)out.push_back(static_cast<char>(code));
+        else if(code<0x800) {
+            out.push_back(static_cast<char>(0xc0|(code>>6)));
+            out.push_back(static_cast<char>(0x80|(code&0x3f)));
+        } else if(code<0x10000) {
+            out.push_back(static_cast<char>(0xe0|(code>>12)));
+            out.push_back(static_cast<char>(0x80|((code>>6)&0x3f)));
+            out.push_back(static_cast<char>(0x80|(code&0x3f)));
+        } else {
+            out.push_back(static_cast<char>(0xf0|(code>>18)));
+            out.push_back(static_cast<char>(0x80|((code>>12)&0x3f)));
+            out.push_back(static_cast<char>(0x80|((code>>6)&0x3f)));
+            out.push_back(static_cast<char>(0x80|(code&0x3f)));
+        }
+        return out;
+    }
+    static void eraseUtf8(string& value) {
+        if(value.empty())return;
+        unsigned char byte=0;
+        do {
+            byte=static_cast<unsigned char>(value.back());
+            value.pop_back();
+        } while(!value.empty() && (byte&0xc0)==0x80);
+    }
     void typedText(unsigned int code) {
         if(page_!=Page::Names)return;
-        if(code==8) {if(!nameInput_.empty())nameInput_.pop_back();return;}
-        if(code<32 || code==127 || code>126 || nameInput_.size()>=24)return;
-        nameInput_.push_back(static_cast<char>(code));
+        if(code==8){eraseUtf8(nameInput_);return;}
+        if(code<32||code==127||code>0x10ffff||(code>=0xd800&&code<=0xdfff))return;
+        const string next=encodeUtf8(code);
+        if(nameInput_.size()+next.size()<=24)nameInput_+=next;
     }
     void startDrop() {
         if(page_!=Page::Playing||!match_.active()||dropActive_)return;
@@ -290,7 +317,6 @@ private:
             if(key==K::L)act(3);
         } else if(page_==Page::Names) {
             if(key==K::Enter)commitName();
-            if(key==K::Backspace&&!nameInput_.empty())nameInput_.pop_back();
         } else if(page_==Page::Playing) {
             const int columns=match_.board().columns();
             if(key==K::Left)selected_=(selected_+columns-1)%columns;
@@ -345,14 +371,25 @@ private:
         if(active)hits_.push_back({bounds,action});
     }
     void logo(float x,float y,float scale) {
-        const array<sf::Vector2f,5> markA={{{17,18},{50,18},{50,75},{77,102},{59,120}}};
-        // The two official angular paths remain recognizable, not redesigned.
-        sf::ConvexShape a(5);for(size_t i=0;i<markA.size();++i)a.setPoint(i,{markA[i].x*scale,markA[i].y*scale});
-        a.setPosition({x,y});a.setFillColor(sf::Color(218,232,250));window_.draw(a);
-        sf::ConvexShape b(4);
-        b.setPoint(0,{114*scale,18*scale});b.setPoint(1,{114*scale,57*scale});
-        b.setPoint(2,{77*scale,93*scale});b.setPoint(3,{60*scale,75*scale});
-        b.setPosition({x,y});b.setFillColor(blue);window_.draw(b);
+        // Exact triangles from the authorized JK AXIS precision SVG symbol.
+        const array<sf::Vector2f,12> j={{{17,80},{17,18},{50,75},
+            {17,80},{50,75},{59,120},{59,120},{50,75},{77,102},
+            {50,18},{50,75},{17,18}}};
+        const array<sf::Vector2f,12> k={{{60,75},{88,47},{77,93},
+            {77,93},{88,47},{114,57},{114,57},{88,47},{114,18},
+            {114,18},{88,47},{88,18}}};
+        const auto part=[&](const auto& points,sf::Color tint) {
+            sf::VertexArray triangles(sf::PrimitiveType::Triangles);
+            for(const auto& point:points) {
+                sf::Vertex vertex;
+                vertex.position={x+point.x*scale,y+point.y*scale};
+                vertex.color=tint;
+                triangles.append(vertex);
+            }
+            window_.draw(triangles);
+        };
+        part(j,sf::Color(225,238,255));
+        part(k,blue);
     }
     void renderWorld() {
         const auto size=window_.getSize();
