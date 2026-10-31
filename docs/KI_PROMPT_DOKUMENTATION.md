@@ -413,6 +413,15 @@ Die folgenden Belege stammen aus dem sichtbaren Projektgespräch. Technische Feh
 **Ergebnis:** Eigenes Handout zum Aufgabenblatt, Anforderungsmatrix, Kanban-Review, 30-minütiger Vorführplan und isolierte GYM1-Beispieldateien erstellt; neuer CTest prüft die Vorführdaten.  
 **Grenze:** Manuelle Tests, eigenständige Erklärfähigkeit, Lehrkraftfeedback und Generalprobe bleiben offen; kein vorgetäuschter Abschluss.
 
+### P-43: Abschließende Qualitätsstabilisierung nach Schulabgleich
+**Datum:** 31.10.2026 · **Art:** O.
+
+**Originalauftrag:** „Mache alle Aspekte auf 10 von 10 First Class sehr professionell und sehr vollkommen und sehr penibel und sehr präzise auf Gold Standard“.
+
+**Durchgeführte Änderungen:** Fehlerfall eines manipulierten maximalen Highscore-Zählers gegen signierten Integer-Überlauf abgesichert; C++-Regressionstests ergänzt. Windows-Diagnose erkennt CMake/Ninja auch über den PATH. `scripts/preflight-school.ps1` baut und testet die Pflicht-Konsole sowie optional die GUI in separaten Build-Verzeichnissen. Die Windows-CI prüft jetzt die Syntax aller PowerShell-Projektskripte.
+
+**Kontrolle und Grenzen:** Konkrete Commits und der jeweils aktuelle GitHub-Workflow müssen als Nachweis herangezogen werden. PowerShell-Parsing und CI belegen keinen erfolgreichen F5-Start auf dem Schul-PC. Programmverständnis, Handout-Abnahme, sichtbare GUI, Musik und die Generalprobe bleiben eigenständig zu prüfen. Eine Bestnote wird nicht behauptet.
+
 ## Quellen, Vollständigkeit und Eigenprüfung
 
 Die heutigen Originalbelege stammen aus dem für diese Bearbeitung bereitgestellten Gesprächsauszug. P-24, P-25 und P-26 sind ausdrücklich rekonstruierte Arbeitsaufträge. Frühere Einträge behalten die damaligen Quellenangaben. Ein späterer technischer Chat-Export kann zusätzliche Eingaben enthalten. Dieses Register ist deshalb eine nachvollziehbare Projektakte, kein als vollständig bescheinigter Chat-Export.
@@ -429,4 +438,4 @@ Die dokumentierten Ergebnisse entstanden mit KI-Unterstützung. Welche Stellen d
 | Board gegenüber Game und MatchSession erklären | Vortragsleitfaden und Fachgespräch |
 | KI-Unterstützung und eigene Beiträge ehrlich abgrenzen | Diese Projektakte und eigene Testnotizen |
 
-Weitere spätere Eingaben fortlaufend mit P-43 usw. ergänzen. Dafür Original oder Rekonstruktion, Datum, überprüftes Ergebnis und tatsächlichen Kontrollstand angeben.
+Weitere spätere Eingaben fortlaufend mit P-44 usw. ergänzen. Dafür Original oder Rekonstruktion, Datum, überprüftes Ergebnis und tatsächlichen Kontrollstand angeben.
