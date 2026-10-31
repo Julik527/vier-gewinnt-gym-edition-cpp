@@ -117,6 +117,11 @@ int main() {
         }
 
 
+        MatchSession fresh;
+        verify(fresh.wins("Ada") == 2, "score survives process restart");
+        verify(fresh.begin({"A", "B", "C", "D"}), "four people");
+        verify(fresh.board().columns() == 11 && fresh.board().rows() == 10,
+               "large board");
         // INT_MAX is valid legacy data and must never wrap on a new win.
         {
             std::ofstream maximum("data/maximum-scores.txt");
@@ -129,11 +134,6 @@ int main() {
         verify(maximumMatch.wins("Ada") == std::numeric_limits<int>::max(),
                "victory at INT_MAX does not overflow");
 
-        MatchSession fresh;
-        verify(fresh.wins("Ada") == 2, "score survives process restart");
-        verify(fresh.begin({"A", "B", "C", "D"}), "four people");
-        verify(fresh.board().columns() == 11 && fresh.board().rows() == 10,
-               "large board");
         fs::current_path(original);
         fs::remove_all(temp);
         std::cout << "MatchSession: GYM1, invalid files, atomic save, 2/4 players, "
