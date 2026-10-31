@@ -1,0 +1,4 @@
+"Ada" 8
+"Ben" 6
+"Cem" 4
+"Dana" 2
