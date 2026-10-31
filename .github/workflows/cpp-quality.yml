@@ -99,6 +99,10 @@ jobs:
       - name: Test the rules, persistence and console
         shell: msys2 {0}
         run: ctest --test-dir build-ucrt64 --output-on-failure
+      - name: Verify real PowerShell school preflight end-to-end
+        if: matrix.build_type == 'Release'
+        shell: pwsh
+        run: powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\preflight-school.ps1
 
   ucrt64-gui:
     name: MSYS2 UCRT64 / SFML 3.1 GUI
