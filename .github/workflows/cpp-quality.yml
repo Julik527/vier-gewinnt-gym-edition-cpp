@@ -132,14 +132,14 @@ jobs:
         shell: msys2 {0}
         run: |
           cmake -S . -B build-gui-ucrt64 -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release -DGYM_BUILD_GUI=ON \
+            -DCMAKE_BUILD_TYPE=Release -DGYM_BUILD_3D=ON \
             -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
       - name: Compile SFML and the game
         shell: msys2 {0}
-        run: cmake --build build-gui-ucrt64 --target vier-gewinnt-gui match_session_tests --parallel 2
+        run: cmake --build build-gui-ucrt64 --target vier-gewinnt-gui vier-gewinnt-3d match_session_tests scene3d_tests --parallel 2
       - name: Verify GUI startup logic and match engine without a desktop
         shell: msys2 {0}
-        run: ctest --test-dir build-gui-ucrt64 --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_path_smoke'
+        run: ctest --test-dir build-gui-ucrt64 --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_path_smoke|scene3d_math_tests|scene3d_core_smoke'
       - name: Reproduce Windows path containing ß without opening a window
         shell: msys2 {0}
         run: |
@@ -165,16 +165,16 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libxi-dev libudev-dev libfreetype-dev libgl1-mesa-dev libx11-dev libxext-dev libharfbuzz-dev libflac-dev libogg-dev libvorbis-dev libopenal-dev xvfb xauth
       - name: Configure SFML 3.1 graphics target
         shell: bash
-        run: cmake -S . -B build-gui -DGYM_BUILD_GUI=ON -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build-gui -DGYM_BUILD_3D=ON -DCMAKE_BUILD_TYPE=Release
       - name: Compile graphical game and shared match tests
         shell: bash
-        run: cmake --build build-gui --config Release --target vier-gewinnt-gui match_session_tests --parallel 2
+        run: cmake --build build-gui --config Release --target vier-gewinnt-gui vier-gewinnt-3d match_session_tests scene3d_tests --parallel 2
       - name: Validate packaged school logo (original or scaled licensed mirror)
         shell: bash
         run: python tests/verify_school_logo.py build-gui
       - name: Test headless GUI core without a desktop
         shell: bash
-        run: ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_path_smoke|gui_window_smoke'
+        run: ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_path_smoke|gui_window_smoke|scene3d_math_tests|scene3d_core_smoke|scene3d_window_smoke'
       - name: Verify and package a portable Windows ZIP
         if: runner.os == 'Windows'
         shell: pwsh
