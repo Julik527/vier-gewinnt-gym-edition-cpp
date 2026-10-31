@@ -26,6 +26,8 @@ git pull --ff-only
 
 Die frühere ZIP enthielt eine andere lokale Historie. Von dort keine fremde Historie über die Online-Entwicklung schreiben. Eigene uncommittete Änderungen erhalten und Git-Konflikte gezielt lösen.
 
+Für lokale Windows-Probleme inklusive Sonderzeichen im Benutzerpfad, dem falschen `main`-Branch und dem F5-GUI-Build gibt es jetzt die [Windows-2D-Schnellstartanleitung](WINDOWS_QUICKSTART.md). Die read-only Diagnose lautet `./scripts/check-2d.ps1` im PowerShell-Projektverzeichnis.
+
 ## Konsole bauen
 
 Im Projektstamm muss der UCRT64-Compiler verfügbar sein:

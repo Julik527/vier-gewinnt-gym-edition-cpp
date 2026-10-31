@@ -15,6 +15,9 @@ $originalPath = $env:Path
 $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
 try {
     if ($Mode -in @("GUI", "Both")) {
+        if (-not (Test-Path (Join-Path $root "src/gui/Main.cpp"))) {
+            throw "2D-Quellcode fehlt. Pruefe zuerst 'git status --short', dann 'git fetch origin' und den Entwicklungsbranch. Anleitung: docs/WINDOWS_QUICKSTART.md"
+        }
         if (-not (Test-Path $logo)) {
             try {
                 & (Join-Path $root "scripts\install-school-logo.ps1")
@@ -25,10 +28,10 @@ try {
         $gui = Join-Path $root "build-gui-ucrt64\vier-gewinnt-gui.exe"
         if (-not $NoBuild) {
             if (-not (Get-Command cmake -ErrorAction SilentlyContinue)) {
-                throw "CMake nicht gefunden: winget install --id Kitware.CMake -e"
+                throw "CMake fehlt. Im MSYS2-UCRT64-Terminal: pacman -Syu; danach pacman -S mingw-w64-ucrt-x86_64-cmake"
             }
             if (-not (Get-Command ninja -ErrorAction SilentlyContinue)) {
-                throw "Ninja nicht gefunden: winget install --id Ninja-build.Ninja -e"
+                throw "Ninja fehlt. Im MSYS2-UCRT64-Terminal: pacman -S mingw-w64-ucrt-x86_64-ninja"
             }
             if (-not (Test-Path $compiler)) {
                 throw "MSYS2 UCRT64 fehlt: $compiler"

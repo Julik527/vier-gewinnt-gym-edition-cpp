@@ -35,6 +35,8 @@ Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhänge
 
 ## Schnellstart
 
+**Windows 11 und Visual Studio Code:** Die 2D-Version startet nur auf dem Entwicklungsbranch. Wenn `git branch --show-current` noch `main` meldet oder `src/gui/Main.cpp` fehlt, lies zuerst die [Windows-2D-Schnellstartanleitung](docs/WINDOWS_QUICKSTART.md). Dort sind der sichere Git-Branchwechsel, die getestete MSYS2-UCRT64-Toolchain, der Windows-Pfad mit `ß`, GDB-Fehler `-environment-cd` und die Befehle zur Fehlersuche dokumentiert. Im PowerShell-Projektordner bietet `./scripts/check-2d.ps1` eine Diagnose ohne Änderungen.
+
 **Für Spieler:** Sobald ein geprüfter Release bereitsteht, [Releases öffnen](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/releases) und das Windows-ZIP entpacken. Vor einem veröffentlichten Release lassen sich automatisch erzeugte CI-Testpakete unter [Actions](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions) als temporäre Artifacts abrufen. Diese sind keine offizielle Endfassung.
 
 **Für Entwickler, Konsolenspiel (Windows mit MSYS2 UCRT64):**

@@ -86,6 +86,41 @@ jobs:
         shell: msys2 {0}
         run: ctest --test-dir build-ucrt64 --output-on-failure
 
+  ucrt64-gui:
+    name: MSYS2 UCRT64 / SFML 3.1 GUI
+    runs-on: windows-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            git
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-python
+            mingw-w64-ucrt-x86_64-freetype
+            mingw-w64-ucrt-x86_64-openal
+            mingw-w64-ucrt-x86_64-flac
+            mingw-w64-ucrt-x86_64-libvorbis
+      # Do not install the MSYS2 SFML package: at this commit its version is
+      # 3.0.x, while the project requires SFML 3.1. CMake fetches 3.1.0.
+      - name: Configure GUI using the actual UCRT64/GCC toolchain
+        shell: msys2 {0}
+        run: |
+          cmake -S . -B build-gui-ucrt64 -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release -DGYM_BUILD_GUI=ON \
+            -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+      - name: Compile SFML and the game
+        shell: msys2 {0}
+        run: cmake --build build-gui-ucrt64 --target vier-gewinnt-gui match_session_tests --parallel 2
+      - name: Verify GUI startup logic and match engine without a desktop
+        shell: msys2 {0}
+        run: ctest --test-dir build-gui-ucrt64 --output-on-failure -R 'match_session_unit_tests|gui_core_smoke'
+
   gui-build:
     name: SFML 3.1 GUI / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}

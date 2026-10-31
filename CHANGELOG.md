@@ -1,5 +1,12 @@
 # Änderungsprotokoll
 
+## 31.10.2026: Lokaler 2D-Start und UCRT64-GUI-Nachweis
+
+- Windows-2D-Schnellstart für den tatsächlichen lokalen Fehlerfall: `main` statt GUI-Branch, fehlende Quellcode-Datei, CMake/Ninja und GDB-Sonderzeichenpfad.
+- Read-only Diagnoseskript `scripts/check-2d.ps1` mit Abhängigkeits-, Branch- und Build-Pfadkontrolle.
+- `scripts/demo.ps1` gibt bei fehlendem 2D-Quellcode und fehlenden MSYS2-Werkzeugen aussagekräftige Hinweise.
+- GitHub Actions erhält einen eigenständigen SFML-3.1-GUI-Build mit MSYS2 UCRT64 / GCC. Dieser Job ist von einem erfolgreichen Windows-MSVC-GUI-Build zu unterscheiden.
+
 ## 31.10.2026: Datensicherheit und verifizierbare Windows-Auslieferung
 
 - Gemeinsamer strikter `ScoreFile.h`-Parser für Highscores in Konsole und GUI. Beschädigte, doppelte oder abgeschnittene Records werden vor Zustandsänderung abgewiesen.
