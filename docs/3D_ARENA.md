@@ -41,6 +41,10 @@ $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
 
 Der erste Build lädt SFML 3.1.0; eine Internetverbindung ist dann nötig. Bei grafischen Treiberproblemen immer die stabile Konsolenversion als Rückfallmöglichkeit aufbewahren.
 
+## Verstehen und selbst erklären
+
+Der [Lernpfad Teil D](3D_LERNPFAD.md) führt durch `Board`, `MatchSession`, 3D-Kameramathematik, OpenGL-Geometrie, Eingaben, Dateischutz und das Fachgespräch. Die 3D-Codeerklärung ergänzt, ersetzt aber nicht das schulisch verlangte Konsolenverständnis.
+
 ## Prüfung und Schulpriorität
 
 Der 3D-Code erhält getrennte Geometrie-/Kamera-Unit-Tests, GUI-Headless-Smoketests und Windows-/Linux-/UCRT64-Builds. Die interaktive Prüfung von Animation, Grafik, Audio, DPI, Beamer und vollständigen Spielpartien muss auf dem echten Rechner erfolgen. Siehe [3D-Testplan](3D_TESTPLAN.md).

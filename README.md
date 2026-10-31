@@ -71,7 +71,7 @@ In VS Code ist alternativ das neue Debugprofil **Vier Gewinnt | Gym Edition 3D**
 
 **Bedienung:** Rechte Maustaste ziehen = Kamera drehen; Mausrad = Zoom; A/D und Q/E = Kamera; C = zurücksetzen; linke Maustaste = Spalte wählen/setzen; Pfeile und Leertaste = Spalte/Stein; U = Undo; S = Speichern; Escape = Menü; F9/F10/F11 = Originalmusik/Lautstärke. Im Menü 2, 3 oder 4 Spieler wählen.
 
-[3D-Architektur und Bedienung](docs/3D_ARENA.md) · [3D-Abnahmetests](docs/3D_TESTPLAN.md)
+[3D-Architektur und Bedienung](docs/3D_ARENA.md) · [3D-Abnahmetests](docs/3D_TESTPLAN.md) · [Teil D: 3D-Code verstehen](docs/3D_LERNPFAD.md)
 
 **Grenze:** Diese erste Fassung verwendet klassische OpenGL-Zeichenfunktionen und benötigt einen geeigneten OpenGL-Kompatibilitätskontext der Grafikkarte. Es gibt keine Shader-/PBR-Pipeline und keinen Onlinemodus. Automatische CI-Prüfungen ersetzen nicht den Sicht- und Hörtest auf deinem Rechner.
 

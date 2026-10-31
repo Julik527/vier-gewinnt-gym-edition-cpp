@@ -422,6 +422,13 @@ Die folgenden Belege stammen aus dem sichtbaren Projektgespräch. Technische Feh
 
 **Kontrolle und Grenzen:** Konkrete Commits und der jeweils aktuelle GitHub-Workflow müssen als Nachweis herangezogen werden. PowerShell-Parsing und CI belegen keinen erfolgreichen F5-Start auf dem Schul-PC. Programmverständnis, Handout-Abnahme, sichtbare GUI, Musik und die Generalprobe bleiben eigenständig zu prüfen. Eine Bestnote wird nicht behauptet.
 
+### P-45: Eigenständige, echte 3D-Ausbaustufe
+**Datum:** 31.10.2026 · **Originalauftrag:** „Komm, gehen wir einen Schritt weiter und machen es einfach 3D. Wir haben genug Zeit, um zu üben, den Code zu verstehen, alles kompilieren zu lassen … auf Gold-Standard-Niveau.“
+
+**Umsetzung mit KI-Unterstützung:** Separater OpenGL-3D-Spielmodus mit räumlicher Kamera, beleuchtetem Spielbrett und Zylindern, überspringbarem Intro, Fall- und Sieganimation, Originalmusik und wiederverwendeter MatchSession. Separate C++-Mathematiktests, optionale Windows-/Linux-/UCRT64-3D-Builds, F5-Profil, Windows-Preflight und Release-ZIP. Verbesserte Unicode-Namenseingabe, Spielbestätigungen, Fensterformat und Lernpfad.
+
+**Fachliche Grenze:** Das ist eine freiwillige Erweiterung über Aufgabenblatt 51 hinaus. Auch grüne CI kann den echten Windows-/Audio-/Grafiktest und das persönliche Verständnis nicht ersetzen. Die moderne Shader-/PBR-Pipeline gehört nicht zum Funktionsumfang dieser ersten OpenGL-Kompatibilitätsfassung. Die tatsächliche persönliche Durchführung der Vorführtests ist offen.
+
 ## Quellen, Vollständigkeit und Eigenprüfung
 
 Die heutigen Originalbelege stammen aus dem für diese Bearbeitung bereitgestellten Gesprächsauszug. P-24, P-25 und P-26 sind ausdrücklich rekonstruierte Arbeitsaufträge. Frühere Einträge behalten die damaligen Quellenangaben. Ein späterer technischer Chat-Export kann zusätzliche Eingaben enthalten. Dieses Register ist deshalb eine nachvollziehbare Projektakte, kein als vollständig bescheinigter Chat-Export.
