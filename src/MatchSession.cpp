@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
+#include <limits>
 #include <utility>
 
 namespace {
@@ -60,7 +61,9 @@ bool MatchSession::drop(int column) {
         active_ = false;
         winner_ = players_[playing].getName();
         winLine_ = board_.winningCells(row, column, symbol);
-        ++scores_[winner_];
+        // Keine Ueberlaeufe bei historischen/manipulierten Maximalwerten.
+        auto& victories = scores_[winner_];
+        if (victories < std::numeric_limits<int>::max()) ++victories;
         scoreSaved_ = saveScores();
     } else if (board_.isFull()) {
         finished_ = true;

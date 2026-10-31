@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <iterator>
+#include <limits>
 #include <stdexcept>
 #include <string>
 
@@ -115,6 +116,18 @@ int main() {
             verify(loaded.wins("Ada") == 2, "invalid scores keep previous results");
         }
 
+
+        // INT_MAX is valid legacy data and must never wrap on a new win.
+        {
+            std::ofstream maximum("data/maximum-scores.txt");
+            maximum << "\\"Ada\\" " << std::numeric_limits<int>::max() << '\\n';
+        }
+        MatchSession maximumMatch;
+        verify(maximumMatch.loadScores("data/maximum-scores.txt"), "load maximum highscore");
+        verify(maximumMatch.begin({"Ada", "Ben"}), "start at highscore limit");
+        win(maximumMatch);
+        verify(maximumMatch.wins("Ada") == std::numeric_limits<int>::max(),
+               "victory at INT_MAX does not overflow");
 
         MatchSession fresh;
         verify(fresh.wins("Ada") == 2, "score survives process restart");

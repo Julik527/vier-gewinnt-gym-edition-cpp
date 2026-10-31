@@ -446,7 +446,10 @@ bool Game::saveHighscores() const {
 
 // Nach einem Sieg bekommt der Gewinner genau einen Punkt dazu.
 void Game::addWin(const std::string& name) {
-    ++highscores_[name];
+    // Ein manipuliertes INT_MAX darf nicht in einen negativen Wert ueberlaufen.
+    auto& victories = highscores_[name];
+    if (victories < std::numeric_limits<int>::max()) ++victories;
+    else std::cerr << "Warnung: Maximaler Highscore erreicht.\n";
     if (!saveHighscores()) std::cerr << "Warnung: Highscore konnte nicht gespeichert werden.\n";
 }
 
