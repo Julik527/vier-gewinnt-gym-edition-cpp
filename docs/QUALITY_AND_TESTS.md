@@ -99,6 +99,12 @@ python scripts/document_preflight.py
 
 `python-pptx` dient hier ausschließlich dem vorhandenen lesenden Prüfskript. Die Präsentationsbearbeitung dieser Dokumentationsrunde erfolgt separat. Alle Spieltests verwenden temporäre Datenordner.
 
+## 5a. Neu ergänzte Regressionen vom 31.10.2026
+
+Der gemeinsame Highscore-Parser `ScoreFile.h` wird von `tests/score_file_tests.cpp` sowie den bisherigen Match-/Integrationstests geprüft. Die Datenintegritätstests decken Trunkierung, Duplikate, unzulässige Zählwerte, Zusatzdaten und die Unversehrtheit alter Ergebnisse nach Fehlern ab. Die temporären Dateinamen sind jetzt individuell und nicht mehr ein vorhersehbarer gemeinsamer `.tmp`-Pfad.
+
+Die CI umfasst außerdem eine separate MSYS2-UCRT64-Prüfung und das Erstellen eines Windows-ZIP-Pakets mit SHA-256. Die Akzeptanz einer Veröffentlichung erfordert **konkrete erfolgreiche Job-Links am aktuellen Commit**, nicht allein vorhandene Workflow-Dateien. Der Projektstand und die externe Abnahme stehen in [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
+
 ## 6. Dokumentationsrunde und offene Endabnahme
 
 Das [Dokumentenaudit](DOCUMENTATION_AUDIT_2026-10-28.md) listet sämtliche geprüften Markdown-, PDF- und Präsentationsdateien. Aktuelle PDF-Nachträge stehen vor den ausdrücklich historischen Planungsseiten. Die Präsentation selbst beschreibt den aktuellen Stand.

@@ -1,5 +1,15 @@
 # Änderungsprotokoll
 
+## 31.10.2026: Datensicherheit und verifizierbare Windows-Auslieferung
+
+- Gemeinsamer strikter `ScoreFile.h`-Parser für Highscores in Konsole und GUI. Beschädigte, doppelte oder abgeschnittene Records werden vor Zustandsänderung abgewiesen.
+- `AtomicFile.h`: eindeutige temporäre Dateinamen statt eines festen `.tmp`-Namens. Keine Freigabe für konkurrierende, unkoordinierte Prozesse.
+- Zusätzliche Unit- und Integrationstests für Datenintegrität und Temp-Kollisionen; überholte Fehlererwartungen an die neue Semantik angepasst.
+- GitHub Actions ergänzt um MSYS2 UCRT64 Debug und Release sowie eine Windows-ZIP-Paketierung mit Self-Test und SHA-256.
+- README verschlankt, reale Projektgrenzen hervorgehoben; [Abnahmecheckliste](docs/RELEASE_CHECKLIST.md) und [Lizenzhinweise](docs/LICENSING.md) ergänzt.
+- Manuelle GUI-, Audio-, Zweitgerät- und Präsentationsabnahme weiterhin offen. Nur tatsächlich grüne CI-Jobs zählen als nachgewiesen.
+
+
 ## 28.10.2026: Entwicklungsstand Gym Edition 2.0
 
 ### Gestaltung und Projektdokumentation
