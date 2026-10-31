@@ -412,7 +412,7 @@ private:
         }
         // Auf allen Bildschirmen erreichbar, aber standardmaessig stumm.
         b.push_back({"-", sf::FloatRect({978.f, 117.f}, {36.f, 37.f}), 97, musicVolume_ > 0});
-        b.push_back({musicOn_ ? "TON AN" : "TON AUS",
+        b.push_back({musicOn_ ? "PAUSIEREN" : "ABSPIELEN",
                      sf::FloatRect({1020.f, 117.f}, {143.f, 37.f}), 99, true});
         b.push_back({"+", sf::FloatRect({1169.f, 117.f}, {36.f, 37.f}), 98, musicVolume_ < 100});
         return b;
@@ -686,7 +686,8 @@ private:
         if (mouse.x < g.x || hover < 0 || hover >= board.columns()) hover = selectedColumn_;
         if (!finished && !falling_ && board.nextFreeRow(hover) >= 0)
             dumbbell(g.x + (hover + .5f) * g.cell, g.y - 29.f,
-                     g.cell * .62f, tokenColor(match_.current()), .73f);
+                     g.cell * .62f, tokenColor(match_.current()),
+                     .62f + .24f * (.5f + .5f * std::sin(uiTime_ * 3.4f)));
         for (int r = 0; r < board.rows(); ++r) {
             for (int c = 0; c < board.columns(); ++c) {
                 const float x = g.x + c * g.cell, y = g.y + r * g.cell;
