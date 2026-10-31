@@ -54,6 +54,22 @@ def main() -> int:
     for path in expected:
         check((root / path).is_file(), f"Quelldatei fehlt: {path}")
 
+    # Die optionale SFML-3.1-GUI braucht ihren eigenen F5-Eintrag.
+    gui = [c for c in launch["configurations"]
+           if c.get("name") == "Vier Gewinnt | Gym Edition 2D"]
+    check(len(gui) == 1, "GUI-F5-Konfiguration fehlt")
+    gui_task = [t for t in tasks["tasks"]
+                if t.get("label") == gui[0].get("preLaunchTask")]
+    check(len(gui_task) == 1, "GUI Build-Aufgabe fehlt")
+    check("vier-gewinnt-gui.exe" in gui[0]["program"], "GUI startet falsche EXE")
+    check("src/gui/Main.cpp" in cmake and "GYM_BUILD_GUI" in cmake,
+          "Eigenstaendiges GUI-CMake-Ziel fehlt")
+    check("Gym Edition 2D konfigurieren" in gui_task[0].get("dependsOn", []),
+          "GUI-Build muss SFML zuerst konfigurieren")
+    check(any("GYM_BUILD_GUI=ON" in str(arg) for t in tasks["tasks"]
+              if t.get("label") == "Gym Edition 2D konfigurieren"
+              for arg in t.get("args", [])), "GUI-Konfiguration nicht aktiviert")
+
     print("VS Code: launch.json, tasks.json und CMake-Dateiliste stimmen ueberein.")
     return 0
 

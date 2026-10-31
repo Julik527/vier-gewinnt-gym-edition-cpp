@@ -6,6 +6,8 @@
 
 #include "Game.h"
 #include "ConsoleUI.h"
+#include "AtomicFile.h"
+#include "ScoreFile.h"
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
@@ -16,9 +18,16 @@
 #include <sstream>
 #include <stdexcept>
 #include <utility>
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
 
 namespace {
 const char SYMBOLS[] = {'R', 'B', 'G', 'Y'};
+
 // Entfernt Leerzeichen am Anfang und Ende einer Eingabe.
 std::string trim(const std::string& text) {
     size_t start = text.find_first_not_of(" \t\r\n");
@@ -44,9 +53,12 @@ std::string ask(const std::string& message) {
 
 // Namen dürfen nicht leer oder zu lang sein.
 bool validName(const std::string& name) {
-    return !name.empty() && name.size() <= 24
-        && name.find('\n') == std::string::npos
-        && name.find('\r') == std::string::npos;
+    if (name.empty() || name.size() > 24) return false;
+    for (unsigned char ch : name) {
+        // Tab, ESC und andere Steuerzeichen duerfen das Terminal nicht veraendern.
+        if (ch < 32 || ch == 127) return false;
+    }
+    return true;
 }
 
 // Fuer Sicherheitsabfragen zaehlen nur J oder JA als Zustimmung.
@@ -280,7 +292,8 @@ void Game::play() {
                     board_, players_, current_, round_, highscores_,
                     col - 1, players_[current_].getSymbol()));
                 std::cout << "Nur Vorschau: Feld wurde NICHT veraendert.\n";
-                redraw = true;
+                // Die Vorschau bleibt bis zur naechsten Eingabe sichtbar.
+                redraw = false;
             }
             continue;
         }
@@ -296,7 +309,8 @@ void Game::play() {
             continue;
         }
         char symbol = players_[current_].getSymbol();
-        if (animation_) board_.animateDrop(zeroCol, symbol, landing);
+        if (animation_) console_ui::animateDrop(board_, players_, current_, round_,
+                                                highscores_, zeroCol, landing, symbol);
         int row;
         if (!board_.drop(zeroCol, symbol, row)) continue;
         history_.push_back({row, zeroCol, current_});
@@ -324,22 +338,22 @@ void Game::play() {
 // Speichert den Spielstand als Textdatei, damit man später weiterspielen kann.
 bool Game::saveGame(const std::string& path) const {
     if (!active_) return false;
-    std::ofstream out(path, std::ios::trunc);
-    if (!out) return false;
-    // GYM1 ist die Kennung unseres Speicherformats.
-    out << "GYM1\n";
-    out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
-        << board_.columns() << ' ' << history_.size() << '\n';
-    for (const auto& p : players_) {
-        out << std::quoted(p.getName()) << ' ' << p.getSymbol() << '\n';
-    }
-    for (const auto& m : history_) out << m.row << ' ' << m.column << ' ' << m.player << '\n';
-    for (const auto& row : board_.cells()) {
-        for (char value : row) out << value;
-        out << '\n';
-    }
-    out.flush();
-    return static_cast<bool>(out);
+    return gym::writeSafely(path, [this](std::ostream& out) {
+        // GYM1 ist die bisherige Kennung und bleibt voll kompatibel.
+        out << "GYM1\n";
+        out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
+            << board_.columns() << ' ' << history_.size() << '\n';
+        for (const auto& player : players_) {
+            out << std::quoted(player.getName()) << ' ' << player.getSymbol() << '\n';
+        }
+        for (const auto& move : history_) {
+            out << move.row << ' ' << move.column << ' ' << move.player << '\n';
+        }
+        for (const auto& row : board_.cells()) {
+            for (char value : row) out << value;
+            out << '\n';
+        }
+    });
 }
 
 // Erst alles in einem neuen Spielfeld prüfen, dann wirklich laden.
@@ -413,27 +427,29 @@ void Game::loadHighscores() {
     highscores_.clear();
     std::ifstream in("data/highscore.txt");
     if (!in) return;
-    std::string name;
-    int wins;
-    while (in >> std::quoted(name) >> wins) {
-        if (validName(name) && wins >= 0) highscores_[name] = wins;
+    std::map<std::string, int> verified;
+    if (!gym::parseScores(in, verified, validName)) {
+        std::cerr << "Warnung: Beschaedigte Bestenliste wird ignoriert." << std::endl;
+        return;
     }
+    highscores_ = std::move(verified);
 }
 
 // Schreibt alle aktuellen Siege in die Highscore-Datei.
 bool Game::saveHighscores() const {
-    std::ofstream out("data/highscore.txt", std::ios::trunc);
-    if (!out) return false;
-    for (const auto& item : highscores_) {
-        out << std::quoted(item.first) << ' ' << item.second << '\n';
-    }
-    out.flush();
-    return static_cast<bool>(out);
+    return gym::writeSafely("data/highscore.txt", [this](std::ostream& out) {
+        for (const auto& item : highscores_) {
+            out << std::quoted(item.first) << ' ' << item.second << '\n';
+        }
+    });
 }
 
 // Nach einem Sieg bekommt der Gewinner genau einen Punkt dazu.
 void Game::addWin(const std::string& name) {
-    ++highscores_[name];
+    // Ein manipuliertes INT_MAX darf nicht in einen negativen Wert ueberlaufen.
+    auto& victories = highscores_[name];
+    if (victories < std::numeric_limits<int>::max()) ++victories;
+    else std::cerr << "Warnung: Maximaler Highscore erreicht.\n";
     if (!saveHighscores()) std::cerr << "Warnung: Highscore konnte nicht gespeichert werden.\n";
 }
 

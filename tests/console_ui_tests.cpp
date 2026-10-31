@@ -61,6 +61,14 @@ int main() {
 
         const std::string preview = console_ui::arena(board, players, 0, 1, scores, 2, 'R');
         check(preview.find(" (R) ") != std::string::npos, "Vorschau fehlt");
+        const std::string inAir = console_ui::arena(board, players, 0, 1, scores,
+                                                    2, 'R', {}, -1);
+        const std::string falling = console_ui::arena(board, players, 0, 1, scores,
+                                                      2, 'R', {}, 2);
+        check(inAir.find(" (R) ") != std::string::npos, "Start ueber Feld fehlt");
+        check(falling.find(" (R) ") != std::string::npos, "Bewegter Stein fehlt");
+        check(inAir != falling, "Fallanimation hat keine verschiedenen Frames");
+        check(board.tokenCount() == 0, "Animation aendert Spielregeln");
         check(board.tokenCount() == 0, "Vorschau hat das Feld veraendert");
 
         // Ein echter Sieg muss im Endbildschirm sichtbar markiert sein.

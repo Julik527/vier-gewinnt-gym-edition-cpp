@@ -32,7 +32,130 @@ target_link_libraries(board_tests PRIVATE gym_board)
 add_executable(console_ui_tests tests/console_ui_tests.cpp src/ConsoleUI.cpp)
 target_link_libraries(console_ui_tests PRIVATE gym_board)
 
-foreach(target gym_board vier-gewinnt board_tests console_ui_tests)
+# GUI-unabhaengiger Spielzustand: kann auch ohne grafisches Display getestet werden.
+add_library(gym_match STATIC src/MatchSession.cpp)
+target_link_libraries(gym_match PUBLIC gym_board)
+target_include_directories(gym_match PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+add_executable(match_session_tests tests/match_session_tests.cpp)
+target_link_libraries(match_session_tests PRIVATE gym_match)
+add_executable(school_demo_fixture_tests tests/school_demo_fixture_tests.cpp)
+target_link_libraries(school_demo_fixture_tests PRIVATE gym_match)
+add_executable(score_file_tests tests/score_file_tests.cpp)
+target_link_libraries(score_file_tests PRIVATE gym_board)
+
+# Pure C++ soundtrack renderer can be tested without SFML or a sound device.
+add_executable(soundtrack_tests tests/soundtrack_tests.cpp)
+target_include_directories(soundtrack_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
+
+# Die GUI ist optional, damit das vorhandene Konsolenspiel ohne SFML baubar bleibt.
+option(GYM_BUILD_GUI "Build the standalone SFML 3.1 graphical Gym Edition" OFF)
+if(GYM_BUILD_GUI)
+    if(CMAKE_VERSION VERSION_LESS 3.28)
+        message(FATAL_ERROR "The SFML 3.1 GUI build requires CMake 3.28 or later.")
+    endif()
+    find_package(SFML 3.1 COMPONENTS Graphics Audio QUIET)
+    if(NOT SFML_FOUND)
+        include(FetchContent)
+        set(SFML_BUILD_AUDIO ON CACHE BOOL "" FORCE)
+        set(SFML_BUILD_NETWORK OFF CACHE BOOL "" FORCE)
+        set(SFML_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+        set(SFML_BUILD_TEST_SUITE OFF CACHE BOOL "" FORCE)
+        FetchContent_Declare(SFML
+            GIT_REPOSITORY https://github.com/SFML/SFML.git
+            GIT_TAG 3.1.0
+            GIT_SHALLOW ON
+            EXCLUDE_FROM_ALL
+            SYSTEM)
+        FetchContent_MakeAvailable(SFML)
+    endif()
+    add_executable(vier-gewinnt-gui src/gui/Main.cpp)
+    target_link_libraries(vier-gewinnt-gui PRIVATE gym_match SFML::Graphics SFML::Audio)
+    if(MSVC)
+        target_compile_options(vier-gewinnt-gui PRIVATE /W4 /utf-8)
+    else()
+        target_compile_options(vier-gewinnt-gui PRIVATE -Wall -Wextra -Wpedantic)
+    endif()
+    # Das originale, unveraenderte Logo ist nicht Teil des C++-Quellcodes.
+    # Falls es lokal nicht vorhanden ist, beim GUI-Build von Wikimedia Commons
+    # laden. Die Schule wird auch ohne Netzwerk als Text angezeigt.
+    set(GYM_SCHOOL_LOGO_LOCAL "${CMAKE_CURRENT_SOURCE_DIR}/assets/school/bernd-blindow-schulen.jpg")
+    set(GYM_SCHOOL_LOGO_DOWNLOAD "${CMAKE_CURRENT_BINARY_DIR}/downloaded-school-logo.jpg")
+    set(GYM_SCHOOL_LOGO "")
+    if(EXISTS "${GYM_SCHOOL_LOGO_LOCAL}")
+        file(SIZE "${GYM_SCHOOL_LOGO_LOCAL}" GYM_LOCAL_LOGO_BYTES)
+        file(READ "${GYM_SCHOOL_LOGO_LOCAL}" GYM_LOCAL_LOGO_HEADER LIMIT 3 HEX)
+        if(GYM_LOCAL_LOGO_BYTES GREATER 10000 AND GYM_LOCAL_LOGO_HEADER STREQUAL "ffd8ff")
+            set(GYM_SCHOOL_LOGO "${GYM_SCHOOL_LOGO_LOCAL}")
+        else()
+            message(WARNING "Lokale Schullogo-Datei ist ungueltig; nutze den Download-Fallback.")
+        endif()
+    endif()
+    if(NOT GYM_SCHOOL_LOGO)
+        # Zuerst eine alternative, abrufbare Fassung desselben Schulkennzeichens.
+        # Wikimedia begrenzt automatisierte Direkt-Downloads mit HTTP 429.
+        if(NOT EXISTS "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+            set(GYM_SCHOOL_LOGO_SOURCES
+                "https://storage.googleapis.com/media-ossnar82/media/images/Logo_BBS_standard_quer.max-1200x1200.jpg"
+                "https://upload.wikimedia.org/wikipedia/commons/7/7e/Logo_BBS_standard_quer.jpg")
+            foreach(GYM_SCHOOL_LOGO_URL IN LISTS GYM_SCHOOL_LOGO_SOURCES)
+                file(DOWNLOAD "${GYM_SCHOOL_LOGO_URL}"
+                    "${GYM_SCHOOL_LOGO_DOWNLOAD}"
+                    STATUS GYM_SCHOOL_LOGO_STATUS
+                    TIMEOUT 25)
+                list(GET GYM_SCHOOL_LOGO_STATUS 0 GYM_SCHOOL_LOGO_CODE)
+                if(GYM_SCHOOL_LOGO_CODE EQUAL 0 AND EXISTS "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+                    file(SIZE "${GYM_SCHOOL_LOGO_DOWNLOAD}" GYM_SCHOOL_LOGO_BYTES)
+                    file(READ "${GYM_SCHOOL_LOGO_DOWNLOAD}" GYM_SCHOOL_LOGO_HEADER LIMIT 3 HEX)
+                    if(GYM_SCHOOL_LOGO_BYTES GREATER 10000
+                       AND GYM_SCHOOL_LOGO_HEADER STREQUAL "ffd8ff")
+                        # Das Original aus Wikimedia ist mit der veroeffentlichten SHA-1 gesichert.
+                        if(GYM_SCHOOL_LOGO_URL MATCHES "wikimedia\\.org")
+                            file(SHA1 "${GYM_SCHOOL_LOGO_DOWNLOAD}" GYM_SCHOOL_LOGO_HASH)
+                            if(NOT GYM_SCHOOL_LOGO_HASH STREQUAL "71bc2f41e221b85e09907cedaeecb861b025b047")
+                                file(REMOVE "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+                                continue()
+                            endif()
+                        endif()
+                        break()
+                    endif()
+                endif()
+                file(REMOVE "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+            endforeach()
+        endif()
+        if(EXISTS "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+            set(GYM_SCHOOL_LOGO "${GYM_SCHOOL_LOGO_DOWNLOAD}")
+        else()
+            message(WARNING
+                "Schullogo-Download nicht verfuegbar. "
+                "Die GUI zeigt den Schulnamen als Text. "
+                "Du kannst das Logo mit scripts/install-school-logo.ps1 lokal installieren.")
+        endif()
+    endif()
+    if(GYM_SCHOOL_LOGO)
+        add_custom_command(TARGET vier-gewinnt-gui POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory
+                "$<TARGET_FILE_DIR:vier-gewinnt-gui>/assets/school"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${GYM_SCHOOL_LOGO}"
+                "$<TARGET_FILE_DIR:vier-gewinnt-gui>/assets/school/bernd-blindow-schulen.jpg"
+            VERBATIM)
+    endif()
+
+    if(WIN32)
+        # Keep a console for initial error diagnostics and headless CI.
+        set_target_properties(vier-gewinnt-gui PROPERTIES WIN32_EXECUTABLE FALSE)
+        # Dynamically linked SFML DLLs must travel with the resulting EXE.
+        if(BUILD_SHARED_LIBS)
+            add_custom_command(TARGET vier-gewinnt-gui POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy -t
+                    "$<TARGET_FILE_DIR:vier-gewinnt-gui>"
+                    $<TARGET_RUNTIME_DLLS:vier-gewinnt-gui>
+                COMMAND_EXPAND_LISTS)
+        endif()
+    endif()
+endif()
+
+foreach(target gym_board vier-gewinnt board_tests console_ui_tests gym_match match_session_tests score_file_tests soundtrack_tests school_demo_fixture_tests)
     if(MSVC)
         target_compile_options(${target} PRIVATE /W4)
     else()
@@ -44,6 +167,25 @@ endforeach()
 include(CTest)
 if(BUILD_TESTING)
     add_test(NAME board_unit_tests COMMAND board_tests)
+    add_test(NAME match_session_unit_tests COMMAND match_session_tests)
+    add_test(NAME school_demo_fixture_tests
+        COMMAND school_demo_fixture_tests
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/school-near-win-2p.txt"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/school-four-players.txt")
+    add_test(NAME score_file_unit_tests COMMAND score_file_tests)
+    add_test(NAME soundtrack_unit_tests COMMAND soundtrack_tests)
+    if(GYM_BUILD_GUI)
+        add_test(NAME gui_core_smoke COMMAND vier-gewinnt-gui --self-test)
+        add_test(NAME gui_path_smoke COMMAND vier-gewinnt-gui --path-self-test)
+        if(UNIX AND NOT APPLE)
+            find_program(XVFB_RUN_EXECUTABLE xvfb-run)
+            if(XVFB_RUN_EXECUTABLE)
+                add_test(NAME gui_window_smoke
+                    COMMAND "${XVFB_RUN_EXECUTABLE}" -a "$<TARGET_FILE:vier-gewinnt-gui>" --window-smoke)
+                set_tests_properties(gui_window_smoke PROPERTIES TIMEOUT 25)
+            endif()
+        endif()
+    endif()
     add_test(NAME console_ui_unit_tests COMMAND console_ui_tests)
     find_package(Python3 COMPONENTS Interpreter)
     if(Python3_Interpreter_FOUND)

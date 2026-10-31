@@ -5,11 +5,9 @@
 // ------------------------------------------------------------
 
 #include "Board.h"
-#include <chrono>
 #include <iostream>
 #include <string>
 #include <stdexcept>
-#include <thread>
 
 namespace {
 // Die Spielerzahl bestimmt, wie groß das Spielfeld wird.
@@ -148,17 +146,4 @@ void Board::print(int previewColumn, char previewSymbol) const {
         std::cout << "|\n";
     }
     std::cout << "    " << std::string(columns_ * 6 + 1, '-') << "\n";
-}
-
-// Die kurze Animation zeigt Punkte statt den Bildschirm zu leeren.
-void Board::animateDrop(int column, char symbol, int landingRow) const {
-    // Eine kurze Zeile statt dauernd den ganzen Bildschirm zu loeschen.
-    // Das klappt auch in Terminals ohne besondere ANSI-Unterstuetzung.
-    std::cout << "  [" << symbol << "] Spalte " << (column + 1) << ": ";
-    for (int row = 0; row <= landingRow; ++row) {
-        std::cout << '.';
-        std::cout.flush();
-        std::this_thread::sleep_for(std::chrono::milliseconds(35));
-    }
-    std::cout << " gesetzt.\n";
 }

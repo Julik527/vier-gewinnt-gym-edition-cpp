@@ -1,0 +1,33 @@
+Dokumentationspruefung zum Arbeitstag 28.10.2026
+Ausgangscommit: 02eb79f8c432ef4578cf650ca2b74efa4d448769
+Umfang: Dokumentation und Dokumenten-Preflight. C++-Quellcode unveraendert.
+
+$ python3 scripts/document_preflight.py
+PPTX: 17 readable slides
+PDF: reference/Anforderungsanalyse_JK-CD-DE-2026-003.pdf (23 pages rendered)
+PDF: reference/Gesamt_Dokumentation_Vier_Gewinnt_Gym_Edition.pdf (92 pages rendered)
+PDF: reference/KI_Prompt_Dokumentation_JK-CD-DE-2026-003.pdf (27 pages rendered)
+PDF: reference/Meilenstein_2026-10-29_Pruefbericht.pdf (10 pages rendered)
+PDF: reference/UML_Klassendiagramm_JK-CD-DE-2026-003.pdf (11 pages rendered)
+PDF: praesentation/Vier_Gewinnt_Praesentation_FINAL.pdf (17 pages rendered)
+PDF: praesentation/Vier_Gewinnt_Vortragsleitfaden_FINAL.pdf (3 pages rendered)
+Markdown: 22 files checked for local links
+QUALITY PREFLIGHT PASSED (technical files only; not a visual or school acceptance).
+exit_code=0
+
+$ python3 tests/testplan_lint.py
+PASS: Testplan title, line breaks, 47 cases and table structures
+exit_code=0
+
+$ python3 tests/vscode_config_test.py .
+VS Code: launch.json, tasks.json und CMake-Dateiliste stimmen ueberein.
+exit_code=0
+
+PASS: SHA-256 aller acht Dokumentartefakte entspricht dem Manifest.
+PASS: Prompt-IDs P-01 bis P-34 vorhanden, eindeutig und in Reihenfolge.
+PASS: Alle 132 historischen Referenzseiten pixelgleich zur Quellfassung bei 0.65 Render-Skalierung.
+PASS: Alle 244 historischen internen Verweise auf die verschobenen Zielseiten geprueft.
+PASS: Keine Aenderung an C++-Quellcode, Headern oder Spieltests.
+PASS: PPTX-Finalizer: Paketstruktur, 17 Folien, Geometrie und Referenzschriften ohne Befund.
+PASS: PowerShell-Startbefehl .\vier-gewinnt.exe und Demo-Eingaben 1, 2, Julian, Daniel, V 4, 4, U, 4, S, M, 3, j im PDF exakt nachgewiesen.
+HINWEIS: Diese Pruefung ist keine native Microsoft-PowerPoint-, Audio- oder Schulabnahme.

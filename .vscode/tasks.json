@@ -36,6 +36,60 @@
         "clear": true
       },
       "detail": "Debug-Build: Alle C++17-Dateien einschließlich ConsoleUI.cpp kompilieren."
+    },
+    {
+      "label": "Gym Edition 2D konfigurieren",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        ".",
+        "-B",
+        "build-gui",
+        "-G",
+        "Ninja",
+        "-DGYM_BUILD_GUI=ON",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_C_COMPILER=C:/msys64/ucrt64/bin/gcc.exe",
+        "-DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
+      },
+      "problemMatcher": [],
+      "detail": "Einmalige SFML-3.1-Konfiguration; benötigt CMake 3.28+, Ninja und UCRT64."
+    },
+    {
+      "label": "Gym Edition 2D bauen",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "build-gui",
+        "--target",
+        "vier-gewinnt-gui",
+        "--parallel",
+        "2"
+      ],
+      "dependsOn": [
+        "Gym Edition 2D konfigurieren"
+      ],
+      "dependsOrder": "sequence",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build",
+      "detail": "Baut die separate 2D-Anwendung für F5."
     }
   ]
 }
+

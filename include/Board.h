@@ -38,6 +38,4 @@ public:
     const std::vector<std::vector<char>>& cells() const { return grid_; }
     // Gibt das Spielfeld im Terminal aus. Eine Vorschau ist optional.
     void print(int previewColumn = -1, char previewSymbol = '.') const;
-    // Zeigt auf Wunsch eine kurze, ruhige Zuganimation im Terminal.
-    void animateDrop(int column, char symbol, int landingRow) const;
 };

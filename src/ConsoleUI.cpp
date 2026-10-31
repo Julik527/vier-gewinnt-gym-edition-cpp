@@ -6,6 +6,8 @@
 
 #include "ConsoleUI.h"
 #include <cstdlib>
+#include <chrono>
+#include <thread>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -86,16 +88,23 @@ bool winningCell(const std::vector<std::pair<int, int>>& cells,
 
 void boardArea(std::ostringstream& out, const Board& board,
                int previewColumn, char previewSymbol,
-               const std::vector<std::pair<int, int>>& win) {
+               const std::vector<std::pair<int, int>>& win, int animationRow) {
     out << "\n     ";
     for (int col = 1; col <= board.columns(); ++col) {
         out << std::right << std::setw(6) << col;
+    }
+    if (animationRow == -1 && previewColumn >= 0) {
+        out << "\n     ";
+        for (int col = 0; col < board.columns(); ++col)
+            out << (col == previewColumn ? " (" + std::string(1, previewSymbol) + ")  " : "      ");
     }
     out << "\n    +";
     for (int col = 0; col < board.columns(); ++col) out << "-----+";
     out << "\n";
 
-    const int previewRow = previewColumn < 0 ? -1 : board.nextFreeRow(previewColumn);
+    const int previewRow = animationRow >= 0
+        ? animationRow : (animationRow == -1 || previewColumn < 0
+                          ? -1 : board.nextFreeRow(previewColumn));
     for (int row = 0; row < board.rows(); ++row) {
         out << "    |";
         for (int col = 0; col < board.columns(); ++col) {
@@ -139,11 +148,21 @@ void pauseForReading() {
 }
 
 void present(const std::string& screen) {
-    // Nur an einem echten Terminal aktualisieren wir dieselbe Bildschirmseite.
-    // Bei umgeleiteter Ausgabe bleiben die Texte fuer automatische Tests lesbar.
-    if (ansiEnabled()) std::cout << "\x1b[H\x1b[2J";
-    else std::cout << "\n";
-    std::cout << screen << std::flush;
+    if (!ansiEnabled()) {
+        // Umgeleitete Ausgabe enthaelt keine Steuerzeichen.
+        std::cout << '\n' << screen << std::flush;
+        return;
+    }
+
+    // Nicht zuerst den ganzen Bildschirm leeren: das vermeidet Flackern.
+    // Jede kuerzere Zeile wird separat bereinigt, ebenso der Rest unten.
+    std::cout << "\x1b[H";
+    std::istringstream lines(screen);
+    std::string line;
+    while (std::getline(lines, line)) {
+        std::cout << line << "\x1b[K\n";
+    }
+    std::cout << "\x1b[J" << std::flush;
 }
 
 std::string mainMenu(const std::vector<Player>& players, const Board& board,
@@ -152,6 +171,7 @@ std::string mainMenu(const std::vector<Player>& players, const Board& board,
     separator(out);
     menuLine(out, "JK AXIS  /  VIER GEWINNT  /  GYM EDITION", "1;94");
     menuLine(out, "HEBEN. SETZEN. SIEGEN.  |  C++17", "1;97");
+    menuLine(out, "BERND-BLINDOW-SCHULEN  /  RAVENSBURG");
     separator(out);
     menuLine(out, active ? "STATUS: TRAININGSRUNDE LAEUFT" : "STATUS: BEREIT FUER DEIN MATCH");
     menuLine(out, "1  Neues Spiel");
@@ -163,14 +183,15 @@ std::string mainMenu(const std::vector<Player>& players, const Board& board,
     separator(out);
     if (active && !players.empty() && currentPlayer >= 0 &&
         currentPlayer < static_cast<int>(players.size())) {
-        out << "  RUNDE " << round << "  |  " << board.tokenCount() << " Zuege  |  Am Zug: "
-            << players[static_cast<std::size_t>(currentPlayer)].getName() << "\n";
-        out << "  Spieler: ";
+        out << "  RUNDE " << round << "  |  " << board.tokenCount() << " Zuege\n"
+            << "  SPIELER UND ZUGREIHENFOLGE:\n";
+        // Jeder Name bekommt eine eigene Zeile; auch 4 lange Namen passen.
         for (std::size_t i = 0; i < players.size(); ++i) {
-            if (i) out << "  /  ";
-            out << '[' << players[i].getSymbol() << "] " << players[i].getName();
+            out << (static_cast<int>(i) == currentPlayer ? "  >> " : "     ")
+                << '[' << players[i].getSymbol() << "] " << players[i].getName()
+                << (static_cast<int>(i) == currentPlayer ? "  < AM ZUG" : "")
+                << "\n";
         }
-        out << "\n";
     }
     out << "  Auswahl mit Zahl bestaetigen.\n";
     return out.str();
@@ -180,11 +201,12 @@ std::string arena(const Board& board, const std::vector<Player>& players,
                   int currentPlayer, int round,
                   const std::map<std::string, int>& highscores,
                   int previewColumn, char previewSymbol,
-                  const std::vector<std::pair<int, int>>& winningCells) {
+                  const std::vector<std::pair<int, int>>& winningCells, int animationRow) {
     std::ostringstream out;
     separator(out);
     menuLine(out, "JK AXIS  /  VIER GEWINNT  /  GYM EDITION");
     menuLine(out, "TRAININGS-ARENA  |  RUNDE " + std::to_string(round), "1;97");
+    menuLine(out, "BERND-BLINDOW-SCHULEN  /  RAVENSBURG");
     separator(out);
 
     for (std::size_t i = 0; i < players.size(); ++i) {
@@ -198,7 +220,7 @@ std::string arena(const Board& board, const std::vector<Player>& players,
             << wins << (wins == 1 ? " Sieg" : " Siege")
             << (onTurn ? "  < AM ZUG" : "") << '\n';
     }
-    boardArea(out, board, previewColumn, previewSymbol, winningCells);
+    boardArea(out, board, previewColumn, previewSymbol, winningCells, animationRow);
     out << "  " << paint("TRAININGSSTAND", "1;94")
         << "  |  Zug " << board.tokenCount() + (winningCells.empty() ? 1 : 0)
         << "  |  " << board.columns() << " Spalten\n";
@@ -210,6 +232,19 @@ std::string arena(const Board& board, const std::vector<Player>& players,
     return out.str();
 }
 
+void animateDrop(const Board& board, const std::vector<Player>& players,
+                 int currentPlayer, int round,
+                 const std::map<std::string, int>& highscores,
+                 int column, int landingRow, char symbol) {
+    // Nur die Darstellung wird animiert; Board::drop() folgt genau einmal.
+    for (int row = -1; row <= landingRow; ++row) {
+        present(arena(board, players, currentPlayer, round, highscores,
+                      column, symbol, {}, row));
+        if (row < landingRow)
+            std::this_thread::sleep_for(std::chrono::milliseconds(45));
+    }
+}
+
 std::string result(const Board& board, const std::vector<Player>& players,
                    const std::map<std::string, int>& highscores,
                    const std::string& winner, int round,
@@ -218,11 +253,12 @@ std::string result(const Board& board, const std::vector<Player>& players,
     separator(out);
     menuLine(out, "JK AXIS  /  GYM EDITION  /  RUNDENENDE", "1;94");
     menuLine(out, "TRAINING ABGESCHLOSSEN  |  RUNDE " + std::to_string(round));
+    menuLine(out, "BERND-BLINDOW-SCHULEN  /  RAVENSBURG");
     separator(out);
     out << "\n  " << (winner.empty() ? "REMIS: Spielfeld voll."
                        : "GEWONNEN: " + winner + "!") << "\n";
     if (!winner.empty()) out << "  Vier Hanteln in einer Reihe!\n";
-    boardArea(out, board, -1, '.', winningCells);
+    boardArea(out, board, -1, '.', winningCells, -2);
     out << "  GESAMTSIEGE\n";
     for (const auto& player : players) {
         const int wins = score(highscores, player.getName());
