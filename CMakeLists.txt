@@ -47,6 +47,16 @@ target_link_libraries(score_file_tests PRIVATE gym_board)
 add_executable(soundtrack_tests tests/soundtrack_tests.cpp)
 target_include_directories(soundtrack_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
 
+# Mathematische 3D-Funktionen brauchen weder Grafiktreiber noch SFML.
+add_executable(scene3d_tests tests/scene3d_tests.cpp)
+target_include_directories(scene3d_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
+
+# Die 3D-Version ist ein zusaetzliches Programm; die Pflicht-Konsole bleibt optional sfml-frei.
+option(GYM_BUILD_3D "Build the optional true OpenGL 3D Gym Edition" OFF)
+if(GYM_BUILD_3D)
+    set(GYM_BUILD_GUI ON CACHE BOOL "Build 2D and 3D graphical Gym Edition" FORCE)
+endif()
+
 # Die GUI ist optional, damit das vorhandene Konsolenspiel ohne SFML baubar bleibt.
 option(GYM_BUILD_GUI "Build the standalone SFML 3.1 graphical Gym Edition" OFF)
 if(GYM_BUILD_GUI)
@@ -70,6 +80,31 @@ if(GYM_BUILD_GUI)
     endif()
     add_executable(vier-gewinnt-gui src/gui/Main.cpp)
     target_link_libraries(vier-gewinnt-gui PRIVATE gym_match SFML::Graphics SFML::Audio)
+    if(GYM_BUILD_3D)
+        # OpenGL is only requested when the separate 3D executable is enabled.
+        find_package(OpenGL REQUIRED)
+        add_executable(vier-gewinnt-3d src/gui/Main3D.cpp)
+        target_include_directories(vier-gewinnt-3d PRIVATE
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
+        target_link_libraries(vier-gewinnt-3d PRIVATE
+            gym_match SFML::Graphics SFML::Audio OpenGL::GL)
+        if(MSVC)
+            target_compile_options(vier-gewinnt-3d PRIVATE /W4 /utf-8)
+        else()
+            target_compile_options(vier-gewinnt-3d PRIVATE -Wall -Wextra -Wpedantic)
+        endif()
+        if(WIN32)
+            set_target_properties(vier-gewinnt-3d PROPERTIES WIN32_EXECUTABLE FALSE)
+            if(BUILD_SHARED_LIBS)
+                add_custom_command(TARGET vier-gewinnt-3d POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy -t
+                        "$<TARGET_FILE_DIR:vier-gewinnt-3d>"
+                        $<TARGET_RUNTIME_DLLS:vier-gewinnt-3d>
+                    COMMAND_EXPAND_LISTS)
+            endif()
+        endif()
+    endif()
+
     if(MSVC)
         target_compile_options(vier-gewinnt-gui PRIVATE /W4 /utf-8)
     else()
@@ -155,7 +190,7 @@ if(GYM_BUILD_GUI)
     endif()
 endif()
 
-foreach(target gym_board vier-gewinnt board_tests console_ui_tests gym_match match_session_tests score_file_tests soundtrack_tests school_demo_fixture_tests)
+foreach(target gym_board vier-gewinnt board_tests console_ui_tests gym_match match_session_tests score_file_tests soundtrack_tests school_demo_fixture_tests scene3d_tests)
     if(MSVC)
         target_compile_options(${target} PRIVATE /W4)
     else()
@@ -174,6 +209,18 @@ if(BUILD_TESTING)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/school-four-players.txt")
     add_test(NAME score_file_unit_tests COMMAND score_file_tests)
     add_test(NAME soundtrack_unit_tests COMMAND soundtrack_tests)
+    add_test(NAME scene3d_math_tests COMMAND scene3d_tests)
+    if(GYM_BUILD_3D)
+        add_test(NAME scene3d_core_smoke COMMAND vier-gewinnt-3d --self-test)
+        if(UNIX AND NOT APPLE)
+            find_program(XVFB_RUN_3D_EXECUTABLE xvfb-run)
+            if(XVFB_RUN_3D_EXECUTABLE)
+                add_test(NAME scene3d_window_smoke COMMAND
+                    "${XVFB_RUN_3D_EXECUTABLE}" -a "$<TARGET_FILE:vier-gewinnt-3d>" --window-smoke)
+                set_tests_properties(scene3d_window_smoke PROPERTIES TIMEOUT 30)
+            endif()
+        endif()
+    endif()
     if(GYM_BUILD_GUI)
         add_test(NAME gui_core_smoke COMMAND vier-gewinnt-gui --self-test)
         add_test(NAME gui_path_smoke COMMAND vier-gewinnt-gui --path-self-test)

@@ -263,6 +263,9 @@ private:
             case 13: window_.close();break;
             case 14: if(match_.active()&&!dropActive_)match_.save();window_.close();break;
             case 15: page_=match_.active()?Page::Playing:Page::Menu;break;
+            case 20: playerCount_=2;break;
+            case 21: playerCount_=3;break;
+            case 22: playerCount_=4;break;
         }
     }
     void keyPressed(sf::Keyboard::Key key) {
