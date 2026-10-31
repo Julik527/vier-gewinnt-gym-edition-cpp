@@ -29,7 +29,7 @@ Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhänge
 | 3 | 9 × 8 | Größeres gemeinsames Feld |
 | 4 | 11 × 10 | Vier Farben und Zugreihenfolge |
 
-**Bereits implementiert:** Konsolenmodus und optionale SFML-2D-Version, Maus-/Tastatursteuerung, Fallanimation, Gewinnmarkierung, Undo, Vorschau (Konsole), Revanche, Highscores, Speichern/Laden, ein synthetischer und standardmäßig ausgeschalteter Gym-Beat.
+**Bereits implementiert:** Konsolenmodus und optionale SFML-2D-Version, Maus-/Tastatursteuerung, Fallanimation, Gewinnmarkierung, Undo, Vorschau (Konsole), Revanche, Highscores, Speichern/Laden, ein eigens komponierter 116-BPM-Stereo-Soundtrack (standardmäßig aus, F9/F10/F11).
 
 **Wichtige Grenzen:** Kein KI-Gegner, kein Netzwerkspiel, keine 3D-Engine. Die GUI und die Konsole verwenden noch separate Ablauf-Controller; gemeinsam sind die Spielregeln im `Board` und die sichere Dateiersatzfunktion.
 

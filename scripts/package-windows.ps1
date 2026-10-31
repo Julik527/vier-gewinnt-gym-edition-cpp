@@ -44,7 +44,8 @@ JK AXIS · Windows-Release-Paket
 
 1. Das ZIP in einen beschreibbaren Ordner entpacken (z. B. Downloads).
 2. vier-gewinnt-gui.exe starten.
-3. F9 schaltet den synthetischen Gym-Beat ein/aus.
+3. F9 schaltet den eigens komponierten Stereo-Soundtrack ein/aus.
+   F10/F11 regeln die Musiklautstaerke in 10-Prozent-Schritten.
 4. Spielstände werden derzeit relativ zum Startordner unter data/ abgelegt.
 
 Technischer Hinweis:

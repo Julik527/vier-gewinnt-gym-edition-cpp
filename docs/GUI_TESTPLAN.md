@@ -31,7 +31,10 @@
 
 | G23 | Originalschullogo mit `scripts/install-school-logo.ps1` laden und GUI starten | Korrekt proportioniertes Original in weißem Bereich, Quellenangabe vorhanden | nicht geprüft | offen |
 | G24 | Ohne Schullogo starten | Kein Absturz, eindeutiger Schulname als Text | nicht geprüft | offen |
-| G25 | Musikschalter/F9 mehrfach drücken | 120-BPM-Beat startet/stoppt ohne Spielstandsänderung | nicht geprüft | offen |
+| G25 | F9 mehrfach drücken | Originaler 116-BPM-Stereo-Soundtrack startet/stoppt ohne Spielstandsänderung | nicht geprüft | offen |
+| G28 | F10/F11 und die Schalter -/+ bedienen | Lautstärke in 10-%-Schritten zwischen 0 und 100 %, kein Eingriff in den Spielstand | nicht geprüft | offen |
+| G29 | GUI in 2/3/4-Spieler-Modi bei 100/125/150 % DPI testen | Navigation und Match-Status bleiben lesbar; kein Überlaufen von Buttons | nicht geprüft | offen |
+| G30 | Startbildschirm/Spielbrett nach Redesign prüfen | JK-AXIS-Gestaltung, Spielvorschau, aktiver Spieler und Gewinner deutlich erkennbar | nicht geprüft | offen |
 | G26 | Programm ohne Audioausgabegerät starten | Spiel bleibt spielbar, Hinweis statt Absturz | nicht geprüft | offen |
 | G27 | `scripts/demo.ps1 -Mode Both` starten | Erst GUI, danach PowerShell-Spiel; keine gleichzeitigen Schreibzugriffe | nicht geprüft | offen |
 
@@ -45,4 +48,4 @@ G01/G02 bleiben als Prüfungen der vorgesehenen lokalen Umgebung offen. Der Wind
 
 Der zuletzt gemeldete F5-Fehler lautet „cmake wird nicht erkannt“. Die Tasks ergänzen inzwischen den UCRT64-Suchpfad. Nach der Installation aus der README beide F5-Profile erneut starten und das tatsächliche Ergebnis eintragen.
 
-G23: Das mitgelieferte JPEG kann die dokumentierte skalierte Kopie sein. „Original“ meint das unveränderte Schulmotiv, nicht zwingend dieselbe Bytefolge wie bei Wikimedia. G25: Musik ist zunächst aus, F9 aktiviert sie. Ein Status „Playing“ ersetzt keinen Hörtest. G26: Ein fehlendes Audiogerät muss man tatsächlich provozieren, bevor der Fall als bestanden gilt.
+G23: Das mitgelieferte JPEG kann die dokumentierte skalierte Kopie sein. „Original“ meint das unveränderte Schulmotiv, nicht zwingend dieselbe Bytefolge wie bei Wikimedia. G25: Musik ist zunächst aus, F9 aktiviert sie. F10/F11 steuern die Lautstärke; der Soundtrack ist eine originale prozedurale Komposition. Ein Status „Playing“ ersetzt keinen Hörtest. G26: Ein fehlendes Audiogerät muss man tatsächlich provozieren, bevor der Fall als bestanden gilt.

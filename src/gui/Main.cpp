@@ -216,7 +216,7 @@ private:
         }};
         for (int corner = 0; corner < 4; ++corner) {
             for (int point = 0; point < 6; ++point) {
-                const float angle = (-.5f + corner + point / 5.f) * pi;
+                const float angle = (-.5f + corner * .5f + point / 10.f) * pi;
                 shape.setPoint(static_cast<std::size_t>(corner * 6 + point),
                     {centres[corner].x + std::cos(angle) * radius,
                      centres[corner].y + std::sin(angle) * radius});

@@ -1,5 +1,15 @@
 # Änderungsprotokoll
 
+## 31.10.2026: Neue 2D-Oberfläche und originaler Soundtrack
+
+- Eigenständige, prozedural generierte elektronische Komposition mit 116 BPM, Stereo, vier Harmonien, Bass, Synth-Pad, Arpeggio, ergänzender Melodie und Drum-Layer.
+- Klangerzeugung in reinem C++17 (`GymSoundtrack.h`) von SFML-Audiowiedergabe getrennt; automatischer Offline-Test prüft Peak-Pegel, Datenlänge, Stereo, Wiederholbarkeit und leisen Loop-Übergang.
+- Neues JK-AXIS-Interface mit kontrastreichen Karten, abgerundeten Buttons, Menü-Arenavorschau und besser hervorgehobenem aktiven Spieler sowie Gewinnfeldern.
+- Musik bleibt standardmäßig ausgeschaltet. F9 schaltet ein/aus, F10/F11 beziehungsweise die Minus-/Plus-Schalter regeln 0 bis 100 %.
+- Keine externen Musiktitel oder urheberrechtlich fremden Samples.
+- Echte Sicht- und Hörtests auf einem Windows-Rechner bleiben für die endgültige Abnahme erforderlich.
+
+
 ## 31.10.2026: Unicode-Pfadkorrektur der Windows-2D-Anwendung
 
 - GUI-Code verwendet für den tatsächlichen Windows-Programmpfad die UTF-16-API `GetModuleFileNameW` statt eines aus `argv[0]` konvertierten ANSI-Pfads.
