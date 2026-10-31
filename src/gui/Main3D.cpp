@@ -105,7 +105,8 @@ void cameraGL(gym3d::Camera camera,unsigned width,unsigned height) {
     const float top=nearPlane*tan(48.f*gym3d::pi/360.f),right=top*aspect;
     glMatrixMode(GL_PROJECTION);glLoadIdentity();
     glFrustum(-right,right,-top,top,nearPlane,120.f);
-    const auto basis=gym3d::basis(camera),e=gym3d::eye(camera);
+    const auto basis=gym3d::basis(camera);
+    const auto e=gym3d::eye(camera);
     const float matrix[]={
         basis.right.x,basis.up.x,-basis.forward.x,0,
         basis.right.y,basis.up.y,-basis.forward.y,0,
