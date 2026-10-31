@@ -24,13 +24,15 @@
 namespace {
 constexpr float W = 1280.f;
 constexpr float H = 800.f;
-const sf::Color navy(12, 24, 43);
-const sf::Color navy2(20, 39, 65);
-const sf::Color panel(27, 50, 79);
-const sf::Color blue(68, 138, 242);
-const sf::Color white(238, 246, 255);
-const sf::Color muted(151, 177, 208);
-const sf::Color green(71, 212, 153);
+const sf::Color navy(7, 15, 29);
+const sf::Color navy2(12, 27, 48);
+const sf::Color panel(21, 40, 67);
+const sf::Color blue(65, 139, 250);
+const sf::Color white(242, 248, 255);
+const sf::Color muted(151, 175, 204);
+const sf::Color green(64, 225, 177);
+const sf::Color sky(125, 196, 255);
+const sf::Color border(48, 82, 122);
 
 sf::Color tokenColor(int player) {
     const std::array<sf::Color, 4> colors = {
@@ -119,6 +121,7 @@ public:
         sf::Clock frame;
         while (window_.isOpen()) {
             const float dt = std::min(frame.restart().asSeconds(), 0.08f);
+            uiTime_ += dt;
             while (const auto event = window_.pollEvent()) {
                 if (event->is<sf::Event::Closed>()) {
                     if (match_.active()) screen_ = Screen::ConfirmExit;
@@ -158,6 +161,8 @@ private:
     bool schoolLogoReady_ = false;
     std::unique_ptr<GymBeat> beat_;
     bool musicOn_ = false;
+    int musicVolume_ = 40;
+    float uiTime_ = 0.f;
     MatchSession match_;
     Screen screen_ = Screen::Menu;
     Screen helpReturn_ = Screen::Menu;
@@ -198,6 +203,88 @@ private:
         rect.setOutlineColor(border);
         rect.setOutlineThickness(border == sf::Color::Transparent ? 0.f : 1.f);
         window_.draw(rect);
+    }
+    void roundedBox(float x, float y, float w, float h, float radius,
+                    sf::Color fill, sf::Color outline = sf::Color::Transparent) {
+        sf::ConvexShape shape;
+        shape.setPointCount(24);
+        radius = std::min(radius, std::min(w, h) * .5f);
+        constexpr float pi = 3.14159265358979323846f;
+        const std::array<sf::Vector2f, 4> centres = {{
+            {w - radius, radius}, {w - radius, h - radius},
+            {radius, h - radius}, {radius, radius}
+        }};
+        for (int corner = 0; corner < 4; ++corner) {
+            for (int point = 0; point < 6; ++point) {
+                const float angle = (-.5f + corner + point / 5.f) * pi;
+                shape.setPoint(static_cast<std::size_t>(corner * 6 + point),
+                    {centres[corner].x + std::cos(angle) * radius,
+                     centres[corner].y + std::sin(angle) * radius});
+            }
+        }
+        shape.setPosition({x, y});
+        shape.setFillColor(fill);
+        if (outline != sf::Color::Transparent) {
+            shape.setOutlineColor(outline);
+            shape.setOutlineThickness(1.f);
+        }
+        window_.draw(shape);
+    }
+    void backdrop() {
+        sf::VertexArray gradient(sf::PrimitiveType::TriangleStrip, 4);
+        gradient[0].position = {0.f, 0.f};
+        gradient[1].position = {W, 0.f};
+        gradient[2].position = {0.f, H};
+        gradient[3].position = {W, H};
+        gradient[0].color = sf::Color(9, 22, 41);
+        gradient[1].color = sf::Color(14, 32, 56);
+        gradient[2].color = sf::Color(6, 13, 27);
+        gradient[3].color = sf::Color(9, 22, 39);
+        window_.draw(gradient);
+        for (int x = 24; x < static_cast<int>(W); x += 64)
+            box(static_cast<float>(x), 112, 1, H - 112, sf::Color(83, 139, 189, 12));
+        for (int y = 112; y < static_cast<int>(H); y += 64)
+            box(0, static_cast<float>(y), W, 1, sf::Color(83, 139, 189, 12));
+        sf::CircleShape glow(260.f, 64);
+        glow.setPosition({-190.f, 430.f});
+        glow.setFillColor(sf::Color(33, 104, 197, 13));
+        window_.draw(glow);
+        glow.setRadius(200.f);
+        glow.setPosition({1030.f, 115.f});
+        glow.setFillColor(sf::Color(62, 164, 228, 10));
+        window_.draw(glow);
+    }
+    void menuHero() {
+        roundedBox(712, 171, 462, 552, 24, sf::Color(15, 35, 60, 235), border);
+        box(742, 209, 46, 3, green);
+        label("GYM EDITION  /  2D", 798, 196, 18, sky, true);
+        label("DEINE ARENA.", 742, 244, 28, white, true);
+        label("DEIN NAECHSTER ZUG ZAEHLT.", 742, 283, 17, muted);
+
+        const float tile = 49.f, ox = 760.f, oy = 347.f;
+        roundedBox(745, 332, 396, 279, 16, sf::Color(7, 20, 39), border);
+        const std::array<std::array<int, 7>, 4> demo = {{
+            {{-1, -1, -1, -1, -1, -1, -1}},
+            {{-1, -1, -1, -1, -1, -1, -1}},
+            {{-1, -1,  0,  1, -1, -1, -1}},
+            {{-1,  1,  0,  0,  1, -1, -1}}
+        }};
+        for (int row = 0; row < 4; ++row) {
+            for (int col = 0; col < 7; ++col) {
+                const float x = ox + col * tile, y = oy + row * tile;
+                roundedBox(x + 2, y + 2, tile - 5, tile - 5, 8,
+                           sf::Color(20, 43, 72));
+                const int player = demo[static_cast<std::size_t>(row)][static_cast<std::size_t>(col)];
+                if (player >= 0)
+                    dumbbell(x + tile / 2.f, y + tile / 2.f, tile * .61f,
+                             tokenColor(player));
+            }
+        }
+        label("LOKAL  /  2-4 SPIELER", 757, 630, 16, green, true);
+        label("TAKTIK   •   PRAEZISION   •   SPASS", 757, 665, 15, muted);
+        label("WILLKOMMEN ZURUECK", 132, 157, 17, sky, true);
+        label("HEBEN. SETZEN.", 132, 185, 33, white, true);
+        label("SIEGEN.", 132, 223, 33, green, true);
     }
     void label(const std::string& value, float x, float y, unsigned size = 22,
                sf::Color color = white, bool bold = false) {
@@ -246,12 +333,13 @@ private:
         drawPart(k, sf::Color(121, 165, 255));
     }
     void title(const std::string& subtitle) {
-        box(0, 0, W, 112, navy2);
-        box(0, 109, W, 3, blue);
+        box(0, 0, W, 112, sf::Color(9, 24, 45, 245));
+        box(0, 110, W, 2, blue);
+        box(20, 110, 125, 2, green);
         brandSymbol(20, 5, .75f);
-        label("JK AXIS  |  VIER GEWINNT", 132, 19, 29, white, true);
-        label("GYM EDITION  /  HEBEN. SETZEN. SIEGEN.", 133, 60, 17, muted);
-        label(subtitle, 800, 18, 19, sf::Color(154, 207, 255));
+        label("JK AXIS  |  VIER GEWINNT", 132, 20, 28, white, true);
+        label("GYM EDITION  /  HEBEN. SETZEN. SIEGEN.", 133, 63, 16, muted);
+        label(subtitle, 803, 29, 18, sky, true);
         if (schoolLogoReady_) {
             sf::Sprite school(schoolLogo_);
             const auto size = schoolLogo_.getSize();
@@ -279,12 +367,12 @@ private:
         std::vector<Button> b;
         switch (screen_) {
             case Screen::Menu:
-                add(b, "NEUES SPIEL", 420, 232, 440, 1);
-                add(b, "SPIEL FORTSETZEN", 420, 298, 440, 2, match_.active());
-                add(b, "SPIELSTAND LADEN", 420, 364, 440, 3);
-                add(b, "BESTENLISTE", 420, 430, 440, 4);
-                add(b, "ANLEITUNG", 420, 496, 440, 5);
-                add(b, "BEENDEN", 420, 562, 440, 0);
+                add(b, "NEUES SPIEL", 132, 289, 452, 1);
+                add(b, "SPIEL FORTSETZEN", 132, 357, 452, 2, match_.active());
+                add(b, "SPIELSTAND LADEN", 132, 425, 452, 3);
+                add(b, "BESTENLISTE", 132, 493, 452, 4);
+                add(b, "ANLEITUNG", 132, 561, 452, 5);
+                add(b, "BEENDEN", 132, 629, 452, 0);
                 break;
             case Screen::Count:
                 add(b, "2 SPIELER", 390, 275, 500, 2);
@@ -323,8 +411,10 @@ private:
                 break;
         }
         // Auf allen Bildschirmen erreichbar, aber standardmaessig stumm.
-        b.push_back({musicOn_ ? "MUSIK AUS (F9)" : "MUSIK AN (F9)",
-                     sf::FloatRect({1048.f, 114.f}, {192.f, 39.f}), 99, true});
+        b.push_back({"-", sf::FloatRect({978.f, 117.f}, {36.f, 37.f}), 97, musicVolume_ > 0});
+        b.push_back({musicOn_ ? "TON AN" : "TON AUS",
+                     sf::FloatRect({1020.f, 117.f}, {143.f, 37.f}), 99, true});
+        b.push_back({"+", sf::FloatRect({1169.f, 117.f}, {36.f, 37.f}), 98, musicVolume_ < 100});
         return b;
     }
     void drawButtons() {
@@ -332,12 +422,31 @@ private:
         const sf::Vector2f mouse = window_.mapPixelToCoords(pixel);
         for (const auto& b : buttons()) {
             const bool hover = b.enabled && b.box.contains(mouse);
-            box(b.box.position.x, b.box.position.y, b.box.size.x, b.box.size.y,
-                !b.enabled ? sf::Color(36, 48, 67)
-                    : hover ? sf::Color(66, 117, 187) : panel,
-                !b.enabled ? sf::Color::Transparent : sf::Color(69, 104, 143));
-            label(b.text, b.box.position.x + 18, b.box.position.y + 12, 18,
+            const bool audio = b.action >= 97 && b.action <= 99;
+            const bool primary = (screen_ == Screen::Menu && b.action == 1)
+                || (screen_ == Screen::Confirm && b.action == 1)
+                || (screen_ == Screen::Result && b.action == 1);
+            roundedBox(b.box.position.x, b.box.position.y + 3.f,
+                       b.box.size.x, b.box.size.y, audio ? 10.f : 13.f,
+                       sf::Color(0, 0, 0, audio ? 28 : 45));
+            const sf::Color fill = !b.enabled ? sf::Color(29, 43, 62)
+                : hover ? sf::Color(42, 105, 176)
+                : primary ? sf::Color(34, 96, 170)
+                : sf::Color(22, 48, 77);
+            roundedBox(b.box.position.x, b.box.position.y,
+                       b.box.size.x, b.box.size.y, audio ? 10.f : 13.f,
+                       fill, b.enabled ? (hover || primary ? blue : border)
+                                       : sf::Color(44, 61, 79));
+            if (primary && b.enabled)
+                roundedBox(b.box.position.x + 4.f, b.box.position.y + 8.f,
+                           4.f, b.box.size.y - 16.f, 2.f, green);
+            const float textX = b.box.position.x + (audio ? 12.f : 22.f);
+            const float textY = b.box.position.y + (audio ? 8.f : 13.f);
+            label(b.text, textX, textY, audio ? 15u : 17u,
                   b.enabled ? white : muted, true);
+            if (screen_ == Screen::Menu && !audio && b.enabled)
+                label(">", b.box.position.x + b.box.size.x - 35.f,
+                      b.box.position.y + 13.f, 17, primary ? green : sky, true);
         }
     }
     void newSetup() {
@@ -349,7 +458,7 @@ private:
         if (musicOn_) {
             if (beat_) beat_->stop();
             musicOn_ = false;
-            notice_ = "Musik ausgeschaltet.";
+            notice_ = "Soundtrack pausiert. F9 = Fortsetzen.";
             return;
         }
         try {
@@ -360,9 +469,10 @@ private:
                 return;
             }
             if (!beat_) beat_ = std::make_unique<GymBeat>();
+            beat_->setVolume(static_cast<float>(musicVolume_));
             musicOn_ = beat_->play();
             notice_ = musicOn_
-                ? "GYM BEAT laeuft mit 65% Lautstaerke. F9 = Aus."
+                ? "Original-Soundtrack aktiv. F9: Ton / F10-F11: Lautstaerke."
                 : "Audio konnte nicht gestartet werden. Windows-Ausgabe pruefen.";
         } catch (const std::exception&) {
             musicOn_ = false;
@@ -370,6 +480,12 @@ private:
         }
     }
     void act(int choice) {
+        if (choice == 97 || choice == 98) {
+            musicVolume_ = std::clamp(musicVolume_ + (choice == 98 ? 10 : -10), 0, 100);
+            if (beat_) beat_->setVolume(static_cast<float>(musicVolume_));
+            notice_ = "Musiklautstaerke: " + std::to_string(musicVolume_) + "%";
+            return;
+        }
         if (choice == 99) {
             toggleMusic();
             return;
@@ -505,6 +621,8 @@ private:
             for (const auto byte : utf8) input_.push_back(static_cast<char>(byte));
     }
     void keyDown(sf::Keyboard::Key key) {
+        if (key == sf::Keyboard::Key::F10) { act(97); return; }
+        if (key == sf::Keyboard::Key::F11) { act(98); return; }
         if (key == sf::Keyboard::Key::F9) {
             toggleMusic();
             return;
@@ -558,8 +676,10 @@ private:
     void renderBoard(bool finished) {
         const auto g = grid();
         const Board& board = match_.board();
-        box(g.x - 15, g.y - 15, g.cell * board.columns() + 30,
-            g.cell * board.rows() + 30, sf::Color(38, 74, 123), blue);
+        roundedBox(g.x - 24, g.y - 26, g.cell * board.columns() + 48,
+            g.cell * board.rows() + 55, 20, sf::Color(15, 34, 61), border);
+        roundedBox(g.x - 15, g.y - 15, g.cell * board.columns() + 30,
+            g.cell * board.rows() + 30, 14, sf::Color(31, 68, 112), blue);
         const auto pixel = sf::Mouse::getPosition(window_);
         const auto mouse = window_.mapPixelToCoords(pixel);
         int hover = static_cast<int>(std::floor((mouse.x - g.x) / g.cell));
@@ -570,7 +690,9 @@ private:
         for (int r = 0; r < board.rows(); ++r) {
             for (int c = 0; c < board.columns(); ++c) {
                 const float x = g.x + c * g.cell, y = g.y + r * g.cell;
-                box(x + 2, y + 2, g.cell - 4, g.cell - 4, navy2);
+                const bool focused = !finished && c == hover;
+                roundedBox(x + 2, y + 2, g.cell - 4, g.cell - 4, 8,
+                           focused ? sf::Color(27, 56, 89) : navy2);
                 const char symbol = board.cells()[r][c];
                 if (symbol != '.') {
                     int player = 0;
@@ -579,7 +701,8 @@ private:
                     const bool winner = std::find(match_.winLine().begin(), match_.winLine().end(),
                                                   std::make_pair(r, c)) != match_.winLine().end();
                     if (winner)
-                        box(x + 3, y + 3, g.cell - 6, g.cell - 6, sf::Color(36, 102, 80), green);
+                        roundedBox(x + 3, y + 3, g.cell - 6, g.cell - 6, 9,
+                            sf::Color(29, 100, 81), green);
                     dumbbell(x + g.cell / 2, y + g.cell / 2, g.cell * .78f,
                              winner ? green : tokenColor(player));
                 }
@@ -594,24 +717,28 @@ private:
     }
     void arena(bool end) {
         renderBoard(end);
-        box(949, 160, 292, 605, panel);
-        label(end ? "TRAINING BEENDET" : "TRAININGSSTATUS", 968, 178, 20, white, true);
-        label("RUNDE " + std::to_string(match_.round()), 968, 217, 17, muted);
-        label("ZÜGE  " + std::to_string(match_.board().tokenCount()), 968, 243, 17, muted);
+        roundedBox(947, 168, 300, 594, 18, sf::Color(16, 35, 60), border);
+        box(967, 206, 64, 3, end ? green : blue);
+        label(end ? "MATCH BEENDET" : "LIVE-MATCH", 967, 180, 20, white, true);
+        label("RUNDE " + std::to_string(match_.round()) +
+              "    /    " + std::to_string(match_.board().tokenCount()) + " ZUEGE",
+              967, 224, 16, muted);
+        label(end ? "ERGEBNIS" : "AKTIVER SPIELER", 967, 259, 14, sky, true);
         for (std::size_t i = 0; i < match_.players().size(); ++i) {
             const auto& player = match_.players()[i];
-            const float y = 278 + static_cast<float>(i) * 54;
+            const float y = 296 + static_cast<float>(i) * 48.f;
             if (static_cast<int>(i) == match_.current() && !end)
-                box(960, y - 3, 273, 48, sf::Color(42, 80, 129));
-            dumbbell(981, y + 20, 26, tokenColor(static_cast<int>(i)));
-            label(player.getName(), 1008, y + 2, 17);
+                roundedBox(960, y - 3, 276, 45, 10, sf::Color(31, 78, 122), blue);
+            dumbbell(983, y + 17, 25, tokenColor(static_cast<int>(i)));
+            label(player.getName(), 1007, y, 16);
             const int count = match_.wins(player.getName());
-            label(std::to_string(count) + (count == 1 ? " Sieg" : " Siege"), 1008, y + 26, 14, muted);
+            label(std::to_string(count) + (count == 1 ? " SIEG" : " SIEGE"),
+                  1007, y + 23, 13, muted);
         }
         if (end) {
-            box(77, 710, 829, 58, sf::Color(34, 65, 96));
+            roundedBox(75, 708, 834, 59, 12, sf::Color(25, 74, 84), green);
             label(match_.winner().empty() ? "REMIS - GUTES TRAINING!"
-                     : "GEWONNEN: " + match_.winner(), 95, 719, 24, green, true);
+                     : "GEWONNEN: " + match_.winner(), 95, 718, 23, green, true);
             if (!match_.scoreSaved()) label("Warnung: Highscore konnte nicht gespeichert werden.", 96, 751, 12);
         } else {
             label(falling_ ? "HANTEL FÄLLT ..." : "MAUS: SPALTE WAEHLEN  /  LEERTASTE: SETZEN",
@@ -620,13 +747,17 @@ private:
     }
     void render() {
         window_.clear(navy);
+        backdrop();
+        if (screen_ != Screen::Menu && screen_ != Screen::Arena &&
+            screen_ != Screen::Result)
+            roundedBox(260, 171, 760, 568, 22, sf::Color(12, 30, 52, 232), border);
         title(screen_ == Screen::Arena ? "TRAININGS-ARENA"
               : screen_ == Screen::Result ? "ERGEBNIS"
               : screen_ == Screen::Menu ? "HAUPTMENUE" : "GYM EDITION");
         switch (screen_) {
             case Screen::Menu:
-                label("WÄHLE DEIN TRAINING", 425, 165, 27, white, true);
-                if (match_.active()) label("Eine Runde kann fortgesetzt werden.", 424, 194, 17, muted);
+                menuHero();
+                if (match_.active()) label("Du kannst deine laufende Runde fortsetzen.", 132, 259, 15, muted);
                 break;
             case Screen::Count:
                 label("WIE VIELE ATHLETEN SPIELEN?", 390, 190, 26, white, true);
@@ -669,7 +800,7 @@ private:
                 label("Maus: Spalte anklicken oder Hantel ueber dem Feld waehlen.", 304, 297, 19, muted);
                 label("Tastatur: Pfeile links/rechts, Leertaste oder Enter zum Setzen.", 304, 339, 19, muted);
                 label("U = Rueckgaengig   S = Speichern   A = Animation an/aus.", 304, 381, 19, muted);
-                label("Musik: Schalter oben rechts oder F9 (standardmaessig aus).",
+                label("Original-Musik: F9 an/aus, F10 leiser, F11 lauter.",
                       304, 509, 18, muted);
                 label("Escape = Hauptmenue   H = Anleitung.", 304, 423, 19, muted);
                 label("Nach einem Sieg: Revanche mit denselben Spielern moeglich.", 304, 465, 19, muted);
@@ -681,11 +812,12 @@ private:
                       : "Spiel beenden und laufende Runde verlassen?", 330, 317, 20, muted);
                 break;
         }
+        label("MUSIK  " + std::to_string(musicVolume_) + "%", 826, 124, 14,
+              musicOn_ ? green : muted, true);
         if (musicOn_)
-            label("120 BPM  |  MUSIK LAEUFT  |  F9 = AUS",
-                  758, 758, 13, green, true);
+            label("116 BPM  |  ORIGINAL SOUNDTRACK", 958, 768, 12, green, true);
         if (!notice_.empty())
-            label(notice_, 78, 758, 16, sf::Color(254, 213, 132));
+            label(notice_, 78, 766, 14, sf::Color(254, 213, 132));
         drawButtons();
         window_.display();
     }
