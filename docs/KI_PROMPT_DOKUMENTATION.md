@@ -365,6 +365,54 @@ Ergebnisangaben beruhen auf überprüften Dateien und Commits. Eine von der KI b
 **Kontrolle und Grenze:** Wiederholte Fragen nach dem Projektstand werden hier als Rückmeldungsphase dokumentiert. Verbindlich für den Bericht sind Quellcode, Nachweise und offene Prüfungen, keine pauschale 10/10-Zusage.
 
 
+## Nachtrag: 29.–31.10.2026 (Originalaussagen, Fehlerdiagnose und Schulabgleich)
+
+Die folgenden Belege stammen aus dem sichtbaren Projektgespräch. Technische Fehlertexte werden nur verkürzt wiedergegeben; persönliche Windows-Pfade werden nicht vollständig veröffentlicht. Originalaussagen sind als solche gekennzeichnet. Die Arbeit wurde mit KI-Unterstützung vorgenommen; sie ist nicht automatisch ein Nachweis eigenständig verstandenen oder vorgeführten Codes.
+
+### P-35: 2D-Version startet lokal nicht
+**31.10.2026 · O.** Nutzer: „2D funktioniert nicht“.  
+**Vorgehen:** Git-Branch, \`src/gui/Main.cpp\`, ausführbare Datei und CMake/Ninja unterscheiden.  
+**Ergebnis:** Die lokale Kopie stand zunächst auf \`main\`; später war der GUI-Entwicklungsbranch ausgecheckt.  
+**Grenze:** Kein Beweis eines erfolgreichen lokalen GUI-Starts.
+
+### P-36: GDB und Unicode-Benutzerpfad
+**31.10.2026 · O-Auszug.** Fehlermeldung: \`-environment-cd ... No such file or directory\`.  
+**Vorgehen:** Arbeit mit ASCII-Laufwerksalias \`V:\`; später GUI-Pfadermittlung über Windows-UTF-16-API.  
+**Nachweis:** C++-CI am Commit \`7e4d81fd\`, Unicode-Test auf Windows.  
+**Grenze:** Der Debugger und der GUI-Laufzeitpfad sind unterschiedliche Fehlerstellen.
+
+### P-37: Aktuellen Stand professionell verbessern
+**31.10.2026 · O.** Nutzer: „Mache alle Aspekte auf 10 von 10 First Class sehr professionell und sehr vollkommen und sehr penibel und sehr präzise auf Gold Standard“.  
+**Ergebnis:** UCRT64-GUI-Prüfung, Startdiagnose, Release-Dokumentation und CI-Nachweise ergänzt.  
+**Grenze:** „10/10“ ist ein gewünschtes Qualitätsziel, keine gemessene Note.
+
+### P-38: Unicode-Fehler beim GUI-Start
+**31.10.2026 · O-Auszug.** Fehlermeldung: \`Gym Edition GUI: filesystem error: Cannot convert character sequence: Illegal byte sequence\`.  
+**Ergebnis:** \`GetModuleFileNameW\` statt schmal kodiertem \`argv[0]\`; zusätzlicher Pfad-Selbsttest.  
+**Nachweis:** CI-Commit \`7e4d81fd\` mit bestandenem UCRT64-GUI-Job.  
+**Grenze:** Die alte lokal gebaute EXE enthält die Korrektur nicht automatisch.
+
+### P-39: Neue Musik und Oberfläche
+**31.10.2026 · O.** Nutzer: „Mache bitte eine viel bessere Musik rein in das Spiel und eine viel bessere UI.“  
+**Ergebnis:** Eigenständiger 116-BPM-Stereo-Soundtrack, regelbare Lautstärke, Menü-Arenavorschau und überarbeitete SFML-Oberfläche.  
+**Nachweis:** [9/9 C++-CI-Jobs](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41202025895), Stand \`466f5530\`.  
+**Grenze:** Hörqualität und tatsächliche Darstellung auf dem Laptop noch nicht abgenommen.
+
+### P-40: Windows-GUI-Kompilierung im Benutzerordner
+**31.10.2026 · O-Auszug aus Terminaldatei.** \`Filename too long\` und \`fatal error ... bitwise.c: Unknown error\`; Verzeichnispfad mit Sonderzeichen wurde unterschiedlich kodiert.  
+**Ergebnis:** Kurzen ASCII-Pfad wie \`C:\Dev\GymEdition\` und vollständigen sauberen Neubau empfohlen.  
+**Grenze:** Vom Nutzer noch kein erfolgreicher lokaler Wiederholungsversuch nachgewiesen.
+
+### P-41: Aufgabenblatt 51 gegen Projektstand prüfen
+**31.10.2026 · O.** Nutzer: „Habe wir alles da erfüllt“ mit dem 13-seitigen Aufgabenblatt 51.  
+**Ergebnis:** Fachfunktionen und CI-Nachweise als weitgehend vorhanden bewertet; Handout, KI-Nachtrag, echte Sprintreviews und Generalprobe als offen identifiziert.  
+**Grenze:** Kein Lehrerurteil; der geforderte Konsolenmodus hat Priorität vor der freiwilligen GUI.
+
+### P-42: Abgabereife auf Goldstandard verbessern
+**31.10.2026 · O.** Nutzer: „Mache alle Aspekte auf 10 von 10 First Class sehr professionell und sehr vollkommen und sehr penibel und sehr präzise auf Gold Standard“.  
+**Ergebnis:** Eigenes Handout zum Aufgabenblatt, Anforderungsmatrix, Kanban-Review, 30-minütiger Vorführplan und isolierte GYM1-Beispieldateien erstellt; neuer CTest prüft die Vorführdaten.  
+**Grenze:** Manuelle Tests, eigenständige Erklärfähigkeit, Lehrkraftfeedback und Generalprobe bleiben offen; kein vorgetäuschter Abschluss.
+
 ## Quellen, Vollständigkeit und Eigenprüfung
 
 Die heutigen Originalbelege stammen aus dem für diese Bearbeitung bereitgestellten Gesprächsauszug. P-24, P-25 und P-26 sind ausdrücklich rekonstruierte Arbeitsaufträge. Frühere Einträge behalten die damaligen Quellenangaben. Ein späterer technischer Chat-Export kann zusätzliche Eingaben enthalten. Dieses Register ist deshalb eine nachvollziehbare Projektakte, kein als vollständig bescheinigter Chat-Export.
@@ -381,4 +429,4 @@ Die dokumentierten Ergebnisse entstanden mit KI-Unterstützung. Welche Stellen d
 | Board gegenüber Game und MatchSession erklären | Vortragsleitfaden und Fachgespräch |
 | KI-Unterstützung und eigene Beiträge ehrlich abgrenzen | Diese Projektakte und eigene Testnotizen |
 
-Weitere spätere Eingaben fortlaufend mit P-35 usw. ergänzen. Dafür Original oder Rekonstruktion, Datum, überprüftes Ergebnis und tatsächlichen Kontrollstand angeben.
+Weitere spätere Eingaben fortlaufend mit P-43 usw. ergänzen. Dafür Original oder Rekonstruktion, Datum, überprüftes Ergebnis und tatsächlichen Kontrollstand angeben.
