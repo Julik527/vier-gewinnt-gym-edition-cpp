@@ -30,7 +30,7 @@ constexpr float viewportWidth=1072.f,viewportTop=120.f,viewportHeight=780.f;
 const sf::Color white(244,248,255),muted(153,176,206),blue(63,131,242),green(69,224,180);
 const array<sf::Color,4> colors={sf::Color(61,149,252),sf::Color(247,190,85),
                                  sf::Color(76,217,163),sf::Color(196,145,252)};
-enum class Page { Intro,Menu,Names,Playing,Result,Help,ConfirmExit };
+enum class Page { Intro,Menu,Names,Playing,Result,Help,ConfirmExit,ConfirmNew,ConfirmLoad };
 sf::Font loadFont() {
     sf::Font result;
     const array<const char*,6> choices={{
@@ -294,12 +294,14 @@ private:
     }
     void act(int action) {
         switch(action) {
-            case 1: startNames();break;
+            case 1:
+                if(match_.active())page_=Page::ConfirmNew;
+                else startNames();
+                break;
             case 2: if(match_.active())page_=Page::Playing;break;
             case 3:
-                if(match_.active()) {notice("ZUERST SPIEL SICHERN ODER MENUE VERLASSEN");break;}
-                if(match_.load()) {selected_=match_.board().columns()/2;page_=Page::Playing;notice("SPIELSTAND GELADEN");}
-                else notice("KEIN GUELTIGER SPIELSTAND GEFUNDEN");
+                if(match_.active())page_=Page::ConfirmLoad;
+                else act(17);
                 break;
             case 4: page_=Page::Help;break;
             case 5: page_=Page::Menu;break;
@@ -316,6 +318,17 @@ private:
             case 20: playerCount_=2;break;
             case 21: playerCount_=3;break;
             case 22: playerCount_=4;break;
+            case 16: startNames();break;
+            case 17:
+                if(match_.load()) {
+                    selected_=match_.board().columns()/2;
+                    page_=Page::Playing;
+                    notice("SPIELSTAND GELADEN");
+                } else {
+                    page_=match_.active()?Page::Playing:Page::Menu;
+                    notice("KEIN GUELTIGER SPIELSTAND GEFUNDEN");
+                }
+                break;
         }
     }
     void keyPressed(sf::Keyboard::Key key) {
@@ -326,7 +339,8 @@ private:
         if(key==K::Escape) {
             if(page_==Page::Intro)page_=Page::Menu;
             else if(page_==Page::Playing||page_==Page::Result)page_=Page::Menu;
-            else if(page_==Page::ConfirmExit)page_=match_.active()?Page::Playing:Page::Menu;
+            else if(page_==Page::ConfirmExit||page_==Page::ConfirmNew||page_==Page::ConfirmLoad)
+                page_=match_.active()?Page::Playing:Page::Menu;
             else page_=Page::Menu;
             return;
         }
@@ -575,6 +589,11 @@ private:
         } else if(page_==Page::ConfirmExit) {
             text("SPIEL VERLASSEN?",95,222,39,white,true);
             text("Deine laufende Runde ist noch nicht beendet.",96,288,21,muted);
+        } else if(page_==Page::ConfirmNew||page_==Page::ConfirmLoad) {
+            text(page_==Page::ConfirmNew?"NEUES MATCH?":"SPIELSTAND LADEN?",
+                 95,222,37,white,true);
+            text("Die laufende Runde koennte verloren gehen.",96,288,21,muted);
+            text("Du kannst vorher im Match-Menue speichern.",96,324,19,green);
         }
         text("MATCH CONTROL",1100,156,23,white,true);
         rect(1100,196,305,2,blue);
@@ -618,6 +637,10 @@ private:
             button("SICHERN UND BEENDEN",1100,422,300,14);
             button("OHNE SICHERN BEENDEN",1100,484,300,13);
             button("ABBRECHEN",1100,546,300,15);
+        } else if(page_==Page::ConfirmNew||page_==Page::ConfirmLoad) {
+            button(page_==Page::ConfirmNew?"NEUES SPIEL STARTEN":"DATEI JETZT LADEN",
+                   1100,430,300,page_==Page::ConfirmNew?16:17);
+            button("ABBRECHEN",1100,494,300,15);
         }
         rect(1095,812,310,1,sf::Color(47,94,143));
         button(music_?"MUSIK PAUSE":"MUSIK START",1099,825,177,10);
