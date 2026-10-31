@@ -54,8 +54,7 @@ int main() {
         verify(loaded.board().tokenCount() == 1, "state preserved after bad setup");
         {
             std::ofstream broken("data/corrupt.txt");
-            broken << std::quoted(std::string("Ada")) << " 999" << std::endl
-                   << std::quoted(std::string("Incomplete"));
+            broken << "GYM1" << std::endl << "2 0 BAD";
         }
         verify(!loaded.load("data/corrupt.txt"), "reject corrupted save");
         verify(loaded.board().tokenCount() == 1, "load failure leaves state intact");
@@ -109,7 +108,7 @@ int main() {
         // Reject a truncated score without modifying the in-memory ranking.
         {
             std::ofstream broken("data/truncated-scores.txt");
-            broken << "\\"Ada\\" 999\\n\\"Incomplete\\"";
+            broken << R"("Ada" 999)" << std::endl << R"("Incomplete")";
             broken.close();
             verify(!loaded.loadScores("data/truncated-scores.txt"),
                    "truncated highscore rejected");
