@@ -78,8 +78,10 @@ code V:\
 Im **PowerShell-Terminal** von VS Code:
 
 ```powershell
-.\scripts\check-2d.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\check-2d.ps1"
 ```
+
+Dies startet nur das geprüfte Projektskript mit einer temporären Skriptausnahme für diesen PowerShell-Prozess. Die Systemrichtlinie wird nicht dauerhaft geändert. Die Diagnose sucht CMake/Ninja sowohl im MSYS2-Standardordner als auch in `PATH`.
 
 Dann **Ausführen und Debuggen** → `Vier Gewinnt | Gym Edition 2D` → **F5**. Die bestehenden VS-Code-Aufgaben konfigurieren CMake/Ninja und kompilieren die GUI automatisch. Der erste FetchContent-Build benötigt Internet und kann mehrere Minuten beanspruchen.
 
@@ -90,6 +92,33 @@ Wenn der F5-Build scheitert, liefert die getrennte Demo-Konfiguration einen unab
 ```
 
 Dieses Skript baut im separaten Verzeichnis `build-gui-ucrt64`, das F5-Profil dagegen in `build-gui`. Nicht wahllos CMake-Caches löschen oder zwischen MSVC und GCC im selben Build-Verzeichnis mischen.
+
+## 4a. Reproduzierbarer Neubau und Schul-Vorabtest
+
+Der Windows-Fehlerbericht vom 31.10. zeigte beschädigte Include-Pfade zu Ogg sowie einen zu langen Harfbuzz-Dateinamen. Ein `subst`-Laufwerk ist hierfür kein sicherer Ersatz für eine **kurze echte Arbeitskopie ohne Unicode-Zeichen**.
+
+```powershell
+New-Item -ItemType Directory -Force C:\Dev | Out-Null
+git clone --branch quality/gameplay-persistence-2026-10-28 --single-branch https://github.com/Julik527/vier-gewinnt-gym-edition-cpp.git C:\Dev\GymEdition
+Set-Location C:\Dev\GymEdition
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\check-2d.ps1"
+```
+
+Falls `C:\Dev\GymEdition` bereits existiert, nicht nochmals hineinklonen und keine lokalen Änderungen überschreiben. Stattdessen erst `git status --short` und `git pull --ff-only` prüfen.
+
+Nur die C++-Konsole einschließlich Tests, ohne persönliche Spielstände zu ändern:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\preflight-school.ps1"
+```
+
+Optional der vollständige grafische Build inklusive automatischer GUI-/Pfad-Tests:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\preflight-school.ps1" -WithGui
+```
+
+Beide Skriptvarianten nutzen getrennte `build-school-*-preflight`-Verzeichnisse. Sie prüfen Builds und CTest-Exitcodes; sie ersetzen weder Sicht-/Hörtest noch F5 auf dem Unterrichtsrechner. In **PowerShell** heißt der Wechsel zum Laufwerk `Set-Location V:\`, nicht `cd /v`.
 
 ## 5. Fehlersuche: Datei oder Debugger?
 

@@ -11,6 +11,12 @@ Für die Unterrichtsdemo wurden nach diesem Commit zwei GYM1-Fixtures unter \`te
 
 Der zuletzt übermittelte lokale SFML-Build in einem Windows-Benutzerverzeichnis mit \`ß\` ist fehlgeschlagen; eine reale, aktuelle GUI-Vorführung wird deshalb weiterhin **nicht** behauptet.
 
+## Technischer Nachtrag: Windows-Vorprüfung und Maximal-Highscore
+
+Nach dem Abgleich mit Aufgabenblatt 51 wurde der Highscore-Grenzfall `INT_MAX` gehärtet. Sowohl Konsole als auch grafische MatchSession begrenzen den Zähler, statt einen signierten Überlauf zu riskieren. Die neue Regression prüft das Lesen des Maximalwertes und einen anschließenden Sieg.
+
+`scripts/check-2d.ps1` erkennt CMake und Ninja nun auch außerhalb des fest kodierten MSYS2-Ordners. `scripts/preflight-school.ps1` ermöglicht einen separaten Windows-Release-Build mit CTest für die Pflicht-Konsole und optional die GUI. **Noch keine Vor-Ort-Abnahme**: Das Skript selbst und der Benutzerrechner sind getrennt von GitHub Actions zu prüfen.
+
 ## 1. Historisch verifizierte GitHub-Ergebnisse
 
 Die abgefragten Läufe am genannten Ausgangscommit sind erfolgreich abgeschlossen:

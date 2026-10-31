@@ -32,6 +32,14 @@ Die fachlichen Pflichtpunkte richten sich nach **Dr. Michael Literas Aufgabenbla
 
 **Achtung:** Eine erfolgreiche GitHub-CI ist kein Nachweis, dass die neueste GUI auf dem Schulrechner startet oder dass ein mündliches Fachgespräch bereits bestanden wurde. Manuelle Testfälle und Lehrkraftbewertungen bleiben offen.
 
+## Windows-Finalprüfung und Schulabgabe
+
+Die Konsolenfassung ist der Pflichtumfang des Aufgabenblatts 51. Auf Windows lässt sich der technische Stand unabhängig von der grafischen Ausgabe mit `scripts/preflight-school.ps1` automatisiert prüfen. Das Skript nutzt ein separates Build-Verzeichnis, testet die `GYM1`-Vorführdaten und verändert keine persönlichen Spielstände. Mit `-WithGui` wird zusätzlich SFML 3.1 gebaut.
+
+Bei einem `ß` im Windows-Benutzerpfad die Anwendung **wirklich** in `C:\Dev\GymEdition` klonen, statt SFML im alten langen Pfad neu zu konfigurieren. [Anleitung und genaue Befehle](docs/WINDOWS_QUICKSTART.md).
+
+Die Highscore-Zähler vermeiden jetzt auch bei einem gespeicherten Maximalwert von `INT_MAX` einen vorzeichenbehafteten Integer-Überlauf. Es handelt sich um Fehlerhärtung und nicht um eine zusätzliche Schulanforderung.
+
 ## Das Spiel
 
 Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhängende Symbole gewinnen, horizontal, vertikal oder diagonal. Die Spielbreite passt sich der Spielerzahl an.

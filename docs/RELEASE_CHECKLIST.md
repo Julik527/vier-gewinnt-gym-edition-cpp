@@ -30,6 +30,14 @@ Die verbindliche Nachweisgrundlage liegt in [SCHULANFORDERUNGEN_51_STATUS.md](SC
 
 Prüfnachweis: den **konkreten Workflow-Link und Commit-SHA** eintragen, nicht allein ein Badge.
 
+## Reproduzierbare lokale Vorabprüfung
+
+- [ ] Unter `C:\Dev\GymEdition` die Konsole mit `scripts/preflight-school.ps1` kompilieren; CTest-Ausgabe und Commit dokumentieren.
+- [ ] Optional `scripts/preflight-school.ps1 -WithGui` ausführen und den Pfad-Selbsttest nachweisen.
+- [ ] Die neue `scripts/check-2d.ps1`-Diagnose auf dem Zielrechner ausführen und die gefundenen CMake-/Ninja-Pfade festhalten.
+
+Diese automatischen Schritte ersetzen keinen manuellen GUI-Hör-, Sicht- oder Bedienungstest.
+
 ## 2. Windows-Handprüfung (durch tatsächlichen Tester)
 - [ ] `docs/GUI_TESTPLAN.md` komplett abgearbeitet, Status mit Datum belegt
 - [ ] Min. zwei Bildschirmauflösungen getestet, inkl. 125/150 % Skalierung
