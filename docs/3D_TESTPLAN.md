@@ -27,3 +27,8 @@
 | D21 | 30-Minuten-Probe auf Schul-PC und Beamer | offen |
 
 Nach realer Durchführung eintragen: Datum, Commit, Compiler, GPU/Treiber, Windows-Version, DPI, erwartetes und tatsächliches Verhalten, Screenshot/Fehlermeldung und Status. Keine Häkchen ohne Nachweis.
+
+| D22 | Mit gedrehter/gekippter Kamera die äußersten und unteren Zellen anklicken | Richtige Spalte; kein Zug außerhalb des Brettes | offen |
+| D23 | Maus ohne Klick über das Brett bewegen | Auswahl folgt dem Cursor, kein Stein wird gesetzt | offen |
+| D24 | Beim Kameradrehen Fensterfokus verlieren und Maus lösen | Keine dauerhaft blockierte Drag-Geste | offen |
+| D25 | `data` absichtlich schreibschützen und „Sichern und beenden“ wählen | Schreibfehler hält die laufende Partie offen; keine stille Datenlöschung | offen |

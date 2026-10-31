@@ -3,6 +3,7 @@
 // 2D and console versions remain independent, including GYM1 persistence.
 #include "MatchSession.h"
 #include "Gym3DMath.h"
+#include "Gym3DPicking.h"
 #include "GymBeat.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -172,6 +173,7 @@ public:
                 }
                 if(const auto* mouse=event->getIf<sf::Event::MouseButtonReleased>())
                     if(mouse->button==sf::Mouse::Button::Right) drag_=false;
+                if(event->is<sf::Event::FocusLost>()) drag_=false;
                 if(const auto* moved=event->getIf<sf::Event::MouseMoved>()) {
                     if(drag_) {
                         const auto dx=moved->position.x-lastMouse_.x;
@@ -179,6 +181,9 @@ public:
                         camera_.yaw=gym3d::clamp(camera_.yaw+dx*.007f,-.82f,.82f);
                         camera_.pitch=gym3d::clamp(camera_.pitch-dy*.006f,-.35f,.55f);
                         lastMouse_=moved->position;
+                    } else if(page_==Page::Playing && !dropActive_) {
+                        const int hover=boardColumnAt(window_.mapPixelToCoords(moved->position));
+                        if(hover>=0) selected_=hover;
                     }
                 }
             }
@@ -322,7 +327,16 @@ private:
             case 11: volumeBy(-10);break;
             case 12: volumeBy(10);break;
             case 13: window_.close();break;
-            case 14: if(match_.active()&&!dropActive_)match_.save();window_.close();break;
+            case 14:
+                if(!match_.active()) { window_.close(); break; }
+                if(dropActive_) { notice("STEIN WIRD NOCH GESETZT"); break; }
+                if(match_.save()) {
+                    window_.close();
+                } else {
+                    page_=Page::Playing;
+                    notice("SPEICHERN FEHLGESCHLAGEN - PARTIE BLEIBT OFFEN");
+                }
+                break;
             case 15: page_=match_.active()?Page::Playing:Page::Menu;break;
             case 20: playerCount_=2;break;
             case 21: playerCount_=3;break;
@@ -377,23 +391,21 @@ private:
         } else if(page_==Page::Result&&key==K::Enter)act(9);
         else if(page_==Page::Help&&key==K::Enter)act(5);
     }
+    int boardColumnAt(sf::Vector2f pixel) const {
+        if(!match_.active() || pixel.x<0.f || pixel.x>=viewportWidth ||
+           pixel.y<viewportTop || pixel.y>=H) return -1;
+        return gym3d::pickColumn({pixel.x,pixel.y},camera_,
+             {viewportWidth*.5f,viewportTop+viewportHeight*.5f},
+             viewportHeight,match_.board().rows(),match_.board().columns());
+    }
     void click(sf::Vector2f p) {
         for(auto it=hits_.rbegin();it!=hits_.rend();++it) {
             if(it->area.contains(p)) {act(it->action);return;}
         }
         if(page_==Page::Intro){page_=Page::Menu;return;}
-        if(page_!=Page::Playing||p.x>=viewportWidth||p.y<viewportTop)return;
-        const auto cam=gym3d::adjustedCamera(camera_,
-                match_.board().rows(),match_.board().columns());
-        const int cols=match_.board().columns();
-        float best=1.e8f;int col=0;
-        for(int i=0;i<cols;++i) {
-            const auto q=gym3d::project(gym3d::slot(0,i,match_.board().rows(),cols),
-                    cam,{viewportWidth*.5f,viewportTop+viewportHeight*.5f},viewportHeight);
-            const float dist=abs(q.x-p.x);
-            if(dist<best){best=dist;col=i;}
-        }
-        if(best<85.f) {selected_=col;startDrop();}
+        if(page_!=Page::Playing || dropActive_)return;
+        const int col=boardColumnAt(p);
+        if(col>=0) {selected_=col;startDrop();}
     }
     void text(string s,float x,float y,unsigned size=20,sf::Color tint=white,bool bold=false) {
         sf::Text label(font_,sf::String::fromUtf8(s.begin(),s.end()),size);
@@ -410,8 +422,12 @@ private:
     }
     void button(string title,float x,float y,float width,int action,bool active=true) {
         const sf::FloatRect bounds({x,y},{width,52});
-        rect(x,y,width,52,active?sf::Color(25,58,96):sf::Color(25,39,54),
-             active?sf::Color(51,100,158):sf::Color(32,51,75));
+        const auto cursor=window_.mapPixelToCoords(sf::Mouse::getPosition(window_));
+        const bool hover=active && bounds.contains(cursor);
+        rect(x,y,width,52,!active?sf::Color(25,39,54)
+                              :hover?sf::Color(40,89,147):sf::Color(25,58,96),
+             hover?green:active?sf::Color(51,100,158):sf::Color(32,51,75));
+        if(hover)rect(x+2,y+8,4,36,green);
         text(std::move(title),x+16,y+12,18,active?white:muted,true);
         if(active)hits_.push_back({bounds,action});
     }

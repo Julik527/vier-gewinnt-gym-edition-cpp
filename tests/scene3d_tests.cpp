@@ -1,4 +1,5 @@
 #include "Gym3DMath.h"
+#include "Gym3DPicking.h"
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
@@ -25,6 +26,35 @@ int main() {
             check(p.visible && isfinite(p.x)&&isfinite(p.y),"valid projection");
         }
     }
+    // Full click->ray->board round-trip, including extreme board sizes,
+    // yaw and pitch: catches wrong-column clicks after camera rotation.
+    const Vec2 centre{536.f,510.f};
+    for(int players=2;players<=4;++players) {
+        const int rows=6+(players-2)*2,cols=rows+1;
+        for(float yaw : {-.75f,0.f,.68f}) {
+            for(float pitch : {-.3f,.1f,.5f}) {
+                Camera orbit=adjustedCamera({yaw,pitch,16.f},rows,cols);
+                for(int r=0;r<rows;++r)for(int col=0;col<cols;++col) {
+                    const auto projected=project(
+                        slot(r,col,rows,cols)+Vec3{0,0,.22f},
+                        orbit,centre,780.f);
+                    check(projected.visible,"click target visible");
+                    check(pickColumn({projected.x,projected.y},orbit,
+                           centre,780.f,rows,cols)==col,
+                           "orbit camera selects correct column");
+                }
+                const float edge=static_cast<float>(cols)*1.05f*.5f;
+                const float top=static_cast<float>(rows)*1.05f*.5f;
+                const auto outsideX=project({edge+1.f,0,.22f},orbit,centre,780.f);
+                const auto outsideY=project({0,top+1.f,.22f},orbit,centre,780.f);
+                check(pickColumn({outsideX.x,outsideX.y},orbit,centre,780.f,
+                       rows,cols)==-1,"outside horizontal board rejected");
+                check(pickColumn({outsideY.x,outsideY.y},orbit,centre,780.f,
+                       rows,cols)==-1,"outside vertical board rejected");
+            }
+        }
+    }
+    check(pickColumn({0,0},{},centre,0.f,6,7)==-1,"invalid viewport rejected");
     check(abs(dropHeight(0,.5f,10,0)-10.f)<.00001f,"animation begins at original position");
     check(abs(dropHeight(1,.5f,10,0))<.00001f,"animation settles at target");
     check(abs(easeInOut(.5f)-.5f)<.0001f,"cinematic easing");

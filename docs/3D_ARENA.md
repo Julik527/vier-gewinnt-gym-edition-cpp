@@ -4,7 +4,7 @@
 
 ## Technik und Architektur
 
-Die Datei `src/gui/Main3D.cpp` erzeugt ein echtes räumliches Spielfeld mit OpenGL: beleuchtete 3D-Zylinder als Spielsteine, einen kubischen Rahmen, Leuchtringe, eine Raumplattform, perspektivische Projektion und einen Tiefenpuffer. Die Kamera bewegt sich um das Spielfeld. Die 2D-Overlays und Bedienelemente werden separat mit SFML 3.1 gezeichnet. Das Intro ist nach vier Sekunden vorbei oder sofort überspringbar. Der Original-Soundtrack (116 BPM) bleibt standardmäßig ausgeschaltet.
+Die Datei `src/gui/Main3D.cpp` erzeugt ein echtes räumliches Spielfeld mit OpenGL: beleuchtete 3D-Zylinder als Spielsteine, einen kubischen Rahmen, Leuchtringe, eine Raumplattform, perspektivische Projektion und einen Tiefenpuffer. Die Kamera bewegt sich um das Spielfeld. Die Mausauswahl verwendet einen perspektivischen Strahl vom Bildschirm auf die tatsächliche Spielfeld-Ebene; so berücksichtigt die Auswahl Kameradrehung und Höhe der angeklickten Zelle. Die 2D-Overlays und Bedienelemente werden separat mit SFML 3.1 gezeichnet. Das Intro ist nach vier Sekunden vorbei oder sofort überspringbar. Der Original-Soundtrack (116 BPM) bleibt standardmäßig ausgeschaltet.
 
 `src/gui/Gym3DMath.h` implementiert das prüfbare Vektor- und Kameramodell: Kreuz- und Skalarprodukt, Kameraachsen, Perspektive, Zellkoordinaten, Kameragrenzen und zeitbasierte Animation. `tests/scene3d_tests.cpp` kontrolliert dies unabhängig von GPU und SFML.
 
@@ -26,7 +26,7 @@ Spieler, 7×6/9×8/11×10-Feldgrößen, Schwerkraft, Gewinn, Undo, Revanche, Sie
 | Enter nach einem Sieg | Revanche |
 | 2 / 3 / 4 im Menü | Spieleranzahl wählen |
 
-**Aktuelle Grenzen:** Die Eingabe *neuer* Spielernamen unterstützt derzeit nur druckbare ASCII-Zeichen. Ein vorhandener GYM1-Spielstand mit anderen Namen kann geladen werden. Ein echter GPU-Treiber mit Unterstützung für klassische OpenGL-Zeichenfunktionen wird benötigt. Es gibt kein Raytracing, keine moderne Shader-/PBR-Pipeline, keine Echtzeit-Schattenkarten und keine Computergegner. Das Logo ist aus dem bestehenden Design abgeleitet, nicht als neue Marke gestaltet.
+**Aktuelle Grenzen:** Die Namenseingabe unterstützt UTF-8 (einschließlich deutscher Umlaute) bis zur bestehenden 24-Byte-Grenze. Beim Bearbeiten werden vollständige Unicode-Codepunkte entfernt. Ein vorhandener GYM1-Spielstand mit anderen Namen kann geladen werden. Ein echter GPU-Treiber mit Unterstützung für klassische OpenGL-Zeichenfunktionen wird benötigt. Es gibt kein Raytracing, keine moderne Shader-/PBR-Pipeline, keine Echtzeit-Schattenkarten und keine Computergegner. Das Logo ist aus dem bestehenden Design abgeleitet, nicht als neue Marke gestaltet.
 
 ## Windows-Start
 
@@ -50,3 +50,9 @@ Der [Lernpfad Teil D](3D_LERNPFAD.md) führt durch `Board`, `MatchSession`, 3D-K
 Der 3D-Code erhält getrennte Geometrie-/Kamera-Unit-Tests, GUI-Headless-Smoketests und Windows-/Linux-/UCRT64-Builds. Die interaktive Prüfung von Animation, Grafik, Audio, DPI, Beamer und vollständigen Spielpartien muss auf dem echten Rechner erfolgen. Siehe [3D-Testplan](3D_TESTPLAN.md).
 
 **Aufgabenblatt 51:** Die Schule fordert eine objektorientierte **Konsolenversion** mit persönlicher Codeerklärung. Die 3D-Arena ist ein freiwilliger Bonus, kein Ersatz für diese Bewertung.
+
+## Qualitätsverbesserung: präziser Mauszeiger und datensicherer Ausstieg
+
+Die 3D-Auswahl berechnet nun per Ray-Plane-Intersection die getroffene Spalte. Die Tests decken alle Rastergrößen, neun Kamerapositionen und Klicks außerhalb des Brettes ab. Beim Bewegen der Maus ohne gedrückte rechte Taste folgt die Spaltenvorschau dem Zeiger; ein Klick außerhalb des Brettes löst keinen Zug aus. Wird das Fenster deaktiviert, endet eine eventuell begonnene Kamera-Drag-Geste.
+
+**Sichern und beenden** beendet die Anwendung nur nach erfolgreichem Schreiben. Scheitert das Speichern (zum Beispiel bei einem schreibgeschützten Verzeichnis), bleibt die Partie geöffnet und zeigt eine Fehlermeldung. Der Befehl **Ohne Sichern beenden** bleibt eine separate, ausdrücklich bezeichnete Entscheidung.
