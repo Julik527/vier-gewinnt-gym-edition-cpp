@@ -1,6 +1,6 @@
 # JK AXIS | Aufgabenblatt 51 | reproducible Windows CMake/CTest preflight.
 # Only new build directories are written; no saved games or scores are touched.
-param([switch]$WithGui)
+param([switch]$WithGui, [switch]$With3D)
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 $root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
@@ -53,12 +53,13 @@ $ninja = Find-Tool "ninja.exe"
 $ctest = Find-Tool "ctest.exe"
 Write-Host "[INFO] UCRT64-Compiler: $gxx"
 Write-Host "[INFO] CMake: $cmake / Ninja: $ninja"
-if ($WithGui -and $root -match '[^\x00-\x7F]') {
+if (($WithGui -or $With3D) -and $root -match '[^\x00-\x7F]') {
     Stop-Preflight "GUI nicht im Unicode-Quellpfad bauen. Erst separat nach C:\Dev\GymEdition klonen."
 }
-$folder = if ($WithGui) { "build-school-gui-preflight" } else { "build-school-console-preflight" }
+$folder = if ($With3D) { "build-school-3d-preflight" } elseif ($WithGui) { "build-school-gui-preflight" } else { "build-school-console-preflight" }
 $build = Join-Path $root $folder
-$guiSetting = if ($WithGui) { "ON" } else { "OFF" }
+$guiSetting = if ($WithGui -or $With3D) { "ON" } else { "OFF" }
+$threeDSetting = if ($With3D) { "ON" } else { "OFF" }
 
 Write-Host "JK AXIS | Automatischer Schul-Vorabtest | $folder"
 Write-Host "Quelle: $root"
@@ -71,17 +72,25 @@ Invoke-Checked -Executable $cmake -Arguments @(
     "-DCMAKE_BUILD_TYPE=Release",
     "-DCMAKE_C_COMPILER=$gcc",
     "-DCMAKE_CXX_COMPILER=$gxx",
-    "-DGYM_BUILD_GUI=$guiSetting"
+    "-DGYM_BUILD_GUI=$guiSetting",
+    "-DGYM_BUILD_3D=$threeDSetting"
 )
 Invoke-Checked -Executable $cmake -Arguments @("--build", $build, "--parallel", "2")
 Invoke-Checked -Executable $ctest -Arguments @("--test-dir", $build, "--output-on-failure", "-C", "Release")
 
-if ($WithGui) {
+if ($WithGui -or $With3D) {
     $exe = Join-Path $build "vier-gewinnt-gui.exe"
     if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) {
         Stop-Preflight "2D-EXE fehlt nach dem GUI-Build."
     }
     Invoke-Checked -Executable $exe -Arguments @("--path-self-test")
+}
+if ($With3D) {
+    $exe3d = Join-Path $build "vier-gewinnt-3d.exe"
+    if (-not (Test-Path -LiteralPath $exe3d -PathType Leaf)) {
+        Stop-Preflight "3D-EXE fehlt nach dem OpenGL-Build."
+    }
+    Invoke-Checked -Executable $exe3d -Arguments @("--self-test")
 }
 Write-Host "[OK] CMake-Build, CTest und automatische Vorpruefung erfolgreich." -ForegroundColor Green
 Write-Host "[OFFEN] Echter Windows-F5-Start, Maus, Tastatur, Musik, Layout und persoenliche Codeerklaerung."
