@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "ConsoleUI.h"
 #include "AtomicFile.h"
+#include "ScoreFile.h"
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
@@ -426,11 +427,12 @@ void Game::loadHighscores() {
     highscores_.clear();
     std::ifstream in("data/highscore.txt");
     if (!in) return;
-    std::string name;
-    int wins;
-    while (in >> std::quoted(name) >> wins) {
-        if (validName(name) && wins >= 0) highscores_[name] = wins;
+    std::map<std::string, int> verified;
+    if (!gym::parseScores(in, verified, validName)) {
+        std::cerr << "Warnung: Beschaedigte Bestenliste wird ignoriert.\\n";
+        return;
     }
+    highscores_ = std::move(verified);
 }
 
 // Schreibt alle aktuellen Siege in die Highscore-Datei.

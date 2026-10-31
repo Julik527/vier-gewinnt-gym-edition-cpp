@@ -64,15 +64,14 @@ int main() {
             std::ofstream sentinel("data/original.txt");
             sentinel << "KEEP";
         }
-        fs::create_directory("data/original.txt.tmp");
-        verify(!loaded.save("data/original.txt"), "failed atomic save rejected");
+        verify(!loaded.save("data"), "replacing an existing directory rejected");
         {
             std::ifstream old("data/original.txt");
             std::string content;
             old >> content;
             verify(content == "KEEP", "original safe on write failure");
         }
-        fs::remove("data/original.txt.tmp");
+        verify(loaded.save("data/original.txt"), "valid existing file can be replaced");
 
         verify(loaded.begin({"Ada", "Ben"}), "new round");
         win(loaded);
@@ -89,20 +88,31 @@ int main() {
         win(loaded);
         verify(loaded.wins("Ada") == 2, "two games two credits");
 
-        // Ein blockierter Highscore-Schreibvorgang darf alte Daten nicht zerstoeren.
+        // A stale .tmp directory from an old application cannot block new writes.
+        fs::create_directory("data/highscore.txt.tmp");
+        verify(loaded.saveScores(), "unique temporary file avoids stale .tmp");
+        fs::remove("data/highscore.txt.tmp");
+
+        // Failed target replacement must preserve the previous highscore file.
         {
             std::ifstream before("data/highscore.txt", std::ios::binary);
             const std::string previous((std::istreambuf_iterator<char>(before)),
                                        std::istreambuf_iterator<char>());
-            fs::create_directory("data/highscore.txt.tmp");
-            verify(loaded.rematch(), "third round");
-            win(loaded);
-            verify(!loaded.scoreSaved(), "failed highscore write reported");
+            verify(!loaded.saveScores("data"), "cannot replace an existing directory");
             std::ifstream after("data/highscore.txt", std::ios::binary);
             const std::string current((std::istreambuf_iterator<char>(after)),
                                       std::istreambuf_iterator<char>());
             verify(current == previous, "previous score file unchanged after failure");
-            fs::remove("data/highscore.txt.tmp");
+        }
+
+        // Reject a truncated score without modifying the in-memory ranking.
+        {
+            std::ofstream broken("data/truncated-scores.txt");
+            broken << "\\"Ada\\" 999\\n\\"Incomplete\\"";
+            broken.close();
+            verify(!loaded.loadScores("data/truncated-scores.txt"),
+                   "truncated highscore rejected");
+            verify(loaded.wins("Ada") == 2, "invalid scores keep previous results");
         }
 
 

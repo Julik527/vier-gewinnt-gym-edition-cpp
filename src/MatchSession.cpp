@@ -1,5 +1,6 @@
 #include "MatchSession.h"
 #include "AtomicFile.h"
+#include "ScoreFile.h"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -172,13 +173,7 @@ bool MatchSession::loadScores(const std::string& path) {
     std::ifstream in(path);
     if (!in) return false;
     std::map<std::string, int> next;
-    std::string name;
-    int wins;
-    while (in >> std::quoted(name) >> wins) {
-        if (!validName(name) || wins < 0) return false;
-        next[name] = wins;
-    }
-    if (!in.eof()) return false;
+    if (!gym::parseScores(in, next, validName)) return false;
     scores_ = std::move(next);
     return true;
 }
