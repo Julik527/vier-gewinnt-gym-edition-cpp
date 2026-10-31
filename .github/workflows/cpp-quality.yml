@@ -119,7 +119,13 @@ jobs:
         run: cmake --build build-gui-ucrt64 --target vier-gewinnt-gui match_session_tests --parallel 2
       - name: Verify GUI startup logic and match engine without a desktop
         shell: msys2 {0}
-        run: ctest --test-dir build-gui-ucrt64 --output-on-failure -R 'match_session_unit_tests|gui_core_smoke'
+        run: ctest --test-dir build-gui-ucrt64 --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_path_smoke'
+      - name: Reproduce Windows path containing ß without opening a window
+        shell: msys2 {0}
+        run: |
+          mkdir -p "build-gui-ucrt64/Krauß-Übung"
+          cp "build-gui-ucrt64/vier-gewinnt-gui.exe" "build-gui-ucrt64/Krauß-Übung/vier-gewinnt-gui.exe"
+          "build-gui-ucrt64/Krauß-Übung/vier-gewinnt-gui.exe" --path-self-test
 
   gui-build:
     name: SFML 3.1 GUI / ${{ matrix.os }}
@@ -148,7 +154,7 @@ jobs:
         run: python tests/verify_school_logo.py build-gui
       - name: Test headless GUI core without a desktop
         shell: bash
-        run: ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_window_smoke'
+        run: ctest --test-dir build-gui -C Release --output-on-failure -R 'match_session_unit_tests|gui_core_smoke|gui_path_smoke|gui_window_smoke'
       - name: Verify and package a portable Windows ZIP
         if: runner.os == 'Windows'
         shell: pwsh

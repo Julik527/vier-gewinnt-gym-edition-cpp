@@ -10,8 +10,16 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
+
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
 
 namespace {
 constexpr float W = 1280.f;
@@ -45,7 +53,32 @@ sf::Font systemFont() {
     throw std::runtime_error("Keine Systemschrift gefunden (Segoe UI, Arial oder DejaVu Sans).");
 }
 
-enum class Screen { Menu, Count, Names, Confirm, Arena, Result, Scores, Help,
+// Windows supplies argv[0] in a narrow process code page, not necessarily UTF-8.
+// Constructing std::filesystem::path directly from it can throw when the user's
+// directory contains characters such as 'ß'. Ask Windows for the actual module
+// path in UTF-16, keeping the path wide all the way to std::filesystem.
+std::filesystem::path executablePath(const char* argv0) {
+#ifdef _WIN32
+    std::wstring buffer(512, L'\0');
+    while (buffer.size() <= 32768) {
+        const DWORD length = GetModuleFileNameW(
+            nullptr, buffer.data(), static_cast<DWORD>(buffer.size()));
+        if (length == 0)
+            throw std::runtime_error("Windows konnte den Programmpfad nicht lesen.");
+        if (length < buffer.size()) {
+            buffer.resize(length);
+            return std::filesystem::path(buffer);
+        }
+        buffer.resize(buffer.size() * 2);
+    }
+    throw std::runtime_error("Windows-Programmpfad ist zu lang.");
+#else
+    return std::filesystem::absolute(
+        std::filesystem::u8path(argv0 ? argv0 : ""));
+#endif
+}
+
+enum class Screen { Menu: Count, Names, Confirm, Arena, Result, Scores, Help,
                     ConfirmNew, ConfirmLoad, ConfirmExit };
 struct Button {
     std::string text;
@@ -661,6 +694,16 @@ private:
 
 int main(int argc, char** argv) {
     try {
+        if (argc > 1 && std::string(argv[1]) == "--path-self-test") {
+            const auto executable = executablePath(argc > 0 ? argv[0] : "");
+            std::error_code error;
+            if (!std::filesystem::is_regular_file(executable, error) || error)
+                return 1;
+            const auto directory = std::filesystem::current_path();
+            if (directory.empty()) return 1;
+            std::cout << "Unicode-safe executable path: OK\n";
+            return 0;
+        }
         if (argc > 1 && std::string(argv[1]) == "--audio-devices") {
             const auto devices = sf::PlaybackDevice::getAvailableDevices();
             std::cout << "Erkannte Ausgabegeraete: " << devices.size() << '\n';
@@ -681,12 +724,12 @@ int main(int argc, char** argv) {
             return 0;
         }
         if (argc > 1 && std::string(argv[1]) == "--window-smoke") {
-            App app(argc > 0 ? argv[0] : "");
+            App app(executablePath(argc > 0 ? argv[0] : ""));
             app.run(12);
             std::cout << "GUI graphical window: 12 frames rendered and closed.\n";
             return 0;
         }
-        App app(argc > 0 ? argv[0] : "");
+        App app(executablePath(argc > 0 ? argv[0] : ""));
         app.run();
         return 0;
     } catch (const std::exception& error) {
