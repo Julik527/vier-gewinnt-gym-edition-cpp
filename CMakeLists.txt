@@ -41,6 +41,10 @@ target_link_libraries(match_session_tests PRIVATE gym_match)
 add_executable(score_file_tests tests/score_file_tests.cpp)
 target_link_libraries(score_file_tests PRIVATE gym_board)
 
+# Pure C++ soundtrack renderer can be tested without SFML or a sound device.
+add_executable(soundtrack_tests tests/soundtrack_tests.cpp)
+target_include_directories(soundtrack_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
+
 # Die GUI ist optional, damit das vorhandene Konsolenspiel ohne SFML baubar bleibt.
 option(GYM_BUILD_GUI "Build the standalone SFML 3.1 graphical Gym Edition" OFF)
 if(GYM_BUILD_GUI)
@@ -149,7 +153,7 @@ if(GYM_BUILD_GUI)
     endif()
 endif()
 
-foreach(target gym_board vier-gewinnt board_tests console_ui_tests gym_match match_session_tests score_file_tests)
+foreach(target gym_board vier-gewinnt board_tests console_ui_tests gym_match match_session_tests score_file_tests soundtrack_tests)
     if(MSVC)
         target_compile_options(${target} PRIVATE /W4)
     else()
@@ -163,6 +167,7 @@ if(BUILD_TESTING)
     add_test(NAME board_unit_tests COMMAND board_tests)
     add_test(NAME match_session_unit_tests COMMAND match_session_tests)
     add_test(NAME score_file_unit_tests COMMAND score_file_tests)
+    add_test(NAME soundtrack_unit_tests COMMAND soundtrack_tests)
     if(GYM_BUILD_GUI)
         add_test(NAME gui_core_smoke COMMAND vier-gewinnt-gui --self-test)
         add_test(NAME gui_path_smoke COMMAND vier-gewinnt-gui --path-self-test)
