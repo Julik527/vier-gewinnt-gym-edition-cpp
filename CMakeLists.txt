@@ -38,6 +38,8 @@ target_link_libraries(gym_match PUBLIC gym_board)
 target_include_directories(gym_match PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 add_executable(match_session_tests tests/match_session_tests.cpp)
 target_link_libraries(match_session_tests PRIVATE gym_match)
+add_executable(school_demo_fixture_tests tests/school_demo_fixture_tests.cpp)
+target_link_libraries(school_demo_fixture_tests PRIVATE gym_match)
 add_executable(score_file_tests tests/score_file_tests.cpp)
 target_link_libraries(score_file_tests PRIVATE gym_board)
 
@@ -153,7 +155,7 @@ if(GYM_BUILD_GUI)
     endif()
 endif()
 
-foreach(target gym_board vier-gewinnt board_tests console_ui_tests gym_match match_session_tests score_file_tests soundtrack_tests)
+foreach(target gym_board vier-gewinnt board_tests console_ui_tests gym_match match_session_tests score_file_tests soundtrack_tests school_demo_fixture_tests)
     if(MSVC)
         target_compile_options(${target} PRIVATE /W4)
     else()
@@ -166,6 +168,10 @@ include(CTest)
 if(BUILD_TESTING)
     add_test(NAME board_unit_tests COMMAND board_tests)
     add_test(NAME match_session_unit_tests COMMAND match_session_tests)
+    add_test(NAME school_demo_fixture_tests
+        COMMAND school_demo_fixture_tests
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/school-near-win-2p.txt"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/school-four-players.txt")
     add_test(NAME score_file_unit_tests COMMAND score_file_tests)
     add_test(NAME soundtrack_unit_tests COMMAND soundtrack_tests)
     if(GYM_BUILD_GUI)
