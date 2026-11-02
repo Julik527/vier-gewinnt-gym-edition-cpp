@@ -1,144 +1,202 @@
-# Sprechkarten · Teil A: Projektvorstellung
+# JK AXIS | SPRECHKARTEN · TEIL A
 
-**Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA-Programmierprojekt 2026/27  
-**Ausgabe:** JK AXIS | GOLD MASTER · Übungsfassung vom 02.11.2026  
-**Quelle:** Entwicklungsbranch `quality/gameplay-persistence-2026-10-28` (Stand 31.10.2026)  
-**Dauer:** ca. 15 Minuten für Teil A; exakte Sprechzeit muss mit Stoppuhr geprobt werden.
+## Projektvorstellung
 
-> **Benutzung:** Den Text unter **Sprechtext** darfst du zum Üben ablesen. Vor der Abgabe auf deinen echten Wortlaut, deine tatsächliche Eigenleistung und die endgültigen Folien anpassen. **Aktion** bedeutet: etwas im Programm, in VS Code oder auf einer Folie zeigen. Alles, was nicht am Zielrechner überprüft wurde, ausdrücklich als noch offen bezeichnen.
->
-> **Zeitreserve:** Falls die gesamten 30 Minuten die Rückfragen einschließen, die letzten Karten kürzen und etwa 3 Minuten für das Fachgespräch freilassen. Die Zeitfenster sind Orientierung, keine bewiesenen Sprechzeiten.
+**Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA 2026/27  
+**Fassung:** GOLD MASTER | Präsentationstraining · Revision 02.11.2026  
+**Basis:** Entwicklungsbranch `quality/gameplay-persistence-2026-10-28`, geprüfter Quellcodestand 31.10.2026  
+**Vortragsziel:** 15:00 Minuten für Teil A inklusive der angegebenen Aktionen. Die tatsächliche Redezeit ist noch zu messen.
 
----
+> **Zum Ablesen:** Nur die Absätze unter **Sprechtext** gehören zum Vortrag. Die übrigen Zeilen sind Regiehinweise. Vor der Abgabe den Text dem tatsächlich gezeigten Programm und deiner eigenen Tätigkeit anpassen. Fachbegriffe lieber korrekt und langsam erklären als hastig sämtliche Sätze abzulesen.
 
-## A01 · Einstieg und Projektidee
-**Geplantes Zeitfenster:** 00:00–01:30 · **Anzeigen:** Titelfolie mit Projektname
+### Zeitregie
 
-### Sprechtext (Vorlesefassung)
+| Karte | Thema | Zeitfenster | Endmarke |
+|:--:|---|---:|---:|
+| A01 | Begrüßung und Leitidee | 00:00–01:20 | 01:20 |
+| A02 | Spielregeln und Anforderungen | 01:20–03:05 | 03:05 |
+| A03 | Menü, Zugsteuerung und Spielkomfort | 03:05–04:50 | 04:50 |
+| A04 | Objektorientierte Architektur | 04:50–06:40 | 06:40 |
+| A05 | Konsolenversion, 2D und 3D | 06:40–08:30 | 08:30 |
+| A06 | Spielstand, Highscore und Datensicherheit | 08:30–10:20 | 10:20 |
+| A07 | Tests, GitHub und verantwortliche Entwicklung | 10:20–12:20 | 12:20 |
+| A08 | Kurze Vorführung und Übergabe an den Code | 12:20–15:00 | 15:00 |
 
-> Guten Tag. Ich stelle heute mein C++-Projekt „Vier Gewinnt | Gym Edition“ vor. Die Grundidee ist das bekannte Spiel Vier Gewinnt, aber mit einer eigenen Darstellung im Fitness-Stil. Anstelle klassischer Spielsteine verwende ich Hantelsymbole. Die Idee dahinter ist, ein verständliches Spiel nicht nur nachzuprogrammieren, sondern es um eine eigene Benutzerführung und zusätzliche technische Funktionen zu erweitern.
->
-> > Der wichtigste Teil ist eine objektorientierte Konsolenanwendung in C++17. Zusätzlich gibt es im Entwicklungszweig eine grafische 2D-Version und eine experimentelle echte 3D-Arena. Für die schulischen Anforderungen steht die Konsole im Mittelpunkt. Mein Ziel heute ist, zunächst das Spiel und seine Architektur zu zeigen. Danach gehe ich direkt in den Quellcode und erkläre die wichtigsten Algorithmen, damit nachvollziehbar ist, wie das Programm tatsächlich arbeitet.
-
-**Aktion / Blickkontakt:** Nicht gleich in 3D starten. Erst Ziel, Pflichtumfang und Ablauf nennen.
-
-**Merksatz:** Ein eigener Spielkern statt nur einer hübschen Oberfläche.
-
----
-
-## A02 · Anforderungen und Spielregeln
-**Geplantes Zeitfenster:** 01:30–03:15 · **Anzeigen:** Anforderungsfolie; bei Bedarf das Raster zeigen
-
-### Sprechtext (Vorlesefassung)
-
-> Die Anwendung ist für zwei, drei oder vier Personen ausgelegt. Die Größe des Spielfelds passt sich automatisch an. Bei zwei Spielern sind es sieben Spalten und sechs Reihen, bei drei Spielern neun Spalten und acht Reihen und bei vier Spielern elf Spalten und zehn Reihen.
->
-> > Vor einer Partie werden die Anzahl der Spieler und ihre Namen abgefragt. Danach setzen die Personen abwechselnd ihre Hanteln in eine Spalte. Die Schwerkraft wird simuliert: Ein neuer Stein landet immer auf dem untersten freien Feld. Ziel ist es, vier eigene Symbole ohne Unterbrechung waagerecht, senkrecht oder diagonal anzuordnen. Das Programm muss volle Spalten und ungültige Eingaben abweisen. Ist das gesamte Feld belegt und niemand hat gewonnen, endet die Partie unentschieden. Genau diese Regeln bilden den verbindlichen Kern des Projekts.
-
-**Aktion / Blickkontakt:** Auf den Unterschied zwischen sichtbarer Spaltennummer 1–7 und internem Index 0–6 achten.
-
-**Merksatz:** Eine Regel, drei Feldgrößen, zwei bis vier Spieler.
+**Prüfungsvariante mit Fragen innerhalb von 30 Minuten:** Teil A und B jeweils auf ca. 13:30 Minuten kürzen und insgesamt 3 Minuten für das Fachgespräch reservieren. Dazu in A08 die Zusatzdemo streichen und B08 deutlich verkürzen. Beide Zeitpläne können nicht gleichzeitig vollständig ausgeführt werden.
 
 ---
 
-## A03 · Bedienung und Spielkomfort
-**Geplantes Zeitfenster:** 03:15–05:00 · **Anzeigen:** Konsolenmenü beziehungsweise Arena-Screenshot
+## A01 · Begrüßung und Leitidee
 
-### Sprechtext (Vorlesefassung)
+**ZEIT:** 00:00–01:20  
+**ZEIGEN:** Titelfolie · Projektname
 
-> Der Spielstart läuft in zwei Schritten ab. Zuerst wird die Spielerzahl ausgewählt, anschließend werden die Namen nacheinander eingetragen. Im Hauptmenü kann eine neue Partie begonnen, eine unterbrochene Runde fortgesetzt, ein gespeicherter Spielstand geladen oder die Bestenliste angesehen werden.
->
-> > Während der Partie steht neben der Spaltenauswahl eine kleine Sammlung von Befehlen bereit. Mit „V 4“ kann man beispielsweise die vierte Spalte als Vorschau ansehen, ohne den Spielstand zu verändern. Mit „U“ wird der letzte Zug zurückgenommen. „S“ speichert und „M“ führt zurück zum Hauptmenü, ohne die laufende Runde sofort zu löschen. Nach Sieg oder Remis gibt es eine Ergebnisanzeige und die Möglichkeit einer Revanche. Namen und Symbole bleiben dann bestehen. Ich habe die Steuerung bewusst so organisiert, dass eine Person das Spiel ohne lange Anleitung bedienen kann.
+### Sprechtext
 
-**Aktion / Blickkontakt:** Falls live gezeigt wird: Vorschau → ein Zug → Undo. Keine persönlichen Savegames überschreiben.
+Guten Tag. Ich stelle heute mein C++-Projekt „Vier Gewinnt | Gym Edition“ vor. Es basiert auf dem bekannten Vier-Gewinnt-Prinzip und verbindet die klassischen Spielregeln mit einem eigenen Fitness-Design: Statt normaler Spielsteine erscheinen Hantelsymbole. Mein Ziel war allerdings nicht nur eine andere Optik. Ich wollte ein vollständiges, verständlich aufgebautes Programm erstellen, bei dem Spielregeln, Bedienung, Datenspeicherung und Fehlerbehandlung zusammenarbeiten.
 
-**Merksatz:** Benutzbarkeit ist eine technische Anforderung, nicht nur Gestaltung.
+Der verbindliche Kern ist eine objektorientierte Konsolenanwendung in C++17. Zusätzlich gibt es im Entwicklungszweig eine 2D-Grafikversion und eine freiwillige 3D-Erweiterung. Im ersten Teil erkläre ich die Anforderungen, die Bedienung, den Aufbau und die Qualitätssicherung. Anschließend öffne ich den tatsächlichen Quellcode und zeige, wie ein Spielzug verarbeitet und ein Sieg erkannt wird.
 
----
+**REGIE:** Blickkontakt nach dem ersten Satz; erst danach zur Projektübersicht wechseln.
 
-## A04 · Objektorientierter Aufbau
-**Geplantes Zeitfenster:** 05:00–06:45 · **Anzeigen:** UML-Diagramm oder Quellcode-Struktur
+**MERKSATZ:** Regeln zuerst, Gestaltung als Erweiterung.
 
-### Sprechtext (Vorlesefassung)
-
-> Bei der Architektur habe ich darauf geachtet, dass nicht eine einzige Funktion alle Aufgaben übernimmt. Die Klasse „Player“ verwaltet Namen und Spielsymbol. „Board“ speichert das zweidimensionale Raster und ist für die grundlegenden Spielregeln zuständig. Die Klasse „Game“ steuert in der Konsolenversion Menüs, Zugwechsel, Rundenzustand und Dateifunktionen. „ConsoleUI“ erzeugt die Terminaldarstellung.
->
-> > Bei den grafischen Versionen kommt eine eigene Klasse namens „MatchSession“ hinzu. Sie übernimmt den Spielzustand für 2D und 3D, verwendet aber dieselbe „Board“-Klasse für die Regeln. Damit bleibt die Schwerkraft und die Gewinnprüfung unabhängig davon, ob man Text oder Grafik anzeigt. Vollständig vereinheitlicht ist die Ablaufsteuerung zwischen Konsole und GUI noch nicht. Diese Grenze kann ich benennen und wäre auch ein sinnvoller Punkt für eine spätere Überarbeitung.
-
-**Aktion / Blickkontakt:** Im Klassendiagramm nur vier Kernverantwortlichkeiten erläutern; nicht jede Methode ablesen.
-
-**Merksatz:** Board kennt Regeln; Game und MatchSession kennen den Ablauf.
-
----
-
-## A05 · Grafische Erweiterungen: 2D und 3D
-**Geplantes Zeitfenster:** 06:45–08:30 · **Anzeigen:** 2D-/3D-Screenshots oder vorab geprüfte kurze Live-Ansicht
-
-### Sprechtext (Vorlesefassung)
-
-> Die Konsolenfassung bildet den Pflichtumfang. Darüber hinaus habe ich das Projekt in einem separaten Entwicklungszweig um Grafik erweitert. Für die 2D-Version nutze ich SFML 3.1. Dort gibt es ein eigenes Fenster, Maus- und Tastaturbedienung, eine Fallanimation und einen optionalen, im Programm erzeugten Soundtrack. Dieser ist standardmäßig ausgeschaltet und kann mit F9 aktiviert werden.
->
-> > Zusätzlich existiert eine experimentelle 3D-Version. Hier zeichnet OpenGL echte räumliche Körper mit Perspektive, Beleuchtung und Tiefentest. Die Kamera lässt sich drehen und zoomen. Um die richtige Spalte bei unterschiedlichen Kamerawinkeln zu treffen, wird ein Mausstrahl mit der Ebene des Spielfelds geschnitten. Entscheidend ist aber: Die grafische Darstellung verändert nicht die grundlegenden Spielregeln. Ein erfolgreicher automatischer Grafik-Build beweist außerdem noch nicht, dass die Oberfläche am Vorführrechner fehlerfrei aussieht und die Musik hörbar ist. Deshalb bleibt die geprüfte Konsole meine sichere Rückfalllösung.
-
-**Aktion / Blickkontakt:** Nur bereits auf dem konkreten Vorführgerät getestete GUI live starten; sonst Screenshots zeigen.
-
-**Merksatz:** 3D ist Zusatzleistung, keine Voraussetzung für die Pflichtaufgabe.
-
----
-
-## A06 · Speichern, Laden und Highscores
-**Geplantes Zeitfenster:** 08:30–10:30 · **Anzeigen:** Ablaufgrafik: validieren → speichern beziehungsweise laden
-
-### Sprechtext (Vorlesefassung)
-
-> Ein wichtiges technisches Merkmal ist die dauerhafte Speicherung. Ein Spielstand enthält nicht nur die sichtbaren Hanteln, sondern unter anderem die Spieler, den aktuellen Zug, die Spielfeldgröße und die Zugreihenfolge. Das Format trägt die Kennung „GYM1“. Beim Laden wird die Datei nicht einfach ungeprüft übernommen. Stattdessen wird ein neues, vorläufiges Spielfeld erstellt. Die gespeicherten Züge werden nachgespielt und mit dem gespeicherten Raster verglichen. Erst wenn sämtliche Prüfungen erfolgreich waren, wird der aktuelle Spielzustand ersetzt.
->
-> > Für das Schreiben gibt es im Entwicklungsbranch einen gemeinsamen Helfer, der zuerst in eine temporäre Datei schreibt und die bestehende Datei erst nach erfolgreichem Abschluss ersetzt. Das reduziert das Risiko beschädigter Dateien bei einem Schreibfehler. Daneben gibt es eine Bestenliste mit dauerhaft gespeicherten Siegen. Ein Sieg wird einmal pro abgeschlossener Partie gezählt. Diese Umsetzung zeigt, dass ein Spiel auch mit fehlerhaften Daten und Dateizugriffsproblemen umgehen können muss.
-
-**Aktion / Blickkontakt:** Nicht behaupten, dass der Helfer gleichzeitige Programmstarts vollständig absichert.
-
-**Merksatz:** Erst prüfen, dann übernehmen. Erst vollständig schreiben, dann ersetzen.
-
----
-
-## A07 · Tests, GitHub und Entwicklung
-**Geplantes Zeitfenster:** 10:30–12:45 · **Anzeigen:** GitHub-Dateibaum und GitHub-Actions-Lauf
-
-### Sprechtext (Vorlesefassung)
-
-> Für die technische Qualität verwende ich CMake als Build-System und CTest für automatisierte Prüfungen. Die Tests untersuchen unter anderem Feldgrößen, Schwerkraft, volle Spalten, alle vier Gewinnrichtungen, Undo, Spielstände und die Highscore-Datei. Im Entwicklungszweig gibt es zusätzlich Prüfungen für die grafischen Programmkerne und die 3D-Mathematik.
->
-> > Das Projekt liegt in einem öffentlichen GitHub-Repository. Über Branches und Pull Requests kann ich neue Arbeiten getrennt von der stabileren Hauptversion entwickeln. GitHub Actions baut und testet das Projekt automatisiert unter verschiedenen Windows- und Linux-Umgebungen. Ein von mir geprüfter Lauf vom 31. Oktober 2026 hatte neun erfolgreiche C++-Prüfjobs. Das ist ein guter Nachweis für Kompilierung und getestete Funktionen, aber noch keine persönliche Schulabnahme oder vollständige Vor-Ort-Prüfung.
->
-> > KI-Werkzeuge habe ich bei Entwurf, Überarbeitung und Dokumentation genutzt. Für mich ist wichtig, ihre Unterstützung transparent zu benennen. Die eigentliche Fachleistung bei der Präsentation besteht darin, den Code zu verstehen, Entscheidungen erklären und Fehler systematisch prüfen zu können.
-
-**Aktion / Blickkontakt:** CI-Lauf bei Bedarf zeigen: actions/runs/41221586099. Nichts als manuell getestet ausgeben, was noch offen ist.
-
-**Merksatz:** Tests belegen definierte Fälle. Fachverständnis zeige ich selbst.
-
----
-
-## A08 · Demonstration, Grenzen und Übergang
-**Geplantes Zeitfenster:** 12:45–15:00 · **Anzeigen:** Vorbereitete Konsole mit isoliertem Demo-Datenordner
-
-### Sprechtext (Vorlesefassung)
-
-> Zum Abschluss des ersten Teils zeige ich die Pflichtversion kurz in der Praxis. Ich starte das Hauptmenü, wähle zwei Spieler aus und trage die Namen ein. Auf dem Spielfeld kann ich die vierte Spalte mit „V 4“ zunächst nur als Vorschau markieren. Danach setze ich eine Hantel und nehme den Zug mit „U“ wieder zurück. So lässt sich bereits erkennen, dass die Bedienoberfläche die Regelprüfung nicht selbst übernimmt, sondern Funktionen des Spielkerns aufruft.
->
-> > Für eine Gewinnerdemonstration sind vorbereitete, geprüfte Testdaten vorhanden. Ich verwende dafür ein separates Demo-Verzeichnis, damit private oder ältere Spielstände nicht überschrieben werden. Die grafische 3D-Version ist als Erweiterung interessant, aber meine Priorität für die Schule bleibt ein sicher ausführbares und erklärbares Konsolenprogramm. Als nächsten Schritt öffne ich nun in Visual Studio Code die zentralen Klassen und erkläre den Weg eines Zuges vom Benutzereingabewert bis zur Gewinnerkennung.
-
-**Aktion / Blickkontakt:** Bei knappem Zeitbudget nur Vorschau, Zug und Undo zeigen; die Gewinnerdemo in den Codeteil oder die Reserve legen.
-
-**Merksatz:** Jetzt wechseln wir von der Bedienung zur Implementierung.
+**KURZFASSUNG BEI ZEITDRUCK:** Ein C++17-Vier-Gewinnt mit eigenem Design und nachvollziehbarer Spiellogik.
 
 
 ---
 
-## Qualitäts- und Vorführhinweise
-- Die schulspezifische Pflicht ist die objektorientierte **Konsolenversion**. 2D und 3D sind freiwillige Erweiterungen.
-- Ein erfolgreicher CI-Job ist keine manuelle Windows-/Grafik-/Audio-Abnahme.
-- Für Demospielstände nur isolierte Verzeichnisse mit `tests/fixtures/` verwenden; persönliche Spielstände nicht überschreiben.
-- Die KI-Unterstützung transparent nennen; Formulierungen nicht als Nachweis eigenständig entwickelter Methoden ausgeben.
-- Bei einer Fachfrage: zuerst den Algorithmus fachlich erklären, anschließend die konkrete Funktion im Quellcode zeigen.
+## A02 · Spielregeln und Anforderungen
 
-**Weiterführend:** [Vortragsleitfaden](VORTRAGSLEITFADEN.md) · [Generalprobe](../docs/GENERALPROBE_2027.md) · [Schulanforderungen](../docs/SCHULANFORDERUNGEN_51_STATUS.md) · [Fachgespräch](FACHGESPRAECH_KURZANTWORTEN.md)
+**ZEIT:** 01:20–03:05  
+**ZEIGEN:** Regeln · 7×6 / 9×8 / 11×10
+
+### Sprechtext
+
+Das Spiel unterstützt zwei, drei oder vier Personen. Je nach Spieleranzahl ändert sich das Spielfeld: Bei zwei Personen sind es sieben Spalten und sechs Reihen, bei drei Personen neun Spalten und acht Reihen und bei vier Personen elf Spalten und zehn Reihen. Vor dem Spiel werden die Anzahl und die Namen der Mitspielenden festgelegt.
+
+Die Spieler setzen ihre Hanteln abwechselnd in eine Spalte. Ein Stein fällt nicht auf eine frei gewählte Position, sondern landet auf dem untersten freien Feld dieser Spalte. Gewonnen hat, wer vier eigene Symbole ohne Unterbrechung waagerecht, senkrecht oder diagonal verbindet. Eine volle Spalte darf keinen weiteren Stein annehmen; ebenso müssen ungültige Eingaben abgefangen werden. Ist das komplette Feld belegt und niemand hat gewonnen, endet die Runde unentschieden. Genau diese Regeln stehen im Zentrum der schulischen Pflichtfassung.
+
+**REGIE:** Die drei Feldgrößen klar unterscheiden; die vier Gewinnrichtungen sichtbar zeigen.
+
+**MERKSATZ:** Zwei bis vier Spieler, Schwerkraft und vier Gewinnachsen.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Die Regeln sind unabhängig von der späteren grafischen Darstellung.
+
+
+---
+
+## A03 · Menü, Zugsteuerung und Spielkomfort
+
+**ZEIT:** 03:05–04:50  
+**ZEIGEN:** Konsolenmenü oder Arena-Screenshot
+
+### Sprechtext
+
+Beim Start führt das Programm durch zwei einfache Schritte: Zuerst wird die Spielerzahl gewählt und danach werden die Namen nacheinander eingegeben. Im Hauptmenü gibt es unter anderem „Neues Spiel“, „Fortsetzen“, „Spielstand laden“, „Bestenliste“ und „Anleitung“.
+
+Während einer Partie reicht eine Spaltennummer für einen normalen Zug. Zusätzlich kann man „V 4“ eingeben. Dadurch erscheint eine Vorschau für Spalte vier, ohne dass ein Stein tatsächlich gesetzt wird. Mit „U“ nimmt man den letzten Zug zurück, mit „S“ speichert man und mit „M“ kehrt man ins Hauptmenü zurück, ohne die aktive Runde automatisch zu verlieren. Nach einem Sieg oder einem Remis folgt ein eigener Ergebnisbildschirm mit Revanche und Neustart. So bleibt das Spiel auch bei Unterbrechungen nachvollziehbar. Besonders wichtig ist dabei, dass eine ungültige Aktion den Spielstand nicht unbemerkt verändert.
+
+**REGIE:** Vorschau und Undo nur dann live demonstrieren, wenn das Programm bereits geprüft und gestartet ist.
+
+**MERKSATZ:** Jede Aktion verändert den Zustand nur, wenn sie gültig ist.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Die Bedienung ist bewusst kurz und fehlertolerant.
+
+
+---
+
+## A04 · Objektorientierte Architektur
+
+**ZEIT:** 04:50–06:40  
+**ZEIGEN:** UML oder Projektstruktur · Board, Game, Player, ConsoleUI
+
+### Sprechtext
+
+Die Architektur ist objektorientiert, weil verschiedene Klassen unterschiedliche Verantwortlichkeiten besitzen. „Player“ speichert den Namen und das Symbol eines Spielers. „Board“ verwaltet die Zellen des Spielfelds und die grundlegenden Regeln. „Game“ koordiniert in der Konsole das Menü, den Spielerwechsel und den Spielverlauf. „ConsoleUI“ bereitet die Informationen so auf, dass sie im Terminal lesbar angezeigt werden.
+
+Die grafischen Anwendungen verwenden dagegen einen eigenen Ablauf-Controller namens „MatchSession“. Das ist eine wichtige Unterscheidung: Konsole und Grafik haben noch nicht dieselbe gesamte Ablaufsteuerung, aber sie nutzen dieselbe Klasse „Board“ für die Spielregeln. Dadurch muss ich die Gewinnerkennung nicht für jede Oberfläche neu programmieren. Eine langfristige Verbesserung wäre, auch die Ablaufsteuerungen weiter zusammenzuführen. Die aktuelle Trennung hilft mir bereits dabei, den Code nach Aufgabenbereichen zu lesen, zu testen und zu erklären.
+
+**REGIE:** Auf Beziehungen zeigen, nicht die komplette UML vorlesen. Den Unterschied Game/MatchSession ausdrücklich nennen.
+
+**MERKSATZ:** Board verwaltet Regeln, Game den Konsolenablauf.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Jede Klasse hat eine klar begrenzte Hauptaufgabe.
+
+
+---
+
+## A05 · Konsolenversion, 2D und 3D
+
+**ZEIT:** 06:40–08:30  
+**ZEIGEN:** Nur verifizierte Screenshots; optional kurze 2D-/3D-Demo
+
+### Sprechtext
+
+Die Konsolenanwendung erfüllt den schulisch geforderten Kern und benötigt keine SFML-Grafikbibliothek. Im Entwicklungszweig habe ich das Projekt zusätzlich um eine 2D-Anwendung mit SFML 3.1 ergänzt. Dort gibt es ein eigenes Fenster, Maus- und Tastatursteuerung, eine Fallanimation und einen optionalen, im Code erzeugten Soundtrack. Die Musik ist standardmäßig ausgeschaltet.
+
+Daneben existiert eine 3D-Arena auf Basis von OpenGL. Sie zeichnet räumliche Körper, verwendet Perspektive und Tiefentest und erlaubt das Drehen und Zoomen der Kamera. Eine interessante technische Aufgabe war die Mausauswahl: Ein Strahl von der Kameraposition wird mit der Ebene des Spielbretts geschnitten, um die richtige Spalte zu finden. Diese Erweiterungen zeigen, wie dieselbe Regelklasse in unterschiedlichen Oberflächen eingesetzt werden kann. Sie ersetzen aber nicht die Pflicht-Konsole und sind erst nach einem echten Sicht-, Hör- und Funktionstest auf dem Zielrechner vorführbereit.
+
+**REGIE:** Zwischen implementiertem Code, erfolgreichem CI-Build und noch offenen manuellen Tests unterscheiden.
+
+**MERKSATZ:** Die Grafik ist optional; die Spielregeln bleiben gleich.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Die 2D-/3D-Oberflächen sind freiwillige Erweiterungen.
+
+
+---
+
+## A06 · Spielstand, Highscore und Datensicherheit
+
+**ZEIT:** 08:30–10:20  
+**ZEIGEN:** Grafik: GYM1 → vorläufiges Board → Prüfungen → Übernahme
+
+### Sprechtext
+
+Das Projekt kann einen Spielstand speichern und später wieder laden. Die Datei beginnt mit der Kennung „GYM1“ und enthält neben der Spielerzahl auch den aktuellen Spieler, die Namen, die Spielfeldgröße, die Zugliste und das Raster. Beim Laden wird der Inhalt nicht blind übernommen. Das Programm erstellt zunächst ein vorläufiges Spielfeld und spielt die gespeicherten Züge darauf nach. Stimmen Spielregeln, Zugfolge und Raster nicht überein, wird die Datei abgewiesen. Die laufende Partie bleibt dabei erhalten.
+
+Für das Schreiben gibt es einen gemeinsamen Dateihelfer: Der neue Inhalt wird zuerst vollständig in eine temporäre Datei geschrieben und erst danach an die Stelle der bisherigen Datei gesetzt. Das vermindert das Risiko, bei einem fehlgeschlagenen Schreibversuch den vorherigen Spielstand zu verlieren. Zusätzlich führt das Spiel eine Bestenliste mit dauerhaft gespeicherten Siegen. Diese Funktionen zeigen, dass Datensicherheit auch bei einem kleinen Spiel wichtig ist.
+
+**REGIE:** Keine vollständige Transaktions- oder Mehrprozesssicherheit behaupten; der Dateihelfer ersetzt kein Locking.
+
+**MERKSATZ:** Zuerst validieren, dann übernehmen; zuerst schreiben, dann ersetzen.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Beschädigte Speicherdateien dürfen die aktive Runde nicht zerstören.
+
+
+---
+
+## A07 · Tests, GitHub und verantwortliche Entwicklung
+
+**ZEIT:** 10:20–12:20  
+**ZEIGEN:** tests/ · CMakeLists.txt · GitHub Actions
+
+### Sprechtext
+
+Um Fehler früh zu finden, habe ich für wichtige Funktionen automatisierte Tests im Repository. Dazu gehören die verschiedenen Feldgrößen, die Schwerkraft, alle vier Gewinnrichtungen, volle Spalten, Undo sowie Speicher- und Ladefunktionen. Für die grafischen Versionen gibt es zusätzlich Tests der gemeinsamen Spielsteuerung und einzelner 3D-Berechnungen.
+
+Der Build wird mit CMake organisiert; CTest führt registrierte Tests aus. GitHub Actions wiederholt diese Prüfungen in mehreren Windows- und Linux-Umgebungen. Der von mir zuletzt geprüfte C++-Lauf vom 31. Oktober 2026 war mit neun erfolgreichen Jobs abgeschlossen. Das ist ein belegter technischer Zwischenschritt, aber kein Ersatz für die reale Prüfung auf dem Schulrechner.
+
+Bei Entwurf, Überarbeitung und Dokumentation wurde KI-Unterstützung verwendet. Diese Hilfe sollte transparent benannt werden. Entscheidend für meine mündliche Leistung ist, dass ich den Code selbst nachvollziehen, Fehlerfälle erklären und die Funktionen am Programm belegen kann.
+
+**REGIE:** Nur den konkret geprüften CI-Lauf nennen: GitHub Actions Run 41221586099; keine schulische Freigabe behaupten.
+
+**MERKSATZ:** Automatisierte Nachweise und eigene Codekenntnis gehören zusammen.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Ein grüner CI-Test ist notwendig, aber nicht die gesamte Abnahme.
+
+
+---
+
+## A08 · Kurze Vorführung und Übergabe an den Code
+
+**ZEIT:** 12:20–15:00  
+**ZEIGEN:** Bereits gestartetes Konsolenspiel; anschließend VS Code
+
+### Sprechtext
+
+Zum Abschluss zeige ich die Kernfunktionen kurz im laufenden Programm. Ich wähle zwei Spieler, trage zwei Namen ein und starte eine Runde. Anschließend verwende ich „V 4“ für eine Vorschau, setze einen Stein und mache diesen Zug mit „U“ rückgängig. Damit lässt sich direkt beobachten, wie die Steuerung auf unterschiedliche Eingaben reagiert.
+
+Für einen vollständigen Gewinn habe ich zusätzlich einen gesonderten Testspielstand vorbereitet. Diesen führe ich nur in einem isolierten Demo-Verzeichnis vor, damit keine persönlichen Daten überschrieben werden. Falls die Vorführung auf dem Zielrechner unerwartet scheitert, kann ich den vorgesehenen Ablauf anhand des vorab geprüften Quellcodes und der Testnachweise erläutern.
+
+Damit ist der Überblick abgeschlossen. Im zweiten Teil öffne ich die Klassen in Visual Studio Code und zeige Schritt für Schritt, wie aus einer Spalteneingabe ein gültiger Zug wird und wie die Gewinnerkennung arbeitet.
+
+**REGIE:** Zeit strikt kontrollieren: zwei Namen, V 4, ein Zug, U; Gewinnfixture nur mit verbliebener Zeit. Nicht während der Prüfung neu bauen.
+
+**MERKSATZ:** Von der Bedienung zur tatsächlichen Implementierung wechseln.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Der nächste Teil erklärt den Weg Eingabe → Board → Gewinnprüfung.
+
+
+---
+
+## Vortragskontrolle und verantwortliche Aussagen
+
+- [ ] Pro Karte Anfang und Endzeit mit Stoppuhr geprüft; alle 15:00 Minuten eingehalten.
+- [ ] Originalfolien, Bildschirmauflösung, Schriftgrößen und Übergänge am Präsentationsgerät überprüft.
+- [ ] Funktionen tatsächlich vorgeführt oder ausdrücklich als noch nicht manuell getestet bezeichnet.
+- [ ] CI-Nachweise nur für nachweisbar ausgeführte Jobs genannt: [C++-Prüflauf vom 31.10.2026](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41221586099).
+- [ ] Die Formulierungen zu KI-Unterstützung und eigener Arbeit sind sachlich zutreffend.
+- [ ] Spielstände ausschließlich aus einem separaten Demo-Verzeichnis verwendet; Konsolenprogramm und GUI schreiben nicht gleichzeitig in denselben Datenordner.
+
+**Nächster Schritt:** [Druckkarten](SPRECHKARTEN_DRUCKVERSION.html) · [Lehrerfragen](FACHGESPRAECH_KURZANTWORTEN.md) · [Generalprobe](../docs/GENERALPROBE_2027.md) · [Schulanforderungen](../docs/SCHULANFORDERUNGEN_51_STATUS.md).
