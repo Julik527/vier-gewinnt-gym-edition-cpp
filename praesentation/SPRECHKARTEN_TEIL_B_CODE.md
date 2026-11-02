@@ -1,152 +1,220 @@
-# Sprechkarten · Teil B: Codeerklärung
+# JK AXIS | SPRECHKARTEN · TEIL B
 
-**Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA-Programmierprojekt 2026/27  
-**Ausgabe:** JK AXIS | GOLD MASTER · Übungsfassung vom 02.11.2026  
-**Quelle:** Entwicklungsbranch `quality/gameplay-persistence-2026-10-28` (Stand 31.10.2026)  
-**Dauer:** ca. 15 Minuten für Teil B; exakte Sprechzeit muss mit Stoppuhr geprobt werden.
+## C++-Codeerklärung
 
-> **Benutzung:** Den Text unter **Sprechtext** darfst du zum Üben ablesen. Vor der Abgabe auf deinen echten Wortlaut, deine tatsächliche Eigenleistung und die endgültigen Folien anpassen. **Aktion** bedeutet: etwas im Programm, in VS Code oder auf einer Folie zeigen. Alles, was nicht am Zielrechner überprüft wurde, ausdrücklich als noch offen bezeichnen.
->
-> **Zeitreserve:** Falls die gesamten 30 Minuten die Rückfragen einschließen, die letzten Karten kürzen und etwa 3 Minuten für das Fachgespräch freilassen. Die Zeitfenster sind Orientierung, keine bewiesenen Sprechzeiten.
+**Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA 2026/27  
+**Fassung:** GOLD MASTER | Präsentationstraining · Revision 02.11.2026  
+**Basis:** Entwicklungsbranch `quality/gameplay-persistence-2026-10-28`, geprüfter Quellcodestand 31.10.2026  
+**Vortragsziel:** 15:00 Minuten für Teil B inklusive der angegebenen Aktionen. Die tatsächliche Redezeit ist noch zu messen.
 
----
+> **Zum Ablesen:** Nur die Absätze unter **Sprechtext** gehören zum Vortrag. Die übrigen Zeilen sind Regiehinweise. Vor der Abgabe den Text dem tatsächlich gezeigten Programm und deiner eigenen Tätigkeit anpassen. Fachbegriffe lieber korrekt und langsam erklären als hastig sämtliche Sätze abzulesen.
 
-## B01 · Einstiegspunkt und Programmfluss
-**Geplantes Zeitfenster:** 00:00–01:30 · **Anzeigen:** src/main.cpp → Game::run()
+### Zeitregie
 
-### Sprechtext (Vorlesefassung)
+| Karte | Thema | Zeitfenster | Endmarke |
+|:--:|---|---:|---:|
+| B01 | Einstiegspunkt und Programmablauf | 00:00–01:20 | 01:20 |
+| B02 | Datenmodell und Feldgröße | 01:20–03:00 | 03:00 |
+| B03 | Schwerkraft, Grenzen und erfolgreicher Zug | 03:00–05:15 | 05:15 |
+| B04 | Gewinnerkennung und Richtungsvektoren | 05:15–08:00 | 08:00 |
+| B05 | Spielerwechsel, Undo und Zustände | 08:00–09:50 | 09:50 |
+| B06 | Dateiformat und kontrolliertes Laden | 09:50–12:05 | 12:05 |
+| B07 | Unit-Tests, Integrationstests und CI | 12:05–13:25 | 13:25 |
+| B08 | Zusammenfassung und fachlicher Abschluss | 13:25–15:00 | 15:00 |
 
-> Ich beginne beim Einstiegspunkt der Konsolenanwendung, also bei „main.cpp“. In C++ startet die Ausführung in der Funktion „main“. Dort wird ein Objekt der Klasse „Game“ erzeugt und mit „game.run()“ die Hauptsteuerung aufgerufen. Das geschieht innerhalb eines „try“-Blocks. Falls eine unerwartete Exception auftritt, fängt der „catch“-Block sie ab, gibt eine Fehlermeldung aus und liefert einen Fehlerstatus zurück.
->
-> > Die Methode „Game::run“ enthält die Schleife für das Hauptmenü. Anhand der Benutzereingabe wird entschieden, ob eine Partie neu beginnt, fortgesetzt, geladen oder das Programm beendet wird. Danach führt „Game::play“ die eigentliche Zugschleife aus. Das ist wichtig für die Architektur: „main“ bleibt klein und übersichtlich. Sie enthält nicht das gesamte Spiel. Bei der grafischen 2D- und 3D-Version gibt es eigene Einstiegspunkte, die stattdessen eine grafische Anwendung starten.
-
-**Aktion / Blickkontakt:** Mit dem Mauszeiger die drei Stellen markieren: Game game; game.run(); catch.
-
-**Merksatz:** main startet; Game organisiert.
-
----
-
-## B02 · Board: Datenstruktur und Feldgröße
-**Geplantes Zeitfenster:** 01:30–03:15 · **Anzeigen:** include/Board.h und Konstruktor in src/Board.cpp
-
-### Sprechtext (Vorlesefassung)
-
-> Hier sehen wir die Klasse „Board“. Die Spielfelddaten liegen in „grid_“. Das ist ein „vector“ von „vector<char>“, also ein zweidimensionaler, dynamisch großer Container. Jede Zelle enthält entweder einen Punkt für leer oder ein Zeichen für das Symbol eines Spielers. Die Member „rows_“ und „columns_“ speichern die Abmessungen. Sie sind privat, damit nicht jeder Programmteil den Zustand beliebig ändern kann.
->
-> > Im Konstruktor wird die Größe anhand der Spieleranzahl festgelegt. Die Zeilenzahl ist sechs plus zweimal die Zahl der zusätzlichen Spieler über zwei hinaus. Die Spaltenzahl ist um eins größer. So entstehen für zwei Spieler sechs Reihen und sieben Spalten, für drei Spieler acht Reihen und neun Spalten und für vier Spieler zehn Reihen und elf Spalten. Die Werte sind intern nullbasiert indiziert. Dadurch ist bei einem Sechs-Reihen-Feld die unterste Reihe als Index fünf gespeichert.
-
-**Aktion / Blickkontakt:** Auf rows_, columns_, grid_ und Board::Board zeigen.
-
-**Merksatz:** Zustand kapseln statt globale Variablen verwenden.
+**Prüfungsvariante mit Fragen innerhalb von 30 Minuten:** Teil A und B jeweils auf ca. 13:30 Minuten kürzen und insgesamt 3 Minuten für das Fachgespräch reservieren. Dazu in A08 die Zusatzdemo streichen und B08 deutlich verkürzen. Beide Zeitpläne können nicht gleichzeitig vollständig ausgeführt werden.
 
 ---
 
-## B03 · Schwerkraft und gültiger Zug
-**Geplantes Zeitfenster:** 03:15–05:30 · **Anzeigen:** Board::nextFreeRow und Board::drop; optional Breakpoint
+## B01 · Einstiegspunkt und Programmablauf
 
-### Sprechtext (Vorlesefassung)
+**ZEIT:** 00:00–01:20  
+**ZEIGEN:** src/main.cpp → Game::run → Game::play
 
-> Wenn eine Person beispielsweise Spalte vier auswählt, wird die sichtbare Spaltennummer zunächst auf einen internen Index umgerechnet. „Board::nextFreeRow“ erhält diesen Index und prüft zuerst die Grenzen. Ist er kleiner als null oder mindestens so groß wie die Spaltenanzahl, liefert die Methode minus eins zurück.
->
-> > Danach beginnt eine „for“-Schleife bei „rows_ - 1“. Sie sucht also von unten nach oben. Sobald sie eine Zelle mit einem Punkt findet, gibt sie den Index dieser Reihe zurück. Das simuliert die Schwerkraft, ohne dass die Spiellogik eine Animation benötigt. Die Methode „drop“ ruft diese Suche auf und legt nur dann das Spielsymbol in das Raster, wenn wirklich ein freies Feld existiert. Die gesetzte Zeile wird über den Referenzparameter „rowPlaced“ zurückgegeben. Bei einer vollen oder ungültigen Spalte wird der Zug abgewiesen und der Spieler nicht gewechselt.
+### Sprechtext
 
-**Aktion / Blickkontakt:** Im Debugger die Werte column, rowPlaced und grid_[row][column] ansehen.
+Ich starte die Codeerklärung in der Datei „src/main.cpp“. Die Funktion „main“ ist der Einstiegspunkt der Konsolenanwendung. Hier wird ein Objekt der Klasse „Game“ erzeugt. Mit „game.run()“ beginnt anschließend die Menüsteuerung. Der umgebende „try-catch“-Block fängt unerwartete Ausnahmen ab und sorgt dafür, dass eine Fehlermeldung ausgegeben werden kann.
 
-**Merksatz:** Erst die freie Zeile finden, dann das Symbol eintragen.
+In „Game::run“ befindet sich die Hauptmenüschleife. Sie prüft, welchen Menüpunkt eine Person auswählt. Startet oder lädt sie eine Partie, übernimmt „Game::play“ die eigentliche Zugschleife. Dadurch bleibt die „main“-Funktion sehr klein. Sie ist nicht für die Regeln oder die Darstellung zuständig. Genau diese Aufgabentrennung macht den Ablauf einfacher nachvollziehbar.
 
----
+**REGIE:** Auf Game game, game.run und den catch-Block zeigen; danach mit der Funktionssuche zu Game::run wechseln.
 
-## B04 · Gewinnalgorithmus in vier Achsen
-**Geplantes Zeitfenster:** 05:30–08:00 · **Anzeigen:** Board::countDirection, Board::hasWon und winningCells
+**MERKSATZ:** main startet, Game steuert.
 
-### Sprechtext (Vorlesefassung)
+**KURZFASSUNG BEI ZEITDRUCK:** Der Programmstart übergibt die Kontrolle an die Klasse Game.
 
-> Das ist der zentrale Algorithmus meines Spiels. Nach jedem gültigen Zug kennt das Programm die Zeile, die Spalte und das Symbol des neu gesetzten Steins. „hasWon“ prüft zunächst, ob diese Position gültig ist und tatsächlich das erwartete Symbol enthält. Anschließend werden vier Richtungsvektoren durchlaufen: waagerecht, senkrecht und die beiden Diagonalen.
->
-> > Die Hilfsmethode „countDirection“ läuft schrittweise entlang einer Richtung, solange sie innerhalb des Spielfelds bleibt und das nächste Feld dasselbe Symbol enthält. Für jede der vier Achsen wird sie zweimal aufgerufen, einmal vorwärts und einmal rückwärts. Dazu kommt eins für den zuletzt gesetzten Stein selbst. Sobald diese Summe mindestens vier beträgt, wird ein Sieg erkannt.
->
-> > Die Gegenrichtung ist wichtig, weil der letzte Stein auch mitten in einer fertigen Viererreihe liegen kann. Die ergänzende Methode „winningCells“ ermittelt die Koordinaten der gesamten zusammenhängenden Gewinnlinie. Dadurch kann die Benutzeroberfläche die gewinnenden Felder besonders markieren.
-
-**Aktion / Blickkontakt:** Die Arrays dr und dc zeigen; ein Beispiel 2 links + 1 neu + 1 rechts erklären.
-
-**Merksatz:** Ein Stein + gleiche Nachbarn in beide Richtungen ergibt die Linienlänge.
-
----
-
-## B05 · Spielzug, Zugwechsel und Undo
-**Geplantes Zeitfenster:** 08:00–09:45 · **Anzeigen:** Game::play und history_ in Game.h
-
-### Sprechtext (Vorlesefassung)
-
-> Die Klasse „Game“ verbindet Eingabe und Regeln. In „Game::play“ wird die Benutzeranweisung ausgewertet. Handelt es sich um eine Spaltennummer, prüft die Steuerung zunächst, ob sie im erlaubten Bereich liegt und die Spalte noch Platz hat. Dann ruft sie „Board::drop“ auf. Nach einem erfolgreichen Zug wird ein „Move“ in der Historie gespeichert. Diese Struktur enthält Zeile, Spalte und den Spielerindex.
->
-> > Anschließend folgt die Gewinnprüfung. Hat niemand gewonnen, prüft das Programm, ob das gesamte Feld voll ist. Nur wenn die Partie weiterläuft, wird mit „(current_ + 1) % Spieleranzahl“ zum nächsten Spieler gewechselt. Das Modulo sorgt dafür, dass nach dem letzten Spieler wieder Spieler null folgt.
->
-> > Beim Undo-Befehl wird der letzte Zug aus der Historie gelesen und der entsprechende oberste Stein entfernt. Danach wird genau der Spieler wieder aktiv, der diesen Zug zuvor gesetzt hatte.
-
-**Aktion / Blickkontakt:** Den Modulo-Ausdruck im Quellcode markieren und bei 3 Spielern mündlich durchgehen.
-
-**Merksatz:** Ungültige Züge verändern weder Feld noch Zugreihenfolge.
-
----
-
-## B06 · Speichern, Laden und Schutz vor Fehlern
-**Geplantes Zeitfenster:** 09:45–11:45 · **Anzeigen:** Game::saveGame, Game::loadGame und include/AtomicFile.h
-
-### Sprechtext (Vorlesefassung)
-
-> Der Spielstand wird in einer Textdatei mit der Kennung „GYM1“ abgelegt. Darin stehen Spieleranzahl, aktueller Spieler, Feldabmessungen, Zugzahl, die Spielerinformationen, die komplette Zugliste und das Raster. Beim Laden ist mir die Trennung zwischen gelesenen Daten und tatsächlichem Spielzustand wichtig.
->
-> > Die Methode „loadGame“ erzeugt zunächst ein vorläufiges Board. Sie kontrolliert unter anderem die Spielerzahl, das Format, die erlaubten Symbole, die Zugreihenfolge und die exakten Landepositionen. Die Züge werden erneut auf das vorläufige Feld angewendet und anschließend mit dem gespeicherten Raster verglichen. Stimmt etwas nicht, wird das Laden abgebrochen, ohne die laufende Partie zu ersetzen.
->
-> > Beim Schreiben hilft „gym::writeSafely“. Zuerst wird der vollständige neue Inhalt in einer temporären Datei erstellt. Erst danach wird die bisherige Datei ersetzt. Das schützt bei bestimmten Schreibfehlern. Es ist jedoch keine vollständige Absicherung gegen zwei gleichzeitig schreibende Programmprozesse.
-
-**Aktion / Blickkontakt:** Nicht den ganzen Parser vorlesen; Format GYM1 und Kandidatenprinzip erklären.
-
-**Merksatz:** Niemals ungeprüfte Dateiinhalte direkt in den Spielzustand übernehmen.
-
----
-
-## B07 · Teststrategie und Nachweise
-**Geplantes Zeitfenster:** 11:45–13:15 · **Anzeigen:** tests/board_tests.cpp, CMakeLists.txt, GitHub Actions
-
-### Sprechtext (Vorlesefassung)
-
-> Guter Code muss nicht nur im Idealfall funktionieren. Deshalb habe ich automatisierte Testfälle im Projekt. Die „board_tests“ prüfen zum Beispiel, ob ein Stein unten landet, ob ungültige Spalten abgelehnt werden und ob horizontale, vertikale und beide diagonalen Gewinnlinien erkannt werden. Weitere Integrationstests prüfen Abläufe wie Speichern, Laden, die Spielereinrichtung, Revanche und Highscore.
->
-> > CMake organisiert die verschiedenen Programmteile als Build-Ziele. CTest startet die dazugehörigen Tests. Über GitHub Actions laufen diese Prüfungen zusätzlich in mehreren Umgebungen. In der Entwicklung konnte ich damit Fehler in Windows- und Linux-Konfigurationen feststellen und nach Korrekturen erneut prüfen.
->
-> > Wichtig ist die Grenze dieser Tests: Ein grüner automatischer Lauf beweist nur, dass die tatsächlich ausgeführten Prüfungen erfolgreich waren. Ob eine 3D-Ansicht optisch gut funktioniert oder ob ein Sound am Schulrechner zu hören ist, muss ich zusätzlich manuell testen.
-
-**Aktion / Blickkontakt:** Auf einen konkreten verify-Test und den Actions-Lauf zeigen, nicht nur das grüne Symbol.
-
-**Merksatz:** Automatische und manuelle Tests ergänzen sich.
-
----
-
-## B08 · Gesamtfluss, Grenzen und Abschluss
-**Geplantes Zeitfenster:** 13:15–15:00 · **Anzeigen:** Kurz zurück zu Game::play und Board::hasWon
-
-### Sprechtext (Vorlesefassung)
-
-> Ich fasse den technischen Ablauf noch einmal zusammen. Die Konsole liest eine Eingabe. „Game“ interpretiert sie und reicht einen gültigen Spaltenindex an „Board“ weiter. Das Board berechnet die Landeposition und setzt die Hantel. Anschließend speichert die Steuerung den Zug, prüft auf Gewinn oder Remis und bestimmt gegebenenfalls den nächsten Spieler. Die Ausgabe wird danach anhand des aktuellen Zustands neu erzeugt.
->
-> > Diese Trennung hat einen praktischen Nutzen: Die Regeln funktionieren unabhängig davon, ob das Spiel im Terminal, in einer 2D-Oberfläche oder in der 3D-Arena dargestellt wird. Allerdings haben die Konsole und die grafischen Programme heute noch eigene Ablauf-Controller. Eine spätere Verbesserung wäre, auch diese Logik vollständig in einem gemeinsamen Kern zusammenzuführen. Ebenso könnte ich die großen grafischen Quelldateien in kleinere, klar abgegrenzte Klassen aufteilen.
->
-> > Damit endet meine Codeerklärung. Die wichtigsten Prinzipien sind für mich Kapselung, nachvollziehbarer Programmfluss, gezielte Eingabeprüfung, sichere Datenverarbeitung und reproduzierbare Tests. Für Rückfragen kann ich die relevanten Methoden direkt im Quellcode öffnen.
-
-**Aktion / Blickkontakt:** Bei exakt 30 Minuten Gesamtzeit diese Karte kürzen und drei Minuten für Fragen reservieren.
-
-**Merksatz:** Regel verstehen, Zustand kontrollieren, Verhalten testen.
+**CODESTELLE:** `src/main.cpp · Game::run()`
 
 
 ---
 
-## Qualitäts- und Vorführhinweise
-- Die schulspezifische Pflicht ist die objektorientierte **Konsolenversion**. 2D und 3D sind freiwillige Erweiterungen.
-- Ein erfolgreicher CI-Job ist keine manuelle Windows-/Grafik-/Audio-Abnahme.
-- Für Demospielstände nur isolierte Verzeichnisse mit `tests/fixtures/` verwenden; persönliche Spielstände nicht überschreiben.
-- Die KI-Unterstützung transparent nennen; Formulierungen nicht als Nachweis eigenständig entwickelter Methoden ausgeben.
-- Bei einer Fachfrage: zuerst den Algorithmus fachlich erklären, anschließend die konkrete Funktion im Quellcode zeigen.
+## B02 · Datenmodell und Feldgröße
 
-**Weiterführend:** [Vortragsleitfaden](VORTRAGSLEITFADEN.md) · [Generalprobe](../docs/GENERALPROBE_2027.md) · [Schulanforderungen](../docs/SCHULANFORDERUNGEN_51_STATUS.md) · [Fachgespräch](FACHGESPRAECH_KURZANTWORTEN.md)
+**ZEIT:** 01:20–03:00  
+**ZEIGEN:** include/Board.h → Board::Board
+
+### Sprechtext
+
+In „Board.h“ sehen wir den Zustand des Spielfelds. „rows_“ enthält die Anzahl der Reihen, „columns_“ die Anzahl der Spalten. Das Raster selbst liegt in „grid_“. Sein Typ ist „std::vector<std::vector<char>>“: Ein äußerer Vektor enthält mehrere innere Vektoren, und jedes Zeichen repräsentiert eine Zelle. Ein Punkt steht für ein leeres Feld.
+
+Im Konstruktor wird die Größe aus der Spielerzahl berechnet. Die Formel für die Reihen lautet sechs plus zweimal die Anzahl der Spieler über zwei hinaus. Die Spaltenzahl ist immer um eins größer. Das ergibt sechs mal sieben, acht mal neun oder zehn mal elf Zellen. Wichtig für die nächsten Methoden: Die Indizes beginnen nicht bei eins, sondern bei null. Bei sechs Reihen besitzt die unterste Reihe daher den Index fünf.
+
+**REGIE:** Im Editor rows_, columns_ und grid_ markieren; für drei Spieler die Rechnung 6+2×(3−2)=8 vormachen.
+
+**MERKSATZ:** Ein zweidimensionaler Vektor bildet die Zellen ab.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Die Spielfeldgröße hängt vollständig von der Spielerzahl ab.
+
+**CODESTELLE:** `include/Board.h · src/Board.cpp: Board::Board()`
+
+
+---
+
+## B03 · Schwerkraft, Grenzen und erfolgreicher Zug
+
+**ZEIT:** 03:00–05:15  
+**ZEIGEN:** Board::nextFreeRow → Board::drop
+
+### Sprechtext
+
+Die nächste zentrale Methode heißt „Board::nextFreeRow“. Sie erhält den Index einer Spalte. Zuerst prüft sie, ob der Index innerhalb des Spielfelds liegt. Anschließend läuft eine „for“-Schleife von „rows_ minus eins“ rückwärts bis zur obersten Reihe. Dadurch sucht sie von unten nach oben. Sobald sie eine Zelle mit dem Zeichen Punkt findet, gibt sie den Reihenindex zurück. Gibt es keine freie Position oder war die Spalte ungültig, liefert sie minus eins.
+
+„Board::drop“ verwendet genau dieses Ergebnis. Ist keine Position frei, wird kein Stein eingetragen. Andernfalls schreibt die Funktion das Symbol in das Raster und gibt die tatsächlich verwendete Reihe über den Referenzparameter „rowPlaced“ zurück. Der Rückgabewert „bool“ zeigt zusätzlich, ob der Zug erfolgreich war. So bleiben die Schwerkraftregeln unabhängig davon, ob später eine Animation angezeigt wird.
+
+**REGIE:** Optional Breakpoint bei return row setzen; konkret erklären: sichtbare Spalte 4 entspricht intern Index 3.
+
+**MERKSATZ:** Erst gültige Position ermitteln, dann einsetzen.
+
+**KURZFASSUNG BEI ZEITDRUCK:** nextFreeRow sucht unten; drop setzt nur bei Erfolg.
+
+**CODESTELLE:** `src/Board.cpp: Board::nextFreeRow(), Board::drop()`
+
+
+---
+
+## B04 · Gewinnerkennung und Richtungsvektoren
+
+**ZEIT:** 05:15–08:00  
+**ZEIGEN:** Board::countDirection → Board::hasWon → winningCells
+
+### Sprechtext
+
+Das ist der wichtigste Algorithmus der Anwendung. Nach einem erfolgreichen Zug sind die genaue Reihe, Spalte und das Symbol bekannt. „Board::hasWon“ prüft von diesem letzten Stein aus, ob mindestens vier gleiche Symbole zusammenhängen.
+
+Dazu verwendet die Methode zwei kleine Arrays mit Zeilen- und Spaltenänderungen: „dr“ und „dc“. Die Kombinationen stehen für waagerecht, senkrecht und beide Diagonalen. Für jede Achse wird „countDirection“ zweimal aufgerufen: einmal in die positive und einmal in die negative Richtung. Solange die nächste Position im Spielfeld liegt und dasselbe Symbol trägt, erhöht die Methode einen Zähler.
+
+Die Länge einer zusammenhängenden Reihe ergibt sich aus eins für den zuletzt gesetzten Stein, plus den gleichen Nachbarn in beiden Richtungen. Ab einem Wert von vier ist die Partie gewonnen. Beide Richtungen sind notwendig, weil der letzte Stein auch in der Mitte einer Reihe liegen kann. Die Methode „winningCells“ liefert zusätzlich die zu markierenden Zellen für die Anzeige.
+
+**REGIE:** Beispiel zeigen: zwei gleiche Steine links, letzter Stein, einer rechts = vier. Die Werte dr/dc einzeln nachvollziehen.
+
+**MERKSATZ:** Vier Achsen, jeweils beide Richtungen, Summe mindestens vier.
+
+**KURZFASSUNG BEI ZEITDRUCK:** 1 + links + rechts beziehungsweise oben + unten und beide Diagonalen.
+
+**CODESTELLE:** `src/Board.cpp: countDirection(), hasWon(), winningCells()`
+
+
+---
+
+## B05 · Spielerwechsel, Undo und Zustände
+
+**ZEIT:** 08:00–09:50  
+**ZEIGEN:** Game::play · Move · history_
+
+### Sprechtext
+
+Die Klasse „Game“ verbindet die Eingaben mit dem Spielfeld. In „Game::play“ werden zunächst Befehle oder Spaltennummern ausgewertet. Nur ein gültiger Spaltenwert führt zum Einwerfen eines Steins. Nach dem erfolgreichen „Board::drop“ speichert das Programm einen Eintrag der Struktur „Move“ in der Zugliste „history_“. Ein Eintrag enthält Reihe, Spalte und den Index des Spielers.
+
+Danach prüft das Programm zuerst auf Sieg und anschließend auf ein volles Spielfeld. Nur wenn die Partie weiterläuft, wechselt es zum nächsten Spieler. Die Formel lautet „(current_ + 1) % Spieleranzahl“. Durch den Modulo-Operator beginnt die Reihenfolge nach dem letzten Spieler wieder bei null.
+
+Beim Undo holt die Steuerung den letzten Zug aus der Historie, entfernt den obersten Stein und setzt den ursprünglichen Spieler wieder an die Reihe. Dadurch bleiben Zugfolge und Spielfeld konsistent.
+
+**REGIE:** Den Modulo-Fall für drei Spieler nennen: 0 → 1 → 2 → 0. Dann history_.back() zeigen.
+
+**MERKSATZ:** Erst Zug prüfen, dann speichern, danach Ergebnis und Wechsel.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Ungültige Aktionen dürfen keinen Spielerwechsel auslösen.
+
+**CODESTELLE:** `src/Game.cpp: Game::play() · include/Game.h: Move`
+
+
+---
+
+## B06 · Dateiformat und kontrolliertes Laden
+
+**ZEIT:** 09:50–12:05  
+**ZEIGEN:** Game::saveGame → Game::loadGame → gym::writeSafely
+
+### Sprechtext
+
+Zum Schluss der eigentlichen Spiellogik zeige ich das Speichern und Laden. Die Spielstanddatei beginnt mit der Kennung „GYM1“. Danach folgen unter anderem Spieleranzahl, aktueller Spieler, Dimensionen, Namen, Symbole, Zugliste und Raster. Dadurch enthält eine gespeicherte Partie genügend Informationen, um ihren Zustand zu rekonstruieren.
+
+In „loadGame“ wird nicht direkt in die bestehende Partie geschrieben. Die Methode erzeugt ein neues Board als Kandidaten und kontrolliert zuerst die Metadaten. Dann spielt sie die gespeicherten Züge nacheinander durch und prüft, ob die tatsächlichen Landepositionen und das entstandene Raster zu den Daten passen. Erst wenn alles korrekt ist, ersetzt sie den bisherigen Spielzustand.
+
+Beim Speichern nutzt der Entwicklungszweig die gemeinsame Funktion „gym::writeSafely“. Sie schreibt zunächst eine temporäre Datei und ersetzt die alte erst nach erfolgreichem Schreiben. Das begrenzt das Risiko eines Datenverlusts bei Schreibfehlern. Es koordiniert aber keine gleichzeitig laufenden Anwendungen.
+
+**REGIE:** Die beiden getrennten Phasen markieren: Kandidat prüfen → Zustand übernehmen. Nicht den ganzen Parser lesen.
+
+**MERKSATZ:** Sichere Datenübernahme statt blindem Dateilesen.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Beim Fehler bleibt die vorhandene Partie erhalten.
+
+**CODESTELLE:** `src/Game.cpp: saveGame(), loadGame() · include/AtomicFile.h`
+
+
+---
+
+## B07 · Unit-Tests, Integrationstests und CI
+
+**ZEIT:** 12:05–13:25  
+**ZEIGEN:** tests/board_tests.cpp · CMakeLists.txt · Actions-Lauf
+
+### Sprechtext
+
+Die automatische Qualitätssicherung ist ein eigener Teil des Projekts. In den Board-Tests wird beispielsweise geprüft, ob eine Hantel auf dem untersten freien Feld landet, ob eine volle Spalte abgewiesen wird und ob jede Gewinnrichtung erkannt wird. Integrationstests kontrollieren zusätzlich längere Abläufe wie Spielstart, Rückgängig, Speichern und Laden.
+
+CMake sorgt für reproduzierbare Build-Ziele; CTest startet die Testprogramme. GitHub Actions führt Prüfungen in verschiedenen Betriebssystemumgebungen aus. Ich zeige hier einen tatsächlich abgeschlossenen Prüflauf. Wichtig ist, präzise zu bleiben: Automatische Prüfungen ersetzen nicht den Bedienungs-, Grafik- und Hörtest am Schulrechner.
+
+**REGIE:** In board_tests.cpp einen konkret lesbaren verify-Aufruf zeigen. Nur tatsächlich grüne Jobs als erfolgreich bezeichnen.
+
+**MERKSATZ:** Testfall, Erwartung und beobachtetes Ergebnis gehören zusammen.
+
+**KURZFASSUNG BEI ZEITDRUCK:** CMake baut, CTest testet, GitHub Actions automatisiert.
+
+**CODESTELLE:** `tests/board_tests.cpp · CMakeLists.txt · .github/workflows/cpp-quality.yml`
+
+
+---
+
+## B08 · Zusammenfassung und fachlicher Abschluss
+
+**ZEIT:** 13:25–15:00  
+**ZEIGEN:** Zurück zu Game::play und Board::hasWon; keine neue Datei öffnen
+
+### Sprechtext
+
+Ich fasse den Weg eines einzelnen Spielzugs zusammen: Die Konsole liest eine Eingabe. „Game“ erkennt, ob es sich um eine zulässige Spaltennummer handelt. Das Board sucht die richtige Landeposition und setzt den Stein. Die Steuerung trägt den Zug in die Historie ein, prüft den möglichen Sieg oder das Unentschieden und wechselt gegebenenfalls zum nächsten Spieler. Anschließend zeigt die Oberfläche den neuen Zustand an.
+
+Damit sind die Verantwortlichkeiten erkennbar getrennt: „Board“ entscheidet über die Regeln, „Game“ über die Abläufe und „ConsoleUI“ über die Textdarstellung. Eine weitere Verbesserung wäre eine gemeinsame Ablaufsteuerung auch für die grafischen Versionen. Wichtig ist mir, dass nicht nur die Oberfläche funktioniert, sondern dass ich die entscheidenden Funktionen und ihre Fehlerfälle direkt im Quellcode erklären kann. Vielen Dank. Ich beantworte gern Ihre Fragen.
+
+**REGIE:** Beende spätestens nach 15 Minuten. Wenn Rückfragen in der Gesamtzeit enthalten sind, diese Karte stark verkürzen.
+
+**MERKSATZ:** Eingabe → gültiger Zug → Siegprüfung → neuer Zustand.
+
+**KURZFASSUNG BEI ZEITDRUCK:** Ein nachvollziehbarer Spielkern ist wichtiger als Effekte.
+
+**CODESTELLE:** `src/Game.cpp: Game::play() · src/Board.cpp: hasWon()`
+
+
+---
+
+## Vortragskontrolle und verantwortliche Aussagen
+
+- [ ] Pro Karte Anfang und Endzeit mit Stoppuhr geprüft; alle 15:00 Minuten eingehalten.
+- [ ] Originalfolien, Bildschirmauflösung, Schriftgrößen und Übergänge am Präsentationsgerät überprüft.
+- [ ] Funktionen tatsächlich vorgeführt oder ausdrücklich als noch nicht manuell getestet bezeichnet.
+- [ ] CI-Nachweise nur für nachweisbar ausgeführte Jobs genannt: [C++-Prüflauf vom 31.10.2026](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41221586099).
+- [ ] Die Formulierungen zu KI-Unterstützung und eigener Arbeit sind sachlich zutreffend.
+- [ ] Spielstände ausschließlich aus einem separaten Demo-Verzeichnis verwendet; Konsolenprogramm und GUI schreiben nicht gleichzeitig in denselben Datenordner.
+
+**Nächster Schritt:** [Druckkarten](SPRECHKARTEN_DRUCKVERSION.html) · [Lehrerfragen](FACHGESPRAECH_KURZANTWORTEN.md) · [Generalprobe](../docs/GENERALPROBE_2027.md) · [Schulanforderungen](../docs/SCHULANFORDERUNGEN_51_STATUS.md).
