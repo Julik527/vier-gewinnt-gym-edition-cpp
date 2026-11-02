@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JK AXIS | Vier Gewinnt Gym Edition | Sprechkarten 30 Minuten</title>
+<style>
+:root {--navy:#0D2038;--blue:#266FB4;--light:#EAF2FA;--muted:#586A7E;--line:#CCD9E7}
+*{box-sizing:border-box}
+body{margin:0;background:#E8EDF4;color:var(--navy);font-family:"Segoe UI",Arial,Helvetica,sans-serif}
+.toolbar{position:sticky;top:0;z-index:2;display:flex;gap:14px;align-items:center;justify-content:center;background:#0D2038;color:white;padding:14px;box-shadow:0 4px 20px #0612222b}
+.toolbar strong{letter-spacing:.08em}.toolbar span{opacity:.82;font-size:13px}
+.toolbar button{background:#fff;color:#0D2038;border:0;border-radius:7px;padding:9px 17px;font-weight:700;cursor:pointer}
+.deck{padding:22px 0 45px}
+.page{width:210mm;height:148mm;margin:0 auto 20px;background:white;box-shadow:0 8px 28px #12253d20;position:relative;overflow:hidden;padding:9mm 11mm 10mm;display:flex;flex-direction:column;break-after:page}
+.page::before{content:"";position:absolute;top:0;left:0;right:0;height:3mm;background:linear-gradient(90deg,#0D2038 0%,#0D2038 55%,#266FB4 55%,#266FB4 100%)}
+.header{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:3mm;border-bottom:1px solid var(--line)}
+.brand{font-size:10pt;font-weight:800;letter-spacing:.14em;color:var(--navy);margin-bottom:3px}
+.series{font-size:8pt;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);font-weight:700}
+.time{background:var(--light);color:var(--navy);font-size:9pt;font-weight:700;border-radius:6px;padding:5px 8px;white-space:nowrap}
+.page h1{margin:3mm 0 1mm;font-size:17pt;line-height:1.1;letter-spacing:-.02em}
+.show{font-size:8.5pt;color:var(--muted);margin-bottom:3mm}
+.speech{flex:1;min-height:0;font-size:11pt;line-height:1.34}
+.speech p{margin:0 0 2.8mm;hyphens:auto}
+.speech p:last-child{margin-bottom:0}
+.foot{margin-top:auto;border-top:1px solid var(--line);padding-top:2mm;display:grid;grid-template-columns:1fr;gap:1.2mm;font-size:8.7pt;line-height:1.3}
+.foot b{color:var(--blue)}
+.foot .memory{font-weight:600}
+.page-num{position:absolute;bottom:3mm;right:11mm;color:#708096;font-size:7pt}
+@media print {
+ @page{size:A5 landscape;margin:0}
+ body{background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .toolbar{display:none}
+ .deck{padding:0}
+ .page{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+}
+</style>
+</head>
+<body>
+<div class="toolbar"><strong>JK AXIS</strong><span>16 druckfertige Sprechkarten · A5 quer · Teil A + B</span><button type="button" onclick="window.print()">Drucken / als PDF speichern</button></div>
+<main class="deck">
+<section class="page " aria-label="A01 Einstieg und Projektidee">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL A · PROJEKTVORSTELLUNG  ·  A01</div></div><div class="time">00:00–01:30</div></div>
+<h1>Einstieg und Projektidee</h1><div class="show"><b>ZEIGEN:</b> Titelfolie mit Projektname</div>
+<div class="speech"><p>Guten Tag. Ich stelle heute mein C++-Projekt „Vier Gewinnt | Gym Edition“ vor. Die Grundidee ist das bekannte Spiel Vier Gewinnt, aber mit einer eigenen Darstellung im Fitness-Stil. Anstelle klassischer Spielsteine verwende ich Hantelsymbole. Die Idee dahinter ist, ein verständliches Spiel nicht nur nachzuprogrammieren, sondern es um eine eigene Benutzerführung und zusätzliche technische Funktionen zu erweitern.</p>
+<p>&gt; Der wichtigste Teil ist eine objektorientierte Konsolenanwendung in C++17. Zusätzlich gibt es im Entwicklungszweig eine grafische 2D-Version und eine experimentelle echte 3D-Arena. Für die schulischen Anforderungen steht die Konsole im Mittelpunkt. Mein Ziel heute ist, zunächst das Spiel und seine Architektur zu zeigen. Danach gehe ich direkt in den Quellcode und erkläre die wichtigsten Algorithmen, damit nachvollziehbar ist, wie das Programm tatsächlich arbeitet.</p></div>
+<div class="foot"><div><b>AKTION:</b> Nicht gleich in 3D starten. Erst Ziel, Pflichtumfang und Ablauf nennen.</div><div class="memory"><b>MERKSATZ:</b> Ein eigener Spielkern statt nur einer hübschen Oberfläche.</div></div>
+<div class="page-num">1 / 16</div>
+</section>
+<section class="page " aria-label="A02 Anforderungen und Spielregeln">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL A · PROJEKTVORSTELLUNG  ·  A02</div></div><div class="time">01:30–03:15</div></div>
+<h1>Anforderungen und Spielregeln</h1><div class="show"><b>ZEIGEN:</b> Anforderungsfolie; bei Bedarf das Raster zeigen</div>
+<div class="speech"><p>Die Anwendung ist für zwei, drei oder vier Personen ausgelegt. Die Größe des Spielfelds passt sich automatisch an. Bei zwei Spielern sind es sieben Spalten und sechs Reihen, bei drei Spielern neun Spalten und acht Reihen und bei vier Spielern elf Spalten und zehn Reihen.</p>
+<p>&gt; Vor einer Partie werden die Anzahl der Spieler und ihre Namen abgefragt. Danach setzen die Personen abwechselnd ihre Hanteln in eine Spalte. Die Schwerkraft wird simuliert: Ein neuer Stein landet immer auf dem untersten freien Feld. Ziel ist es, vier eigene Symbole ohne Unterbrechung waagerecht, senkrecht oder diagonal anzuordnen. Das Programm muss volle Spalten und ungültige Eingaben abweisen. Ist das gesamte Feld belegt und niemand hat gewonnen, endet die Partie unentschieden. Genau diese Regeln bilden den verbindlichen Kern des Projekts.</p></div>
+<div class="foot"><div><b>AKTION:</b> Auf den Unterschied zwischen sichtbarer Spaltennummer 1–7 und internem Index 0–6 achten.</div><div class="memory"><b>MERKSATZ:</b> Eine Regel, drei Feldgrößen, zwei bis vier Spieler.</div></div>
+<div class="page-num">2 / 16</div>
+</section>
+<section class="page " aria-label="A03 Bedienung und Spielkomfort">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL A · PROJEKTVORSTELLUNG  ·  A03</div></div><div class="time">03:15–05:00</div></div>
+<h1>Bedienung und Spielkomfort</h1><div class="show"><b>ZEIGEN:</b> Konsolenmenü beziehungsweise Arena-Screenshot</div>
+<div class="speech"><p>Der Spielstart läuft in zwei Schritten ab. Zuerst wird die Spielerzahl ausgewählt, anschließend werden die Namen nacheinander eingetragen. Im Hauptmenü kann eine neue Partie begonnen, eine unterbrochene Runde fortgesetzt, ein gespeicherter Spielstand geladen oder die Bestenliste angesehen werden.</p>
+<p>&gt; Während der Partie steht neben der Spaltenauswahl eine kleine Sammlung von Befehlen bereit. Mit „V 4“ kann man beispielsweise die vierte Spalte als Vorschau ansehen, ohne den Spielstand zu verändern. Mit „U“ wird der letzte Zug zurückgenommen. „S“ speichert und „M“ führt zurück zum Hauptmenü, ohne die laufende Runde sofort zu löschen. Nach Sieg oder Remis gibt es eine Ergebnisanzeige und die Möglichkeit einer Revanche. Namen und Symbole bleiben dann bestehen. Ich habe die Steuerung bewusst so organisiert, dass eine Person das Spiel ohne lange Anleitung bedienen kann.</p></div>
+<div class="foot"><div><b>AKTION:</b> Falls live gezeigt wird: Vorschau → ein Zug → Undo. Keine persönlichen Savegames überschreiben.</div><div class="memory"><b>MERKSATZ:</b> Benutzbarkeit ist eine technische Anforderung, nicht nur Gestaltung.</div></div>
+<div class="page-num">3 / 16</div>
+</section>
+<section class="page " aria-label="A04 Objektorientierter Aufbau">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL A · PROJEKTVORSTELLUNG  ·  A04</div></div><div class="time">05:00–06:45</div></div>
+<h1>Objektorientierter Aufbau</h1><div class="show"><b>ZEIGEN:</b> UML-Diagramm oder Quellcode-Struktur</div>
+<div class="speech"><p>Bei der Architektur habe ich darauf geachtet, dass nicht eine einzige Funktion alle Aufgaben übernimmt. Die Klasse „Player“ verwaltet Namen und Spielsymbol. „Board“ speichert das zweidimensionale Raster und ist für die grundlegenden Spielregeln zuständig. Die Klasse „Game“ steuert in der Konsolenversion Menüs, Zugwechsel, Rundenzustand und Dateifunktionen. „ConsoleUI“ erzeugt die Terminaldarstellung.</p>
+<p>&gt; Bei den grafischen Versionen kommt eine eigene Klasse namens „MatchSession“ hinzu. Sie übernimmt den Spielzustand für 2D und 3D, verwendet aber dieselbe „Board“-Klasse für die Regeln. Damit bleibt die Schwerkraft und die Gewinnprüfung unabhängig davon, ob man Text oder Grafik anzeigt. Vollständig vereinheitlicht ist die Ablaufsteuerung zwischen Konsole und GUI noch nicht. Diese Grenze kann ich benennen und wäre auch ein sinnvoller Punkt für eine spätere Überarbeitung.</p></div>
+<div class="foot"><div><b>AKTION:</b> Im Klassendiagramm nur vier Kernverantwortlichkeiten erläutern; nicht jede Methode ablesen.</div><div class="memory"><b>MERKSATZ:</b> Board kennt Regeln; Game und MatchSession kennen den Ablauf.</div></div>
+<div class="page-num">4 / 16</div>
+</section>
+<section class="page " aria-label="A05 Grafische Erweiterungen: 2D und 3D">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL A · PROJEKTVORSTELLUNG  ·  A05</div></div><div class="time">06:45–08:30</div></div>
+<h1>Grafische Erweiterungen: 2D und 3D</h1><div class="show"><b>ZEIGEN:</b> 2D-/3D-Screenshots oder vorab geprüfte kurze Live-Ansicht</div>
+<div class="speech"><p>Die Konsolenfassung bildet den Pflichtumfang. Darüber hinaus habe ich das Projekt in einem separaten Entwicklungszweig um Grafik erweitert. Für die 2D-Version nutze ich SFML 3.1. Dort gibt es ein eigenes Fenster, Maus- und Tastaturbedienung, eine Fallanimation und einen optionalen, im Programm erzeugten Soundtrack. Dieser ist standardmäßig ausgeschaltet und kann mit F9 aktiviert werden.</p>
+<p>&gt; Zusätzlich existiert eine experimentelle 3D-Version. Hier zeichnet OpenGL echte räumliche Körper mit Perspektive, Beleuchtung und Tiefentest. Die Kamera lässt sich drehen und zoomen. Um die richtige Spalte bei unterschiedlichen Kamerawinkeln zu treffen, wird ein Mausstrahl mit der Ebene des Spielfelds geschnitten. Entscheidend ist aber: Die grafische Darstellung verändert nicht die grundlegenden Spielregeln. Ein erfolgreicher automatischer Grafik-Build beweist außerdem noch nicht, dass die Oberfläche am Vorführrechner fehlerfrei aussieht und die Musik hörbar ist. Deshalb bleibt die geprüfte Konsole meine sichere Rückfalllösung.</p></div>
+<div class="foot"><div><b>AKTION:</b> Nur bereits auf dem konkreten Vorführgerät getestete GUI live starten; sonst Screenshots zeigen.</div><div class="memory"><b>MERKSATZ:</b> 3D ist Zusatzleistung, keine Voraussetzung für die Pflichtaufgabe.</div></div>
+<div class="page-num">5 / 16</div>
+</section>
+<section class="page " aria-label="A06 Speichern, Laden und Highscores">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL A · PROJEKTVORSTELLUNG  ·  A06</div></div><div class="time">08:30–10:30</div></div>
+<h1>Speichern, Laden und Highscores</h1><div class="show"><b>ZEIGEN:</b> Ablaufgrafik: validieren → speichern beziehungsweise laden</div>
+<div class="speech"><p>Ein wichtiges technisches Merkmal ist die dauerhafte Speicherung. Ein Spielstand enthält nicht nur die sichtbaren Hanteln, sondern unter anderem die Spieler, den aktuellen Zug, die Spielfeldgröße und die Zugreihenfolge. Das Format trägt die Kennung „GYM1“. Beim Laden wird die Datei nicht einfach ungeprüft übernommen. Stattdessen wird ein neues, vorläufiges Spielfeld erstellt. Die gespeicherten Züge werden nachgespielt und mit dem gespeicherten Raster verglichen. Erst wenn sämtliche Prüfungen erfolgreich waren, wird der aktuelle Spielzustand ersetzt.</p>
+<p>&gt; Für das Schreiben gibt es im Entwicklungsbranch einen gemeinsamen Helfer, der zuerst in eine temporäre Datei schreibt und die bestehende Datei erst nach erfolgreichem Abschluss ersetzt. Das reduziert das Risiko beschädigter Dateien bei einem Schreibfehler. Daneben gibt es eine Bestenliste mit dauerhaft gespeicherten Siegen. Ein Sieg wird einmal pro abgeschlossener Partie gezählt. Diese Umsetzung zeigt, dass ein Spiel auch mit fehlerhaften Daten und Dateizugriffsproblemen umgehen können muss.</p></div>
+<div class="foot"><div><b>AKTION:</b> Nicht behaupten, dass der Helfer gleichzeitige Programmstarts vollständig absichert.</div><div class="memory"><b>MERKSATZ:</b> Erst prüfen, dann übernehmen. Erst vollständig schreiben, dann ersetzen.</div></div>
+<div class="page-num">6 / 16</div>
+</section>
+<section class="page dense" aria-label="A07 Tests, GitHub und Entwicklung">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL A · PROJEKTVORSTELLUNG  ·  A07</div></div><div class="time">10:30–12:45</div></div>
+<h1>Tests, GitHub und Entwicklung</h1><div class="show"><b>ZEIGEN:</b> GitHub-Dateibaum und GitHub-Actions-Lauf</div>
+<div class="speech"><p>Für die technische Qualität verwende ich CMake als Build-System und CTest für automatisierte Prüfungen. Die Tests untersuchen unter anderem Feldgrößen, Schwerkraft, volle Spalten, alle vier Gewinnrichtungen, Undo, Spielstände und die Highscore-Datei. Im Entwicklungszweig gibt es zusätzlich Prüfungen für die grafischen Programmkerne und die 3D-Mathematik.</p>
+<p>&gt; Das Projekt liegt in einem öffentlichen GitHub-Repository. Über Branches und Pull Requests kann ich neue Arbeiten getrennt von der stabileren Hauptversion entwickeln. GitHub Actions baut und testet das Projekt automatisiert unter verschiedenen Windows- und Linux-Umgebungen. Ein von mir geprüfter Lauf vom 31. Oktober 2026 hatte neun erfolgreiche C++-Prüfjobs. Das ist ein guter Nachweis für Kompilierung und getestete Funktionen, aber noch keine persönliche Schulabnahme oder vollständige Vor-Ort-Prüfung.</p>
+<p>&gt; KI-Werkzeuge habe ich bei Entwurf, Überarbeitung und Dokumentation genutzt. Für mich ist wichtig, ihre Unterstützung transparent zu benennen. Die eigentliche Fachleistung bei der Präsentation besteht darin, den Code zu verstehen, Entscheidungen erklären und Fehler systematisch prüfen zu können.</p></div>
+<div class="foot"><div><b>AKTION:</b> CI-Lauf bei Bedarf zeigen: actions/runs/41221586099. Nichts als manuell getestet ausgeben, was noch offen ist.</div><div class="memory"><b>MERKSATZ:</b> Tests belegen definierte Fälle. Fachverständnis zeige ich selbst.</div></div>
+<div class="page-num">7 / 16</div>
+</section>
+<section class="page " aria-label="A08 Demonstration, Grenzen und Übergang">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL A · PROJEKTVORSTELLUNG  ·  A08</div></div><div class="time">12:45–15:00</div></div>
+<h1>Demonstration, Grenzen und Übergang</h1><div class="show"><b>ZEIGEN:</b> Vorbereitete Konsole mit isoliertem Demo-Datenordner</div>
+<div class="speech"><p>Zum Abschluss des ersten Teils zeige ich die Pflichtversion kurz in der Praxis. Ich starte das Hauptmenü, wähle zwei Spieler aus und trage die Namen ein. Auf dem Spielfeld kann ich die vierte Spalte mit „V 4“ zunächst nur als Vorschau markieren. Danach setze ich eine Hantel und nehme den Zug mit „U“ wieder zurück. So lässt sich bereits erkennen, dass die Bedienoberfläche die Regelprüfung nicht selbst übernimmt, sondern Funktionen des Spielkerns aufruft.</p>
+<p>&gt; Für eine Gewinnerdemonstration sind vorbereitete, geprüfte Testdaten vorhanden. Ich verwende dafür ein separates Demo-Verzeichnis, damit private oder ältere Spielstände nicht überschrieben werden. Die grafische 3D-Version ist als Erweiterung interessant, aber meine Priorität für die Schule bleibt ein sicher ausführbares und erklärbares Konsolenprogramm. Als nächsten Schritt öffne ich nun in Visual Studio Code die zentralen Klassen und erkläre den Weg eines Zuges vom Benutzereingabewert bis zur Gewinnerkennung.</p></div>
+<div class="foot"><div><b>AKTION:</b> Bei knappem Zeitbudget nur Vorschau, Zug und Undo zeigen; die Gewinnerdemo in den Codeteil oder die Reserve legen.</div><div class="memory"><b>MERKSATZ:</b> Jetzt wechseln wir von der Bedienung zur Implementierung.</div></div>
+<div class="page-num">8 / 16</div>
+</section>
+<section class="page " aria-label="B01 Einstiegspunkt und Programmfluss">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL B · CODEERKLÄRUNG  ·  B01</div></div><div class="time">00:00–01:30</div></div>
+<h1>Einstiegspunkt und Programmfluss</h1><div class="show"><b>ZEIGEN:</b> src/main.cpp → Game::run()</div>
+<div class="speech"><p>Ich beginne beim Einstiegspunkt der Konsolenanwendung, also bei „main.cpp“. In C++ startet die Ausführung in der Funktion „main“. Dort wird ein Objekt der Klasse „Game“ erzeugt und mit „game.run()“ die Hauptsteuerung aufgerufen. Das geschieht innerhalb eines „try“-Blocks. Falls eine unerwartete Exception auftritt, fängt der „catch“-Block sie ab, gibt eine Fehlermeldung aus und liefert einen Fehlerstatus zurück.</p>
+<p>&gt; Die Methode „Game::run“ enthält die Schleife für das Hauptmenü. Anhand der Benutzereingabe wird entschieden, ob eine Partie neu beginnt, fortgesetzt, geladen oder das Programm beendet wird. Danach führt „Game::play“ die eigentliche Zugschleife aus. Das ist wichtig für die Architektur: „main“ bleibt klein und übersichtlich. Sie enthält nicht das gesamte Spiel. Bei der grafischen 2D- und 3D-Version gibt es eigene Einstiegspunkte, die stattdessen eine grafische Anwendung starten.</p></div>
+<div class="foot"><div><b>AKTION:</b> Mit dem Mauszeiger die drei Stellen markieren: Game game; game.run(); catch.</div><div class="memory"><b>MERKSATZ:</b> main startet; Game organisiert.</div></div>
+<div class="page-num">9 / 16</div>
+</section>
+<section class="page " aria-label="B02 Board: Datenstruktur und Feldgröße">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL B · CODEERKLÄRUNG  ·  B02</div></div><div class="time">01:30–03:15</div></div>
+<h1>Board: Datenstruktur und Feldgröße</h1><div class="show"><b>ZEIGEN:</b> include/Board.h und Konstruktor in src/Board.cpp</div>
+<div class="speech"><p>Hier sehen wir die Klasse „Board“. Die Spielfelddaten liegen in „grid_“. Das ist ein „vector“ von „vector&lt;char&gt;“, also ein zweidimensionaler, dynamisch großer Container. Jede Zelle enthält entweder einen Punkt für leer oder ein Zeichen für das Symbol eines Spielers. Die Member „rows_“ und „columns_“ speichern die Abmessungen. Sie sind privat, damit nicht jeder Programmteil den Zustand beliebig ändern kann.</p>
+<p>&gt; Im Konstruktor wird die Größe anhand der Spieleranzahl festgelegt. Die Zeilenzahl ist sechs plus zweimal die Zahl der zusätzlichen Spieler über zwei hinaus. Die Spaltenzahl ist um eins größer. So entstehen für zwei Spieler sechs Reihen und sieben Spalten, für drei Spieler acht Reihen und neun Spalten und für vier Spieler zehn Reihen und elf Spalten. Die Werte sind intern nullbasiert indiziert. Dadurch ist bei einem Sechs-Reihen-Feld die unterste Reihe als Index fünf gespeichert.</p></div>
+<div class="foot"><div><b>AKTION:</b> Auf rows_, columns_, grid_ und Board::Board zeigen.</div><div class="memory"><b>MERKSATZ:</b> Zustand kapseln statt globale Variablen verwenden.</div></div>
+<div class="page-num">10 / 16</div>
+</section>
+<section class="page " aria-label="B03 Schwerkraft und gültiger Zug">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL B · CODEERKLÄRUNG  ·  B03</div></div><div class="time">03:15–05:30</div></div>
+<h1>Schwerkraft und gültiger Zug</h1><div class="show"><b>ZEIGEN:</b> Board::nextFreeRow und Board::drop; optional Breakpoint</div>
+<div class="speech"><p>Wenn eine Person beispielsweise Spalte vier auswählt, wird die sichtbare Spaltennummer zunächst auf einen internen Index umgerechnet. „Board::nextFreeRow“ erhält diesen Index und prüft zuerst die Grenzen. Ist er kleiner als null oder mindestens so groß wie die Spaltenanzahl, liefert die Methode minus eins zurück.</p>
+<p>&gt; Danach beginnt eine „for“-Schleife bei „rows_ - 1“. Sie sucht also von unten nach oben. Sobald sie eine Zelle mit einem Punkt findet, gibt sie den Index dieser Reihe zurück. Das simuliert die Schwerkraft, ohne dass die Spiellogik eine Animation benötigt. Die Methode „drop“ ruft diese Suche auf und legt nur dann das Spielsymbol in das Raster, wenn wirklich ein freies Feld existiert. Die gesetzte Zeile wird über den Referenzparameter „rowPlaced“ zurückgegeben. Bei einer vollen oder ungültigen Spalte wird der Zug abgewiesen und der Spieler nicht gewechselt.</p></div>
+<div class="foot"><div><b>AKTION:</b> Im Debugger die Werte column, rowPlaced und grid_[row][column] ansehen.</div><div class="memory"><b>MERKSATZ:</b> Erst die freie Zeile finden, dann das Symbol eintragen.</div></div>
+<div class="page-num">11 / 16</div>
+</section>
+<section class="page " aria-label="B04 Gewinnalgorithmus in vier Achsen">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL B · CODEERKLÄRUNG  ·  B04</div></div><div class="time">05:30–08:00</div></div>
+<h1>Gewinnalgorithmus in vier Achsen</h1><div class="show"><b>ZEIGEN:</b> Board::countDirection, Board::hasWon und winningCells</div>
+<div class="speech"><p>Das ist der zentrale Algorithmus meines Spiels. Nach jedem gültigen Zug kennt das Programm die Zeile, die Spalte und das Symbol des neu gesetzten Steins. „hasWon“ prüft zunächst, ob diese Position gültig ist und tatsächlich das erwartete Symbol enthält. Anschließend werden vier Richtungsvektoren durchlaufen: waagerecht, senkrecht und die beiden Diagonalen.</p>
+<p>&gt; Die Hilfsmethode „countDirection“ läuft schrittweise entlang einer Richtung, solange sie innerhalb des Spielfelds bleibt und das nächste Feld dasselbe Symbol enthält. Für jede der vier Achsen wird sie zweimal aufgerufen, einmal vorwärts und einmal rückwärts. Dazu kommt eins für den zuletzt gesetzten Stein selbst. Sobald diese Summe mindestens vier beträgt, wird ein Sieg erkannt.</p>
+<p>&gt; Die Gegenrichtung ist wichtig, weil der letzte Stein auch mitten in einer fertigen Viererreihe liegen kann. Die ergänzende Methode „winningCells“ ermittelt die Koordinaten der gesamten zusammenhängenden Gewinnlinie. Dadurch kann die Benutzeroberfläche die gewinnenden Felder besonders markieren.</p></div>
+<div class="foot"><div><b>AKTION:</b> Die Arrays dr und dc zeigen; ein Beispiel 2 links + 1 neu + 1 rechts erklären.</div><div class="memory"><b>MERKSATZ:</b> Ein Stein + gleiche Nachbarn in beide Richtungen ergibt die Linienlänge.</div></div>
+<div class="page-num">12 / 16</div>
+</section>
+<section class="page " aria-label="B05 Spielzug, Zugwechsel und Undo">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL B · CODEERKLÄRUNG  ·  B05</div></div><div class="time">08:00–09:45</div></div>
+<h1>Spielzug, Zugwechsel und Undo</h1><div class="show"><b>ZEIGEN:</b> Game::play und history_ in Game.h</div>
+<div class="speech"><p>Die Klasse „Game“ verbindet Eingabe und Regeln. In „Game::play“ wird die Benutzeranweisung ausgewertet. Handelt es sich um eine Spaltennummer, prüft die Steuerung zunächst, ob sie im erlaubten Bereich liegt und die Spalte noch Platz hat. Dann ruft sie „Board::drop“ auf. Nach einem erfolgreichen Zug wird ein „Move“ in der Historie gespeichert. Diese Struktur enthält Zeile, Spalte und den Spielerindex.</p>
+<p>&gt; Anschließend folgt die Gewinnprüfung. Hat niemand gewonnen, prüft das Programm, ob das gesamte Feld voll ist. Nur wenn die Partie weiterläuft, wird mit „(current_ + 1) % Spieleranzahl“ zum nächsten Spieler gewechselt. Das Modulo sorgt dafür, dass nach dem letzten Spieler wieder Spieler null folgt.</p>
+<p>&gt; Beim Undo-Befehl wird der letzte Zug aus der Historie gelesen und der entsprechende oberste Stein entfernt. Danach wird genau der Spieler wieder aktiv, der diesen Zug zuvor gesetzt hatte.</p></div>
+<div class="foot"><div><b>AKTION:</b> Den Modulo-Ausdruck im Quellcode markieren und bei 3 Spielern mündlich durchgehen.</div><div class="memory"><b>MERKSATZ:</b> Ungültige Züge verändern weder Feld noch Zugreihenfolge.</div></div>
+<div class="page-num">13 / 16</div>
+</section>
+<section class="page " aria-label="B06 Speichern, Laden und Schutz vor Fehlern">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL B · CODEERKLÄRUNG  ·  B06</div></div><div class="time">09:45–11:45</div></div>
+<h1>Speichern, Laden und Schutz vor Fehlern</h1><div class="show"><b>ZEIGEN:</b> Game::saveGame, Game::loadGame und include/AtomicFile.h</div>
+<div class="speech"><p>Der Spielstand wird in einer Textdatei mit der Kennung „GYM1“ abgelegt. Darin stehen Spieleranzahl, aktueller Spieler, Feldabmessungen, Zugzahl, die Spielerinformationen, die komplette Zugliste und das Raster. Beim Laden ist mir die Trennung zwischen gelesenen Daten und tatsächlichem Spielzustand wichtig.</p>
+<p>&gt; Die Methode „loadGame“ erzeugt zunächst ein vorläufiges Board. Sie kontrolliert unter anderem die Spielerzahl, das Format, die erlaubten Symbole, die Zugreihenfolge und die exakten Landepositionen. Die Züge werden erneut auf das vorläufige Feld angewendet und anschließend mit dem gespeicherten Raster verglichen. Stimmt etwas nicht, wird das Laden abgebrochen, ohne die laufende Partie zu ersetzen.</p>
+<p>&gt; Beim Schreiben hilft „gym::writeSafely“. Zuerst wird der vollständige neue Inhalt in einer temporären Datei erstellt. Erst danach wird die bisherige Datei ersetzt. Das schützt bei bestimmten Schreibfehlern. Es ist jedoch keine vollständige Absicherung gegen zwei gleichzeitig schreibende Programmprozesse.</p></div>
+<div class="foot"><div><b>AKTION:</b> Nicht den ganzen Parser vorlesen; Format GYM1 und Kandidatenprinzip erklären.</div><div class="memory"><b>MERKSATZ:</b> Niemals ungeprüfte Dateiinhalte direkt in den Spielzustand übernehmen.</div></div>
+<div class="page-num">14 / 16</div>
+</section>
+<section class="page " aria-label="B07 Teststrategie und Nachweise">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL B · CODEERKLÄRUNG  ·  B07</div></div><div class="time">11:45–13:15</div></div>
+<h1>Teststrategie und Nachweise</h1><div class="show"><b>ZEIGEN:</b> tests/board_tests.cpp, CMakeLists.txt, GitHub Actions</div>
+<div class="speech"><p>Guter Code muss nicht nur im Idealfall funktionieren. Deshalb habe ich automatisierte Testfälle im Projekt. Die „board_tests“ prüfen zum Beispiel, ob ein Stein unten landet, ob ungültige Spalten abgelehnt werden und ob horizontale, vertikale und beide diagonalen Gewinnlinien erkannt werden. Weitere Integrationstests prüfen Abläufe wie Speichern, Laden, die Spielereinrichtung, Revanche und Highscore.</p>
+<p>&gt; CMake organisiert die verschiedenen Programmteile als Build-Ziele. CTest startet die dazugehörigen Tests. Über GitHub Actions laufen diese Prüfungen zusätzlich in mehreren Umgebungen. In der Entwicklung konnte ich damit Fehler in Windows- und Linux-Konfigurationen feststellen und nach Korrekturen erneut prüfen.</p>
+<p>&gt; Wichtig ist die Grenze dieser Tests: Ein grüner automatischer Lauf beweist nur, dass die tatsächlich ausgeführten Prüfungen erfolgreich waren. Ob eine 3D-Ansicht optisch gut funktioniert oder ob ein Sound am Schulrechner zu hören ist, muss ich zusätzlich manuell testen.</p></div>
+<div class="foot"><div><b>AKTION:</b> Auf einen konkreten verify-Test und den Actions-Lauf zeigen, nicht nur das grüne Symbol.</div><div class="memory"><b>MERKSATZ:</b> Automatische und manuelle Tests ergänzen sich.</div></div>
+<div class="page-num">15 / 16</div>
+</section>
+<section class="page dense" aria-label="B08 Gesamtfluss, Grenzen und Abschluss">
+<div class="header"><div><div class="brand">JK AXIS  /  GOLD MASTER</div><div class="series">TEIL B · CODEERKLÄRUNG  ·  B08</div></div><div class="time">13:15–15:00</div></div>
+<h1>Gesamtfluss, Grenzen und Abschluss</h1><div class="show"><b>ZEIGEN:</b> Kurz zurück zu Game::play und Board::hasWon</div>
+<div class="speech"><p>Ich fasse den technischen Ablauf noch einmal zusammen. Die Konsole liest eine Eingabe. „Game“ interpretiert sie und reicht einen gültigen Spaltenindex an „Board“ weiter. Das Board berechnet die Landeposition und setzt die Hantel. Anschließend speichert die Steuerung den Zug, prüft auf Gewinn oder Remis und bestimmt gegebenenfalls den nächsten Spieler. Die Ausgabe wird danach anhand des aktuellen Zustands neu erzeugt.</p>
+<p>&gt; Diese Trennung hat einen praktischen Nutzen: Die Regeln funktionieren unabhängig davon, ob das Spiel im Terminal, in einer 2D-Oberfläche oder in der 3D-Arena dargestellt wird. Allerdings haben die Konsole und die grafischen Programme heute noch eigene Ablauf-Controller. Eine spätere Verbesserung wäre, auch diese Logik vollständig in einem gemeinsamen Kern zusammenzuführen. Ebenso könnte ich die großen grafischen Quelldateien in kleinere, klar abgegrenzte Klassen aufteilen.</p>
+<p>&gt; Damit endet meine Codeerklärung. Die wichtigsten Prinzipien sind für mich Kapselung, nachvollziehbarer Programmfluss, gezielte Eingabeprüfung, sichere Datenverarbeitung und reproduzierbare Tests. Für Rückfragen kann ich die relevanten Methoden direkt im Quellcode öffnen.</p></div>
+<div class="foot"><div><b>AKTION:</b> Bei exakt 30 Minuten Gesamtzeit diese Karte kürzen und drei Minuten für Fragen reservieren.</div><div class="memory"><b>MERKSATZ:</b> Regel verstehen, Zustand kontrollieren, Verhalten testen.</div></div>
+<div class="page-num">16 / 16</div>
+</section>
+</main>
+</body>
+</html>
