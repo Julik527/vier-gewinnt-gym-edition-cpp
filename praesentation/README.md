@@ -10,6 +10,10 @@ Die hier abgelegten Dokumente sind auf die schulische C++-Pflicht-Konsole ausger
 2. **[Sprechkarten Teil B: Codeerklärung](SPRECHKARTEN_TEIL_B_CODE.md)**: acht ausformulierte Codekarten für ungefähr 15 Minuten mit konkreten Funktionen und Debugger-Hinweisen.
 3. **[Fachgespräch: Kurzantworten](FACHGESPRAECH_KURZANTWORTEN.md)**: 20 typische Lehrerfragen mit überprüfbaren Antworten und Codestellen.
 
+## Druckversion zum Ablesen
+
+**[Sprechkarten als A5-Querformat (HTML)](SPRECHKARTEN_DRUCKVERSION.html)** enthält alle 16 Karten mit einheitlichem JK-AXIS-Schriftbild, Zeitfenstern und Merksätzen. Über GitHub die Datei **Raw herunterladen**, lokal im Browser öffnen und dort **Drucken → Als PDF speichern** wählen (A5 quer, Skalierung 100 %, Hintergrundgrafiken aktivieren). Damit bleiben die editierbaren Markdown-Texte und die Druckversion getrennt.
+
 ## Bestehende Projektunterlagen
 
 - [Vortragsleitfaden](VORTRAGSLEITFADEN.md)
