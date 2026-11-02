@@ -3,6 +3,17 @@
 **Stand:** 28.10.2026 · **Ziel:** 15 Minuten Projektvorstellung und 15 Minuten Code mit Demo
 Die Sprechtexte sind Übungsformulierungen mit KI-Unterstützung. Sie belegen keine bereits selbstständig gehaltene Präsentation.
 
+
+## Neue Sprechkarten und Fachgespräch (02.11.2026)
+
+Zum Vorlesen, Üben mit Stoppuhr und zur gezielten Codevorführung liegen drei neue Dateien vor:
+
+- [Sprechkarten Teil A: 15 Minuten Projektvorstellung](SPRECHKARTEN_TEIL_A_PROJEKT.md)
+- [Sprechkarten Teil B: 15 Minuten C++-Codeerklärung](SPRECHKARTEN_TEIL_B_CODE.md)
+- [20 Fachgesprächsfragen mit Kurzantworten und Codestellen](FACHGESPRAECH_KURZANTWORTEN.md)
+
+Die [Übersicht im Präsentationsordner](README.md) enthält den Übungsablauf. Diese Sprechtexte sind eine **Vorlese- und Lernfassung**, keine dokumentierte tatsächliche Vorführung. Bei einer 30-Minuten-Gesamtprüfung einschließlich Fragen die Schlusskarten kürzen und ca. drei Minuten für Rückfragen reservieren.
+
 ## Aktueller schulischer Stand (31.10.2026)
 
 Das [Aufgabenblatt 51](../docs/SCHULANFORDERUNGEN_51_STATUS.md) verlangt vor allem die **objektorientierte C++-Konsole**. Die bestehende 2D-Anwendung ist freiwilliger Zusatz. Der detaillierte, auf 27 Minuten Vortrag/Demo und 3 Minuten Fragen ausgerichtete Ablauf mit vorbereiteten Testdaten steht unter [GENERALPROBE_2027.md](../docs/GENERALPROBE_2027.md). Die vorhandenen 17 Präsentationsfolien umfassen drei Reservefolien; die im Aufgabenblatt genannten 10–12 Folien sind ein Richtwert. Vor der Generalprobe Inhalt und tatsächliche Folienzahl final prüfen.
