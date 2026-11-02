@@ -1,97 +1,103 @@
-# Vortragsleitfaden: Vier Gewinnt Gym Edition
+# JK AXIS | Vortragsleitfaden
 
-**Stand:** 28.10.2026 · **Ziel:** 15 Minuten Projektvorstellung und 15 Minuten Code mit Demo
-Die Sprechtexte sind Übungsformulierungen mit KI-Unterstützung. Sie belegen keine bereits selbstständig gehaltene Präsentation.
+**Vier Gewinnt | Gym Edition** · Programmiertechnik · C++17 · ITA 2026/27  
+**Revision:** 02.11.2026 · Entwicklungsbranch `quality/gameplay-persistence-2026-10-28`  
+**Präsentationsziel:** Eine fachlich korrekte, verständliche Demonstration und Codeverteidigung. Die reale Zeitmessung und Schulabnahme stehen noch aus.
 
+## 1. Direkter Einstieg
 
-## Neue Sprechkarten und Fachgespräch (02.11.2026)
+- [**Teil A: acht vollständig ausformulierte Sprechkarten**](SPRECHKARTEN_TEIL_A_PROJEKT.md)
+- [**Teil B: acht vollständig ausformulierte Codekarten**](SPRECHKARTEN_TEIL_B_CODE.md)
+- [**Druckfassung A5 quer und digitaler Einzelkartenmodus**](SPRECHKARTEN_DRUCKVERSION.html)
+- [**31 typische Fachgesprächsfragen**](FACHGESPRAECH_KURZANTWORTEN.md)
+- [**Prüfungs- und Generalprobencheckliste**](PRUEFUNG_CHECKLISTE.md)
+- [**Übersicht und Druckanleitung**](README.md)
 
-Zum Vorlesen, Üben mit Stoppuhr und zur gezielten Codevorführung liegen drei neue Dateien vor:
+Die ausführlichen Redetexte stehen ausschließlich in den beiden Karten-Dokumenten. Dieser Leitfaden fasst den Ablauf und die technischen Grundregeln zusammen, ohne eine konkurrierende zweite Vorlesefassung zu erzeugen.
 
-- [Sprechkarten Teil A: 15 Minuten Projektvorstellung](SPRECHKARTEN_TEIL_A_PROJEKT.md)
-- [Sprechkarten Teil B: 15 Minuten C++-Codeerklärung](SPRECHKARTEN_TEIL_B_CODE.md)
-- [20 Fachgesprächsfragen mit Kurzantworten und Codestellen](FACHGESPRAECH_KURZANTWORTEN.md)
+## 2. Zeitplan Teil A · Projektvorstellung (15:00)
 
-Die [Übersicht im Präsentationsordner](README.md) enthält den Übungsablauf. Diese Sprechtexte sind eine **Vorlese- und Lernfassung**, keine dokumentierte tatsächliche Vorführung. Bei einer 30-Minuten-Gesamtprüfung einschließlich Fragen die Schlusskarten kürzen und ca. drei Minuten für Rückfragen reservieren.
+| Karte | Zeitpunkt | Vorführen / erklären |
+|---|---|---|
+| A01 | 00:00–01:20 | Projektidee, Fitness-Design, Pflichtumfang |
+| A02 | 01:20–03:05 | 2–4 Spieler, Feldgrößen, vier Gewinnachsen |
+| A03 | 03:05–04:50 | Menüs, Vorschau, Undo und Revanche |
+| A04 | 04:50–06:40 | `Player`, `Board`, `Game`, `ConsoleUI` |
+| A05 | 06:40–08:30 | Konsole, SFML-2D, optionale OpenGL-3D-Erweiterung |
+| A06 | 08:30–10:20 | `GYM1`, Dateiprüfung und Highscores |
+| A07 | 10:20–12:20 | Teststrategie, GitHub, KI-Unterstützung |
+| A08 | 12:20–15:00 | Konsolen-Kurzdemo und Übergang zum Code |
 
-## Aktueller schulischer Stand (31.10.2026)
+**Vorführprinzip:** Die Schulpflicht wird durch die Konsole demonstriert. Grafische Funktionen nur zeigen, wenn sie auf dem verwendeten Rechner zuvor wirklich geprüft wurden.
 
-Das [Aufgabenblatt 51](../docs/SCHULANFORDERUNGEN_51_STATUS.md) verlangt vor allem die **objektorientierte C++-Konsole**. Die bestehende 2D-Anwendung ist freiwilliger Zusatz. Der detaillierte, auf 27 Minuten Vortrag/Demo und 3 Minuten Fragen ausgerichtete Ablauf mit vorbereiteten Testdaten steht unter [GENERALPROBE_2027.md](../docs/GENERALPROBE_2027.md). Die vorhandenen 17 Präsentationsfolien umfassen drei Reservefolien; die im Aufgabenblatt genannten 10–12 Folien sind ein Richtwert. Vor der Generalprobe Inhalt und tatsächliche Folienzahl final prüfen.
+## 3. Zeitplan Teil B · C++-Codeerklärung (15:00)
 
-**Aktualisierung zur Musik:** Der frühere 120-BPM-Gym-Beat wurde durch einen eigens komponierten **116-BPM-Stereo-Soundtrack** ersetzt. F9 startet/pausiert ihn, F10/F11 steuern die Lautstärke. Der Hörtest auf dem realen Laptop ist noch offen. Beim Vortrag die frühere Angabe „120 BPM“ nicht mehr verwenden.
+| Karte | Zeitpunkt | Quelldatei / Schwerpunkt |
+|---|---|---|
+| B01 | 00:00–01:20 | `src/main.cpp`, `Game::run` |
+| B02 | 01:20–03:00 | `include/Board.h`, `Board::Board` |
+| B03 | 03:00–05:15 | `Board::nextFreeRow`, `Board::drop` |
+| B04 | 05:15–08:00 | `Board::countDirection`, `hasWon`, `winningCells` |
+| B05 | 08:00–09:50 | `Game::play`, `history_`, Spielerwechsel und Undo |
+| B06 | 09:50–12:05 | `Game::saveGame`, `loadGame`, `AtomicFile.h` |
+| B07 | 12:05–13:25 | `tests/board_tests.cpp`, CTest, GitHub Actions |
+| B08 | 13:25–15:00 | Gesamtfluss, Grenzen und fachlicher Abschluss |
 
-**Letzter bestätigter C++-Nachweis vor diesem AB51-Nachtrag:** [9/9 Jobs, Commit 466f5530](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41202025895). Die weiteren Vorführdaten-Tests sind separat am jeweiligen Folgecommit zu prüfen.
+**Bei Fragen innerhalb der 30 Minuten:** Beide Teile auf jeweils 13:30 kürzen und 03:00 für das Fachgespräch reservieren. Der Zeitplan mit vollständig 15 + 15 Minuten **enthält keine** zusätzliche Fragerunde.
 
-## 1. Einstieg in etwa 40 Sekunden
+## 4. Fachliche Kernaussagen
 
-„Mein Projekt ist ein Vier-Gewinnt-Spiel in C++17 für zwei bis vier Personen. Ich habe es als Gym Edition mit Hantel-Spielsteinen gestaltet. Es gibt eine Terminalversion und zusätzlich eine grafische 2D-Anwendung mit SFML. Die Regeln liegen in Board. Die Konsole nutzt Game, die grafische Version eine MatchSession. Dazu kommen Speichern und Laden, eine Bestenliste, Revanche und ein schaltbarer synthetischer Gym-Beat. Bei der Entwicklung habe ich KI-Unterstützung genutzt. Die wichtigsten Funktionen erkläre ich direkt am Code.“
+**Objektorientierung:** `Player` kapselt Name und Symbol, `Board` die Rasterdaten und Regeln, `Game` die Konsolensteuerung. `ConsoleUI` liefert die Darstellung. Die grafischen Varianten nutzen `MatchSession` als weiteren Controller und teilen sich die Regeln über `Board`.
 
-## 2. Zeitplan für den Projektvortrag
+**Schwerkraft:** `nextFreeRow` sucht von der untersten Reihe nach oben. Die sichtbare Spaltennummer wird vor dem Zugriff auf einen nullbasierten Index umgerechnet. `drop` setzt nur an einer gültigen freien Position.
 
-| Zeit | Folien | Inhalt |
-|:--|:--|:--|
-| 00:00–01:30 | 1–2 | Projekt, Ziel und Ablauf vorstellen |
-| 01:30–04:00 | 3–4 | Konsole und 2D-Version, Hanteln und Feldgrößen |
-| 04:00–06:30 | 5–6 | Menüablauf, Board, Game und MatchSession |
-| 06:30–09:00 | 7–8 | Dateien, C++-Schnittstellen und vier Gewinnachsen |
-| 09:00–11:30 | 9–10 | GYM1, sicherer Dateiersatz, Revanche, Musik und Logo |
-| 11:30–14:00 | 11–12 | Verifizierte CI-Ergebnisse und offene Zielgeräteprüfung |
-| 14:00–15:00 | 13–14 | Kernaussage und Wechsel zu VS Code |
+**Gewinnprüfung:** `hasWon` ermittelt die zusammenhängende Länge in vier Achsen und jeweils zwei Richtungen. Die Länge ist `1 + links + rechts` beziehungsweise das entsprechende Richtungs-Paar. Ab vier gleichen Symbolen liegt ein Sieg vor.
 
-Die drei Reservefolien 15–17 dienen Rückfragen und Quellen. Zeitangaben sind ein Plan, keine gemessene Probe.
+**Datensicherheit:** `GYM1` speichert Spieler-, Feld- und Zugdaten. Der Loader prüft einen Kandidaten und übernimmt erst danach den tatsächlichen Zustand. `writeSafely` schreibt zuerst temporär und ersetzt anschließend die Zieldatei; konkurrierende Prozesse werden dadurch nicht serialisiert.
 
-## 3. Code und beide Programme in 15 Minuten
+**Nachweisgrenzen:** Grüne automatisierte Prüfungen belegen deren konkrete Testfälle, nicht automatisch Grafik, Musik, Bedienung oder die mündliche Prüfung am Schul-PC.
 
-| Zeit | Datei oder Aktion | Was ich erkläre |
-|:--|:--|:--|
-| 00–02 | `src/main.cpp`, `src/gui/Main.cpp` | Zwei Einstiegspunkte und zwei Programme |
-| 02–05 | `include/Board.h`, `src/Board.cpp` | Raster, Feldgröße, nextFreeRow und drop |
-| 05–08 | `Board::hasWon`, `winningCells` | Vier Achsen, beide Richtungen, markierte Gewinnlinie |
-| 08–11 | `MatchSession`, `Game`, `AtomicFile.h` | Regeln gegenüber Partiezustand, GYM1 und sicherer Ersatz |
-| 11–13 | Grafisches Programm | Zwei Namen, Hantel setzen, F9 kurz zeigen, Fenster schließen |
-| 13–15 | Terminalversion | Spiel starten, Vorschau, Undo, Speichern und Menü zeigen |
+## 5. Kurze, vorhersagbare Demo
 
-Die Anwendung vor dem Unterricht fertig bauen. Nicht den ersten SFML-Download während der Vorführung abwarten. Für eine längere Demo entsprechend Zeit im Vortrag einsparen.
+Im vorab getesteten, separaten Demo-Verzeichnis:
 
-## 4. Start und kurze Terminalfolge
-
-Im aktuellen Entwicklungsbranch und Projektstamm:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\demo.ps1 -Mode Both
+```text
+1      Neues Spiel
+2      Zwei Spieler
+Ada    Name Spieler 1
+Ben    Name Spieler 2
+V 4    Vorschau Spalte 4
+4      Spielstein setzen
+U      Letzten Zug zurücknehmen
+S      Spielstand speichern
+M      Zurück zum Hauptmenü
 ```
 
-Mit `-NoBuild` nur starten, wenn die EXE-Dateien bereits über dieses Skript gebaut wurden. Die GUI liegt dann unter `build-gui-ucrt64`. Das F5-Profil baut dagegen nach `build-gui`.
+Für eine Gewinnvorführung die Datei `tests/fixtures/school-near-win-2p.txt` in einem **isolierten** Demo-Datenordner als `data/savegame.txt` verwenden. Den tatsächlich geladenen Stand und seinen nächsten Zug vorher prüfen. Persönliche Spielstände niemals dafür ersetzen.
 
-Für eine reine Konsolenvorführung:
+## 6. Technik und Fehlersuche
+
+In einem bereits eingerichteten C++17/MSYS2-UCRT64-Terminal im Repository kann die reine Konsole manuell gebaut werden:
 
 ```powershell
-g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/Game.cpp src/ConsoleUI.cpp -o vier-gewinnt.exe
+g++ -std=c++17 -Wall -Wextra -Wpedantic -Iinclude src/main.cpp src/Board.cpp src/Game.cpp src/ConsoleUI.cpp -o vier-gewinnt.exe
 .\vier-gewinnt.exe
 ```
 
-Nacheinander eingeben: `1`, `2`, `Julian`, `Daniel`, `V 4`, `4`, `U`, `4`, `S`, `M`, `3`, `j`. Damit zeige ich Einrichtung, Vorschau, Zug, Undo, Speichern und Laden. `A` schaltet in der Konsole die anfänglich ausgeschaltete Animation ein oder aus. In der GUI ist die Fallanimation zunächst an.
+Für reproduzierbare Qualitätsprüfungen gilt entsprechend dem CMake-Projekt:
 
-## 5. Häufige Lehrerfragen
+```powershell
+cmake -S . -B build
+cmake --build build --config Debug
+ctest --test-dir build -C Debug --output-on-failure
+```
 
-**Was unterscheidet Board und MatchSession?** Board kennt das Raster und die Regeln. MatchSession merkt sich zusätzlich Spieler, Zugfolge, Ergebnis und Dateien für die GUI.
+Vortragsgerät und Projektverzeichnis vorher prüfen. Bei fehleranfälligen Windows-Pfaden mit `ß` ist ein kurzer Pfad wie `C:\Dev\GymEdition` dokumentiert. Eine GUI mit Abhängigkeiten nicht erstmalig vor Publikum herunterladen und bauen. Zuverlässige Konsole, Präsentationsdatei und Code lokal bereithalten.
 
-**Warum gibt es außerdem Game?** Game ist der bestehende Controller der Konsole. Die GUI kam als separates Programm dazu. Beide verwenden Board und den Datei-Helfer. Der gesamte Spielablauf ist noch nicht in einer einzigen gemeinsamen Klasse zusammengeführt.
+## 7. Nachweis und Üben
 
-**Wie funktioniert die Schwerkraft?** nextFreeRow sucht in der gewählten Spalte von unten nach einem freien Feld. drop setzt die Hantel nur bei einem gültigen Ziel.
+Die [Schulanforderungen](../docs/SCHULANFORDERUNGEN_51_STATUS.md) priorisieren das Programm (60 %), die Präsentation (20 %) und das Handout (20 %). Die Projektunterlagen dokumentieren einen erfolgreichen automatisierten C++-Workflow vom 31.10.2026: [GitHub Actions, neun erfolgreiche Jobs](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41221586099). Diese Aussage bezieht sich auf den genannten Lauf, nicht auf einen späteren Commit.
 
-**Wie erkennt das Programm einen Sieg?** Es zählt vom letzten Stein in vier Achsen und jeweils in beide Richtungen. Ab vier gleichen zusammenhängenden Symbolen ist die Partie gewonnen.
+Am Ende jeder Übung in der [Checkliste](PRUEFUNG_CHECKLISTE.md) notieren: Datum, Commit, Redezeiten, manuell tatsächlich geprüfte Funktionen und offene Probleme. Im [Fachgespräch](FACHGESPRAECH_KURZANTWORTEN.md) anschließend mindestens die Fragen zu `Board`, Schleifen, Referenzen, `const`, Richtungsvektoren, Dateiprüfung und Testgrenzen frei beantworten.
 
-**Warum eine temporäre Datei beim Speichern?** Die bisherige Datei soll bei einem getesteten Schreibfehler erhalten bleiben. Erst nach erfolgreichem Schreiben ersetzt der Helfer das Ziel. Zwei gleichzeitige Spielprozesse werden dadurch nicht koordiniert.
-
-**Ist die Musik ein bekannter Song?** Nein. GymBeat erzeugt Töne und Rhythmus im Programm. F9 schaltet den Loop. Standardmäßig ist die Musik aus.
-
-**Woher stammt das Schullogo?** Von der Bernd Blindow Gruppe. Quelle, CC-BY-SA-4.0-Angabe und die verwendete skalierte Kopie sind in SCHOOL_LOGO.md dokumentiert.
-
-**Was ist getestet?** Automatische Builds und Tests unter Windows und Ubuntu, jeweils Debug und Release für den Kern. Dazu GUI-Release-Builds, MatchSession-Prüfungen und unter Linux ein kurzer virtueller Fensterstart. Der lokale F5- und Hörtest bleibt gesondert nötig.
-
-**Welche Unterstützung hast du genutzt?** Die tatsächlich genutzte KI-Unterstützung angeben und an einer Funktion zeigen, was ich davon verstanden und selbst geprüft habe. Keine auswendig gelernte Behauptung über Eigenleistung verwenden.
-
-## 6. Check vor dem Unterricht
-
-CMake und Ninja verfügbar machen, beide F5-Profile starten, Schullogo und F9 prüfen, Windows-Ausgabegerät kontrollieren, Präsentation in PowerPoint öffnen und Schriftgröße auf dem Beamer testen. Der letzte CMake-Fehler ist erst nach einem erfolgreichen lokalen Wiederholungsversuch als behoben bestätigt.
+**Freigabestatus:** Die Unterlagen sind vorbereitet, aber eine vollständige Vor-Ort-Generalprobe oder Lehrkraftfreigabe ist noch nicht belegt.
