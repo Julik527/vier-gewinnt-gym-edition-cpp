@@ -22,14 +22,15 @@
 | A-09 | 13 manipulierte Speicherdateien werden abgewiesen | tests/integration_adversarial.py |
 | A-10 | Spielstand nach ungültigen Dateien wieder ladbar | tests/integration_adversarial.py |
 | A-11 | Leerer Drei-Spieler-Spielstand kann gespeichert werden | tests/integration_adversarial.py |
-| A-12 | Defekte Highscore-Zeilen ignorieren, gültige erhalten | tests/integration_adversarial.py |
+| A-12 | Manipulierte Highscore-Datei als Ganzes abweisen | tests/integration_adversarial.py, include/ScoreFile.h |
 | A-13 | Unerwartetes Eingabeende wird kontrolliert gemeldet | tests/integration_adversarial.py |
 | A-14 | Textoberfläche, vier Spieler, Gewinnmarkierung | tests/console_ui_tests.cpp |
 | A-15 | VS-Code-/CMake-Abgleich und F5-Build-Ziel | tests/vscode_config_test.py |
 | A-16 | Windows und Linux, Debug und Release | .github/workflows/cpp-quality.yml |
 | A-17 | UndefinedBehaviorSanitizer (UBSan) unter Linux | .github/workflows/cpp-quality.yml |
 | A-18 | Der echte Windows-MSYS2-UCRT64-Build, CTest und direkter g++-Compilerbefehl | .github/workflows/cpp-quality.yml |
-| A-19 | Technischer PDF-/PPTX-/Link-Preflight | .github/workflows/docs-quality.yml |
+| A-19 | SFML-2D-/OpenGL-3D-Builds, Headless-Smoke-Tests und Paketierung | .github/workflows/cpp-quality.yml |
+| A-20 | Technischer PDF-/PPTX-/Link-Preflight | .github/workflows/docs-quality.yml |
 
 **Wichtig:** Die 360 Referenzprüfungen füllen das Brett auch nach einem ersten Gewinn weiter. Sie sind Belastungstests für die Board-Klasse und keine 360 regelkonform beendeten Spielpartien. Der feste Seed 0xC0FFEE42 ermöglicht die Wiederholung.
 
@@ -87,7 +88,7 @@ Diese Schritte sind **noch vor Ort zu prüfen**. Nach der Ausführung Datum, Rec
 
 ## 5. Offen und nicht als abgeschlossen ausgeben
 
-- Im öffentlichen Repository liegen **keine Quellcodes oder CMake-Ziele für 2D und 3D**. Deren Funktion wurde nicht geprüft.
+- Die 2D-/3D-Quellcodes und ihre SFML-/OpenGL-CMake-Ziele sind im integrierten Entwicklungsstand enthalten. Ein erfolgreicher CI-Headless-/Fenster-Smoke-Test ersetzt weiterhin nicht die manuelle Grafik- und Audioabnahme auf dem Schul-PC.
 - Das F5-Debugging und das Terminal auf dem **tatsächlichen Schul-PC** sind separat zu testen.
 - Technische Dokumententests ersetzen keine vollständige visuelle Prüfung aller Folien und keine Generalprobe.
 - Die Software ist ein lokales Schulprojekt, nicht für parallele Schreibzugriffe oder beliebig große feindliche Dateien entwickelt.
