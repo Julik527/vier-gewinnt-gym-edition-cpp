@@ -44,9 +44,12 @@ std::string ask(const std::string& message) {
 
 // Namen dürfen nicht leer oder zu lang sein.
 bool validName(const std::string& name) {
-    return !name.empty() && name.size() <= 24
-        && name.find('\n') == std::string::npos
-        && name.find('\r') == std::string::npos;
+    if (name.empty() || name.size() > 24) return false;
+    // Steuerzeichen duerfen die Konsolenanzeige nicht manipulieren.
+    for (unsigned char ch : name) {
+        if (ch < 32 || ch == 127) return false;
+    }
+    return true;
 }
 
 // Fuer Sicherheitsabfragen zaehlen nur J oder JA als Zustimmung.
@@ -408,15 +411,25 @@ bool Game::loadGame(const std::string& path) {
     return true;
 }
 
-// Liest die bisher gespeicherten Siege aus der Highscore-Datei.
+// Liest jede Highscore-Zeile getrennt: eine defekte Zeile darf
+// nicht verhindern, dass die darauffolgenden gueltigen Eintraege laden.
 void Game::loadHighscores() {
     highscores_.clear();
     std::ifstream in("data/highscore.txt");
     if (!in) return;
-    std::string name;
-    int wins;
-    while (in >> std::quoted(name) >> wins) {
-        if (validName(name) && wins >= 0) highscores_[name] = wins;
+
+    std::string zeile;
+    while (std::getline(in, zeile)) {
+        if (trim(zeile).empty()) continue;
+        std::istringstream eintrag(zeile);
+        std::string name, rest;
+        int wins = -1;
+        if (!(eintrag >> std::quoted(name) >> wins)
+            || (eintrag >> rest) || !validName(name) || wins < 0) {
+            std::cerr << "Warnung: Ungueltige Highscore-Zeile ignoriert.\n";
+            continue;
+        }
+        highscores_[name] = wins;
     }
 }
 
@@ -431,10 +444,18 @@ bool Game::saveHighscores() const {
     return static_cast<bool>(out);
 }
 
-// Nach einem Sieg bekommt der Gewinner genau einen Punkt dazu.
+// Nach einem Sieg hoechstens einen Punkt vergeben. Ein int-Ueberlauf
+// darf weder die Bestenliste noch die Speicherdatei beschaedigen.
 void Game::addWin(const std::string& name) {
-    ++highscores_[name];
-    if (!saveHighscores()) std::cerr << "Warnung: Highscore konnte nicht gespeichert werden.\n";
+    int& wins = highscores_[name];
+    if (wins == std::numeric_limits<int>::max()) {
+        std::cerr << "Warnung: Maximaler Highscore erreicht.\n";
+        return;
+    }
+    ++wins;
+    if (!saveHighscores()) {
+        std::cerr << "Warnung: Highscore konnte nicht gespeichert werden.\n";
+    }
 }
 
 // Die meisten Siege sollen in der Liste ganz oben stehen.
