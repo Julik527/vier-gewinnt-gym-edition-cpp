@@ -17,7 +17,7 @@
 
 **C++17-Schulprojekt (ITA / Programmiertechnik, 2026/27)**  
 **GitHub:** https://github.com/Julik527/vier-gewinnt-gym-edition-cpp · öffentlich.  
-**Status: Entwicklungsstand vom 28.10.2026.** Das Repository stellt **keine bereits benotete oder vollständig abgenommene Endfassung** dar.
+**Status: laufendes Schulprojekt, Qualitätsreview vom 05.11.2026.** Das Repository stellt **keine bereits benotete oder vollständig abgenommene Endfassung** dar. Siehe [Qualitätsreview und offene Abnahmepunkte](docs/QUALITY_REVIEW_2026-11-05.md).
 
 ## Projektziel
 Objektorientiertes Vier-Gewinnt-Konsolenspiel für **2 bis 4 Personen** mit variablen Spielfeldgrößen (7×6, 9×8, 11×10), Spielerverwaltung, vier Gewinnrichtungen, Remis, Eingabekontrolle und lokalem Speichern/Laden sowie Highscore. Die ASCII-Kurzhanteln sind die Gym-Edition-Darstellung. Eine fotorealistische oder klickbare 3D-GUI ist **nicht implementiert**; entsprechende Bilder sind Mockups.
@@ -32,6 +32,8 @@ g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/
 ```
 
 Auf Linux/macOS entsprechend ohne `.exe` kompilieren. Die Dateipfade `data/` sind relativ zum Projektordner.
+
+**Windows-Hinweis:** Manche MSYS2-/MinGW-Kombinationen melden beim Linken `Illegal byte sequence`, wenn ein absoluter Ausgabepfad Sonderzeichen enthält. In den mitgelieferten VS-Code-Buildaufgaben werden deshalb relative C++-Dateipfade und ein relativer Ausgabedateiname verwendet. Tritt die Meldung trotzdem auf, das Repository beispielsweise unter `C:\\Dev\\vier-gewinnt-gym-edition-cpp` klonen. Die Windows-Benutzerkontoeinstellungen müssen dafür nicht geändert werden.
 
 ## VS Code: Mit F5 starten und debuggen (Windows / MSYS2 UCRT64)
 
@@ -135,7 +137,12 @@ Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_
 
 > **GitHub-Stand (25.10.2026):** C++-Quellcode, Tests und Markdown-Dokumentation sind öffentlich hochgeladen. Die acht PDF-/PPTX-Originaldateien wurden in Commit [`53612455`](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/53612455ee21bf4363b7d5627fe8cd388a8c7e8b) unter `reference/` und `praesentation/` hochgeladen. Die alte lokale ZIP-Historie unterscheidet sich von den über die GitHub-Integration erstellten Commits. Für die weitere Arbeit das Online-Repository neu klonen.
 
-**© 2026 Julian Krauß · JK AXIS | GOLD MASTER.** Aktualisiert am 28.10.2026.
+
+## Qualitätsreview 05.11.2026
+
+Die **Speicherung von Spielständen und Highscores** erfolgt jetzt zunächst in eine temporäre Datei, die erst nach erfolgreichem Schreiben den vorherigen Stand ersetzt. Die zusätzlichen automatisierten Tests umfassen wiederholtes Speichern, Schreibfehler, Vier-Spieler-Spielstände und das Erhalten einer aktiven Partie bei einem Ladefehler. Details und verbleibende Grenzen stehen in [docs/QUALITY_REVIEW_2026-11-05.md](docs/QUALITY_REVIEW_2026-11-05.md). Ob ein Branch alle Prüfungen bestanden hat, zeigt GitHub unter **Actions** beziehungsweise in den **Pull-Request-Checks**.
+
+**© 2026 Julian Krauß · JK AXIS | GOLD MASTER.** Aktualisiert am 05.11.2026.
 ## Zusätzliche Regressionstests (November 2026)
 
 Die Integrationstests pruefen jetzt auch einen vollstaendigen **42-Zuege-Remisablauf**, die Ablehnung von Terminal-Steuerzeichen in Spielernamen und das Einlesen von Highscore-Dateien mit einem defekten Eintrag zwischen gueltigen Zeilen. Highscore-Werte am `int`-Maximum werden nicht mehr erhoeht; ein Ueberlauf wuerde andernfalls die Bestenliste verfalschen. Diese Aenderungen bleiben innerhalb der Konsolenarchitektur aus Aufgabenblatt 51. Der Pull Request und die zugehoerigen GitHub-Actions-Checks sind der Nachweis fuer den neuen Stand; vergangene Testberichte werden nicht rueckwirkend veraendert.
