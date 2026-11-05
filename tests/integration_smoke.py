@@ -147,6 +147,35 @@ def main() -> int:
         if not save.is_file() or not save.read_text(encoding="utf-8").startswith("GYM1\n"):
             raise AssertionError("Gueltige Speicherdatei fehlt.")
 
+        # Ein zweites Speichern muss die vorige Datei vollstaendig ersetzen,
+        # auch unter Windows. Es darf keine .tmp-Datei zurueckbleiben.
+        overwrite_dir = workdir("speichern-ueberschreiben")
+        output = run_game(
+            binary, overwrite_dir,
+            ["1", "2", "Ada", "Ben", "1", "S", "2", "S", "M", "0", "j"],
+        )
+        count(output, "Spiel gespeichert.", 2)
+        overwrite_file = overwrite_dir / "data" / "savegame.txt"
+        if "GYM1\n2 0 6 7 2\n" not in overwrite_file.read_text(encoding="utf-8"):
+            raise AssertionError("Der zweite Spielstand wurde nicht ersetzt")
+        if (overwrite_dir / "data" / "savegame.txt.tmp").exists():
+            raise AssertionError("Temporäre Speicherdatei nicht aufgeraeumt")
+        output = run_game(binary, overwrite_dir, ["3", "U", "M", "0", "j"])
+        require(output, "Spielstand geladen.", "Letzter Zug entfernt.")
+
+        # Ein Schreibfehler darf die laufende Partie nicht abbrechen und
+        # darf keine temporaeren Dateien im Datenordner hinterlassen.
+        failing_dir = workdir("speichern-fehler")
+        (failing_dir / "data").mkdir()
+        (failing_dir / "data" / "savegame.txt").mkdir()
+        output = run_game(
+            binary, failing_dir,
+            ["1", "2", "Ada", "Ben", "S", "1", "M", "0", "j"],
+        )
+        require(output, "Speichern fehlgeschlagen.", "Zurueck zum Hauptmenue.")
+        if (failing_dir / "data" / "savegame.txt.tmp").exists():
+            raise AssertionError("Temporäre Datei nach Schreibfehler nicht entfernt")
+
         # Manipulierte Speicherdateien muessen vollstaendig abgelehnt werden.
         with save.open("a", encoding="utf-8") as stream:
             stream.write("\nTRAILING_GARBAGE\n")
@@ -160,6 +189,36 @@ def main() -> int:
         )
         output = run_game(binary, bad_dir, ["3", "0"])
         require(output, "Keine gueltige Speicherdatei")
+
+        # Auch das vergroesserte 11x10-Spielfeld muss nach einem Neustart
+        # mit demselben Spieler am Zug geladen werden.
+        four_dir = workdir("vier-spieler-speichern")
+        output = run_game(
+            binary, four_dir,
+            ["1", "4", "Ada", "Ben", "Cleo", "Dana",
+             "1", "2", "3", "S", "M", "0", "j"],
+        )
+        require(output, "11 Spalten x 10 Reihen", "Spiel gespeichert.")
+        four_save = four_dir / "data" / "savegame.txt"
+        if "GYM1\n4 3 10 11 3\n" not in four_save.read_text(encoding="utf-8"):
+            raise AssertionError("Vier-Spieler-Spielstand unvollstaendig")
+        output = run_game(binary, four_dir, ["3", "U", "M", "0", "j"])
+        require(output, "Spielstand geladen.", "Letzter Zug entfernt.")
+
+        # Ein defekter Spielstand darf eine bereits laufende Partie nicht
+        # loeschen. Nach dem Ladefehler muss Undo weiterhin funktionieren.
+        active_dir = workdir("ladefehler-laufende-runde")
+        (active_dir / "data").mkdir()
+        (active_dir / "data" / "savegame.txt").write_text(
+            "GYM1\n2 0 kaputt\n", encoding="utf-8"
+        )
+        output = run_game(
+            binary, active_dir,
+            ["1", "2", "Ada", "Ben", "1", "M",
+             "3", "j", "2", "U", "M", "0", "j"],
+        )
+        require(output, "Keine gueltige Speicherdatei gefunden.",
+                "Deine Runde wird fortgesetzt.", "Letzter Zug entfernt.")
 
         # Hilfe, Info und ungueltige Eingaben sollen das Feld nicht staendig neu zeichnen.
         output = run_game(
