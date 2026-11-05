@@ -52,6 +52,37 @@ bool validName(const std::string& name) {
     return true;
 }
 
+// Schreibt zunaechst eine temporaere Datei. Der bisherige Stand wird
+// nur nach einem vollstaendigen Schreibvorgang ersetzt. Bei einem Fehler
+// bleibt die vorhandene Datei unangetastet.
+template <typename Write>
+bool writeSafely(const std::filesystem::path& path, Write write) {
+    std::filesystem::path temporary = path;
+    temporary += ".tmp";
+    std::ofstream out(temporary, std::ios::binary | std::ios::trunc);
+    if (!out) return false;
+
+    write(out);
+    out.flush();
+    const bool completed = static_cast<bool>(out);
+    out.close();
+    if (!completed || !out) {
+        std::error_code ignored;
+        std::filesystem::remove(temporary, ignored);
+        return false;
+    }
+
+    std::error_code error;
+    std::filesystem::rename(temporary, path, error);
+    if (error) {
+        // Kein unsicheres Entfernen des bisherigen Speicherstands als Fallback.
+        std::error_code ignored;
+        std::filesystem::remove(temporary, ignored);
+        return false;
+    }
+    return true;
+}
+
 // Fuer Sicherheitsabfragen zaehlen nur J oder JA als Zustimmung.
 bool confirmed(const std::string& answer) {
     std::string lower = trim(answer);
@@ -324,25 +355,25 @@ void Game::play() {
     }
 }
 
-// Speichert den Spielstand als Textdatei, damit man später weiterspielen kann.
+// Erst einen vollstaendigen Spielstand schreiben, dann die Datei ersetzen.
 bool Game::saveGame(const std::string& path) const {
     if (!active_) return false;
-    std::ofstream out(path, std::ios::trunc);
-    if (!out) return false;
-    // GYM1 ist die Kennung unseres Speicherformats.
-    out << "GYM1\n";
-    out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
-        << board_.columns() << ' ' << history_.size() << '\n';
-    for (const auto& p : players_) {
-        out << std::quoted(p.getName()) << ' ' << p.getSymbol() << '\n';
-    }
-    for (const auto& m : history_) out << m.row << ' ' << m.column << ' ' << m.player << '\n';
-    for (const auto& row : board_.cells()) {
-        for (char value : row) out << value;
-        out << '\n';
-    }
-    out.flush();
-    return static_cast<bool>(out);
+    return writeSafely(path, [this](std::ostream& out) {
+        // GYM1 ist die Kennung unseres bestehenden Speicherformats.
+        out << "GYM1\n";
+        out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
+            << board_.columns() << ' ' << history_.size() << '\n';
+        for (const auto& p : players_) {
+            out << std::quoted(p.getName()) << ' ' << p.getSymbol() << '\n';
+        }
+        for (const auto& m : history_) {
+            out << m.row << ' ' << m.column << ' ' << m.player << '\n';
+        }
+        for (const auto& row : board_.cells()) {
+            for (char value : row) out << value;
+            out << '\n';
+        }
+    });
 }
 
 // Erst alles in einem neuen Spielfeld prüfen, dann wirklich laden.
@@ -433,15 +464,13 @@ void Game::loadHighscores() {
     }
 }
 
-// Schreibt alle aktuellen Siege in die Highscore-Datei.
+// Bewahrt den bisherigen Highscore bei einem Schreibfehler.
 bool Game::saveHighscores() const {
-    std::ofstream out("data/highscore.txt", std::ios::trunc);
-    if (!out) return false;
-    for (const auto& item : highscores_) {
-        out << std::quoted(item.first) << ' ' << item.second << '\n';
-    }
-    out.flush();
-    return static_cast<bool>(out);
+    return writeSafely("data/highscore.txt", [this](std::ostream& out) {
+        for (const auto& item : highscores_) {
+            out << std::quoted(item.first) << ' ' << item.second << '\n';
+        }
+    });
 }
 
 // Nach einem Sieg hoechstens einen Punkt vergeben. Ein int-Ueberlauf
