@@ -6,6 +6,8 @@
 
 #include "Game.h"
 #include "ConsoleUI.h"
+#include "AtomicFile.h"
+#include "ScoreFile.h"
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
@@ -16,76 +18,54 @@
 #include <sstream>
 #include <stdexcept>
 #include <utility>
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
+
+using namespace std;
 
 namespace {
 const char SYMBOLS[] = {'R', 'B', 'G', 'Y'};
+
 // Entfernt Leerzeichen am Anfang und Ende einer Eingabe.
-std::string trim(const std::string& text) {
+string trim(const string& text) {
     size_t start = text.find_first_not_of(" \t\r\n");
-    if (start == std::string::npos) return "";
+    if (start == string::npos) return "";
     size_t end = text.find_last_not_of(" \t\r\n");
     return text.substr(start, end - start + 1);
 }
 
 // Eine Eingabe wie "3abc" soll keine gültige Zahl sein.
-bool wholeInt(const std::string& raw, int& result) {
-    std::istringstream in(trim(raw));
+bool wholeInt(const string& raw, int& result) {
+    istringstream in(trim(raw));
     char extra;
     return (in >> result) && !(in >> extra);
 }
 
 // Holt eine ganze Zeile vom Benutzer und bereinigt sie.
-std::string ask(const std::string& message) {
-    std::cout << message;
-    std::string line;
-    if (!std::getline(std::cin, line)) throw std::runtime_error("Eingabe wurde beendet.");
+string ask(const string& message) {
+    cout << message;
+    string line;
+    if (!getline(cin, line)) throw runtime_error("Eingabe wurde beendet.");
     return trim(line);
 }
 
 // Namen dürfen nicht leer oder zu lang sein.
-bool validName(const std::string& name) {
+bool validName(const string& name) {
     if (name.empty() || name.size() > 24) return false;
-    // Steuerzeichen duerfen die Konsolenanzeige nicht manipulieren.
     for (unsigned char ch : name) {
+        // Tab, ESC und andere Steuerzeichen duerfen das Terminal nicht veraendern.
         if (ch < 32 || ch == 127) return false;
     }
     return true;
 }
 
-// Schreibt zunaechst eine temporaere Datei. Der bisherige Stand wird
-// nur nach einem vollstaendigen Schreibvorgang ersetzt. Bei einem Fehler
-// bleibt die vorhandene Datei unangetastet.
-template <typename Write>
-bool writeSafely(const std::filesystem::path& path, Write write) {
-    std::filesystem::path temporary = path;
-    temporary += ".tmp";
-    std::ofstream out(temporary, std::ios::binary | std::ios::trunc);
-    if (!out) return false;
-
-    write(out);
-    out.flush();
-    const bool completed = static_cast<bool>(out);
-    out.close();
-    if (!completed || !out) {
-        std::error_code ignored;
-        std::filesystem::remove(temporary, ignored);
-        return false;
-    }
-
-    std::error_code error;
-    std::filesystem::rename(temporary, path, error);
-    if (error) {
-        // Kein unsicheres Entfernen des bisherigen Speicherstands als Fallback.
-        std::error_code ignored;
-        std::filesystem::remove(temporary, ignored);
-        return false;
-    }
-    return true;
-}
-
 // Fuer Sicherheitsabfragen zaehlen nur J oder JA als Zustimmung.
-bool confirmed(const std::string& answer) {
-    std::string lower = trim(answer);
+bool confirmed(const string& answer) {
+    string lower = trim(answer);
     for (char& letter : lower) {
         letter = static_cast<char>(std::tolower(static_cast<unsigned char>(letter)));
     }
@@ -96,15 +76,15 @@ bool confirmed(const std::string& answer) {
 // Standardmäßig startet das Projekt mit zwei Spielern.
 Game::Game() : board_(2) {
     chosenNames_.resize(2);
-    std::error_code error;
+    error_code error;
     std::filesystem::create_directories("data", error);
-    if (error) std::cerr << "Warnung: Datenordner nicht verfuegbar: " << error.message() << "\n";
+    if (error) cerr << "Warnung: Datenordner nicht verfuegbar: " << error.message() << "\n";
     loadHighscores();
 }
 
 // Schritt 1: Spielerzahl auswaehlen. Mit 0 kann man zum Menue zurueck.
 bool Game::configurePlayers(int& playerCount) {
-    std::cout << "\n  NEUES SPIEL  |  SCHRITT 1 VON 2\n"
+    cout << "\n  NEUES SPIEL  |  SCHRITT 1 VON 2\n"
               << "  -----------------------------\n"
               << "  Wie viele Spieler machen mit? (2, 3 oder 4)\n"
               << "  0 = Abbrechen\n\n";
@@ -117,30 +97,30 @@ bool Game::configurePlayers(int& playerCount) {
                 return true;
             }
         }
-        std::cout << "  Bitte 2, 3 oder 4 eingeben. Mit 0 abbrechen.\n";
+        cout << "  Bitte 2, 3 oder 4 eingeben. Mit 0 abbrechen.\n";
     }
 }
 
 // Schritt 2: Namen nacheinander eingeben. Die alte Runde bleibt bis
 // zum fertigen Spielstart unveraendert.
-bool Game::configureNames(int playerCount, std::vector<std::string>& names) {
-    std::cout << "\n  NEUES SPIEL  |  SCHRITT 2 VON 2\n"
+bool Game::configureNames(int playerCount, vector<string>& names) {
+    cout << "\n  NEUES SPIEL  |  SCHRITT 2 VON 2\n"
               << "  -----------------------------\n"
               << "  Bitte fuer jeden Spieler einen Namen eingeben.\n"
               << "  0 = Abbrechen\n\n";
     names.clear();
-    names.reserve(static_cast<std::size_t>(playerCount));
+    names.reserve(static_cast<size_t>(playerCount));
     for (int i = 0; i < playerCount; ++i) {
         for (;;) {
-            const std::string name = ask("  Spieler " + std::to_string(i + 1)
+            const string name = ask("  Spieler " + to_string(i + 1)
                 + " [" + SYMBOLS[i] + "]: ");
             if (name == "0") return false;
             if (!validName(name)) {
-                std::cout << "  Bitte einen Namen mit 1 bis 24 Zeichen eingeben.\n";
+                cout << "  Bitte einen Namen mit 1 bis 24 Zeichen eingeben.\n";
                 continue;
             }
             if (std::find(names.begin(), names.end(), name) != names.end()) {
-                std::cout << "  Dieser Name wird schon verwendet.\n";
+                cout << "  Dieser Name wird schon verwendet.\n";
                 continue;
             }
             names.push_back(name);
@@ -155,15 +135,15 @@ void Game::newGame() {
     // Eine unterbrochene Runde nicht einfach ohne Rueckfrage verwerfen.
     if (active_ && !confirmed(ask(
         "\n  Eine Runde laeuft noch. Neue Runde starten? [j/N]: "))) {
-        std::cout << "  Die bisherige Runde bleibt erhalten.\n";
+        cout << "  Die bisherige Runde bleibt erhalten.\n";
         console_ui::pauseForReading();
         return;
     }
 
     int nextCount = 2;
-    std::vector<std::string> nextNames;
+    vector<string> nextNames;
     if (!configurePlayers(nextCount) || !configureNames(nextCount, nextNames)) {
-        std::cout << "\n  Spielstart abgebrochen. Zurueck zum Hauptmenue.\n";
+        cout << "\n  Spielstart abgebrochen. Zurueck zum Hauptmenue.\n";
         console_ui::pauseForReading();
         return;
     }
@@ -184,20 +164,20 @@ void Game::newGame() {
     lastWinningCells_.clear();
     round_ = 1;
 
-    std::cout << "\n  SPIEL BEREIT\n"
+    cout << "\n  SPIEL BEREIT\n"
               << "  " << chosenPlayers_ << " Spieler | "
               << board_.columns() << " Spalten x " << board_.rows()
               << " Reihen\n";
     for (const auto& player : players_) {
-        std::cout << "  [" << player.getSymbol() << "] " << player.getName() << "\n";
+        cout << "  [" << player.getSymbol() << "] " << player.getName() << "\n";
     }
-    std::cout << "\n  Los geht's!\n";
+    cout << "\n  Los geht's!\n";
     play();
 }
 
 // Die Hilfe funktioniert im Hauptmenue und waehrend einer Spielrunde.
 void Game::showHelp() const {
-    std::cout << "\n  +-----------------------------------------------------+\n"
+    cout << "\n  +-----------------------------------------------------+\n"
               << "  | JK AXIS  /  GYM EDITION  /  ANLEITUNG            |\n"
               << "  +-----------------------------------------------------+\n"
               << "  ZIEL: Vier eigene Hanteln in einer Reihe platzieren.\n"
@@ -217,16 +197,16 @@ void Game::showHelp() const {
 
 // Hier sieht man auf einen Blick, wer spielt und wie weit die Runde ist.
 void Game::showInfo() const {
-    std::cout << "\n  JK AXIS  /  TRAININGS-INFORMATIONEN\n"
+    cout << "\n  JK AXIS  /  TRAININGS-INFORMATIONEN\n"
               << "  Runde " << round_ << "  |  "
               << board_.columns() << " Spalten x " << board_.rows()
               << " Reihen  |  " << board_.tokenCount()
               << " von " << board_.rows() * board_.columns() << " Feldern belegt\n";
-    for (std::size_t i = 0; i < players_.size(); ++i) {
+    for (size_t i = 0; i < players_.size(); ++i) {
         const auto& player = players_[i];
         const auto found = highscores_.find(player.getName());
         const int wins = found == highscores_.end() ? 0 : found->second;
-        std::cout << (static_cast<int>(i) == current_ ? "  >> " : "     ")
+        cout << (static_cast<int>(i) == current_ ? "  >> " : "     ")
                   << "[" << player.getSymbol() << "] " << player.getName()
                   << "  |  " << wins << (wins == 1 ? " Sieg" : " Siege")
                   << (static_cast<int>(i) == current_ ? " (am Zug)" : "") << '\n';
@@ -244,7 +224,7 @@ void Game::rematch() {
     lastWinner_.clear();
     lastWinningCells_.clear();
     ++round_;
-    std::cout << "\n  REVANCHE  |  Gleiche Spieler, neues leeres Feld.\n";
+    cout << "\n  REVANCHE  |  Gleiche Spieler, neues leeres Feld.\n";
     showInfo();
 }
 
@@ -256,14 +236,14 @@ int Game::showResultMenu() const {
         int choice = -1;
         if (wholeInt(ask("  Deine Auswahl: "), choice)
             && (choice == 0 || choice == 1 || choice == 2)) return choice;
-        std::cout << "  Bitte 0, 1 oder 2 eingeben.\n";
+        cout << "  Bitte 0, 1 oder 2 eingeben.\n";
     }
 }
 
 // Das Spielfeld wird nur nach einer Aenderung neu gezeichnet.
 // Hilfe oder Fehlermeldungen brauchen keinen kompletten Neudruck.
 void Game::play() {
-    std::cout << "\n  SPIELFELD  |  " << players_.size()
+    cout << "\n  SPIELFELD  |  " << players_.size()
               << " Spieler  |  H = Hilfe  |  M = Hauptmenue\n";
     bool redraw = true;
     while (active_) {
@@ -272,34 +252,34 @@ void Game::play() {
                 board_, players_, current_, round_, highscores_));
             redraw = false;
         }
-        std::string command = ask("Spalte oder Befehl (H=Hilfe): ");
-        std::string upper = command;
+        string command = ask("Spalte oder Befehl (H=Hilfe): ");
+        string upper = command;
         for (char& ch : upper) {
             ch = static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
         }
         if (upper == "H") { showHelp(); continue; }
         if (upper == "I") { showInfo(); continue; }
-        if (upper == "M") { std::cout << "Zurueck zum Hauptmenue.\n"; return; }
+        if (upper == "M") { cout << "Zurueck zum Hauptmenue.\n"; return; }
         if (upper == "A") {
             animation_ = !animation_;
-            std::cout << "Animation " << (animation_ ? "an" : "aus") << ".\n";
+            cout << "Animation " << (animation_ ? "an" : "aus") << ".\n";
             continue;
         }
         if (upper == "S") {
-            std::cout << (saveGame() ? "Spiel gespeichert.\n" : "Speichern fehlgeschlagen.\n");
+            cout << (saveGame() ? "Spiel gespeichert.\n" : "Speichern fehlgeschlagen.\n");
             continue;
         }
         // Undo ist nur fuer den obersten Stein moeglich.
         if (upper == "U") {
-            if (history_.empty()) { std::cout << "Kein Zug vorhanden.\n"; continue; }
+            if (history_.empty()) { cout << "Kein Zug vorhanden.\n"; continue; }
             Move last = history_.back();
             if (board_.undo(last.row, last.column)) {
                 current_ = last.player;
                 history_.pop_back();
-                std::cout << "Letzter Zug entfernt.\n";
+                cout << "Letzter Zug entfernt.\n";
                 redraw = true;
             } else {
-                std::cout << "Zug konnte nicht entfernt werden.\n";
+                cout << "Zug konnte nicht entfernt werden.\n";
             }
             continue;
         }
@@ -308,29 +288,31 @@ void Game::play() {
             int col;
             if (!wholeInt(upper.substr(2), col) || col < 1 || col > board_.columns()
                 || board_.nextFreeRow(col - 1) == -1) {
-                std::cout << "Vorschau nicht moeglich. Beispiel: V 4\n";
+                cout << "Vorschau nicht moeglich. Beispiel: V 4\n";
             } else {
                 console_ui::present(console_ui::arena(
                     board_, players_, current_, round_, highscores_,
                     col - 1, players_[current_].getSymbol()));
-                std::cout << "Nur Vorschau: Feld wurde NICHT veraendert.\n";
-                redraw = true;
+                cout << "Nur Vorschau: Feld wurde NICHT veraendert.\n";
+                // Die Vorschau bleibt bis zur naechsten Eingabe sichtbar.
+                redraw = false;
             }
             continue;
         }
         int col;
         if (!wholeInt(command, col) || col < 1 || col > board_.columns()) {
-            std::cout << "Ungueltige Eingabe. Bitte eine Spalte waehlen.\n";
+            cout << "Ungueltige Eingabe. Bitte eine Spalte waehlen.\n";
             continue;
         }
         int zeroCol = col - 1;
         int landing = board_.nextFreeRow(zeroCol);
         if (landing == -1) {
-            std::cout << "Spalte ist voll. Erneut waehlen.\n";
+            cout << "Spalte ist voll. Erneut waehlen.\n";
             continue;
         }
         char symbol = players_[current_].getSymbol();
-        if (animation_) board_.animateDrop(zeroCol, symbol, landing);
+        if (animation_) console_ui::animateDrop(board_, players_, current_, round_,
+                                                highscores_, zeroCol, landing, symbol);
         int row;
         if (!board_.drop(zeroCol, symbol, row)) continue;
         history_.push_back({row, zeroCol, current_});
@@ -355,19 +337,19 @@ void Game::play() {
     }
 }
 
-// Erst einen vollstaendigen Spielstand schreiben, dann die Datei ersetzen.
-bool Game::saveGame(const std::string& path) const {
+// Speichert den Spielstand als Textdatei, damit man später weiterspielen kann.
+bool Game::saveGame(const string& path) const {
     if (!active_) return false;
-    return writeSafely(path, [this](std::ostream& out) {
-        // GYM1 ist die Kennung unseres bestehenden Speicherformats.
+    return gym::writeSafely(path, [this](ostream& out) {
+        // GYM1 ist die bisherige Kennung und bleibt voll kompatibel.
         out << "GYM1\n";
         out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
             << board_.columns() << ' ' << history_.size() << '\n';
-        for (const auto& p : players_) {
-            out << std::quoted(p.getName()) << ' ' << p.getSymbol() << '\n';
+        for (const auto& player : players_) {
+            out << quoted(player.getName()) << ' ' << player.getSymbol() << '\n';
         }
-        for (const auto& m : history_) {
-            out << m.row << ' ' << m.column << ' ' << m.player << '\n';
+        for (const auto& move : history_) {
+            out << move.row << ' ' << move.column << ' ' << move.player << '\n';
         }
         for (const auto& row : board_.cells()) {
             for (char value : row) out << value;
@@ -377,9 +359,9 @@ bool Game::saveGame(const std::string& path) const {
 }
 
 // Erst alles in einem neuen Spielfeld prüfen, dann wirklich laden.
-bool Game::loadGame(const std::string& path) {
-    std::ifstream in(path);
-    std::string signature;
+bool Game::loadGame(const string& path) {
+    ifstream in(path);
+    string signature;
     if (!(in >> signature) || signature != "GYM1") return false;
     int n, current, rows, cols, moves;
     if (!(in >> n >> current >> rows >> cols >> moves)) return false;
@@ -389,18 +371,18 @@ bool Game::loadGame(const std::string& path) {
     if (rows != candidate.rows() || cols != candidate.columns()
         || moves < 0 || moves > rows * cols) return false;
     if (current != moves % n) return false;
-    std::vector<Player> loadedPlayers;
+    vector<Player> loadedPlayers;
     for (int i = 0; i < n; ++i) {
-        std::string name;
+        string name;
         char symbol;
-        if (!(in >> std::quoted(name) >> symbol) || !validName(name)
+        if (!(in >> quoted(name) >> symbol) || !validName(name)
             || symbol != SYMBOLS[i]) return false;
         for (const auto& existing : loadedPlayers) {
             if (existing.getName() == name) return false;
         }
         loadedPlayers.emplace_back(name, symbol);
     }
-    std::vector<Move> loadedMoves;
+    vector<Move> loadedMoves;
     // Die gespeicherten Züge werden einzeln nachgespielt und kontrolliert.
     for (int i = 0; i < moves; ++i) {
         int savedRow, column, player;
@@ -414,7 +396,7 @@ bool Game::loadGame(const std::string& path) {
     }
     if (candidate.isFull()) return false;
     for (int row = 0; row < rows; ++row) {
-        std::string line;
+        string line;
         if (!(in >> line) || static_cast<int>(line.size()) != cols) return false;
         for (int col = 0; col < cols; ++col) {
             if (line[col] != candidate.cells()[row][col]) return false;
@@ -422,7 +404,7 @@ bool Game::loadGame(const std::string& path) {
     }
     // Kein weiteres Token nach der letzten Rasterzeile akzeptieren.
     // So werden auch ansonsten plausible, aber manipulierte Spielstaende verworfen.
-    std::string trailingToken;
+    string trailingToken;
     if (in >> trailingToken) return false;
 
     // Ausschließlich nach vollständiger Prüfung den echten Spielstand ersetzen.
@@ -442,60 +424,46 @@ bool Game::loadGame(const std::string& path) {
     return true;
 }
 
-// Liest jede Highscore-Zeile getrennt: eine defekte Zeile darf
-// nicht verhindern, dass die darauffolgenden gueltigen Eintraege laden.
+// Liest die bisher gespeicherten Siege aus der Highscore-Datei.
 void Game::loadHighscores() {
     highscores_.clear();
-    std::ifstream in("data/highscore.txt");
+    ifstream in("data/highscore.txt");
     if (!in) return;
-
-    std::string zeile;
-    while (std::getline(in, zeile)) {
-        if (trim(zeile).empty()) continue;
-        std::istringstream eintrag(zeile);
-        std::string name, rest;
-        int wins = -1;
-        if (!(eintrag >> std::quoted(name) >> wins)
-            || (eintrag >> rest) || !validName(name) || wins < 0) {
-            std::cerr << "Warnung: Ungueltige Highscore-Zeile ignoriert.\n";
-            continue;
-        }
-        highscores_[name] = wins;
+    map<string, int> verified;
+    if (!gym::parseScores(in, verified, validName)) {
+        cerr << "Warnung: Beschaedigte Bestenliste wird ignoriert." << endl;
+        return;
     }
+    highscores_ = std::move(verified);
 }
 
-// Bewahrt den bisherigen Highscore bei einem Schreibfehler.
+// Schreibt alle aktuellen Siege in die Highscore-Datei.
 bool Game::saveHighscores() const {
-    return writeSafely("data/highscore.txt", [this](std::ostream& out) {
+    return gym::writeSafely("data/highscore.txt", [this](ostream& out) {
         for (const auto& item : highscores_) {
-            out << std::quoted(item.first) << ' ' << item.second << '\n';
+            out << quoted(item.first) << ' ' << item.second << '\n';
         }
     });
 }
 
-// Nach einem Sieg hoechstens einen Punkt vergeben. Ein int-Ueberlauf
-// darf weder die Bestenliste noch die Speicherdatei beschaedigen.
-void Game::addWin(const std::string& name) {
-    int& wins = highscores_[name];
-    if (wins == std::numeric_limits<int>::max()) {
-        std::cerr << "Warnung: Maximaler Highscore erreicht.\n";
-        return;
-    }
-    ++wins;
-    if (!saveHighscores()) {
-        std::cerr << "Warnung: Highscore konnte nicht gespeichert werden.\n";
-    }
+// Nach einem Sieg bekommt der Gewinner genau einen Punkt dazu.
+void Game::addWin(const string& name) {
+    // Ein manipuliertes INT_MAX darf nicht in einen negativen Wert ueberlaufen.
+    auto& victories = highscores_[name];
+    if (victories < numeric_limits<int>::max()) ++victories;
+    else cerr << "Warnung: Maximaler Highscore erreicht.\n";
+    if (!saveHighscores()) cerr << "Warnung: Highscore konnte nicht gespeichert werden.\n";
 }
 
 // Die meisten Siege sollen in der Liste ganz oben stehen.
 void Game::showHighscores() const {
-    std::vector<std::pair<std::string, int>> order(highscores_.begin(), highscores_.end());
+    vector<pair<string, int>> order(highscores_.begin(), highscores_.end());
     std::sort(order.begin(), order.end(), [](const auto& a, const auto& b) {
         if (a.second != b.second) return a.second > b.second;
         return a.first < b.first;
     });
 
-    std::ostringstream screen;
+    ostringstream screen;
     screen << "\n  +-----------------------------------------------------+\n"
            << "  | JK AXIS  /  GYM EDITION  /  BESTENLISTE          |\n"
            << "  +-----------------------------------------------------+\n";
@@ -540,25 +508,25 @@ void Game::run() {
             break;
         case 2:
             if (active_) {
-                std::cout << "\n  Deine Runde wird fortgesetzt.\n";
+                cout << "\n  Deine Runde wird fortgesetzt.\n";
                 play();
             } else {
-                std::cout << "\n  Keine Runde aktiv. Starte mit 1 ein neues Spiel.\n";
+                cout << "\n  Keine Runde aktiv. Starte mit 1 ein neues Spiel.\n";
                 console_ui::pauseForReading();
             }
             break;
         case 3:
             if (active_ && !confirmed(ask(
                 "\n  Laufende Runde durch Speicherstand ersetzen? [j/N]: "))) {
-                std::cout << "  Die bisherige Runde bleibt erhalten.\n";
+                cout << "  Die bisherige Runde bleibt erhalten.\n";
                 console_ui::pauseForReading();
                 break;
             }
             if (loadGame()) {
-                std::cout << "\n  Spielstand geladen. Viel Erfolg!\n";
+                cout << "\n  Spielstand geladen. Viel Erfolg!\n";
                 play();
             } else {
-                std::cout << "\n  Keine gueltige Speicherdatei gefunden.\n"
+                cout << "\n  Keine gueltige Speicherdatei gefunden.\n"
                           << "  Eine laufende Runde wurde nicht veraendert.\n";
                 console_ui::pauseForReading();
             }
@@ -574,13 +542,13 @@ void Game::run() {
         case 0:
             if (active_ && !confirmed(ask(
                 "\n  Die laufende Runde verlassen? Ungespeicherte Zuege gehen verloren. [j/N]: "))) {
-                std::cout << "  Zurueck zum Hauptmenue.\n";
+                cout << "  Zurueck zum Hauptmenue.\n";
                 break;
             }
-            std::cout << "\n  Programm beendet. Bis zum naechsten Spiel!\n";
+            cout << "\n  Programm beendet. Bis zum naechsten Spiel!\n";
             return;
         default:
-            std::cout << "\n  Bitte 0 bis 5 eingeben.\n";
+            cout << "\n  Bitte 0 bis 5 eingeben.\n";
             console_ui::pauseForReading();
         }
     }

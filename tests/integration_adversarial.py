@@ -141,9 +141,12 @@ def test_bad_highscores(binary: pathlib.Path, root: pathlib.Path) -> None:
         encoding="utf-8",
     )
     output = play(binary, folder, ["4", "0"])
-    contains(output, "1. Good: 5", "2. Ada: 3")
-    if "Negative:" in output or "Unclean:" in output:
-        raise AssertionError("Kaputte Highscore-Zeilen uebernommen")
+    # Diese Entwicklungsvariante benutzt ScoreFile.h: bewusst strenge
+    # Validierung. Eine einzige manipulierte Zeile verwirft die gesamte
+    # Datei; einzelne gueltige Zeilen werden NICHT teilweise uebernommen.
+    contains(output, "Noch keine Siege gespeichert.")
+    if "Good:" in output or "Ada:" in output or "Negative:" in output or "Unclean:" in output:
+        raise AssertionError("Beschaedigte Bestenliste teilweise uebernommen")
 
 
 def test_eof(binary: pathlib.Path, root: pathlib.Path) -> None:

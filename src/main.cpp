@@ -8,14 +8,16 @@
 #include <exception>
 #include <iostream>
 
+using namespace std;
+
 // Hier beginnt das Programm. Die Klasse Game übernimmt danach das Spiel.
 int main() {
     try {
         Game game;
         game.run();
     // Falls etwas schiefgeht, bekommt man eine lesbare Fehlermeldung.
-    } catch (const std::exception& ex) {
-        std::cerr << "Programm beendet: " << ex.what() << '\n';
+    } catch (const exception& ex) {
+        cerr << "Programm beendet: " << ex.what() << '\n';
         return 1;
     }
     return 0;

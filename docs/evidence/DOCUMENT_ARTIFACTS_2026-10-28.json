@@ -1,0 +1,84 @@
+{
+  "source_commit": "02eb79f8c432ef4578cf650ca2b74efa4d448769",
+  "workday": "2026-10-28",
+  "pdf_page_total": 183,
+  "pptx_slide_total": 17,
+  "artifacts": {
+    "reference/Anforderungsanalyse_JK-CD-DE-2026-003.pdf": {
+      "pages": 23,
+      "current_pages": 3,
+      "archive_separator_pages": 1,
+      "historical_pages": 19,
+      "historical_start_pdf_page": 5,
+      "historical_links_preserved": 36,
+      "source_commit": "02eb79f8c432ef4578cf650ca2b74efa4d448769",
+      "sha256": "5f948a3fcfb133085ceaad103ddd009c47a851fe4b5d5e03650a054b9d43fed4",
+      "bytes": 318709
+    },
+    "reference/UML_Klassendiagramm_JK-CD-DE-2026-003.pdf": {
+      "pages": 11,
+      "current_pages": 4,
+      "archive_separator_pages": 1,
+      "historical_pages": 6,
+      "historical_start_pdf_page": 6,
+      "historical_links_preserved": 6,
+      "source_commit": "02eb79f8c432ef4578cf650ca2b74efa4d448769",
+      "sha256": "0e55e8ff2fc29e4367f6dc5cf42587e6c616446aacdde1bedfb4b6cd9631222c",
+      "bytes": 304444
+    },
+    "reference/Meilenstein_2026-10-29_Pruefbericht.pdf": {
+      "pages": 10,
+      "current_pages": 2,
+      "archive_separator_pages": 1,
+      "historical_pages": 7,
+      "historical_start_pdf_page": 4,
+      "historical_links_preserved": 12,
+      "source_commit": "02eb79f8c432ef4578cf650ca2b74efa4d448769",
+      "sha256": "f003ec95963b8fa93beb643245dac6dcf855d0852852ca6d74d3af6dd55d3c47",
+      "bytes": 263290
+    },
+    "reference/KI_Prompt_Dokumentation_JK-CD-DE-2026-003.pdf": {
+      "pages": 27,
+      "current_pages": 10,
+      "archive_separator_pages": 1,
+      "historical_pages": 16,
+      "historical_start_pdf_page": 12,
+      "historical_links_preserved": 10,
+      "source_commit": "02eb79f8c432ef4578cf650ca2b74efa4d448769",
+      "sha256": "36c5f868539d8878da6042d54bc1b8331bd0aa64280fed6ccad75651dd83aa35",
+      "bytes": 315947
+    },
+    "reference/Gesamt_Dokumentation_Vier_Gewinnt_Gym_Edition.pdf": {
+      "pages": 92,
+      "current_pages": 7,
+      "archive_separator_pages": 1,
+      "historical_pages": 84,
+      "historical_start_pdf_page": 9,
+      "historical_links_preserved": 180,
+      "source_commit": "02eb79f8c432ef4578cf650ca2b74efa4d448769",
+      "sha256": "a3cb2c790568366999e79a4273a6315b45eb78b6e9c0128b2075c9214726b814",
+      "bytes": 9209623
+    },
+    "praesentation/Vier_Gewinnt_Vortragsleitfaden_FINAL.pdf": {
+      "pages": 3,
+      "current_pages": 3,
+      "historical_pages": 0,
+      "sha256": "acbc0e935ab0e7a0ef3e8ac09cb67c5040e2128b7936b017907b78a50c6481f7",
+      "bytes": 135283
+    },
+    "praesentation/Vier_Gewinnt_Praesentation_FINAL.pdf": {
+      "pages": 17,
+      "current_pages": 17,
+      "historical_pages": 0,
+      "sha256": "f5175ed1a6264a3d98257c51ba9cc128f8c9b2584e73cd9f21cdd3cbaaea9980",
+      "bytes": 934773
+    },
+    "praesentation/Vier_Gewinnt_Praesentation_FINAL.pptx": {
+      "slides": 17,
+      "sha256": "e60cc7faad544ef768cae76c92c3da76693c67bb534ba2c8e20ed2725d67d734",
+      "bytes": 2285011,
+      "editability": "native PPTX shapes and text retained"
+    }
+  },
+  "scope": "Current updates plus clearly marked historical source pages. Interactive Windows, audio and classroom acceptance remain open."
+}

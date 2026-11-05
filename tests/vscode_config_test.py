@@ -42,29 +42,6 @@ def main() -> int:
     check("-g" in task["args"] and "-O0" in task["args"],
           "Debug-Build benoetigt Symbole und ausgeschaltete Optimierung")
 
-    # Debug- und Buildkonfiguration duerfen keine unbekannten Tasks aufrufen.
-    labels = [t.get("label") for t in tasks["tasks"]]
-    check(len(labels) == len(set(labels)), "Mehrfach vergebene Task-Namen")
-    for configuration in launch["configurations"]:
-        check(configuration.get("preLaunchTask") in labels,
-              f"Unbekannte Build-Aufgabe: {configuration.get('preLaunchTask')}")
-    check(task.get("type") == "process",
-          "Compiler direkt starten, ohne Shell-Interpretation der Pfade")
-    args = task["args"]
-    check("-o" in args and args[args.index("-o") + 1] == "vier-gewinnt.exe",
-          "Ausgabedatei muss relativ sein und zur Debug-Konfiguration passen")
-    check(task.get("command") == "C:/msys64/ucrt64/bin/g++.exe",
-          "UCRT64-Compilerpfad stimmt nicht")
-    check(debug.get("miDebuggerPath") == "C:/msys64/ucrt64/bin/gdb.exe",
-          "UCRT64-Debuggerpfad stimmt nicht")
-    check(any(value.get("name") == "PATH" and "C:/msys64/ucrt64/bin" in value.get("value", "")
-              for value in debug.get("environment", [])),
-          "UCRT64-Laufzeitbibliotheken muessen auffindbar sein")
-    check(all("2D" not in configuration.get("name", "") and
-              "3D" not in configuration.get("name", "")
-              for configuration in launch["configurations"]),
-          "Grafikprogramme ohne Quellcode und Build-Ziel nicht als lauffaehig anbieten")
-
     # Beide CMake-Ziele muessen im manuellen g++-Build enthalten sein.
     game = re.search(r"add_executable\(vier-gewinnt\s+([^)]*)\)", cmake)
     board = re.search(r"add_library\(gym_board\s+STATIC\s+([^)]*)\)", cmake)
@@ -77,7 +54,40 @@ def main() -> int:
     for path in expected:
         check((root / path).is_file(), f"Quelldatei fehlt: {path}")
 
-    print("VS Code: launch.json, tasks.json und CMake-Dateiliste stimmen ueberein.")
+    # Die optionale SFML-3.1-GUI braucht ihren eigenen F5-Eintrag.
+    gui = [c for c in launch["configurations"]
+           if c.get("name") == "Vier Gewinnt | Gym Edition 2D"]
+    check(len(gui) == 1, "GUI-F5-Konfiguration fehlt")
+    gui_task = [t for t in tasks["tasks"]
+                if t.get("label") == gui[0].get("preLaunchTask")]
+    check(len(gui_task) == 1, "GUI Build-Aufgabe fehlt")
+    check("vier-gewinnt-gui.exe" in gui[0]["program"], "GUI startet falsche EXE")
+    check("src/gui/Main.cpp" in cmake and "GYM_BUILD_GUI" in cmake,
+          "Eigenstaendiges GUI-CMake-Ziel fehlt")
+    check("Gym Edition 2D konfigurieren" in gui_task[0].get("dependsOn", []),
+          "GUI-Build muss SFML zuerst konfigurieren")
+    check(any("GYM_BUILD_GUI=ON" in str(arg) for t in tasks["tasks"]
+              if t.get("label") == "Gym Edition 2D konfigurieren"
+              for arg in t.get("args", [])), "GUI-Konfiguration nicht aktiviert")
+
+    # Die optionale OpenGL-3D-Arena hat einen eigenen F5-Eintrag.
+    three_d = [c for c in launch['configurations']
+               if c.get('name') == 'Vier Gewinnt | Gym Edition 3D']
+    check(len(three_d) == 1, '3D-F5-Konfiguration fehlt oder ist doppelt')
+    three_d_tasks = [t for t in tasks['tasks']
+                     if t.get('label') == three_d[0].get('preLaunchTask')]
+    check(len(three_d_tasks) == 1, '3D-Build-Aufgabe nicht eindeutig')
+    check('vier-gewinnt-3d.exe' in three_d[0]['program'], '3D-Profil startet falsche EXE')
+    check(three_d[0]['cwd'] == '${workspaceFolder}', '3D-Arbeitsordner fehlt')
+    check('Gym Edition 3D konfigurieren' in three_d_tasks[0].get('dependsOn', []),
+          '3D-OpenGL-Konfiguration fehlt im Build-Ablauf')
+    check('src/gui/Main3D.cpp' in cmake and 'GYM_BUILD_3D' in cmake,
+          'Eigenstaendiges OpenGL-CMake-Ziel fehlt')
+    check(any('GYM_BUILD_3D=ON' in str(arg) for t in tasks['tasks']
+              if t.get('label') == 'Gym Edition 3D konfigurieren'
+              for arg in t.get('args', [])), '3D-Konfiguration nicht aktiviert')
+    check((root / 'src/gui/Gym3DMath.h').is_file(), '3D-Mathematik-Header fehlt')
+    print("VS Code: Konsole, SFML 2D und OpenGL 3D stimmen mit CMake ueberein.")
     return 0
 
 

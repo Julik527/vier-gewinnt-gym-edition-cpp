@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>JK AXIS · Vier Gewinnt | Gym Edition · 16 Sprechkarten</title>
+<style>
+:root{--navy:#102942;--blue:#1d6da7;--slate:#536777;--line:#ced9e3;--muted:#edf4fa}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,"Segoe UI",Helvetica,sans-serif;color:var(--navy);background:#e6ecf3}
+header.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px max(14px,calc((100vw - 1050px)/2));background:var(--navy);color:#fff;box-shadow:0 5px 18px #10294225}
+.toolbar strong{letter-spacing:.1em;font-size:12px}
+.toolbar .hint{color:#cfdeea;font-size:12px;flex:1}
+.toolbar button{cursor:pointer;color:var(--navy);background:#fff;border:1px solid #d0dfed;border-radius:6px;padding:8px 12px;font-weight:700;font-size:12px}
+.toolbar button:focus-visible{outline:3px solid #9dcfff;outline-offset:2px}
+#status{color:#e1eefa;min-width:46px;text-align:center;font-size:12px}
+main{padding:18px 12px 30px}
+.page{width:210mm;height:148mm;margin:0 auto 18px;padding:9mm 11mm 8mm;background:white;box-shadow:0 12px 28px #0c1c3321;display:flex;flex-direction:column;position:relative;overflow:hidden;break-after:page;page-break-after:always}
+.page:before{content:"";position:absolute;top:0;left:0;width:100%;height:2.7mm;background:linear-gradient(to right,var(--navy) 0 64%,var(--blue) 64% 100%)}
+.page-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:0 0 2.6mm}
+.wordmark{font-size:9.5pt;font-weight:800;letter-spacing:.12em}
+.subline{font-size:8pt;font-weight:700;letter-spacing:.09em;color:var(--blue);text-transform:uppercase;margin-top:2mm}
+.time{padding:5px 8px;border-radius:5px;background:var(--muted);font-weight:700;font-size:9pt;white-space:nowrap}
+h1{font-size:16.8pt;letter-spacing:-.022em;line-height:1.1;margin:3mm 0 1mm}
+.show{color:var(--slate);font-size:8.8pt;line-height:1.24;margin-bottom:2.3mm}
+.show b{color:var(--blue)}
+.speech{font-size:11.0pt;line-height:1.31;flex:1;min-height:0;hyphens:auto}
+.speech p{margin:0 0 2.3mm;overflow-wrap:break-word}
+.speech p:last-child{margin-bottom:0}
+.page.long .speech{font-size:10.45pt;line-height:1.26}
+.page.extra-long .speech{font-size:10.1pt;line-height:1.23}
+.bottom{padding-top:2.1mm;border-top:1px solid var(--line);font-size:8.2pt;line-height:1.24;display:grid;gap:1.2mm}
+.bottom b{font-weight:800;color:var(--blue)}
+.bottom .takeaway{font-weight:700}
+.footer{position:absolute;right:11mm;bottom:3.2mm;display:flex;justify-content:flex-end;gap:15px;color:#7b8c9d;font-size:7pt}
+.card-copy{text-align:left}
+@media (max-width:850px){main{overflow-x:auto}.page{margin-left:auto;margin-right:auto}}
+body.focus main{min-height:calc(100vh - 64px);display:flex;align-items:flex-start;justify-content:center}
+body.focus .page{display:none}
+body.focus .page.active{display:flex}
+@media print{
+ @page{size:A5 landscape;margin:0}
+ html,body{background:white!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ header.toolbar{display:none!important}
+ main{margin:0!important;padding:0!important;display:block!important;overflow:visible!important}
+ .page,body.focus .page{display:flex!important;margin:0!important;box-shadow:none!important;width:210mm!important;height:148mm!important;break-after:page!important;page-break-after:always!important}
+ .page:last-child{break-after:auto!important;page-break-after:auto!important}
+}
+</style>
+</head>
+<body>
+<header class="toolbar">
+<strong>JK AXIS · GOLD MASTER</strong>
+<span class="hint">16 Sprechkarten · Teil A + B · A5 Querformat</span>
+<button type="button" id="focus" aria-pressed="false">Einzelkarten</button>
+<button type="button" id="previous" aria-label="Vorherige Karte">Zurück</button>
+<span id="status" aria-live="polite">1 / 16</span>
+<button type="button" id="next" aria-label="Nächste Karte">Weiter</button>
+<button type="button" id="print">Drucken / PDF</button>
+</header>
+<main id="deck">
+<section class="page  active" id="karte-a01" aria-label="A01 Begrüßung und Leitidee">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL A · PROJEKTVORSTELLUNG · A01</div></div><div class="time">00:00–01:20</div></div>
+<h1>Begrüßung und Leitidee</h1>
+<div class="show"><b>ZEIGEN:</b> Titelfolie · Projektname</div>
+<div class="speech"><p>Guten Tag. Ich stelle heute mein C++-Projekt „Vier Gewinnt | Gym Edition“ vor. Es basiert auf dem bekannten Vier-Gewinnt-Prinzip und verbindet die klassischen Spielregeln mit einem eigenen Fitness-Design: Statt normaler Spielsteine erscheinen Hantelsymbole. Mein Ziel war allerdings nicht nur eine andere Optik. Ich wollte ein vollständiges, verständlich aufgebautes Programm erstellen, bei dem Spielregeln, Bedienung, Datenspeicherung und Fehlerbehandlung zusammenarbeiten.</p><p>Der verbindliche Kern ist eine objektorientierte Konsolenanwendung in C++17. Zusätzlich gibt es im Entwicklungszweig eine 2D-Grafikversion und eine freiwillige 3D-Erweiterung. Im ersten Teil erkläre ich die Anforderungen, die Bedienung, den Aufbau und die Qualitätssicherung. Anschließend öffne ich den tatsächlichen Quellcode und zeige, wie ein Spielzug verarbeitet und ein Sieg erkannt wird.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Blickkontakt nach dem ersten Satz; erst danach zur Projektübersicht wechseln.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Regeln zuerst, Gestaltung als Erweiterung.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Ein C++17-Vier-Gewinnt mit eigenem Design und nachvollziehbarer Spiellogik.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>01 / 16</span></div>
+</section>
+<section class="page " id="karte-a02" aria-label="A02 Spielregeln und Anforderungen">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL A · PROJEKTVORSTELLUNG · A02</div></div><div class="time">01:20–03:05</div></div>
+<h1>Spielregeln und Anforderungen</h1>
+<div class="show"><b>ZEIGEN:</b> Regeln · 7×6 / 9×8 / 11×10</div>
+<div class="speech"><p>Das Spiel unterstützt zwei, drei oder vier Personen. Je nach Spieleranzahl ändert sich das Spielfeld: Bei zwei Personen sind es sieben Spalten und sechs Reihen, bei drei Personen neun Spalten und acht Reihen und bei vier Personen elf Spalten und zehn Reihen. Vor dem Spiel werden die Anzahl und die Namen der Mitspielenden festgelegt.</p><p>Die Spieler setzen ihre Hanteln abwechselnd in eine Spalte. Ein Stein fällt nicht auf eine frei gewählte Position, sondern landet auf dem untersten freien Feld dieser Spalte. Gewonnen hat, wer vier eigene Symbole ohne Unterbrechung waagerecht, senkrecht oder diagonal verbindet. Eine volle Spalte darf keinen weiteren Stein annehmen; ebenso müssen ungültige Eingaben abgefangen werden. Ist das komplette Feld belegt und niemand hat gewonnen, endet die Runde unentschieden. Genau diese Regeln stehen im Zentrum der schulischen Pflichtfassung.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Die drei Feldgrößen klar unterscheiden; die vier Gewinnrichtungen sichtbar zeigen.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Zwei bis vier Spieler, Schwerkraft und vier Gewinnachsen.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Die Regeln sind unabhängig von der späteren grafischen Darstellung.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>02 / 16</span></div>
+</section>
+<section class="page " id="karte-a03" aria-label="A03 Menü, Zugsteuerung und Spielkomfort">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL A · PROJEKTVORSTELLUNG · A03</div></div><div class="time">03:05–04:50</div></div>
+<h1>Menü, Zugsteuerung und Spielkomfort</h1>
+<div class="show"><b>ZEIGEN:</b> Konsolenmenü oder Arena-Screenshot</div>
+<div class="speech"><p>Beim Start führt das Programm durch zwei einfache Schritte: Zuerst wird die Spielerzahl gewählt und danach werden die Namen nacheinander eingegeben. Im Hauptmenü gibt es unter anderem „Neues Spiel“, „Fortsetzen“, „Spielstand laden“, „Bestenliste“ und „Anleitung“.</p><p>Während einer Partie reicht eine Spaltennummer für einen normalen Zug. Zusätzlich kann man „V 4“ eingeben. Dadurch erscheint eine Vorschau für Spalte vier, ohne dass ein Stein tatsächlich gesetzt wird. Mit „U“ nimmt man den letzten Zug zurück, mit „S“ speichert man und mit „M“ kehrt man ins Hauptmenü zurück, ohne die aktive Runde automatisch zu verlieren. Nach einem Sieg oder einem Remis folgt ein eigener Ergebnisbildschirm mit Revanche und Neustart. So bleibt das Spiel auch bei Unterbrechungen nachvollziehbar. Besonders wichtig ist dabei, dass eine ungültige Aktion den Spielstand nicht unbemerkt verändert.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Vorschau und Undo nur dann live demonstrieren, wenn das Programm bereits geprüft und gestartet ist.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Jede Aktion verändert den Zustand nur, wenn sie gültig ist.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Die Bedienung ist bewusst kurz und fehlertolerant.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>03 / 16</span></div>
+</section>
+<section class="page " id="karte-a04" aria-label="A04 Objektorientierte Architektur">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL A · PROJEKTVORSTELLUNG · A04</div></div><div class="time">04:50–06:40</div></div>
+<h1>Objektorientierte Architektur</h1>
+<div class="show"><b>ZEIGEN:</b> UML oder Projektstruktur · Board, Game, Player, ConsoleUI</div>
+<div class="speech"><p>Die Architektur ist objektorientiert, weil verschiedene Klassen unterschiedliche Verantwortlichkeiten besitzen. „Player“ speichert den Namen und das Symbol eines Spielers. „Board“ verwaltet die Zellen des Spielfelds und die grundlegenden Regeln. „Game“ koordiniert in der Konsole das Menü, den Spielerwechsel und den Spielverlauf. „ConsoleUI“ bereitet die Informationen so auf, dass sie im Terminal lesbar angezeigt werden.</p><p>Die grafischen Anwendungen verwenden dagegen einen eigenen Ablauf-Controller namens „MatchSession“. Das ist eine wichtige Unterscheidung: Konsole und Grafik haben noch nicht dieselbe gesamte Ablaufsteuerung, aber sie nutzen dieselbe Klasse „Board“ für die Spielregeln. Dadurch muss ich die Gewinnerkennung nicht für jede Oberfläche neu programmieren. Eine langfristige Verbesserung wäre, auch die Ablaufsteuerungen weiter zusammenzuführen. Die aktuelle Trennung hilft mir bereits dabei, den Code nach Aufgabenbereichen zu lesen, zu testen und zu erklären.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Auf Beziehungen zeigen, nicht die komplette UML vorlesen. Den Unterschied Game/MatchSession ausdrücklich nennen.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Board verwaltet Regeln, Game den Konsolenablauf.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Jede Klasse hat eine klar begrenzte Hauptaufgabe.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>04 / 16</span></div>
+</section>
+<section class="page " id="karte-a05" aria-label="A05 Konsolenversion, 2D und 3D">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL A · PROJEKTVORSTELLUNG · A05</div></div><div class="time">06:40–08:30</div></div>
+<h1>Konsolenversion, 2D und 3D</h1>
+<div class="show"><b>ZEIGEN:</b> Nur verifizierte Screenshots; optional kurze 2D-/3D-Demo</div>
+<div class="speech"><p>Die Konsolenanwendung erfüllt den schulisch geforderten Kern und benötigt keine SFML-Grafikbibliothek. Im Entwicklungszweig habe ich das Projekt zusätzlich um eine 2D-Anwendung mit SFML 3.1 ergänzt. Dort gibt es ein eigenes Fenster, Maus- und Tastatursteuerung, eine Fallanimation und einen optionalen, im Code erzeugten Soundtrack. Die Musik ist standardmäßig ausgeschaltet.</p><p>Daneben existiert eine 3D-Arena auf Basis von OpenGL. Sie zeichnet räumliche Körper, verwendet Perspektive und Tiefentest und erlaubt das Drehen und Zoomen der Kamera. Eine interessante technische Aufgabe war die Mausauswahl: Ein Strahl von der Kameraposition wird mit der Ebene des Spielbretts geschnitten, um die richtige Spalte zu finden. Diese Erweiterungen zeigen, wie dieselbe Regelklasse in unterschiedlichen Oberflächen eingesetzt werden kann. Sie ersetzen aber nicht die Pflicht-Konsole und sind erst nach einem echten Sicht-, Hör- und Funktionstest auf dem Zielrechner vorführbereit.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Zwischen implementiertem Code, erfolgreichem CI-Build und noch offenen manuellen Tests unterscheiden.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Die Grafik ist optional; die Spielregeln bleiben gleich.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Die 2D-/3D-Oberflächen sind freiwillige Erweiterungen.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>05 / 16</span></div>
+</section>
+<section class="page long" id="karte-a06" aria-label="A06 Spielstand, Highscore und Datensicherheit">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL A · PROJEKTVORSTELLUNG · A06</div></div><div class="time">08:30–10:20</div></div>
+<h1>Spielstand, Highscore und Datensicherheit</h1>
+<div class="show"><b>ZEIGEN:</b> Grafik: GYM1 → vorläufiges Board → Prüfungen → Übernahme</div>
+<div class="speech"><p>Das Projekt kann einen Spielstand speichern und später wieder laden. Die Datei beginnt mit der Kennung „GYM1“ und enthält neben der Spielerzahl auch den aktuellen Spieler, die Namen, die Spielfeldgröße, die Zugliste und das Raster. Beim Laden wird der Inhalt nicht blind übernommen. Das Programm erstellt zunächst ein vorläufiges Spielfeld und spielt die gespeicherten Züge darauf nach. Stimmen Spielregeln, Zugfolge und Raster nicht überein, wird die Datei abgewiesen. Die laufende Partie bleibt dabei erhalten.</p><p>Für das Schreiben gibt es einen gemeinsamen Dateihelfer: Der neue Inhalt wird zuerst vollständig in eine temporäre Datei geschrieben und erst danach an die Stelle der bisherigen Datei gesetzt. Das vermindert das Risiko, bei einem fehlgeschlagenen Schreibversuch den vorherigen Spielstand zu verlieren. Zusätzlich führt das Spiel eine Bestenliste mit dauerhaft gespeicherten Siegen. Diese Funktionen zeigen, dass Datensicherheit auch bei einem kleinen Spiel wichtig ist.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Keine vollständige Transaktions- oder Mehrprozesssicherheit behaupten; der Dateihelfer ersetzt kein Locking.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Zuerst validieren, dann übernehmen; zuerst schreiben, dann ersetzen.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Beschädigte Speicherdateien dürfen die aktive Runde nicht zerstören.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>06 / 16</span></div>
+</section>
+<section class="page " id="karte-a07" aria-label="A07 Tests, GitHub und verantwortliche Entwicklung">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL A · PROJEKTVORSTELLUNG · A07</div></div><div class="time">10:20–12:20</div></div>
+<h1>Tests, GitHub und verantwortliche Entwicklung</h1>
+<div class="show"><b>ZEIGEN:</b> tests/ · CMakeLists.txt · GitHub Actions</div>
+<div class="speech"><p>Um Fehler früh zu finden, habe ich für wichtige Funktionen automatisierte Tests im Repository. Dazu gehören die verschiedenen Feldgrößen, die Schwerkraft, alle vier Gewinnrichtungen, volle Spalten, Undo sowie Speicher- und Ladefunktionen. Für die grafischen Versionen gibt es zusätzlich Tests der gemeinsamen Spielsteuerung und einzelner 3D-Berechnungen.</p><p>Der Build wird mit CMake organisiert; CTest führt registrierte Tests aus. GitHub Actions wiederholt diese Prüfungen in mehreren Windows- und Linux-Umgebungen. Der von mir zuletzt geprüfte C++-Lauf vom 31. Oktober 2026 war mit neun erfolgreichen Jobs abgeschlossen. Das ist ein belegter technischer Zwischenschritt, aber kein Ersatz für die reale Prüfung auf dem Schulrechner.</p><p>Bei Entwurf, Überarbeitung und Dokumentation wurde KI-Unterstützung verwendet. Diese Hilfe sollte transparent benannt werden. Entscheidend für meine mündliche Leistung ist, dass ich den Code selbst nachvollziehen, Fehlerfälle erklären und die Funktionen am Programm belegen kann.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Nur den konkret geprüften CI-Lauf nennen: GitHub Actions Run 41221586099; keine schulische Freigabe behaupten.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Automatisierte Nachweise und eigene Codekenntnis gehören zusammen.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Ein grüner CI-Test ist notwendig, aber nicht die gesamte Abnahme.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>07 / 16</span></div>
+</section>
+<section class="page " id="karte-a08" aria-label="A08 Kurze Vorführung und Übergabe an den Code">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL A · PROJEKTVORSTELLUNG · A08</div></div><div class="time">12:20–15:00</div></div>
+<h1>Kurze Vorführung und Übergabe an den Code</h1>
+<div class="show"><b>ZEIGEN:</b> Bereits gestartetes Konsolenspiel; anschließend VS Code</div>
+<div class="speech"><p>Zum Abschluss zeige ich die Kernfunktionen kurz im laufenden Programm. Ich wähle zwei Spieler, trage zwei Namen ein und starte eine Runde. Anschließend verwende ich „V 4“ für eine Vorschau, setze einen Stein und mache diesen Zug mit „U“ rückgängig. Damit lässt sich direkt beobachten, wie die Steuerung auf unterschiedliche Eingaben reagiert.</p><p>Für einen vollständigen Gewinn habe ich zusätzlich einen gesonderten Testspielstand vorbereitet. Diesen führe ich nur in einem isolierten Demo-Verzeichnis vor, damit keine persönlichen Daten überschrieben werden. Falls die Vorführung auf dem Zielrechner unerwartet scheitert, kann ich den vorgesehenen Ablauf anhand des vorab geprüften Quellcodes und der Testnachweise erläutern.</p><p>Damit ist der Überblick abgeschlossen. Im zweiten Teil öffne ich die Klassen in Visual Studio Code und zeige Schritt für Schritt, wie aus einer Spalteneingabe ein gültiger Zug wird und wie die Gewinnerkennung arbeitet.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Zeit strikt kontrollieren: zwei Namen, V 4, ein Zug, U; Gewinnfixture nur mit verbliebener Zeit. Nicht während der Prüfung neu bauen.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Von der Bedienung zur tatsächlichen Implementierung wechseln.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Der nächste Teil erklärt den Weg Eingabe → Board → Gewinnprüfung.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>08 / 16</span></div>
+</section>
+<section class="page " id="karte-b01" aria-label="B01 Einstiegspunkt und Programmablauf">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL B · C++-CODEERKLÄRUNG · B01</div></div><div class="time">00:00–01:20</div></div>
+<h1>Einstiegspunkt und Programmablauf</h1>
+<div class="show"><b>ZEIGEN:</b> src/main.cpp → Game::run → Game::play<br><b>CODE:</b> src/main.cpp · Game::run()</div>
+<div class="speech"><p>Ich starte die Codeerklärung in der Datei „src/main.cpp“. Die Funktion „main“ ist der Einstiegspunkt der Konsolenanwendung. Hier wird ein Objekt der Klasse „Game“ erzeugt. Mit „game.run()“ beginnt anschließend die Menüsteuerung. Der umgebende „try-catch“-Block fängt unerwartete Ausnahmen ab und sorgt dafür, dass eine Fehlermeldung ausgegeben werden kann.</p><p>In „Game::run“ befindet sich die Hauptmenüschleife. Sie prüft, welchen Menüpunkt eine Person auswählt. Startet oder lädt sie eine Partie, übernimmt „Game::play“ die eigentliche Zugschleife. Dadurch bleibt die „main“-Funktion sehr klein. Sie ist nicht für die Regeln oder die Darstellung zuständig. Genau diese Aufgabentrennung macht den Ablauf einfacher nachvollziehbar.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Auf Game game, game.run und den catch-Block zeigen; danach mit der Funktionssuche zu Game::run wechseln.</div>
+<div class="takeaway"><b>MERKSATZ:</b> main startet, Game steuert.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Der Programmstart übergibt die Kontrolle an die Klasse Game.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>09 / 16</span></div>
+</section>
+<section class="page " id="karte-b02" aria-label="B02 Datenmodell und Feldgröße">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL B · C++-CODEERKLÄRUNG · B02</div></div><div class="time">01:20–03:00</div></div>
+<h1>Datenmodell und Feldgröße</h1>
+<div class="show"><b>ZEIGEN:</b> include/Board.h → Board::Board<br><b>CODE:</b> include/Board.h · src/Board.cpp: Board::Board()</div>
+<div class="speech"><p>In „Board.h“ sehen wir den Zustand des Spielfelds. „rows_“ enthält die Anzahl der Reihen, „columns_“ die Anzahl der Spalten. Das Raster selbst liegt in „grid_“. Sein Typ ist „std::vector&lt;std::vector&lt;char&gt;&gt;“: Ein äußerer Vektor enthält mehrere innere Vektoren, und jedes Zeichen repräsentiert eine Zelle. Ein Punkt steht für ein leeres Feld.</p><p>Im Konstruktor wird die Größe aus der Spielerzahl berechnet. Die Formel für die Reihen lautet sechs plus zweimal die Anzahl der Spieler über zwei hinaus. Die Spaltenzahl ist immer um eins größer. Das ergibt sechs mal sieben, acht mal neun oder zehn mal elf Zellen. Wichtig für die nächsten Methoden: Die Indizes beginnen nicht bei eins, sondern bei null. Bei sechs Reihen besitzt die unterste Reihe daher den Index fünf.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Im Editor rows_, columns_ und grid_ markieren; für drei Spieler die Rechnung 6+2×(3−2)=8 vormachen.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Ein zweidimensionaler Vektor bildet die Zellen ab.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Die Spielfeldgröße hängt vollständig von der Spielerzahl ab.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>10 / 16</span></div>
+</section>
+<section class="page " id="karte-b03" aria-label="B03 Schwerkraft, Grenzen und erfolgreicher Zug">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL B · C++-CODEERKLÄRUNG · B03</div></div><div class="time">03:00–05:15</div></div>
+<h1>Schwerkraft, Grenzen und erfolgreicher Zug</h1>
+<div class="show"><b>ZEIGEN:</b> Board::nextFreeRow → Board::drop<br><b>CODE:</b> src/Board.cpp: Board::nextFreeRow(), Board::drop()</div>
+<div class="speech"><p>Die nächste zentrale Methode heißt „Board::nextFreeRow“. Sie erhält den Index einer Spalte. Zuerst prüft sie, ob der Index innerhalb des Spielfelds liegt. Anschließend läuft eine „for“-Schleife von „rows_ minus eins“ rückwärts bis zur obersten Reihe. Dadurch sucht sie von unten nach oben. Sobald sie eine Zelle mit dem Zeichen Punkt findet, gibt sie den Reihenindex zurück. Gibt es keine freie Position oder war die Spalte ungültig, liefert sie minus eins.</p><p>„Board::drop“ verwendet genau dieses Ergebnis. Ist keine Position frei, wird kein Stein eingetragen. Andernfalls schreibt die Funktion das Symbol in das Raster und gibt die tatsächlich verwendete Reihe über den Referenzparameter „rowPlaced“ zurück. Der Rückgabewert „bool“ zeigt zusätzlich, ob der Zug erfolgreich war. So bleiben die Schwerkraftregeln unabhängig davon, ob später eine Animation angezeigt wird.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Optional Breakpoint bei return row setzen; konkret erklären: sichtbare Spalte 4 entspricht intern Index 3.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Erst gültige Position ermitteln, dann einsetzen.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> nextFreeRow sucht unten; drop setzt nur bei Erfolg.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>11 / 16</span></div>
+</section>
+<section class="page long" id="karte-b04" aria-label="B04 Gewinnerkennung und Richtungsvektoren">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL B · C++-CODEERKLÄRUNG · B04</div></div><div class="time">05:15–08:00</div></div>
+<h1>Gewinnerkennung und Richtungsvektoren</h1>
+<div class="show"><b>ZEIGEN:</b> Board::countDirection → Board::hasWon → winningCells<br><b>CODE:</b> src/Board.cpp: countDirection(), hasWon(), winningCells()</div>
+<div class="speech"><p>Das ist der wichtigste Algorithmus der Anwendung. Nach einem erfolgreichen Zug sind die genaue Reihe, Spalte und das Symbol bekannt. „Board::hasWon“ prüft von diesem letzten Stein aus, ob mindestens vier gleiche Symbole zusammenhängen.</p><p>Dazu verwendet die Methode zwei kleine Arrays mit Zeilen- und Spaltenänderungen: „dr“ und „dc“. Die Kombinationen stehen für waagerecht, senkrecht und beide Diagonalen. Für jede Achse wird „countDirection“ zweimal aufgerufen: einmal in die positive und einmal in die negative Richtung. Solange die nächste Position im Spielfeld liegt und dasselbe Symbol trägt, erhöht die Methode einen Zähler.</p><p>Die Länge einer zusammenhängenden Reihe ergibt sich aus eins für den zuletzt gesetzten Stein, plus den gleichen Nachbarn in beiden Richtungen. Ab einem Wert von vier ist die Partie gewonnen. Beide Richtungen sind notwendig, weil der letzte Stein auch in der Mitte einer Reihe liegen kann. Die Methode „winningCells“ liefert zusätzlich die zu markierenden Zellen für die Anzeige.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Beispiel zeigen: zwei gleiche Steine links, letzter Stein, einer rechts = vier. Die Werte dr/dc einzeln nachvollziehen.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Vier Achsen, jeweils beide Richtungen, Summe mindestens vier.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> 1 + links + rechts beziehungsweise oben + unten und beide Diagonalen.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>12 / 16</span></div>
+</section>
+<section class="page " id="karte-b05" aria-label="B05 Spielerwechsel, Undo und Zustände">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL B · C++-CODEERKLÄRUNG · B05</div></div><div class="time">08:00–09:50</div></div>
+<h1>Spielerwechsel, Undo und Zustände</h1>
+<div class="show"><b>ZEIGEN:</b> Game::play · Move · history_<br><b>CODE:</b> src/Game.cpp: Game::play() · include/Game.h: Move</div>
+<div class="speech"><p>Die Klasse „Game“ verbindet die Eingaben mit dem Spielfeld. In „Game::play“ werden zunächst Befehle oder Spaltennummern ausgewertet. Nur ein gültiger Spaltenwert führt zum Einwerfen eines Steins. Nach dem erfolgreichen „Board::drop“ speichert das Programm einen Eintrag der Struktur „Move“ in der Zugliste „history_“. Ein Eintrag enthält Reihe, Spalte und den Index des Spielers.</p><p>Danach prüft das Programm zuerst auf Sieg und anschließend auf ein volles Spielfeld. Nur wenn die Partie weiterläuft, wechselt es zum nächsten Spieler. Die Formel lautet „(current_ + 1) % Spieleranzahl“. Durch den Modulo-Operator beginnt die Reihenfolge nach dem letzten Spieler wieder bei null.</p><p>Beim Undo holt die Steuerung den letzten Zug aus der Historie, entfernt den obersten Stein und setzt den ursprünglichen Spieler wieder an die Reihe. Dadurch bleiben Zugfolge und Spielfeld konsistent.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Den Modulo-Fall für drei Spieler nennen: 0 → 1 → 2 → 0. Dann history_.back() zeigen.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Erst Zug prüfen, dann speichern, danach Ergebnis und Wechsel.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Ungültige Aktionen dürfen keinen Spielerwechsel auslösen.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>13 / 16</span></div>
+</section>
+<section class="page " id="karte-b06" aria-label="B06 Dateiformat und kontrolliertes Laden">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL B · C++-CODEERKLÄRUNG · B06</div></div><div class="time">09:50–12:05</div></div>
+<h1>Dateiformat und kontrolliertes Laden</h1>
+<div class="show"><b>ZEIGEN:</b> Game::saveGame → Game::loadGame → gym::writeSafely<br><b>CODE:</b> src/Game.cpp: saveGame(), loadGame() · include/AtomicFile.h</div>
+<div class="speech"><p>Zum Schluss der eigentlichen Spiellogik zeige ich das Speichern und Laden. Die Spielstanddatei beginnt mit der Kennung „GYM1“. Danach folgen unter anderem Spieleranzahl, aktueller Spieler, Dimensionen, Namen, Symbole, Zugliste und Raster. Dadurch enthält eine gespeicherte Partie genügend Informationen, um ihren Zustand zu rekonstruieren.</p><p>In „loadGame“ wird nicht direkt in die bestehende Partie geschrieben. Die Methode erzeugt ein neues Board als Kandidaten und kontrolliert zuerst die Metadaten. Dann spielt sie die gespeicherten Züge nacheinander durch und prüft, ob die tatsächlichen Landepositionen und das entstandene Raster zu den Daten passen. Erst wenn alles korrekt ist, ersetzt sie den bisherigen Spielzustand.</p><p>Beim Speichern nutzt der Entwicklungszweig die gemeinsame Funktion „gym::writeSafely“. Sie schreibt zunächst eine temporäre Datei und ersetzt die alte erst nach erfolgreichem Schreiben. Das begrenzt das Risiko eines Datenverlusts bei Schreibfehlern. Es koordiniert aber keine gleichzeitig laufenden Anwendungen.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Die beiden getrennten Phasen markieren: Kandidat prüfen → Zustand übernehmen. Nicht den ganzen Parser lesen.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Sichere Datenübernahme statt blindem Dateilesen.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Beim Fehler bleibt die vorhandene Partie erhalten.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>14 / 16</span></div>
+</section>
+<section class="page " id="karte-b07" aria-label="B07 Unit-Tests, Integrationstests und CI">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL B · C++-CODEERKLÄRUNG · B07</div></div><div class="time">12:05–13:25</div></div>
+<h1>Unit-Tests, Integrationstests und CI</h1>
+<div class="show"><b>ZEIGEN:</b> tests/board_tests.cpp · CMakeLists.txt · Actions-Lauf<br><b>CODE:</b> tests/board_tests.cpp · CMakeLists.txt · .github/workflows/cpp-quality.yml</div>
+<div class="speech"><p>Die automatische Qualitätssicherung ist ein eigener Teil des Projekts. In den Board-Tests wird beispielsweise geprüft, ob eine Hantel auf dem untersten freien Feld landet, ob eine volle Spalte abgewiesen wird und ob jede Gewinnrichtung erkannt wird. Integrationstests kontrollieren zusätzlich längere Abläufe wie Spielstart, Rückgängig, Speichern und Laden.</p><p>CMake sorgt für reproduzierbare Build-Ziele; CTest startet die Testprogramme. GitHub Actions führt Prüfungen in verschiedenen Betriebssystemumgebungen aus. Ich zeige hier einen tatsächlich abgeschlossenen Prüflauf. Wichtig ist, präzise zu bleiben: Automatische Prüfungen ersetzen nicht den Bedienungs-, Grafik- und Hörtest am Schulrechner.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> In board_tests.cpp einen konkret lesbaren verify-Aufruf zeigen. Nur tatsächlich grüne Jobs als erfolgreich bezeichnen.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Testfall, Erwartung und beobachtetes Ergebnis gehören zusammen.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> CMake baut, CTest testet, GitHub Actions automatisiert.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>15 / 16</span></div>
+</section>
+<section class="page " id="karte-b08" aria-label="B08 Zusammenfassung und fachlicher Abschluss">
+<div class="page-top"><div><div class="wordmark">JK AXIS / GOLD MASTER</div><div class="subline">TEIL B · C++-CODEERKLÄRUNG · B08</div></div><div class="time">13:25–15:00</div></div>
+<h1>Zusammenfassung und fachlicher Abschluss</h1>
+<div class="show"><b>ZEIGEN:</b> Zurück zu Game::play und Board::hasWon; keine neue Datei öffnen<br><b>CODE:</b> src/Game.cpp: Game::play() · src/Board.cpp: hasWon()</div>
+<div class="speech"><p>Ich fasse den Weg eines einzelnen Spielzugs zusammen: Die Konsole liest eine Eingabe. „Game“ erkennt, ob es sich um eine zulässige Spaltennummer handelt. Das Board sucht die richtige Landeposition und setzt den Stein. Die Steuerung trägt den Zug in die Historie ein, prüft den möglichen Sieg oder das Unentschieden und wechselt gegebenenfalls zum nächsten Spieler. Anschließend zeigt die Oberfläche den neuen Zustand an.</p><p>Damit sind die Verantwortlichkeiten erkennbar getrennt: „Board“ entscheidet über die Regeln, „Game“ über die Abläufe und „ConsoleUI“ über die Textdarstellung. Eine weitere Verbesserung wäre eine gemeinsame Ablaufsteuerung auch für die grafischen Versionen. Wichtig ist mir, dass nicht nur die Oberfläche funktioniert, sondern dass ich die entscheidenden Funktionen und ihre Fehlerfälle direkt im Quellcode erklären kann. Vielen Dank. Ich beantworte gern Ihre Fragen.</p></div>
+<div class="bottom">
+<div><b>REGIE:</b> Beende spätestens nach 15 Minuten. Wenn Rückfragen in der Gesamtzeit enthalten sind, diese Karte stark verkürzen.</div>
+<div class="takeaway"><b>MERKSATZ:</b> Eingabe → gültiger Zug → Siegprüfung → neuer Zustand.</div>
+<div class="card-copy"><b>BEI ZEITDRUCK:</b> Ein nachvollziehbarer Spielkern ist wichtiger als Effekte.</div>
+</div>
+<div class="footer"><span>PRÄSENTATIONSTRAINING · REV. 02.11.2026</span><span>16 / 16</span></div>
+</section>
+</main>
+<script>
+(function(){
+ var cards=Array.prototype.slice.call(document.querySelectorAll(".page"));
+ var current=0,focus=false;
+ var status=document.getElementById("status");
+ var focusBtn=document.getElementById("focus");
+ function render(){
+  cards.forEach(function(card,i){card.classList.toggle("active",i===current)});
+  status.textContent=(current+1)+" / "+cards.length;
+  focusBtn.textContent=focus?"Alle Karten":"Einzelkarten";
+  focusBtn.setAttribute("aria-pressed",String(focus));
+  document.body.classList.toggle("focus",focus);
+  document.getElementById("previous").disabled=focus&&current===0;
+  document.getElementById("next").disabled=focus&&current===cards.length-1;
+ }
+ focusBtn.addEventListener("click",function(){focus=!focus;render();window.scrollTo(0,0)});
+ document.getElementById("previous").addEventListener("click",function(){focus=true;current=Math.max(0,current-1);render();window.scrollTo(0,0)});
+ document.getElementById("next").addEventListener("click",function(){focus=true;current=Math.min(cards.length-1,current+1);render();window.scrollTo(0,0)});
+ document.getElementById("print").addEventListener("click",function(){window.print()});
+ document.addEventListener("keydown",function(e){
+  if(!focus||e.altKey||e.ctrlKey||e.metaKey)return;
+  if(e.key==="ArrowRight"||e.key==="PageDown"){current=Math.min(cards.length-1,current+1);render();e.preventDefault()}
+  if(e.key==="ArrowLeft"||e.key==="PageUp"){current=Math.max(0,current-1);render();e.preventDefault()}
+  if(e.key==="Escape"){focus=false;render()}
+ });
+ render();
+})();
+</script>
+</body>
+</html>
