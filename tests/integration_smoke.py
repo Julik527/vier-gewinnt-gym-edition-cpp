@@ -147,6 +147,35 @@ def main() -> int:
         if not save.is_file() or not save.read_text(encoding="utf-8").startswith("GYM1\n"):
             raise AssertionError("Gueltige Speicherdatei fehlt.")
 
+        # Ein zweites Speichern muss die vorige Datei vollstaendig ersetzen,
+        # auch unter Windows. Es darf keine .tmp-Datei zurueckbleiben.
+        overwrite_dir = workdir("speichern-ueberschreiben")
+        output = run_game(
+            binary, overwrite_dir,
+            ["1", "2", "Ada", "Ben", "1", "S", "2", "S", "M", "0", "j"],
+        )
+        count(output, "Spiel gespeichert.", 2)
+        overwrite_file = overwrite_dir / "data" / "savegame.txt"
+        if "GYM1\n2 0 6 7 2\n" not in overwrite_file.read_text(encoding="utf-8"):
+            raise AssertionError("Der zweite Spielstand wurde nicht ersetzt")
+        if (overwrite_dir / "data" / "savegame.txt.tmp").exists():
+            raise AssertionError("Temporäre Speicherdatei nicht aufgeraeumt")
+        output = run_game(binary, overwrite_dir, ["3", "U", "M", "0", "j"])
+        require(output, "Spielstand geladen.", "Letzter Zug entfernt.")
+
+        # Ein Schreibfehler darf die laufende Partie nicht abbrechen und
+        # darf keine temporaeren Dateien im Datenordner hinterlassen.
+        failing_dir = workdir("speichern-fehler")
+        (failing_dir / "data").mkdir()
+        (failing_dir / "data" / "savegame.txt").mkdir()
+        output = run_game(
+            binary, failing_dir,
+            ["1", "2", "Ada", "Ben", "S", "1", "M", "0", "j"],
+        )
+        require(output, "Speichern fehlgeschlagen.", "Zurueck zum Hauptmenue.")
+        if (failing_dir / "data" / "savegame.txt.tmp").exists():
+            raise AssertionError("Temporäre Datei nach Schreibfehler nicht entfernt")
+
         # Manipulierte Speicherdateien muessen vollstaendig abgelehnt werden.
         with save.open("a", encoding="utf-8") as stream:
             stream.write("\nTRAILING_GARBAGE\n")
