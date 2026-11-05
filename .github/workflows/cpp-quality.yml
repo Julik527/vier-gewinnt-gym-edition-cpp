@@ -201,3 +201,27 @@ jobs:
             dist/Gym-Edition-Windows.zip
             dist/SHA256SUMS.txt
           if-no-files-found: error
+
+  undefined-behavior:
+    name: Linux / UndefinedBehaviorSanitizer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Configure UBSan
+        shell: bash
+        run: >-
+          cmake -S . -B build-ubsan
+          -DCMAKE_BUILD_TYPE=Debug
+          "-DCMAKE_CXX_FLAGS=-fsanitize=undefined -fno-sanitize-recover=all -fno-omit-frame-pointer"
+          "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=undefined"
+      - name: Build UBSan
+        shell: bash
+        run: cmake --build build-ubsan --parallel
+      - name: Run UBSan tests
+        shell: bash
+        env:
+          UBSAN_OPTIONS: "print_stacktrace=1:halt_on_error=1"
+        run: ctest --test-dir build-ubsan --output-on-failure
