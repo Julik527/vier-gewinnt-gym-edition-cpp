@@ -42,6 +42,29 @@ def main() -> int:
     check("-g" in task["args"] and "-O0" in task["args"],
           "Debug-Build benoetigt Symbole und ausgeschaltete Optimierung")
 
+    # Debug- und Buildkonfiguration duerfen keine unbekannten Tasks aufrufen.
+    labels = [t.get("label") for t in tasks["tasks"]]
+    check(len(labels) == len(set(labels)), "Mehrfach vergebene Task-Namen")
+    for configuration in launch["configurations"]:
+        check(configuration.get("preLaunchTask") in labels,
+              f"Unbekannte Build-Aufgabe: {configuration.get('preLaunchTask')}")
+    check(task.get("type") == "process",
+          "Compiler direkt starten, ohne Shell-Interpretation der Pfade")
+    args = task["args"]
+    check("-o" in args and args[args.index("-o") + 1] == "vier-gewinnt.exe",
+          "Ausgabedatei muss relativ sein und zur Debug-Konfiguration passen")
+    check(task.get("command") == "C:/msys64/ucrt64/bin/g++.exe",
+          "UCRT64-Compilerpfad stimmt nicht")
+    check(debug.get("miDebuggerPath") == "C:/msys64/ucrt64/bin/gdb.exe",
+          "UCRT64-Debuggerpfad stimmt nicht")
+    check(any(value.get("name") == "PATH" and "C:/msys64/ucrt64/bin" in value.get("value", "")
+              for value in debug.get("environment", [])),
+          "UCRT64-Laufzeitbibliotheken muessen auffindbar sein")
+    check(all("2D" not in configuration.get("name", "") and
+              "3D" not in configuration.get("name", "")
+              for configuration in launch["configurations"]),
+          "Grafikprogramme ohne Quellcode und Build-Ziel nicht als lauffaehig anbieten")
+
     # Beide CMake-Ziele muessen im manuellen g++-Build enthalten sein.
     game = re.search(r"add_executable\(vier-gewinnt\s+([^)]*)\)", cmake)
     board = re.search(r"add_library\(gym_board\s+STATIC\s+([^)]*)\)", cmake)

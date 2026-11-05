@@ -3,7 +3,7 @@
   "tasks": [
     {
       "label": "Vier Gewinnt bauen",
-      "type": "shell",
+      "type": "process",
       "command": "C:/msys64/ucrt64/bin/g++.exe",
       "args": [
         "-std=c++17",
@@ -11,7 +11,7 @@
         "-O0",
         "-Wall",
         "-Wextra",
-        "-pedantic",
+        "-Wpedantic",
         "-Iinclude",
         "src/main.cpp",
         "src/Board.cpp",
@@ -20,6 +20,9 @@
         "-o",
         "vier-gewinnt.exe"
       ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "group": {
         "kind": "build",
         "isDefault": true
@@ -27,15 +30,12 @@
       "problemMatcher": [
         "$gcc"
       ],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
       "presentation": {
         "reveal": "always",
         "panel": "shared",
         "clear": true
       },
-      "detail": "Debug-Build: Alle C++17-Dateien einschließlich ConsoleUI.cpp kompilieren."
+      "detail": "C++17-Debug-Build der vorhandenen Konsolenversion. Relative Pfade reduzieren Windows-/MSYS2-Zeichensatzprobleme."
     }
   ]
 }

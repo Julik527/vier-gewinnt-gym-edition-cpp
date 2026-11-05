@@ -48,6 +48,10 @@ Die mitgelieferten Einstellungen benutzen:
 
 Falls **F5** nicht startet: Über **Terminal → Buildaufgabe ausführen** zunächst die Aufgabe **„Vier Gewinnt bauen“** starten und die erste rote Fehlermeldung im Terminal ansehen. Ohne einen erfolgreichen Build lässt sich der Debugger nicht korrekt starten.
 
+### Konsolen-, 2D- und 3D-Debug-Profile (05.11.2026)
+
+Die in GitHub verwaltete VS-Code-Konfiguration bietet nur den **tatsächlich vorhandenen Konsolen-Build** an. Ein Compilerprozess wird ohne zusätzliche Shell direkt aufgerufen; er verwendet relative Eingabe- und Ausgabepfade. `launch.json` ergänzt den UCRT64-Bin-Ordner im Laufzeit-`PATH`. Die lokalen 2D-/3D-Profile können erst ergänzt werden, wenn die dafür benötigten Quellcodes, Build-Targets und Abhängigkeiten ebenfalls vorliegen. Details: [VS-Code-Einrichtung und Einschränkungen](docs/VS_CODE_DEBUG.md). Vor dem Aktualisieren einer bestehenden lokalen `.vscode`-Konfiguration bitte eigene Änderungen sichern.
+
 ## Reproduzierbarer CMake-Build
 
 Die kompakte `g++`-Variante oben bleibt für den Unterricht nutzbar. Für Debug, Release und automatische Tests:
