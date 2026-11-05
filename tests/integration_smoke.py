@@ -190,6 +190,36 @@ def main() -> int:
         output = run_game(binary, bad_dir, ["3", "0"])
         require(output, "Keine gueltige Speicherdatei")
 
+        # Auch das vergroesserte 11x10-Spielfeld muss nach einem Neustart
+        # mit demselben Spieler am Zug geladen werden.
+        four_dir = workdir("vier-spieler-speichern")
+        output = run_game(
+            binary, four_dir,
+            ["1", "4", "Ada", "Ben", "Cleo", "Dana",
+             "1", "2", "3", "S", "M", "0", "j"],
+        )
+        require(output, "11 Spalten x 10 Reihen", "Spiel gespeichert.")
+        four_save = four_dir / "data" / "savegame.txt"
+        if "GYM1\n4 3 10 11 3\n" not in four_save.read_text(encoding="utf-8"):
+            raise AssertionError("Vier-Spieler-Spielstand unvollstaendig")
+        output = run_game(binary, four_dir, ["3", "U", "M", "0", "j"])
+        require(output, "Spielstand geladen.", "Letzter Zug entfernt.")
+
+        # Ein defekter Spielstand darf eine bereits laufende Partie nicht
+        # loeschen. Nach dem Ladefehler muss Undo weiterhin funktionieren.
+        active_dir = workdir("ladefehler-laufende-runde")
+        (active_dir / "data").mkdir()
+        (active_dir / "data" / "savegame.txt").write_text(
+            "GYM1\n2 0 kaputt\n", encoding="utf-8"
+        )
+        output = run_game(
+            binary, active_dir,
+            ["1", "2", "Ada", "Ben", "1", "M",
+             "3", "j", "2", "U", "M", "0", "j"],
+        )
+        require(output, "Keine gueltige Speicherdatei gefunden.",
+                "Deine Runde wird fortgesetzt.", "Letzter Zug entfernt.")
+
         # Hilfe, Info und ungueltige Eingaben sollen das Feld nicht staendig neu zeichnen.
         output = run_game(
             binary, workdir("ruhige-anzeige"),
