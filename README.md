@@ -19,6 +19,17 @@
 **GitHub:** https://github.com/Julik527/vier-gewinnt-gym-edition-cpp · öffentlich.  
 **Status: laufendes Schulprojekt, Qualitätsreview vom 05.11.2026.** Das Repository stellt **keine bereits benotete oder vollständig abgenommene Endfassung** dar. Siehe [Qualitätsreview und offene Abnahmepunkte](docs/QUALITY_REVIEW_2026-11-05.md).
 
+## Strenge Qualitätsprüfung und Lehrer-Abnahmetest
+
+Für eine nachvollziehbare schulische Prüfung gibt es ein [Abnahmeprotokoll mit Testfallmatrix, manueller Checkliste und möglichen Fachfragen](docs/LEHRER_ABNAHME_TESTPROTOKOLL_2026-11-05.md). Die Prüfung umfasst neben den vorhandenen Unit- und Integrationstests auch:
+
+- **360 reproduzierbare Belastungstests** für die Klasse Board mit unabhängigem Referenzraster, Schwerkraft, Gewinnerkennung, Gewinnmarkierung und Undo.
+- **13 manipulierte Speicherstände** sowie ungültige Eingaben, volle Spalten, defekte Highscores und unerwartetes Eingabeende.
+- **Windows/Linux in Debug/Release** und zusätzlich einen Linux-Lauf mit **UndefinedBehaviorSanitizer**.
+- Automatische **VS-Code-Konfigurationsprüfung** und getrennte **Dokumentenprüfung**.
+
+Die automatischen Tests laufen mit CTest. Ein grüner GitHub-Actions-Lauf beweist nicht, dass auf jedem Schul-PC alle Entwicklungswerkzeuge installiert sind; der [lokale F5-Aufbau](docs/VS_CODE_DEBUG.md), Präsentation und Handout benötigen weiterhin eine manuelle Abnahme. Die 2D-/3D-Programme gehören mangels veröffentlichter Quellcodes nicht zur geprüften Version.
+
 ## Projektziel
 Objektorientiertes Vier-Gewinnt-Konsolenspiel für **2 bis 4 Personen** mit variablen Spielfeldgrößen (7×6, 9×8, 11×10), Spielerverwaltung, vier Gewinnrichtungen, Remis, Eingabekontrolle und lokalem Speichern/Laden sowie Highscore. Die ASCII-Kurzhanteln sind die Gym-Edition-Darstellung. Eine fotorealistische oder klickbare 3D-GUI ist **nicht implementiert**; entsprechende Bilder sind Mockups.
 

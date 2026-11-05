@@ -20,9 +20,11 @@ Nach Änderungen: git add . ; git commit -m "Beschreibung" ; git push.
 
 ## Quellcode bauen
 ~~~powershell
-g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/Game.cpp -o vier-gewinnt.exe
+g++ -std=c++17 -g -O0 -Wall -Wextra -Wpedantic -Iinclude src/main.cpp src/Board.cpp src/Game.cpp src/ConsoleUI.cpp -o vier-gewinnt.exe
 .\vier-gewinnt.exe
 ~~~
+
+Die Datei `src/ConsoleUI.cpp` gehoert zwingend zum Build. Ohne sie kann der Linker die Funktionen der Konsolenoberflaeche nicht aufloesen. Fuer die automatische Pruefung empfiehlt sich alternativ `cmake -S . -B build`, `cmake --build build --config Debug` und `ctest --test-dir build -C Debug --output-on-failure`.
 
 ## Nachweise
 Dateien auf GitHub, aktuelle Commit-Historie und Menüdemo separat für die Abgabe dokumentieren. Der Online-Upload ist nicht identisch mit einer abgeschlossenen Softwareabnahme.
