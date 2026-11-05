@@ -57,8 +57,7 @@ def test_invalid_inputs(binary: pathlib.Path, root: pathlib.Path) -> None:
             "1", "S", "M", "0", "j",
         ],
     )
-    contains(output, "Spiel bereit".upper().replace(" BEREIT", " BEREIT")
-             if False else "SPIEL BEREIT",
+    contains(output, "SPIEL BEREIT",
              "Bitte 2, 3 oder 4 eingeben.",
              "Bitte einen Namen mit 1 bis 24 Zeichen",
              "Dieser Name wird schon verwendet.",
