@@ -208,6 +208,43 @@ def main() -> int:
         )
         require(output, "Bitte 0, 1 oder 2 eingeben.", "Programm beendet.")
 
+        # Ein vollstaendiges 7x6-Spielfeld ohne vier gleiche Steine
+        # in einer Reihe muss als Remis und nicht als Sieg enden.
+        draw_moves = [
+            3, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3,
+            3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 7, 5, 5, 5,
+            5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7,
+        ]
+        output = run_game(
+            binary, workdir("remis"),
+            ["1", "2", "Ada", "Ben", *map(str, draw_moves), "0", "4", "0"],
+        )
+        require(output, "REMIS: Spielfeld voll.", "Noch keine Siege gespeichert.")
+
+        # Eingaben mit Terminal-Steuerzeichen duerfen keine Spielernamen sein.
+        output = run_game(
+            binary, workdir("steuerzeichen"),
+            ["1", "2", "A\x1b[2J", "Ada", "Ben", "M", "0", "j"],
+        )
+        require(output, "Bitte einen Namen mit 1 bis 24 Zeichen", "Ada", "Ben")
+
+        # Eine defekte Highscore-Zeile darf gueltige spaetere Zeilen nicht
+        # verschlucken. Ein Maximalwert darf beim naechsten Sieg nicht
+        # in den negativen int-Bereich ueberlaufen.
+        score_dir = workdir("highscore-grenzen")
+        (score_dir / "data").mkdir()
+        score_file = score_dir / "data" / "highscore.txt"
+        score_file.write_text(
+            '"Ada" 2147483647\nUNGÜLTIG\n"Ben" 2\n', encoding="utf-8"
+        )
+        output = run_game(binary, score_dir, ["4", "0"])
+        require(output, "1. Ada: 2147483647", "2. Ben: 2")
+        output = run_game(
+            binary, score_dir,
+            ["1", "2", "Ada", "Ben", *winning_moves, "0", "4", "0"],
+        )
+        require(output, "GEWONNEN: Ada!", "1. Ada: 2147483647", "2. Ben: 2")
+
     print("Integration: Gym-Arena, 2-4 Spieler, ruhige Anzeige, "
           "Gewinnmarkierung, Revanche, Save/Load und Highscore bestanden.")
     return 0
