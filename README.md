@@ -136,3 +136,6 @@ Die technische Migration ist durch den [Branding- und QA-Bericht](docs/BRAND_QA_
 > **GitHub-Stand (25.10.2026):** C++-Quellcode, Tests und Markdown-Dokumentation sind öffentlich hochgeladen. Die acht PDF-/PPTX-Originaldateien wurden in Commit [`53612455`](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/53612455ee21bf4363b7d5627fe8cd388a8c7e8b) unter `reference/` und `praesentation/` hochgeladen. Die alte lokale ZIP-Historie unterscheidet sich von den über die GitHub-Integration erstellten Commits. Für die weitere Arbeit das Online-Repository neu klonen.
 
 **© 2026 Julian Krauß · JK AXIS | GOLD MASTER.** Aktualisiert am 28.10.2026.
+## Zusätzliche Regressionstests (November 2026)
+
+Die Integrationstests pruefen jetzt auch einen vollstaendigen **42-Zuege-Remisablauf**, die Ablehnung von Terminal-Steuerzeichen in Spielernamen und das Einlesen von Highscore-Dateien mit einem defekten Eintrag zwischen gueltigen Zeilen. Highscore-Werte am `int`-Maximum werden nicht mehr erhoeht; ein Ueberlauf wuerde andernfalls die Bestenliste verfalschen. Diese Aenderungen bleiben innerhalb der Konsolenarchitektur aus Aufgabenblatt 51. Der Pull Request und die zugehoerigen GitHub-Actions-Checks sind der Nachweis fuer den neuen Stand; vergangene Testberichte werden nicht rueckwirkend veraendert.
