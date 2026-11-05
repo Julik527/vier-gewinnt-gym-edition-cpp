@@ -57,6 +57,12 @@ if(BUILD_TESTING)
             COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration_smoke.py" "$<TARGET_FILE:vier-gewinnt>"
         )
         set_tests_properties(game_integration_tests PROPERTIES TIMEOUT 60)
+        # Unfreundliche Eingaben und manipulierte Speicherdateien (eigener Temp-Ordner).
+        add_test(
+            NAME game_adversarial_tests
+            COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration_adversarial.py" "$<TARGET_FILE:vier-gewinnt>"
+        )
+        set_tests_properties(game_adversarial_tests PROPERTIES TIMEOUT 90)
         # Verhindert kaputte F5-Konfigurationen nach neuen Quelldateien.
         add_test(
             NAME vscode_config_tests
