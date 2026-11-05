@@ -17,7 +17,25 @@
 
 **ITA-Programmierprojekt 2026/27 · JK AXIS · C++17 · SFML 3.1.0 · CMake / CTest**
 
-> **Versionsstatus:** Die weiterentwickelte 2D-Version befindet sich noch im [Draft-PR #1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1). Der Branch `main` enthält bisher die stabile Konsolenbasis. Ein erfolgreicher automatischer Testlauf ist keine vollständige Freigabe des interaktiven Windows-Spiels.
+> **Versionsstatus (Integration 05.11.2026):** Diese Integrationsfassung vereint die bisherigen Konsolen-, SFML-2D- und OpenGL-3D-Quellen sowie zusätzliche automatisierte Tests. Die tatsächliche interaktive Funktion auf dem Schul-PC muss separat vorgeführt werden. Ein erfolgreicher CI-Lauf ersetzt keine manuelle Abnahme.
+
+## VS Code und Merge-Konflikte
+
+Die drei F5-Startprofile sind an ihre Build-Aufgaben gekoppelt:
+`Vier Gewinnt bauen`, `Gym Edition 2D bauen` und
+`Gym Edition 3D bauen`. Einzelheiten und Voraussetzungen:
+[VS-Code-Debugging](docs/VS_CODE_DEBUG.md).
+
+Bei einem Git-Merge-Konflikt darf `launch.json` oder `tasks.json` keine
+Markierungen wie `<<<<<<<`, `=======` oder `>>>>>>>` enthalten.
+Der Fehler liegt dann in der **nicht abgeschlossenen Git-Zusammenführung**,
+nicht am JSON-Format selbst.
+
+Für eine Lehrer-Abnahme stehen zusätzliche [Grenzfall- und
+Regeltests](docs/LEHRER_ABNAHME_TESTPROTOKOLL_2026-11-05.md) sowie
+[360 reproduzierbare Board-Prüffälle](tests/board_property_tests.cpp) zur
+Verfügung. Die Highscore-Datei wird bei beschädigten Zeilen
+**vollständig verworfen** (strenger Parser, keine teilweise Übernahme).
 
 ## Schulabgabe: Aufgabenblatt 51
 
