@@ -13,9 +13,15 @@
       "MIMode": "gdb",
       "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
       "preLaunchTask": "Vier Gewinnt bauen",
+      "environment": [
+        {
+          "name": "PATH",
+          "value": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
+      ],
       "setupCommands": [
         {
-          "description": "Pretty Printing aktivieren",
+          "description": "C++-Container lesbar im Debugger anzeigen",
           "text": "-enable-pretty-printing",
           "ignoreFailures": true
         }
