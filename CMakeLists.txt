@@ -28,6 +28,10 @@ target_link_libraries(vier-gewinnt PRIVATE gym_board)
 add_executable(board_tests tests/board_tests.cpp)
 target_link_libraries(board_tests PRIVATE gym_board)
 
+# Referenzmodell: 360 deterministische Testbretter fuer 2 bis 4 Spieler.
+add_executable(board_property_tests tests/board_property_tests.cpp)
+target_link_libraries(board_property_tests PRIVATE gym_board)
+
 # Das zweite Testprogramm kontrolliert die Textoberflaeche.
 add_executable(console_ui_tests tests/console_ui_tests.cpp src/ConsoleUI.cpp)
 target_link_libraries(console_ui_tests PRIVATE gym_board)
@@ -190,7 +194,7 @@ if(GYM_BUILD_GUI)
     endif()
 endif()
 
-foreach(target gym_board vier-gewinnt board_tests console_ui_tests gym_match match_session_tests score_file_tests soundtrack_tests school_demo_fixture_tests scene3d_tests)
+foreach(target gym_board vier-gewinnt board_tests board_property_tests console_ui_tests gym_match match_session_tests score_file_tests soundtrack_tests school_demo_fixture_tests scene3d_tests)
     if(MSVC)
         target_compile_options(${target} PRIVATE /W4)
     else()
@@ -202,6 +206,7 @@ endforeach()
 include(CTest)
 if(BUILD_TESTING)
     add_test(NAME board_unit_tests COMMAND board_tests)
+    add_test(NAME board_property_tests COMMAND board_property_tests)
     add_test(NAME match_session_unit_tests COMMAND match_session_tests)
     add_test(NAME school_demo_fixture_tests
         COMMAND school_demo_fixture_tests
@@ -241,6 +246,11 @@ if(BUILD_TESTING)
             COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration_smoke.py" "$<TARGET_FILE:vier-gewinnt>"
         )
         set_tests_properties(game_integration_tests PROPERTIES TIMEOUT 60)
+        add_test(
+            NAME game_adversarial_tests
+            COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration_adversarial.py" "$<TARGET_FILE:vier-gewinnt>"
+        )
+        set_tests_properties(game_adversarial_tests PROPERTIES TIMEOUT 90)
         # Verhindert kaputte F5-Konfigurationen nach neuen Quelldateien.
         add_test(
             NAME vscode_config_tests
