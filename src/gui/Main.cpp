@@ -61,7 +61,7 @@ sf::Font systemFont() {
 // Constructing std::filesystem::path directly from it can throw when the user's
 // directory contains characters such as 'ß'. Ask Windows for the actual module
 // path in UTF-16, keeping the path wide all the way to std::filesystem.
-std::filesystem::path executablePath(const char* argv0) {
+std::filesystem::path executablePath([[maybe_unused]] const char* argv0) {
 #ifdef _WIN32
     wstring buffer(512, L'\0');
     while (buffer.size() <= 32768) {
