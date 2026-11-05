@@ -1,4 +1,3 @@
-
 {
   "version": "0.2.0",
   "configurations": [
@@ -53,7 +52,8 @@
           "ignoreFailures": true
         }
       ],
-      "internalConsoleOptions": "neverOpen"
+      "internalConsoleOptions": "neverOpen",
+      "preLaunchTask": "Gym Edition 2D bauen"
     },
     {
       "name": "Vier Gewinnt | Gym Edition 3D",
@@ -79,8 +79,8 @@
           "ignoreFailures": true
         }
       ],
-      "internalConsoleOptions": "neverOpen"
+      "internalConsoleOptions": "neverOpen",
+      "preLaunchTask": "Gym Edition 3D bauen"
     }
   ]
 }
-
