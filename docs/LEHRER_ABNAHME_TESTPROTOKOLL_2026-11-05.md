@@ -28,7 +28,8 @@
 | A-15 | VS-Code-/CMake-Abgleich und F5-Build-Ziel | tests/vscode_config_test.py |
 | A-16 | Windows und Linux, Debug und Release | .github/workflows/cpp-quality.yml |
 | A-17 | UndefinedBehaviorSanitizer (UBSan) unter Linux | .github/workflows/cpp-quality.yml |
-| A-18 | Technischer PDF-/PPTX-/Link-Preflight | .github/workflows/docs-quality.yml |
+| A-18 | Der echte Windows-MSYS2-UCRT64-Build, CTest und direkter g++-Compilerbefehl | .github/workflows/cpp-quality.yml |
+| A-19 | Technischer PDF-/PPTX-/Link-Preflight | .github/workflows/docs-quality.yml |
 
 **Wichtig:** Die 360 Referenzprüfungen füllen das Brett auch nach einem ersten Gewinn weiter. Sie sind Belastungstests für die Board-Klasse und keine 360 regelkonform beendeten Spielpartien. Der feste Seed 0xC0FFEE42 ermöglicht die Wiederholung.
 
@@ -49,6 +50,8 @@ ctest --test-dir build -C Release --output-on-failure
 ~~~
 
 CTest muss für jede Build-Art alle registrierten Tests als bestanden melden. Bei Fehlschlag zeigt es den genauen Testnamen und die Ausgabe. Die Tests legen eigene temporäre Datenordner an und greifen nicht auf persönliche Highscores zu.
+
+Ein separater Windows-Job richtet MSYS2 UCRT64 ein und überprüft den CMake-Build, alle CTest-Prüfungen sowie den direkten g++-Befehl aus der VS-Code-Buildaufgabe.
 
 Ein weiterer CI-Lauf prüft unter Linux mit UndefinedBehaviorSanitizer, ob die ausgeführten C++-Pfade undefiniertes Verhalten verursachen. Ein erfolgreicher Sanitizer-Lauf ist kein mathematischer Beweis völliger Fehlerfreiheit.
 
