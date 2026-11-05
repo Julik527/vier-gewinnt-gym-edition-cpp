@@ -1,3 +1,4 @@
+
 {
   "version": "0.2.0",
   "configurations": [
@@ -13,6 +14,12 @@
       "MIMode": "gdb",
       "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
       "preLaunchTask": "Vier Gewinnt bauen",
+      "environment": [
+        {
+          "name": "PATH",
+          "value": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
+      ],
       "setupCommands": [
         {
           "description": "Pretty Printing aktivieren",
@@ -33,11 +40,17 @@
       "externalConsole": false,
       "MIMode": "gdb",
       "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
-      "preLaunchTask": "Gym Edition 2D bauen",
       "environment": [
         {
           "name": "PATH",
           "value": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
+      ],
+      "setupCommands": [
+        {
+          "description": "Pretty Printing aktivieren",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
         }
       ],
       "internalConsoleOptions": "neverOpen"
@@ -53,7 +66,6 @@
       "externalConsole": false,
       "MIMode": "gdb",
       "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
-      "preLaunchTask": "Gym Edition 3D bauen",
       "environment": [
         {
           "name": "PATH",
@@ -62,7 +74,7 @@
       ],
       "setupCommands": [
         {
-          "description": "Pretty Printing",
+          "description": "Pretty Printing aktivieren",
           "text": "-enable-pretty-printing",
           "ignoreFailures": true
         }
@@ -71,3 +83,4 @@
     }
   ]
 }
+
