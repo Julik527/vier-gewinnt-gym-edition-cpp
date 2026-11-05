@@ -3,7 +3,7 @@
   "tasks": [
     {
       "label": "Vier Gewinnt bauen",
-      "type": "shell",
+      "type": "process",
       "command": "C:/msys64/ucrt64/bin/g++.exe",
       "args": [
         "-std=c++17",
@@ -11,7 +11,7 @@
         "-O0",
         "-Wall",
         "-Wextra",
-        "-pedantic",
+        "-Wpedantic",
         "-Iinclude",
         "src/main.cpp",
         "src/Board.cpp",
