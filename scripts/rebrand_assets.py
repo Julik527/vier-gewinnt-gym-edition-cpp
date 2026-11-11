@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   scripts/rebrand_assets.py
 # Aufgabe: Dokumentiert den einmaligen Austausch der alten Projektlogos.
@@ -20,7 +19,7 @@ ROOT=Path(__file__).resolve().parents[1]
 PPTX=ROOT/"praesentation/Vier_Gewinnt_Praesentation_FINAL.pptx"
 REPORT=ROOT/"docs/BRAND_QA_REPORT.md"
 OLD_ID="JK-CD-DE-2026-003"
-NEW_ID="JK AXIS | GOLD MASTER"
+NEW_ID="JK AXIS"
 # Die alte Bildkennung hilft, gezielt das frühere Logo zu erkennen.
 LEGACY_HASH="bffb61e37fae"
 
@@ -140,7 +139,7 @@ def main():
         for path in sorted(folder.glob("*.pdf")):
             pdf_report[path.relative_to(ROOT).as_posix()]=patch_pdf(path,previous,icon)
     lines=[
-        "# JK AXIS | GOLD MASTER – Projektbranding",
+        "# Bericht zur Dokumentengestaltung",
         "",
         "Automatisierte Prüfung; keine vollständige visuelle oder fachliche Freigabe.",
         "",
