@@ -24,10 +24,12 @@
 Dr. Litera hat am 11.11.2026 per E-Mail angekündigt: **PT ca. 70 Minuten**, Themen `struct`/`class`, Getter/Setter, Konstruktor/Parameterkonstruktor, Destruktor, Dateioperationen, dynamischer Speicher, `this`-Zeiger und Header/Implementierung/`main`; **PP ca. 10 Minuten pro Schüler**. Die bislang vorhandenen 15+15-Minuten-Sprechkarten gehören zu einem anderen Format. Die aktualisierten Prüfungsunterlagen liegen hier:
 
 - [Präziser C++-Lernzettel für PT](docs/PT_PRUEFUNG_19_11_2026.md)
-- [Meilenstein-Präsentation: acht Abschnitte, Zielzeit 10:00](praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
+- [Meilenstein-Präsentation: Ablauf und Sprechregie](praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
+- [Aktuelle PowerPoint-Präsentation: 8 Folien](praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx)
+- [Aktuelle Präsentation als PDF: 8 Seiten](praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf)
 - [Schulische Konsolenabgabe](school/README.md) (auf dem zugehörigen Schulabgabe-Branch)
 
-**Wichtig:** Folienzeiten sind Planwerte, die tatsächliche Dauer muss laut mit Stoppuhr gemessen werden. Das vorhandene PowerPoint aus dem älteren Präsentationsformat wurde dadurch nicht stillschweigend ersetzt.
+**Wichtig:** Die neue 8-Folien-PPTX und ihre PDF-Fassung sind das aktuelle Material für die ca. zehnminütige Einzelpräsentation. Die älteren 17 Folien und die 15+15-Minuten-Sprechkarten sind historische Materialien für ein anderes Format. Folienzeiten sind Planwerte; die tatsächliche Dauer muss mit Stoppuhr gemessen werden.
 
 ## VS Code und Merge-Konflikte
 
@@ -145,7 +147,7 @@ ctest --test-dir build-gui -C Release --output-on-failure
 
 SFML 3.1.0 wird bei Bedarf über CMake FetchContent eingebunden. Auf Windows müssen ein geeigneter Compiler und die entsprechenden Laufzeitbibliotheken verfügbar sein.
 
-**VS Code:** Zwei F5-Profile für Konsole und GUI liegen in `.vscode/`. Für den MSYS2-UCRT64-GUI-Build sind CMake, Ninja und die UCRT64-Toolchain erforderlich. [Details und Fehlerbehebung](docs/REPOSITORY_GUIDE.md).
+**VS Code:** Drei F5-Profile für Konsole, 2D und 3D liegen in `.vscode/`. Für den MSYS2-UCRT64-GUI-Build sind CMake, Ninja und die UCRT64-Toolchain erforderlich. [Details und Fehlerbehebung](docs/REPOSITORY_GUIDE.md).
 
 **Schul-Demo in PowerShell:** `.\scripts\demo.ps1 -Mode Both` baut und startet zunächst die Grafik- und danach die Konsolenversion. Die Programme werden absichtlich **nicht parallel** ausgeführt, da sie dieselben lokalen Dateien verwenden.
 

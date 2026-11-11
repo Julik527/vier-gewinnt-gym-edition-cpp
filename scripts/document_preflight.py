@@ -25,9 +25,11 @@ EXPECTED_PDFS = {
     "reference/Meilenstein_2026-10-29_Pruefbericht.pdf": 10,
     "reference/UML_Klassendiagramm_JK-CD-DE-2026-003.pdf": 11,
     "praesentation/Vier_Gewinnt_Praesentation_FINAL.pdf": 17,
+    "praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf": 8,
     "praesentation/Vier_Gewinnt_Vortragsleitfaden_FINAL.pdf": 3,
 }
 PPTX = "praesentation/Vier_Gewinnt_Praesentation_FINAL.pptx"
+CURRENT_PPTX = "praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx"
 LEGACY_IMAGE_SHA_PREFIX = "bffb61e37fae"
 
 
@@ -59,6 +61,26 @@ def check(root: Path, presentation_only: bool = False) -> int:
         except Exception as error:
             errors.append(f"PPTX cannot be opened: {error}")
 
+    # Die aktuelle Kurzpräsentation ist getrennt vom früheren 17-Folien-Format.
+    current = root / CURRENT_PPTX
+    if not current.is_file():
+        errors.append(f"Missing current presentation: {CURRENT_PPTX}")
+    else:
+        try:
+            current_prs = Presentation(current)
+            if len(current_prs.slides) != 8:
+                errors.append(f"Expected 8 current slides, found {len(current_prs.slides)}")
+            for index, slide in enumerate(current_prs.slides, start=1):
+                visible = " ".join(shape.text for shape in slide.shapes if shape.has_text_frame)
+                if not visible.strip():
+                    errors.append(f"Current presentation: empty slide {index}")
+                note = slide.notes_slide.notes_text_frame
+                if note is None or not note.text.strip():
+                    errors.append(f"Current presentation: missing speaker notes on slide {index}")
+            notes.append(f"PPTX: {len(current_prs.slides)} current milestone slides with notes")
+        except Exception as error:
+            errors.append(f"Current PPTX cannot be opened: {error}")
+
     for path in [
         "assets/brand/jk-axis-precision-symbol.svg",
         "assets/brand/jk-axis-precision-symbol-inverse.svg",
@@ -77,7 +99,8 @@ def check(root: Path, presentation_only: bool = False) -> int:
             errors.append(f"SVG parsing error in {path}: {error}")
 
     if presentation_only:
-        pdf_files = {PPTX.replace(".pptx", ".pdf"): 17}
+        pdf_files = {PPTX.replace(".pptx", ".pdf"): 17,
+                     CURRENT_PPTX.replace(".pptx", ".pdf"): 8}
     else:
         pdf_files = EXPECTED_PDFS
 
