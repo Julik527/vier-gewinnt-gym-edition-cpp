@@ -11,9 +11,9 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 PATTERN = re.compile(
-    r"gold[\\s-]*master|gold[\\s-]*standard|goldstandard|"
-    r"first[\\s-]*class|\\bdiamond\\b|\\bultimate\\b|"
-    r"10\\s*(?:von|/)\\s*10",
+    r"gold[\s-]*master|gold[\s-]*standard|goldstandard|"
+    r"first[\s-]*class|\bdiamond\b|\bultimate\b|"
+    r"10\s*(?:von|/)\s*10",
     re.IGNORECASE,
 )
 IGNORED = {
