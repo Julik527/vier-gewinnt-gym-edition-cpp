@@ -1,0 +1,38 @@
+name: Generate ten-minute milestone presentation
+
+on:
+  push:
+    branches: [docs/sachliche-projektdokumentation-2026-11-11]
+    paths:
+      - "scripts/build_milestone_10min.py"
+      - ".github/workflows/generate-milestone.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install document generation packages
+        run: python -m pip install --disable-pip-version-check python-pptx reportlab
+      - name: Build and validate presentation
+        run: python scripts/build_milestone_10min.py
+      - name: Commit generated artifacts to working branch
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: generate current ten-minute milestone presentation"
+            git push origin HEAD:docs/sachliche-projektdokumentation-2026-11-11
+          fi
