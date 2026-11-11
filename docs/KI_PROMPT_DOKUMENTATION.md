@@ -1,6 +1,6 @@
 # KI-Prompt-Dokumentation – Vier Gewinnt | Gym Edition
 
-**Stand:** Arbeitstag 28.10.2026 · **Anforderung:** FR-16 · **Gestaltung:** JK AXIS GOLD MASTER · **Technologie:** C++17 mit optionaler SFML-2D-GUI
+**Stand:** Arbeitstag 28.10.2026 · **Anforderung:** FR-16 · **Gestaltung:** JK AXIS · **Technologie:** C++17 mit optionaler SFML-2D-GUI
 
 ## Transparenz der Quellen
 **O = Originalfrage** (direkt sichtbar oder durch sichtbare Verlaufsnotiz gestützt); **R = sinngemäß rekonstruierter Auftrag**, kein wörtliches Zitat. Dies ist eine strukturierte Dokumentation der verfügbaren Projektkommunikation und Dateien, **kein vollständiger technischer Chat-Export**. Verwendete KI-Ausgaben wurden projektbezogen eingeordnet; die tatsächliche Eigenprüfung und Abnahme bleiben gesondert nachzuweisen.
@@ -8,6 +8,8 @@
 Die Einträge P-01 bis P-16 beschreiben den historischen Stand vom 22.–25.10.2026. Ihre damaligen Quellenkennzeichnungen bleiben erhalten. Neue Einträge ab P-17 beziehen sich auf den bereitgestellten heutigen Gesprächsauszug beziehungsweise ausdrücklich gekennzeichnete Rekonstruktionen. Für nicht sichtbare Teile des Verlaufs wird kein vollständiger Originalwortlaut behauptet. Einzelne genaue Uhrzeiten sind nicht durchgehend verfügbar.
 
 ## Promptregister
+
+*Hinweis: Die wörtlichen Originalprompts bleiben als historische Nachweise unverändert. Formulierungen darin sind keine Qualitätsbewertung der Abgabe.*
 
 ### P-01 – Gym-Design und Bedienung
 **Datum:** 22.10.2026 · **Art:** R.
@@ -408,7 +410,7 @@ Die folgenden Belege stammen aus dem sichtbaren Projektgespräch. Technische Feh
 **Ergebnis:** Fachfunktionen und CI-Nachweise als weitgehend vorhanden bewertet; Handout, KI-Nachtrag, echte Sprintreviews und Generalprobe als offen identifiziert.  
 **Grenze:** Kein Lehrerurteil; der geforderte Konsolenmodus hat Priorität vor der freiwilligen GUI.
 
-### P-42: Abgabereife auf Goldstandard verbessern
+### P-42: Abgabe vorbereiten und prüfen
 **31.10.2026 · O.** Nutzer: „Mache alle Aspekte auf 10 von 10 First Class sehr professionell und sehr vollkommen und sehr penibel und sehr präzise auf Gold Standard“.  
 **Ergebnis:** Eigenes Handout zum Aufgabenblatt, Anforderungsmatrix, Kanban-Review, 30-minütiger Vorführplan und isolierte GYM1-Beispieldateien erstellt; neuer CTest prüft die Vorführdaten.  
 **Grenze:** Manuelle Tests, eigenständige Erklärfähigkeit, Lehrkraftfeedback und Generalprobe bleiben offen; kein vorgetäuschter Abschluss.

@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-# JK AXIS | GOLD MASTER
+# JK AXIS | Vier Gewinnt
 ## Vier Gewinnt – Gym Edition · Trainings-Arena
 
 **Version:** 28.10.2026 · **Technik:** C++17-Konsole mit ANSI-Farben, falls verfügbar.

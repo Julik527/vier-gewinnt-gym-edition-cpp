@@ -90,9 +90,9 @@ Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhänge
 
 **Wichtige Grenzen:** Kein KI-Gegner, kein Netzwerkspiel, keine externe 3D-Engine. Die GUI und die Konsole verwenden noch separate Ablauf-Controller; gemeinsam sind die Spielregeln im `Board` und die sichere Dateiersatzfunktion.
 
-## Gym Edition 3D | Signature Arena
+## Gym Edition 3D | Arena
 
-**Präzisionsupdate:** 3D-Mausklicks werden jetzt über eine perspektivische Strahl-Schnittberechnung auf das Spielbrett abgebildet. Hover-Auswahl, Schutz vor Navigation während der Fallanimation sowie ein sicherer „Sichern und beenden“-Ablauf sind ergänzt. Falls beim Gewinn die Highscore-Datei nicht geschrieben werden kann, erscheint eine Warnung mit Möglichkeit zum erneuten Schreiben, ohne doppelte Siegzählung. Siehe [3D-Testplan](docs/3D_TESTPLAN.md).
+**Aktualisierung:** 3D-Mausklicks werden jetzt über eine perspektivische Strahl-Schnittberechnung auf das Spielbrett abgebildet. Hover-Auswahl, Schutz vor Navigation während der Fallanimation sowie ein sicherer „Sichern und beenden“-Ablauf sind ergänzt. Falls beim Gewinn die Highscore-Datei nicht geschrieben werden kann, erscheint eine Warnung mit Möglichkeit zum erneuten Schreiben, ohne doppelte Siegzählung. Siehe [3D-Testplan](docs/3D_TESTPLAN.md).
 
 
 Die freiwillige 3D-Ausbaustufe ergänzt die Konsole und die 2D-Version um eine eigenständige OpenGL-Anwendung mit echten beleuchteten Volumenkörpern, perspektivischem Spielfeld, Tiefenprüfung, steuerbarer Orbit-Kamera und Sieg-Effekten. Die bestehenden Spielregeln, Spielstände (`GYM1`) und Highscores werden über `MatchSession` weiterverwendet.

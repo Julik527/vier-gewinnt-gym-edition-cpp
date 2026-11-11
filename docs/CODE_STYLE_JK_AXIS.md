@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-# JK AXIS | GOLD MASTER
+# JK AXIS | Vier Gewinnt
 ## Kommentar- und Codeleitfaden – Vier Gewinnt | Gym Edition
 
 **Projekt:** C++17 · Programmiertechnik · Schulprojekt
@@ -18,7 +18,7 @@
 Jede Quell- und Header-Datei beginnt mit einer kurzen Beschreibung. Der Kopf ist absichtlich schlicht: In C++ lassen sich keine verlässlichen Markenfarben darstellen, aber Name, Aufbau und Schreibweise sind einheitlich.
 
 ```cpp
-// JK AXIS | GOLD MASTER
+// JK AXIS | Vier Gewinnt
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   src/Board.cpp
 // Aufgabe: Verwaltet das Spielfeld, die Spielzüge und die Gewinnerkennung.

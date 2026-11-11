@@ -1,4 +1,4 @@
-# JK AXIS | GOLD MASTER – Projektbranding
+# Bericht zur Dokumentengestaltung
 
 **Historischer Migrationsbericht mit Ergänzung vom 28.10.2026.** Die erste Tabelle dokumentiert den ursprünglichen Logo-Austausch und seine damaligen Seitenzahlen. Sie ist kein aktuelles Bestandsverzeichnis.
 

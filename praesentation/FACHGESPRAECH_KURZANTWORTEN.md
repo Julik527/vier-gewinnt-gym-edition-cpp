@@ -1,7 +1,7 @@
 # JK AXIS | FACHGESPRÄCH · 30 PRÜFUNGSFRAGEN
 
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA 2026/27  
-**Ausgabe:** GOLD MASTER | Fachgesprächstraining · Revision 02.11.2026  
+**Ausgabe:** Fachgesprächstraining · Revision 02.11.2026  
 **Anforderung:** kurze, korrekte Antworten, die sich im tatsächlichen Quellcode belegen lassen.
 
 ## Lernmethode

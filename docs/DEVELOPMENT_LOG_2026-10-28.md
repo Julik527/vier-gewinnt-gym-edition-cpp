@@ -8,7 +8,7 @@
 
 Der Arbeitstag umfasst die JK-AXIS-Markenintegration in die Projektunterlagen und die Weiterentwicklung des Spiels von der Konsole zur zusätzlichen 2D-Anwendung. Dieses Protokoll beschreibt nur nachweisbare Arbeiten an diesem Repository. Andere Tagesprojekte, etwa die Portfolio-Website, gehören nicht zur Spielabgabe.
 
-Die Umsetzung ist weit fortgeschritten. Die endgültige Abnahme am Schulrechner steht noch aus. Die Bezeichnung GOLD MASTER gehört zur Gestaltung und ersetzt kein Testergebnis. Die Dokumentation entstand mit KI-Unterstützung. Eine vollständig selbstständige Entwicklung oder bereits bestandene Lehrkraftprüfung wird nicht behauptet.
+Die Umsetzung ist weit fortgeschritten. Die endgültige Abnahme am Schulrechner steht noch aus. Die Dokumentation entstand mit KI-Unterstützung. Eine vollständig selbstständige Entwicklung oder bereits bestandene Lehrkraftprüfung wird nicht behauptet.
 
 ## 1. Markenintegration und verständliche Dokumentation
 
