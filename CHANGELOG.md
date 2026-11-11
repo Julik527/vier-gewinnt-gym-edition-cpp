@@ -1,5 +1,14 @@
 # Änderungsprotokoll
 
+## 11.11.2026: Abgabeweg ausschließlich Konsole (PR-Vorschlag)
+
+- Eigenständiges, quelloffenes C++17-Konsolen-Schulabgabe-ZIP per Datei-Allowlist und SHA-256-Manifest.
+- Nur die Konsolenquellen, passende Unit-/Property-/Integrationstests und schulbezogene Dokumente gelangen ins ZIP.
+- Isoliertes CMake für das Abgabepaket ohne SFML/OpenGL, Windows-/Linux-Prüfung in Debug und Release.
+- Handout, Fachgesprächsleitfaden, Abgabecheckliste, KI-Nutzungs- und echtes manuelles Testprotokoll ergänzt.
+- Grafische 2D- und 3D-Entwicklungen im Repository bleiben unverändert, sind aber keine Schulabgabe.
+
+
 ## 31.10.2026: Eigenständige OpenGL-3D-Arena
 
 - Freiwilliges `vier-gewinnt-3d`-Programm mit räumlichen Materialien, beleuchteten 3D-Steinen, Metallrahmen, Perspektive, Tiefentest und Orbit-Kamera.

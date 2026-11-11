@@ -37,6 +37,14 @@ Regeltests](docs/LEHRER_ABNAHME_TESTPROTOKOLL_2026-11-05.md) sowie
 Verfügung. Die Highscore-Datei wird bei beschädigten Zeilen
 **vollständig verworfen** (strenger Parser, keine teilweise Übernahme).
 
+## Schulabgabe: ausschließlich C++-Konsole
+
+**Verbindlicher Abgabeumfang:** das objektorientierte C++17-Konsolenspiel. Die SFML-2D- und OpenGL-3D-Versionen bleiben als freiwillige Entwicklungs-/Portfolio-Experimente im Repository, sind aber **nicht Bestandteil der Schulabgabe**. Das ist kein Beleg dafür, dass Grafikversionen ausdrücklich verboten sind; für die Bewertung hat die Konsolenpflicht Vorrang.
+
+Die isolierte, eigenständig baubare Konsolen-Schulabgabe wird mit `python scripts/package-school-console.py` erstellt und lässt sich mit `python scripts/package-school-console.py --verify` prüfen. Enthalten sind ausschließlich die benötigten C++-Dateien, Konsolentests, CMake und schulbezogene Unterlagen; keine GUI-, OpenGL- oder Audiodateien. Der GitHub-Workflow `School Console Only | Build & Acceptance` soll **das ausgepackte ZIP** auf Windows und Linux in Debug/Release bauen und testen.
+
+[Anleitung zur isolierten Schulabgabe](school/README.md) · [Handout nur für Konsole](school/HANDOUT.md) · [Fachgespräch](school/FACHGESPRAECH.md) · [Offene manuelle Prüfungen](school/TESTPROTOKOLL.md)
+
 ## Schulabgabe: Aufgabenblatt 51
 
 Die fachlichen Pflichtpunkte richten sich nach **Dr. Michael Literas Aufgabenblatt 51 (Programmiertechnik 2026/2027)**. Die Konsolenversion hat Priorität vor zusätzlichen 2D-Effekten.
