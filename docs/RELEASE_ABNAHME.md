@@ -1,6 +1,6 @@
-# Diamond Quality Gate | Vier Gewinnt – Gym Edition
+# Release- und Abnahmecheckliste | Vier Gewinnt – Gym Edition
 
-**Stand:** 11.11.2026 · **Zweck:** Nachweisbare Freigabe statt unbelegter „10/10“- oder „fehlerfrei“-Behauptungen.
+**Stand:** 11.11.2026 · **Zweck:** Technische und manuelle Freigabekriterien für die Veröffentlichung.
 
 ## A. Automatisierte Prüfungen (je Release-Kandidat)
 
@@ -48,6 +48,6 @@ Für **jeden** Test Ergebnis mit Datum, Commit, Windows-Version, Grafikkarte, Au
 
 ## Freigabeentscheidung
 
-**Noch nicht freigegeben.** Die Kästchen bleiben offen, solange keine realen Belege vorliegen. Ein grüner Pull Request ist ein technischer Zwischenstand, keine bestätigte 10/10-Bewertung und keine Schulnote.
+**Noch nicht freigegeben.** Die Kästchen bleiben offen, solange keine realen Belege vorliegen. Ein grüner Pull Request ist ein technischer Zwischenstand, keine schulische Abnahme oder Bewertung.
 
 Siehe auch [Release-Checkliste](RELEASE_CHECKLIST.md), [GUI-Testplan](GUI_TESTPLAN.md), [3D-Testplan](3D_TESTPLAN.md), [Anforderungsmatrix](SCHULANFORDERUNGEN_51_STATUS.md).

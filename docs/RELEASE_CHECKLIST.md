@@ -3,7 +3,7 @@
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 / SFML 3.1
 **Stand:** 11.11.2026. Diese Datei enthält keine erfundenen Testresultate.
 
-**Verbindliche Ergänzung:** [Diamond Quality Gate](DIAMOND_RELEASE_GATE.md). CI-Builds und reale Windows-Abnahme werden anhand konkreter Belege getrennt geprüft.
+**Verbindliche Ergänzung:** [Release-Abnahmecheckliste](RELEASE_ABNAHME.md). CI-Builds und reale Windows-Abnahme werden anhand konkreter Belege getrennt geprüft.
 
 ## Schulische Freigabe nach Aufgabenblatt 51 (31.10.2026)
 

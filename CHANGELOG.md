@@ -1,6 +1,6 @@
 # Änderungsprotokoll
 
-## 11.11.2026: Diamond Maintainability und Release-Gate (PR-Vorschlag)
+## 11.11.2026: Architekturüberarbeitung und Releaseprüfung (PR-Vorschlag)
 
 - GUI-Systemschrift und Unicode-Pfadfunktion in `GymPlatform.h` zusammengefasst.
 - OpenGL-Grundformen und Kamera-Projektionssetup aus `Main3D.cpp` in `Gym3DRender.h` ausgelagert; Spielabläufe unverändert.
