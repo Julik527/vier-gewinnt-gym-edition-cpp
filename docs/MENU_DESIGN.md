@@ -6,8 +6,7 @@
   </picture>
 </p>
 
-# Vier Gewinnt | Gym Edition
-## Menüführung und Spielstart · JK AXIS | Vier Gewinnt
+# Menüführung und Spielstart | Vier Gewinnt – Gym Edition
 
 **Sprache:** C++17 · **Oberfläche:** Konsolenmenü
 **Version:** 28.10.2026

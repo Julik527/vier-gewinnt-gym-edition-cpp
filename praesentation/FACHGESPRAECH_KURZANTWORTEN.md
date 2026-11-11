@@ -1,4 +1,4 @@
-# JK AXIS | FACHGESPRÄCH · 30 PRÜFUNGSFRAGEN
+# Fachgespräch: 30 Prüfungsfragen – Vier Gewinnt
 
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA 2026/27  
 **Ausgabe:** Fachgesprächstraining · Revision 02.11.2026  

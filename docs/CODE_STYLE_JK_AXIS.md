@@ -6,8 +6,7 @@
   </picture>
 </p>
 
-# JK AXIS | Vier Gewinnt
-## Kommentar- und Codeleitfaden – Vier Gewinnt | Gym Edition
+# Kommentar- und Codeleitfaden | Vier Gewinnt – Gym Edition
 
 **Projekt:** C++17 · Programmiertechnik · Schulprojekt
 **Stand:** 28.10.2026

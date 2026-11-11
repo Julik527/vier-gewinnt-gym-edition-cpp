@@ -1,4 +1,4 @@
-# JK AXIS | Präsentation und Codeverteidigung
+# Präsentation und Codeerklärung
 
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA 2026/27  
 **Ausgabe:** Vorbereitungsunterlagen · Revision 02.11.2026  

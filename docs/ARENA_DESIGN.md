@@ -6,8 +6,7 @@
   </picture>
 </p>
 
-# JK AXIS | Vier Gewinnt
-## Vier Gewinnt – Gym Edition · Trainings-Arena
+# Trainings-Arena | Vier Gewinnt – Gym Edition
 
 **Version:** 28.10.2026 · **Technik:** C++17-Konsole mit ANSI-Farben, falls verfügbar.
 
