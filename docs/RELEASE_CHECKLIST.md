@@ -1,7 +1,9 @@
 # Release- und Abnahmecheckliste
 
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 / SFML 3.1
-**Stand:** 31.10.2026. Diese Datei enthält keine erfundenen Testresultate.
+**Stand:** 11.11.2026. Diese Datei enthält keine erfundenen Testresultate.
+
+Siehe auch die [Release- und Abnahmecheckliste](RELEASE_ABNAHME.md). Automatisierte Prüfungen und eine manuelle Windows-/Schulabnahme werden getrennt dokumentiert.
 
 ## Schulische Freigabe nach Aufgabenblatt 51 (31.10.2026)
 

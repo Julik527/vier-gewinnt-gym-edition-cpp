@@ -106,7 +106,7 @@ $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
 & .\build-school-3d-preflight\vier-gewinnt-3d.exe
 ```
 
-In VS Code ist alternativ das neue Debugprofil **Vier Gewinnt | Gym Edition 3D** verfügbar. Dazu muss tatsächlich der Ordner `C:\Dev\GymEdition` als Workspace geöffnet sein. Der erstmalige SFML-/OpenGL-Build benötigt Internet und dauert länger.
+In VS Code gibt es Drei F5-Profile (Konsole, 2D, 3D). Das Debugprofil **Vier Gewinnt | Gym Edition 3D** startet die räumliche Variante. Dazu muss tatsächlich der Ordner `C:\Dev\GymEdition` als Workspace geöffnet sein. Der erstmalige SFML-/OpenGL-Build benötigt Internet und dauert länger.
 
 **Bedienung:** Rechte Maustaste ziehen = Kamera drehen; Mausrad = Zoom; A/D und Q/E = Kamera; C = zurücksetzen; linke Maustaste = Spalte wählen/setzen; Pfeile und Leertaste = Spalte/Stein; U = Undo; S = Speichern; Escape = Menü; F9/F10/F11 = Originalmusik/Lautstärke. Im Menü 2, 3 oder 4 Spieler wählen.
 
@@ -116,7 +116,7 @@ In VS Code ist alternativ das neue Debugprofil **Vier Gewinnt | Gym Edition 3D**
 
 ## Schnellstart
 
-**Windows 11 und Visual Studio Code:** Die 2D-Version startet nur auf dem Entwicklungsbranch. Wenn `git branch --show-current` noch `main` meldet oder `src/gui/Main.cpp` fehlt, lies zuerst die [Windows-2D-Schnellstartanleitung](docs/WINDOWS_QUICKSTART.md). Dort sind der sichere Git-Branchwechsel, die getestete MSYS2-UCRT64-Toolchain, der Windows-Pfad mit `ß`, GDB-Fehler `-environment-cd` und die Befehle zur Fehlersuche dokumentiert. Im PowerShell-Projektordner bietet `./scripts/check-2d.ps1` eine Diagnose ohne Änderungen.
+**Windows 11 und Visual Studio Code:** Konsole, SFML-2D und OpenGL-3D sind gemeinsam in `main` integriert. Sichere lokale Änderungen vor einem `git pull --ff-only`. Die drei F5-Profile bauen die zugehörigen Programme; für 2D und 3D werden passende SFML-, CMake-/Compiler- und Grafiktreiber-Voraussetzungen benötigt. [Windows-Schnellstart](docs/WINDOWS_QUICKSTART.md).
 
 **Für Spieler:** Sobald ein geprüfter Release bereitsteht, [Releases öffnen](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/releases) und das Windows-ZIP entpacken. Vor einem veröffentlichten Release lassen sich automatisch erzeugte CI-Testpakete unter [Actions](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions) als temporäre Artifacts abrufen. Diese sind keine offizielle Endfassung.
 
@@ -171,7 +171,7 @@ reference/            Schulische Referenzdokumente
 - **Persistenz:** `GYM1`-Spielstände werden vor dem Übernehmen geprüft. Highscores werden strikt eingelesen; unvollständige Dateien dürfen keine gültigen Ergebnisse überschreiben.
 - **Tests:** CTest umfasst Spielfeld, Spielzustand, Textoberfläche und Integration. Die GitHub-Actions-Matrix prüft unterschiedliche Compiler- und Betriebssystemkonfigurationen.
 
-[Architektur im Detail](docs/ARCHITECTURE.md) · [Tests und Nachweise](docs/QUALITY_AND_TESTS.md) · [Windows-GUI-Testplan](docs/GUI_TESTPLAN.md)
+[Release- und Abnahmecheckliste](docs/RELEASE_ABNAHME.md) · [Architektur im Detail](docs/ARCHITECTURE.md) · [Tests und Nachweise](docs/QUALITY_AND_TESTS.md) · [Windows-GUI-Testplan](docs/GUI_TESTPLAN.md)
 
 ## Präsentation und Projektnachweise
 

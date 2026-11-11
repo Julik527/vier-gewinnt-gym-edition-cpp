@@ -5,6 +5,8 @@
 #include "Gym3DMath.h"
 #include "Gym3DPicking.h"
 #include "GymBeat.h"
+#include "GymPlatform.h"
+#include "Gym3DRender.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
@@ -17,13 +19,6 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#ifdef _WIN32
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-#endif
-
 using namespace std;
 namespace {
 constexpr float W=1440.f,H=900.f;
@@ -32,106 +27,21 @@ const sf::Color white(244,248,255),muted(153,176,206),blue(63,131,242),green(69,
 const array<sf::Color,4> colors={sf::Color(61,149,252),sf::Color(247,190,85),
                                  sf::Color(76,217,163),sf::Color(196,145,252)};
 enum class Page { Intro,Menu,Names,Playing,Result,Help,ConfirmExit,ConfirmNew,ConfirmLoad };
-sf::Font loadFont() {
-    sf::Font result;
-    const array<const char*,6> choices={{
-        "C:/Windows/Fonts/segoeui.ttf","C:/Windows/Fonts/arial.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-        "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf",
-        "/usr/share/fonts/TTF/DejaVuSans.ttf",
-        "/System/Library/Fonts/Supplemental/Arial.ttf"
-    }};
-    for(const char* location:choices) if(result.openFromFile(location)) return result;
-    throw runtime_error("Keine Systemschrift vorhanden (Segoe UI / DejaVu Sans).");
-}
-void color(sf::Color c,float strength=1.f,float alpha=1.f) {
-    glColor4f(c.r/255.f*strength,c.g/255.f*strength,c.b/255.f*strength,alpha);
-}
 sf::Color forSymbol(char symbol) {
     switch(symbol) {case 'R':return colors[0];case 'B':return colors[1];
         case 'G':return colors[2];case 'Y':return colors[3];default:return muted;}
 }
-void cube(float x,float y,float z,float sx,float sy,float sz,sf::Color tint) {
-    const float a=x-sx*.5f,b=x+sx*.5f;
-    const float c=y-sy*.5f,d=y+sy*.5f;
-    const float e=z-sz*.5f,f=z+sz*.5f;
-    color(tint);
-    glBegin(GL_QUADS);
-    glNormal3f(0,0,1);glVertex3f(a,c,f);glVertex3f(b,c,f);glVertex3f(b,d,f);glVertex3f(a,d,f);
-    glNormal3f(0,0,-1);glVertex3f(b,c,e);glVertex3f(a,c,e);glVertex3f(a,d,e);glVertex3f(b,d,e);
-    glNormal3f(1,0,0);glVertex3f(b,c,f);glVertex3f(b,c,e);glVertex3f(b,d,e);glVertex3f(b,d,f);
-    glNormal3f(-1,0,0);glVertex3f(a,c,e);glVertex3f(a,c,f);glVertex3f(a,d,f);glVertex3f(a,d,e);
-    glNormal3f(0,1,0);glVertex3f(a,d,f);glVertex3f(b,d,f);glVertex3f(b,d,e);glVertex3f(a,d,e);
-    glNormal3f(0,-1,0);glVertex3f(a,c,e);glVertex3f(b,c,e);glVertex3f(b,c,f);glVertex3f(a,c,f);
-    glEnd();
-}
-// A real illuminated cylinder: front, side wall and back, all in world space.
-void disc(float x,float y,float z,float radius,float thickness,sf::Color tint) {
-    constexpr int segments=28;
-    glPushMatrix();
-    glTranslatef(x,y,z);
-    color(tint);
-    glBegin(GL_TRIANGLE_FAN);
-    glNormal3f(0,0,1);glVertex3f(0,0,thickness*.5f);
-    for(int i=0;i<=segments;++i){const float a=2*gym3d::pi*i/segments;
-        glVertex3f(cos(a)*radius,sin(a)*radius,thickness*.5f);}
-    glEnd();
-    glBegin(GL_QUAD_STRIP);
-    for(int i=0;i<=segments;++i){const float a=2*gym3d::pi*i/segments;
-        glNormal3f(cos(a),sin(a),0);
-        glVertex3f(cos(a)*radius,sin(a)*radius,thickness*.5f);
-        glVertex3f(cos(a)*radius,sin(a)*radius,-thickness*.5f);}
-    glEnd();
-    color(tint,.62f);
-    glBegin(GL_TRIANGLE_FAN);
-    glNormal3f(0,0,-1);glVertex3f(0,0,-thickness*.5f);
-    for(int i=0;i<=segments;++i){const float a=2*gym3d::pi*i/segments;
-        glVertex3f(cos(a)*radius,sin(a)*radius,-thickness*.5f);}
-    glEnd();
-    glPopMatrix();
-}
-// Embossed barbell mark on the face of every volumetric token.
-void dumbbellRelief(float x,float y,float z) {
-    const sf::Color steel(228,238,248),highlight(135,189,235);
-    cube(x,y,z+.17f,.53f,.09f,.07f,steel);
-    cube(x-.24f,y,z+.18f,.11f,.35f,.09f,steel);
-    cube(x+.24f,y,z+.18f,.11f,.35f,.09f,steel);
-    cube(x-.31f,y,z+.20f,.045f,.26f,.06f,highlight);
-    cube(x+.31f,y,z+.20f,.045f,.26f,.06f,highlight);
-}
-void ring(float x,float y,float z,float outer,float inner,sf::Color tint) {
-    constexpr int segments=24;
-    color(tint);
-    glBegin(GL_QUAD_STRIP);
-    glNormal3f(0,0,1);
-    for(int i=0;i<=segments;++i){const float a=2.f*gym3d::pi*i/segments;
-        glVertex3f(x+cos(a)*outer,y+sin(a)*outer,z);
-        glVertex3f(x+cos(a)*inner,y+sin(a)*inner,z+.012f);}
-    glEnd();
-}
-void cameraGL(gym3d::Camera camera,unsigned width,unsigned height) {
-    const float aspect=static_cast<float>(width)/static_cast<float>(max(1u,height));
-    constexpr float nearPlane=.18f;
-    const float top=nearPlane*tan(48.f*gym3d::pi/360.f),right=top*aspect;
-    glMatrixMode(GL_PROJECTION);glLoadIdentity();
-    glFrustum(-right,right,-top,top,nearPlane,120.f);
-    const auto basis=gym3d::basis(camera);
-    const auto e=gym3d::eye(camera);
-    const float matrix[]={
-        basis.right.x,basis.up.x,-basis.forward.x,0,
-        basis.right.y,basis.up.y,-basis.forward.y,0,
-        basis.right.z,basis.up.z,-basis.forward.z,0,
-        0,0,0,1
-    };
-    glMatrixMode(GL_MODELVIEW);glLoadIdentity();
-    glMultMatrixf(matrix);
-    glTranslatef(-e.x,-e.y,-e.z);
-}
+using gym3d_render::color;
+using gym3d_render::cube;
+using gym3d_render::disc;
+using gym3d_render::dumbbellRelief;
+using gym3d_render::ring;
+using gym3d_render::cameraGL;
 struct Hit {sf::FloatRect area;int action;};
 class Arena3D {
 public:
     Arena3D():window_(sf::VideoMode({1440u,900u}),"JK AXIS | Gym Edition 3D"),
-              font_(loadFont()) {
+              font_(gymui::systemFont()) {
         window_.setFramerateLimit(60);
         resizeView();
         camera_.distance=16.f;

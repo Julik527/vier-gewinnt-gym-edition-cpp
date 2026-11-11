@@ -3,33 +3,27 @@
 **Projekt:** JK AXIS · Vier Gewinnt | Gym Edition · C++17 / SFML 3.1.0  
 **Ziel:** MSYS2 UCRT64 (GCC 16.2, GDB 18.1), CMake 3.28+, Ninja, Visual Studio Code.
 
-## 1. Zwei Branches, zwei Programme
+## 1. Hauptbranch und drei Programme
 
-Das GitHub-Repository hat den Standardbranch `main` mit der Konsole. Die grafische 2D-Anwendung befindet sich derzeit im **offenen [Draft-PR #1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1)** auf `quality/gameplay-persistence-2026-10-28`.
+Der Standardbranch `main` enthält Konsole, 2D und 3D. Für die aktuellen Fassungen ist kein Wechsel zu einem historischen Entwicklungsbranch notwendig.
 
-Öffne das *PowerShell-Terminal* im Repository-Ordner und kontrolliere:
+Prüfe deine lokalen Dateien im PowerShell-Terminal:
 
 ```powershell
 git status --short
 git branch --show-current
 Test-Path .\src\gui\Main.cpp
+Test-Path .\src\gui\Main3D.cpp
 ```
 
-Wenn `main` und `False` angezeigt werden, kann die 2D-EXE nicht existieren. **Zuerst ungespeicherte/uncommittete Arbeit sichern.** Dann:
+Nur bei gesicherten Änderungen und sauberem Arbeitsverzeichnis aktualisieren:
 
 ```powershell
-git fetch origin
-git switch --track origin/quality/gameplay-persistence-2026-10-28
-```
-
-Falls der lokale Entwicklungsbranch schon existiert:
-
-```powershell
-git switch quality/gameplay-persistence-2026-10-28
+git switch main
 git pull --ff-only
 ```
 
-Wenn Git beim Wechsel lokale Änderungen meldet, **nicht** mit `--force` fortfahren. Vorher klären, welche Dateien gesichert oder committed werden sollen.
+Danach müssen beide `Test-Path`-Prüfungen `True` liefern. In VS Code stehen drei F5-Profile bereit: Konsole, 2D und 3D. Der erste GUI-Build benötigt SFML 3.1.0 und einen geeigneten Grafiktreiber.
 
 ## 2. MSYS2 UCRT64 (nicht MSYS, MINGW64 oder CLANG64)
 
@@ -99,7 +93,7 @@ Der Windows-Fehlerbericht vom 31.10. zeigte beschädigte Include-Pfade zu Ogg so
 
 ```powershell
 New-Item -ItemType Directory -Force C:\Dev | Out-Null
-git clone --branch quality/gameplay-persistence-2026-10-28 --single-branch https://github.com/Julik527/vier-gewinnt-gym-edition-cpp.git C:\Dev\GymEdition
+git clone https://github.com/Julik527/vier-gewinnt-gym-edition-cpp.git C:\Dev\GymEdition
 Set-Location C:\Dev\GymEdition
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\check-2d.ps1"
 ```
@@ -132,7 +126,7 @@ $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
 Write-Host "Exit-Code: $LASTEXITCODE"
 ```
 
-- **Quellcode `False`:** falscher Git-Branch.
+- **Quellcode `False`:** lokales Repository, Pfad oder Branch überprüfen.
 - **Quellcode `True`, EXE `False`:** GUI-Build ist fehlgeschlagen oder noch nicht gelaufen.
 - **Self-Test erfolgreich, F5 scheitert:** Debugger-/Pfad-Konfiguration prüfen.
 - **Self-Test erfolgreich, Fenster öffnet sich nicht:** Windows-Treiber/OpenGL, Fonts und Laufzeitbibliotheken prüfen; die Self-Test-Option prüft nicht die Darstellung.

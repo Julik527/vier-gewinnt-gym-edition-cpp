@@ -2,6 +2,7 @@
 // Die Regeln und das kompatible GYM1-Format kommen aus MatchSession / Board.
 #include "MatchSession.h"
 #include "GymBeat.h"
+#include "GymPlatform.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -13,13 +14,6 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-
-#ifdef _WIN32
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-#endif
 
 using namespace std;
 
@@ -44,44 +38,6 @@ sf::Color tokenColor(int player) {
     return colors[static_cast<size_t>(std::clamp(player, 0, 3))];
 }
 
-sf::Font systemFont() {
-    sf::Font font;
-    const array<const char*, 6> locations = {
-        "C:/Windows/Fonts/segoeui.ttf", "C:/Windows/Fonts/arial.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-        "/usr/share/fonts/TTF/DejaVuSans.ttf",
-        "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf",
-        "/System/Library/Fonts/Supplemental/Arial.ttf"
-    };
-    for (const char* path : locations) if (font.openFromFile(path)) return font;
-    throw runtime_error("Keine Systemschrift gefunden (Segoe UI, Arial oder DejaVu Sans).");
-}
-
-// Windows supplies argv[0] in a narrow process code page, not necessarily UTF-8.
-// Constructing std::filesystem::path directly from it can throw when the user's
-// directory contains characters such as 'ß'. Ask Windows for the actual module
-// path in UTF-16, keeping the path wide all the way to std::filesystem.
-std::filesystem::path executablePath([[maybe_unused]] const char* argv0) {
-#ifdef _WIN32
-    wstring buffer(512, L'\0');
-    while (buffer.size() <= 32768) {
-        const DWORD length = GetModuleFileNameW(
-            nullptr, buffer.data(), static_cast<DWORD>(buffer.size()));
-        if (length == 0)
-            throw runtime_error("Windows konnte den Programmpfad nicht lesen.");
-        if (length < buffer.size()) {
-            buffer.resize(length);
-            return std::filesystem::path(buffer);
-        }
-        buffer.resize(buffer.size() * 2);
-    }
-    throw runtime_error("Windows-Programmpfad ist zu lang.");
-#else
-    return std::filesystem::absolute(
-        std::filesystem::u8path(argv0 ? argv0 : ""));
-#endif
-}
-
 enum class Screen { Menu, Count, Names, Confirm, Arena, Result, Scores, Help,
                     ConfirmNew, ConfirmLoad, ConfirmExit };
 struct Button {
@@ -95,7 +51,7 @@ class App {
 public:
     explicit App(const std::filesystem::path& executable) :
             window_(sf::VideoMode({1280u, 800u}), "JK AXIS | Vier Gewinnt - Gym Edition"),
-            font_(systemFont()) {
+            font_(gymui::systemFont()) {
         window_.setFramerateLimit(60);
         resizeView();
         // Das originale Schul-Logo wird unveraendert aus einer lokalen Bilddatei geladen,
@@ -830,7 +786,7 @@ private:
 int main(int argc, char** argv) {
     try {
         if (argc > 1 && string(argv[1]) == "--path-self-test") {
-            const auto executable = executablePath(argc > 0 ? argv[0] : "");
+            const auto executable = gymui::executablePath(argc > 0 ? argv[0] : "");
             error_code error;
             if (!std::filesystem::is_regular_file(executable, error) || error)
                 return 1;
@@ -859,12 +815,12 @@ int main(int argc, char** argv) {
             return 0;
         }
         if (argc > 1 && string(argv[1]) == "--window-smoke") {
-            App app(executablePath(argc > 0 ? argv[0] : ""));
+            App app(gymui::executablePath(argc > 0 ? argv[0] : ""));
             app.run(12);
             cout << "GUI graphical window: 12 frames rendered and closed.\n";
             return 0;
         }
-        App app(executablePath(argc > 0 ? argv[0] : ""));
+        App app(gymui::executablePath(argc > 0 ? argv[0] : ""));
         app.run();
         return 0;
     } catch (const exception& error) {
