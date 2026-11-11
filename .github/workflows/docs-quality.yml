@@ -15,6 +15,7 @@ on:
       - "assets/brand/**"
       - "docs/**"
       - "scripts/document_preflight.py"
+      - "scripts/artifact_language_audit.py"
       - "tests/testplan_lint.py"
       - "tests/repository_consistency_test.py"
       - ".github/workflows/docs-quality.yml"
@@ -54,5 +55,7 @@ jobs:
         run: python tests/testplan_lint.py
       - name: Check repository documentation against active source
         run: python tests/repository_consistency_test.py
+      - name: Check current presentation and summarize historical documents
+        run: python scripts/artifact_language_audit.py
       - name: Technical preflight for all published documents
         run: python scripts/document_preflight.py
