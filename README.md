@@ -98,7 +98,7 @@ In VS Code ist alternativ das neue Debugprofil **Vier Gewinnt | Gym Edition 3D**
 
 ## Schnellstart
 
-**Windows 11 und Visual Studio Code:** Die 2D-Version startet nur auf dem Entwicklungsbranch. Wenn `git branch --show-current` noch `main` meldet oder `src/gui/Main.cpp` fehlt, lies zuerst die [Windows-2D-Schnellstartanleitung](docs/WINDOWS_QUICKSTART.md). Dort sind der sichere Git-Branchwechsel, die getestete MSYS2-UCRT64-Toolchain, der Windows-Pfad mit `ß`, GDB-Fehler `-environment-cd` und die Befehle zur Fehlersuche dokumentiert. Im PowerShell-Projektordner bietet `./scripts/check-2d.ps1` eine Diagnose ohne Änderungen.
+**Windows 11 und Visual Studio Code:** Konsole, SFML-2D und OpenGL-3D sind gemeinsam in `main` integriert. Bei sauberem Arbeitsverzeichnis `git pull --ff-only` ausführen. Die drei F5-Profile bauen ihre jeweiligen Programme. Für 2D/3D sind MSYS2 UCRT64, CMake 3.28+, Ninja, SFML 3.1.0 und passende Grafiktreiber erforderlich. [Aktueller Windows-Quickstart](docs/WINDOWS_QUICKSTART.md).
 
 **Für Spieler:** Sobald ein geprüfter Release bereitsteht, [Releases öffnen](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/releases) und das Windows-ZIP entpacken. Vor einem veröffentlichten Release lassen sich automatisch erzeugte CI-Testpakete unter [Actions](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions) als temporäre Artifacts abrufen. Diese sind keine offizielle Endfassung.
 
@@ -139,7 +139,10 @@ src/Board.cpp         Schwerkraft, Züge, Siegerkennung
 src/Game.cpp          Ablauf der Konsole
 src/ConsoleUI.cpp     Konsolenoberfläche
 src/MatchSession.cpp  Testbare Spiellogik der grafischen Variante
-src/gui/Main.cpp      SFML-Fenster, Eingaben, Zeichnen
+src/gui/Main.cpp      SFML-2D-Fenster, Eingaben und Zeichnen
+src/gui/Main3D.cpp    OpenGL-3D-Arena und Szenensteuerung
+src/gui/GymPlatform.h Gemeinsame Systemschrift und Unicode-Pfadfunktion
+src/gui/Gym3DRender.h Gekapselte 3D-OpenGL-Zeichenfunktionen
 src/gui/GymBeat.h     Originaler, synthetischer Gym-Beat
 tests/                Unit-, Integrations- und Konfigurationsprüfungen
 .github/workflows/    Linux-/Windows-/UCRT64-CI und Dokumentenchecks
@@ -153,7 +156,7 @@ reference/            Schulische Referenzdokumente
 - **Persistenz:** `GYM1`-Spielstände werden vor dem Übernehmen geprüft. Highscores werden strikt eingelesen; unvollständige Dateien dürfen keine gültigen Ergebnisse überschreiben.
 - **Tests:** CTest umfasst Spielfeld, Spielzustand, Textoberfläche und Integration. Die GitHub-Actions-Matrix prüft unterschiedliche Compiler- und Betriebssystemkonfigurationen.
 
-[Architektur im Detail](docs/ARCHITECTURE.md) · [Tests und Nachweise](docs/QUALITY_AND_TESTS.md) · [Windows-GUI-Testplan](docs/GUI_TESTPLAN.md)
+[Architektur im Detail](docs/ARCHITECTURE.md) · [Tests und Nachweise](docs/QUALITY_AND_TESTS.md) · [Windows-GUI-Testplan](docs/GUI_TESTPLAN.md) · [Qualitäts- und Release-Gate](docs/DIAMOND_RELEASE_GATE.md)
 
 ## Präsentation und Projektnachweise
 

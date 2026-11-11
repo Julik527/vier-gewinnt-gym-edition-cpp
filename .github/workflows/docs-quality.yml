@@ -17,6 +17,7 @@ on:
       - "docs/**"
       - "scripts/document_preflight.py"
       - "tests/testplan_lint.py"
+      - "tests/repository_consistency_test.py"
       - ".github/workflows/docs-quality.yml"
   pull_request:
     paths:
@@ -26,6 +27,8 @@ on:
       - "assets/brand/**"
       - "docs/**"
       - "scripts/document_preflight.py"
+      - "tests/testplan_lint.py"
+      - "tests/repository_consistency_test.py"
       - ".github/workflows/docs-quality.yml"
   workflow_dispatch:
 
@@ -47,5 +50,7 @@ jobs:
       # So merken wir, wenn eine Folie, PDF-Seite oder ein Dateilink kaputt ist.
       - name: Validate Markdown test tables
         run: python tests/testplan_lint.py
+      - name: Check branch instructions and GUI source structure
+        run: python tests/repository_consistency_test.py
       - name: Technical preflight for all published documents
         run: python scripts/document_preflight.py

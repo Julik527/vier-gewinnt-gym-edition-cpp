@@ -1,35 +1,29 @@
-# Windows 11: 2D-Spiel starten und Fehler richtig eingrenzen
+# Windows 11: Konsole, 2D und 3D starten und Fehler eingrenzen
 
 **Projekt:** JK AXIS · Vier Gewinnt | Gym Edition · C++17 / SFML 3.1.0  
 **Ziel:** MSYS2 UCRT64 (GCC 16.2, GDB 18.1), CMake 3.28+, Ninja, Visual Studio Code.
 
-## 1. Zwei Branches, zwei Programme
+## 1. Aktueller Branch: drei Programme
 
-Das GitHub-Repository hat den Standardbranch `main` mit der Konsole. Die grafische 2D-Anwendung befindet sich derzeit im **offenen [Draft-PR #1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1)** auf `quality/gameplay-persistence-2026-10-28`.
+Im Standardbranch `main` sind **Konsole, 2D und 3D** integriert. Ein Wechsel zu einem historischen Entwicklungsbranch ist **nicht** erforderlich.
 
-Öffne das *PowerShell-Terminal* im Repository-Ordner und kontrolliere:
+Prüfe zuerst den Arbeitsstand in PowerShell:
 
 ```powershell
 git status --short
 git branch --show-current
 Test-Path .\src\gui\Main.cpp
+Test-Path .\src\gui\Main3D.cpp
 ```
 
-Wenn `main` und `False` angezeigt werden, kann die 2D-EXE nicht existieren. **Zuerst ungespeicherte/uncommittete Arbeit sichern.** Dann:
+Nur wenn deine lokalen Änderungen gesichert und das Arbeitsverzeichnis sauber sind:
 
 ```powershell
-git fetch origin
-git switch --track origin/quality/gameplay-persistence-2026-10-28
-```
-
-Falls der lokale Entwicklungsbranch schon existiert:
-
-```powershell
-git switch quality/gameplay-persistence-2026-10-28
+git switch main
 git pull --ff-only
 ```
 
-Wenn Git beim Wechsel lokale Änderungen meldet, **nicht** mit `--force` fortfahren. Vorher klären, welche Dateien gesichert oder committed werden sollen.
+Danach müssen beide `Test-Path`-Prüfungen `True` liefern. Die F5-Profile heißen `Vier Gewinnt | Gym Edition`, `Vier Gewinnt | Gym Edition 2D` und `Vier Gewinnt | Gym Edition 3D`. Für 3D brauchst du einen kompatiblen OpenGL-Treiber. Automatische GitHub-Tests ersetzen keinen echten Start auf dem Schul-PC.
 
 ## 2. MSYS2 UCRT64 (nicht MSYS, MINGW64 oder CLANG64)
 
@@ -120,7 +114,7 @@ Optional der vollständige grafische Build inklusive automatischer GUI-/Pfad-Tes
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\preflight-school.ps1" -WithGui
 ```
 
-Beide Skriptvarianten nutzen getrennte `build-school-*-preflight`-Verzeichnisse. Sie prüfen Builds und CTest-Exitcodes; sie ersetzen weder Sicht-/Hörtest noch F5 auf dem Unterrichtsrechner. In **PowerShell** heißt der Wechsel zum Laufwerk `Set-Location V:\`, nicht `cd /v`.
+Beide Skriptvarianten nutzen getrennte `build-school-*-preflight`-Verzeichnisse. Sie prüfen Builds und CTest-Exitcodes; sie ersetzen weder Sicht-/Hörtest noch F5 auf dem Unterrichtsrechner. In **PowerShell** heißt der Wechsel zum Laufwerk `Set-Location V:`, nicht `cd /v`.
 
 ## 5. Fehlersuche: Datei oder Debugger?
 

@@ -1,5 +1,14 @@
 # Änderungsprotokoll
 
+## 11.11.2026: Diamond Maintainability und Release-Gate (PR-Vorschlag)
+
+- GUI-Systemschrift und Unicode-Pfadfunktion in `GymPlatform.h` zusammengefasst.
+- OpenGL-Grundformen und Kamera-Projektionssetup aus `Main3D.cpp` in `Gym3DRender.h` ausgelagert; Spielabläufe unverändert.
+- README, Architektur und Windows-Quickstart an die integrierten drei Varianten im Standardbranch `main` angepasst.
+- Automatische Dokumentationsregression gegen veraltete Branch- und GUI-Hinweise ergänzt.
+- Verbindliches, nachweispflichtiges Qualitäts-Gate dokumentiert; tatsächliche Windows- und Schulabnahme bleiben offen.
+
+
 ## 31.10.2026: Eigenständige OpenGL-3D-Arena
 
 - Freiwilliges `vier-gewinnt-3d`-Programm mit räumlichen Materialien, beleuchteten 3D-Steinen, Metallrahmen, Perspektive, Tiefentest und Orbit-Kamera.

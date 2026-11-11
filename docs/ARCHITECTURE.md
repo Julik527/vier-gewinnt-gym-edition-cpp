@@ -1,27 +1,32 @@
 # Architektur der Gym Edition
 
-**Stand:** 28.10.2026 · **Basis:** C++17, optionale SFML-3.1.0-GUI
-Quellcodeabgleich: `include/` und `src/` am Commit `02eb79f8`.
+**Stand:** 11.11.2026 · **Basis:** C++17, SFML 3.1.0 und optionale OpenGL-3D-Variante
+**Quellcodebasis:** Qualitäts-Branch ausgehend von `731000dc`. CI und manuelle Abnahmen werden separat nachgewiesen.
 
-## Zwei ausführbare Programme
+## Drei ausführbare Programme
 
-| Programm | Einstieg | Steuerung | Darstellung | Zusätzliche Abhängigkeit |
-|:--|:--|:--|:--|:--|
-| `vier-gewinnt` | `src/main.cpp` | `Game` | Funktionen im Namensraum `console_ui` | Keine SFML-Abhängigkeit |
-| `vier-gewinnt-gui` | `src/gui/Main.cpp` | `App` und `MatchSession` | SFML-Fenster, Texte, Hanteln, Schaltflächen | SFML Graphics und Audio 3.1.0 |
+| Programm | Einstieg | Steuerung | Darstellung |
+|:--|:--|:--|:--|
+| `vier-gewinnt` | `src/main.cpp` | `Game` | Konsole, SFML-frei |
+| `vier-gewinnt-gui` | `src/gui/Main.cpp` | `App` + `MatchSession` | SFML Graphics/Audio 3.1.0 |
+| `vier-gewinnt-3d` | `src/gui/Main3D.cpp` | `Arena3D` + `MatchSession` | SFML und OpenGL-Kompatibilitätsprofil |
 
-Die Konsole verwendet nicht `MatchSession`. Sie behält ihren bestehenden Controller `Game`. Die GUI nutzt eine eigene, ohne SFML testbare `MatchSession`. Das gemeinsame `Board` stellt die Regeln bereit. `AtomicFile.h` enthält die gemeinsame Datei-Hilfsfunktion. Das verhindert eine falsche Aussage über eine bereits vollständig vereinheitlichte Spielflussarchitektur.
+Die gemeinsame `Board`-Klasse implementiert alle Spielregeln. Die Konsole behält `Game` als Controller; 2D und 3D teilen die testbare `MatchSession`. **Es existiert noch kein vollständig vereinheitlichter Spielfluss-Controller.** `AtomicFile.h` und `ScoreFile.h` sichern die gemeinsame Dateiablage.
+
+`GymPlatform.h` enthält die gemeinsame SFML-Systemschrift und den Unicode-sicheren Windows-Executable-Pfad für die 2D-Variante. `Gym3DRender.h` kapselt klassische OpenGL-Primitiven ohne Spiellogik. Die 3D-Version nutzt absichtlich noch ein Kompatibilitätsprofil, keine moderne Shader-/PBR-Pipeline.
 
 ```mermaid
 flowchart TD
-    C["main.cpp"] --> G["Game"]
+    C["Konsole: main.cpp"] --> G["Game"]
     G --> U["console_ui"]
     G --> B["Board"]
-    A["App in gui/Main.cpp"] --> M["MatchSession"]
+    A["SFML 2D: Main.cpp"] --> M["MatchSession"]
+    D["OpenGL 3D: Main3D.cpp"] --> M
     M --> B
-    A --> S["SFML Graphics und Audio"]
-    A --> H["GymBeat"]
-    G --> F["gym::writeSafely"]
+    A --> P["GymPlatform"]
+    D --> P
+    D --> R["Gym3DRender"]
+    G --> F["AtomicFile + ScoreFile"]
     M --> F
 ```
 
@@ -35,7 +40,10 @@ flowchart TD
 | `MatchSession` | Ein Board, 2–4 Player, `vector<GymMove>`, Score-Map, Gewinnlinie | `begin`, `drop`, `undo`, `rematch`, `save`, `load`, `saveScores` |
 | `Move` und `GymMove` | `row`, `column`, `player` | Öffentliche Datenstrukturen für die jeweilige Historie |
 | `console_ui` | Darstellungsfunktionen und Ansichtsdaten | `arena`, `present`, `result`, `animateDrop` |
-| `App` | Fenster, Schrift, Schullogo, `MatchSession`, optionaler `GymBeat` | Ereignisschleife, `act`, `move`, `render`, `toggleMusic` |
+| `App` | 2D-Fenster, Schullogo, `MatchSession`, optionaler `GymBeat` | Ereignisschleife, `act`, `move`, `render`, `toggleMusic` |
+| `Arena3D` | 3D-Kamera, Fenster, `MatchSession`, optionaler `GymBeat` | Kamera, Benutzeraktionen und Szenenaufbau |
+| `GymPlatform` | Schrift- und Unicode-Pfadintegration | `systemFont`, `executablePath` |
+| `Gym3DRender` | OpenGL-Grundformen | `cube`, `disc`, `ring`, `cameraGL` |
 | `GymBeat` | SoundBuffer, danach erzeugter Sound | Töne erzeugen, `play`, `stop`, `playing` |
 | `gym::writeSafely` | Individueller temporärer Dateipfad | Vollständig schreiben, prüfen und vorhandene Datei ersetzen |
 | `gym::parseScores` | Highscore-Datei | Vollständig validieren, ohne halbe Ergebnisse zu übernehmen |
