@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   scripts/document_preflight.py
 # Aufgabe: Kontrolliert Präsentation, PDFs und alle Markdown-Dateilinks, ohne sie zu ändern.

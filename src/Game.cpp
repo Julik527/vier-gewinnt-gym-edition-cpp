@@ -1,4 +1,3 @@
-// JK AXIS | GOLD MASTER
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   src/Game.cpp
 // Aufgabe: Steuert Menü, Spielerwechsel, Spielstand und Highscore.

@@ -1,4 +1,3 @@
-// JK AXIS | GOLD MASTER
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   src/Board.cpp
 // Aufgabe: Verwaltet das Spielfeld, die Spielzüge und die Gewinnerkennung.

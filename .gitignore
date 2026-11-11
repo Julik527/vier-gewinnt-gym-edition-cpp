@@ -32,6 +32,9 @@
 vier-gewinnt
 board_tests
 
+# Generated standalone school ZIPs
+/dist/
+
 # Build directories and CMake
 /build/
 /bin/

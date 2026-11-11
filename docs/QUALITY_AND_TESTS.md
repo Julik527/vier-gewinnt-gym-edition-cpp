@@ -21,7 +21,7 @@ Nach dem Abgleich mit Aufgabenblatt 51 wurde der Highscore-Grenzfall `INT_MAX` g
 
 Die abgefragten Läufe am genannten Ausgangscommit sind erfolgreich abgeschlossen:
 
-- [C++ Gold Standard QA, Lauf 40779797878](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779797878).
+- [C++-Qualitätsprüfung, Lauf 40779797878](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779797878).
 - [Document & Brand QA, Lauf 40779798112](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779798112).
 - [Gesicherte Job- und Schrittstatus als JSON](evidence/CI_SNAPSHOT_2026-10-28.json).
 

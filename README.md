@@ -19,6 +19,16 @@
 
 > **Versionsstatus (Integration 05.11.2026):** Diese Integrationsfassung vereint die bisherigen Konsolen-, SFML-2D- und OpenGL-3D-Quellen sowie zusätzliche automatisierte Tests. Die tatsächliche interaktive Funktion auf dem Schul-PC muss separat vorgeführt werden. Ein erfolgreicher CI-Lauf ersetzt keine manuelle Abnahme.
 
+## Prüfung 19.11.2026: Theorie und zehnminütige Einzelpräsentation
+
+Dr. Litera hat am 11.11.2026 per E-Mail angekündigt: **PT ca. 70 Minuten**, Themen `struct`/`class`, Getter/Setter, Konstruktor/Parameterkonstruktor, Destruktor, Dateioperationen, dynamischer Speicher, `this`-Zeiger und Header/Implementierung/`main`; **PP ca. 10 Minuten pro Schüler**. Die bislang vorhandenen 15+15-Minuten-Sprechkarten gehören zu einem anderen Format. Die aktualisierten Prüfungsunterlagen liegen hier:
+
+- [Präziser C++-Lernzettel für PT](docs/PT_PRUEFUNG_19_11_2026.md)
+- [Meilenstein-Präsentation: acht Abschnitte, Zielzeit 10:00](praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
+- [Schulische Konsolenabgabe](school/README.md) (auf dem zugehörigen Schulabgabe-Branch)
+
+**Wichtig:** Folienzeiten sind Planwerte, die tatsächliche Dauer muss laut mit Stoppuhr gemessen werden. Das vorhandene PowerPoint aus dem älteren Präsentationsformat wurde dadurch nicht stillschweigend ersetzt.
+
 ## VS Code und Merge-Konflikte
 
 Die drei F5-Startprofile sind an ihre Build-Aufgaben gekoppelt:
@@ -36,6 +46,14 @@ Regeltests](docs/LEHRER_ABNAHME_TESTPROTOKOLL_2026-11-05.md) sowie
 [360 reproduzierbare Board-Prüffälle](tests/board_property_tests.cpp) zur
 Verfügung. Die Highscore-Datei wird bei beschädigten Zeilen
 **vollständig verworfen** (strenger Parser, keine teilweise Übernahme).
+
+## Schulabgabe: ausschließlich C++-Konsole
+
+**Verbindlicher Abgabeumfang:** das objektorientierte C++17-Konsolenspiel. Die SFML-2D- und OpenGL-3D-Versionen bleiben als freiwillige Entwicklungs-/Portfolio-Experimente im Repository, sind aber **nicht Bestandteil der Schulabgabe**. Das ist kein Beleg dafür, dass Grafikversionen ausdrücklich verboten sind; für die Bewertung hat die Konsolenpflicht Vorrang.
+
+Die isolierte, eigenständig baubare Konsolen-Schulabgabe wird mit `python scripts/package-school-console.py` erstellt und lässt sich mit `python scripts/package-school-console.py --verify` prüfen. Enthalten sind ausschließlich die benötigten C++-Dateien, Konsolentests, CMake und schulbezogene Unterlagen; keine GUI-, OpenGL- oder Audiodateien. Der GitHub-Workflow `School Console Only | Build & Acceptance` soll **das ausgepackte ZIP** auf Windows und Linux in Debug/Release bauen und testen.
+
+[Anleitung zur isolierten Schulabgabe](school/README.md) · [Handout nur für Konsole](school/HANDOUT.md) · [Fachgespräch](school/FACHGESPRAECH.md) · [Offene manuelle Prüfungen](school/TESTPROTOKOLL.md)
 
 ## Schulabgabe: Aufgabenblatt 51
 
@@ -72,9 +90,9 @@ Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhänge
 
 **Wichtige Grenzen:** Kein KI-Gegner, kein Netzwerkspiel, keine externe 3D-Engine. Die GUI und die Konsole verwenden noch separate Ablauf-Controller; gemeinsam sind die Spielregeln im `Board` und die sichere Dateiersatzfunktion.
 
-## Gym Edition 3D | Signature Arena
+## Gym Edition 3D | Arena
 
-**Präzisionsupdate:** 3D-Mausklicks werden jetzt über eine perspektivische Strahl-Schnittberechnung auf das Spielbrett abgebildet. Hover-Auswahl, Schutz vor Navigation während der Fallanimation sowie ein sicherer „Sichern und beenden“-Ablauf sind ergänzt. Falls beim Gewinn die Highscore-Datei nicht geschrieben werden kann, erscheint eine Warnung mit Möglichkeit zum erneuten Schreiben, ohne doppelte Siegzählung. Siehe [3D-Testplan](docs/3D_TESTPLAN.md).
+**Aktualisierung:** 3D-Mausklicks werden jetzt über eine perspektivische Strahl-Schnittberechnung auf das Spielbrett abgebildet. Hover-Auswahl, Schutz vor Navigation während der Fallanimation sowie ein sicherer „Sichern und beenden“-Ablauf sind ergänzt. Falls beim Gewinn die Highscore-Datei nicht geschrieben werden kann, erscheint eine Warnung mit Möglichkeit zum erneuten Schreiben, ohne doppelte Siegzählung. Siehe [3D-Testplan](docs/3D_TESTPLAN.md).
 
 
 Die freiwillige 3D-Ausbaustufe ergänzt die Konsole und die 2D-Version um eine eigenständige OpenGL-Anwendung mit echten beleuchteten Volumenkörpern, perspektivischem Spielfeld, Tiefenprüfung, steuerbarer Orbit-Kamera und Sieg-Effekten. Die bestehenden Spielregeln, Spielstände (`GYM1`) und Highscores werden über `MatchSession` weiterverwendet.

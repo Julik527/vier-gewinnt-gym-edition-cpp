@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   tests/vscode_config_test.py
 # Aufgabe: Prueft, dass F5 auch nach neuen C++-Dateien funktioniert.

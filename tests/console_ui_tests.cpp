@@ -1,4 +1,3 @@
-// JK AXIS | GOLD MASTER
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   tests/console_ui_tests.cpp
 // Aufgabe: Prueft die sichtbaren Texte der neuen Trainings-Arena.

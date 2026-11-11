@@ -1,7 +1,7 @@
 # JK AXIS | PRÜFUNGSVORBEREITUNG UND GENERALPROBE
 
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA 2026/27  
-**Version:** GOLD MASTER | Arbeitscheckliste vom 02.11.2026  
+**Version:** Arbeitscheckliste vom 02.11.2026  
 **Zweck:** Reproduzierbare Vorbereitung, Zeitmanagement, Belegsicherung und Störfallplan. Alle Checkboxen bleiben offen, bis sie tatsächlich nachgewiesen wurden.
 
 ## 1. Zwei zulässige Zeitmodelle

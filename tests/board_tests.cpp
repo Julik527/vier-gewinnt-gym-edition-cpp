@@ -1,4 +1,3 @@
-// JK AXIS | GOLD MASTER
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   tests/board_tests.cpp
 // Aufgabe: Testet das Spielfeld mit automatischen Prüfungen.

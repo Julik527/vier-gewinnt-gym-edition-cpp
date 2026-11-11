@@ -3,7 +3,7 @@
 ## Projektvorstellung
 
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA 2026/27  
-**Fassung:** GOLD MASTER | Präsentationstraining · Revision 02.11.2026  
+**Fassung:** Präsentationstraining · Revision 02.11.2026  
 **Basis:** Entwicklungsbranch `quality/gameplay-persistence-2026-10-28`, geprüfter Quellcodestand 31.10.2026  
 **Vortragsziel:** 15:00 Minuten für Teil A inklusive der angegebenen Aktionen. Die tatsächliche Redezeit ist noch zu messen.
 

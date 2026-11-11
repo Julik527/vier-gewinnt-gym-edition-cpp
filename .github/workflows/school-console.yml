@@ -1,0 +1,72 @@
+name: School Console Only | Build & Acceptance
+
+on:
+  push:
+    branches:
+      - "school/**"
+    paths:
+      - "school/**"
+      - "scripts/package-school-console.py"
+      - "src/Board.cpp"
+      - "src/Game.cpp"
+      - "src/ConsoleUI.cpp"
+      - "src/main.cpp"
+      - "include/**"
+      - "tests/board_tests.cpp"
+      - "tests/board_property_tests.cpp"
+      - "tests/console_ui_tests.cpp"
+      - "tests/score_file_tests.cpp"
+      - "tests/integration_smoke.py"
+      - "tests/integration_adversarial.py"
+      - ".github/workflows/school-console.yml"
+  pull_request:
+    paths:
+      - "school/**"
+      - "scripts/package-school-console.py"
+      - ".github/workflows/school-console.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  console-archive:
+    name: ${{ matrix.os }} / ${{ matrix.build_type }} / standalone ZIP
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        build_type: [Debug, Release]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Assemble and integrity-check the console-only submission
+        shell: bash
+        run: |
+          python scripts/package-school-console.py --output dist/Vier-Gewinnt-Schulabgabe-Konsole.zip
+          python scripts/package-school-console.py --output dist/Vier-Gewinnt-Schulabgabe-Konsole.zip --verify
+      - name: Unpack the actual school submission for independent compilation
+        shell: bash
+        run: |
+          python -c "import zipfile; zipfile.ZipFile('dist/Vier-Gewinnt-Schulabgabe-Konsole.zip').extractall('dist/submission')"
+      - name: Configure standalone C++17 console build
+        shell: bash
+        run: cmake -S dist/submission -B dist/submission-build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      - name: Compile standalone console and tests
+        shell: bash
+        run: cmake --build dist/submission-build --config ${{ matrix.build_type }} --parallel 2
+      - name: Execute packaged board, UI, score and console integration tests
+        shell: bash
+        run: ctest --test-dir dist/submission-build -C ${{ matrix.build_type }} --output-on-failure
+      - name: Upload verified school submission ZIP and SHA256
+        if: matrix.os == 'windows-latest' && matrix.build_type == 'Release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vier-Gewinnt-Schulabgabe-Konsole
+          path: |
+            dist/Vier-Gewinnt-Schulabgabe-Konsole.zip
+            dist/Vier-Gewinnt-Schulabgabe-Konsole.zip.sha256
+          if-no-files-found: error
