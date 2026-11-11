@@ -2,6 +2,14 @@
 
 **Status:** Vorbereitung. Die Kästchen sind keine behaupteten Testergebnisse.
 
+## Aktualisierte Vorgabe für den Prüfungstag 19.11.2026
+
+Die E-Mail von Dr. Litera vom 11.11.2026 nennt eine **Einzelpräsentation von ungefähr 10 Minuten**. Die früheren 15+15-Minuten-Materialien sind für diesen speziellen Prüfungstag zu lang. Im Entwicklungsrepository ist ein achtteiliger Zehn-Minuten-Ablauf hinterlegt; vor der Abgabe reale Redezeit messen.
+
+- [ ] Einen einzigen zehnminütigen Vortrag (nicht 15+15) mit Stoppuhr geprobt.
+- [ ] Exakter präsentierter Git-Commit und CI-Status dokumentiert.
+- [ ] Quellcode-Beispiele, Demonstration und Handout stimmen überein.
+
 ## Aufgabenblatt 51 (inhaltlich)
 
 - [ ] Verpflichtender Wortlaut des Original-Aufgabenblatts mit dieser Zusammenfassung abgeglichen.
