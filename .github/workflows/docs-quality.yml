@@ -15,7 +15,9 @@ on:
       - "assets/brand/**"
       - "docs/**"
       - "scripts/document_preflight.py"
+      - "scripts/artifact_language_audit.py"
       - "tests/testplan_lint.py"
+      - "tests/repository_consistency_test.py"
       - ".github/workflows/docs-quality.yml"
   pull_request:
     paths:
@@ -25,6 +27,9 @@ on:
       - "assets/brand/**"
       - "docs/**"
       - "scripts/document_preflight.py"
+      - "tests/testplan_lint.py"
+      - "tests/document_language_lint.py"
+      - "tests/repository_consistency_test.py"
       - ".github/workflows/docs-quality.yml"
   workflow_dispatch:
 
@@ -44,7 +49,13 @@ jobs:
       - name: Install format validators
         run: python -m pip install python-pptx PyMuPDF
       # So merken wir, wenn eine Folie, PDF-Seite oder ein Dateilink kaputt ist.
+      - name: Check documentation wording
+        run: python tests/document_language_lint.py
       - name: Validate Markdown test tables
         run: python tests/testplan_lint.py
+      - name: Check repository documentation against active source
+        run: python tests/repository_consistency_test.py
+      - name: Check current presentation and summarize historical documents
+        run: python scripts/artifact_language_audit.py
       - name: Technical preflight for all published documents
         run: python scripts/document_preflight.py

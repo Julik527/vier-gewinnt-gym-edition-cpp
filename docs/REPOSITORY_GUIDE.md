@@ -1,58 +1,63 @@
 # GitHub-Projektverwaltung
 
-**Repository:** https://github.com/Julik527/vier-gewinnt-gym-edition-cpp
-**Standardbranch:** `main` · **Aktuelle Erweiterungen:** `quality/gameplay-persistence-2026-10-28`
-**Übergabe:** [Draft-Pull-Request #1](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/1) · **Sichtbarkeit:** öffentlich
+**Repository:** https://github.com/Julik527/vier-gewinnt-gym-edition-cpp  
+**Standardbranch:** `main`  
+**Stand der Anleitung:** 11.11.2026
 
-## Welcher Stand enthält was?
+## Welcher Stand ist aktuell?
 
-`main` enthält den bisherigen Konsolenstand. Der Entwicklungsbranch enthält zusätzlich die 2D-GUI, MatchSession, Audio, Schullogo, die aktuellen Setup-Korrekturen und diese Dokumentation. Ein Blick auf `main` allein zeigt daher noch nicht den vollständigen aktuellen Arbeitsstand. Der Pull Request wird nicht automatisch gemergt.
+Der Standardbranch `main` enthält den Pflichtumfang **C++17-Konsole** sowie die freiwilligen Erweiterungen **SFML-2D** und **OpenGL-3D**. Ein Wechsel auf alte Entwicklungsbranches ist dafür nicht erforderlich. Historische Entwicklungszweige, darunter `quality/gameplay-persistence-2026-10-28`, dokumentieren frühere Arbeiten, sind aber keine allgemeine Startanweisung.
 
-## Aktuelles Projekt holen
+Die schulische Abgabe kann zusätzlich als **isoliertes Konsolen-ZIP** erstellt werden. Es enthält keine Grafik- oder Audioquellen. Details: [Schulabgabe](../school/README.md).
+
+## Repository sicher beziehen oder aktualisieren
+
+Bei einer neuen Arbeitskopie:
 
 ```powershell
 git clone https://github.com/Julik527/vier-gewinnt-gym-edition-cpp.git
-cd vier-gewinnt-gym-edition-cpp
-git switch quality/gameplay-persistence-2026-10-28
+Set-Location .\vier-gewinnt-gym-edition-cpp
+git branch --show-current
+git status --short
 ```
 
-Eine vorhandene Arbeitskopie auf diesem Branch aktualisieren:
+Bei einer vorhandenen Arbeitskopie zuerst ungesicherte Änderungen sichern. Nur bei sauberem Arbeitsverzeichnis:
 
 ```powershell
-git fetch origin
-git switch quality/gameplay-persistence-2026-10-28
+git switch main
 git pull --ff-only
 ```
 
-Die frühere ZIP enthielt eine andere lokale Historie. Von dort keine fremde Historie über die Online-Entwicklung schreiben. Eigene uncommittete Änderungen erhalten und Git-Konflikte gezielt lösen.
+`git pull --ff-only` bricht bei auseinanderlaufenden lokalen Commits ab, statt diese unbemerkt zusammenzuführen. In diesem Fall die Situation gezielt mit `git status`, `git log` und gegebenenfalls `git fetch` prüfen. Kein `reset --hard` und kein Force-Push ohne gesicherte Daten.
 
-Für lokale Windows-Probleme inklusive Sonderzeichen im Benutzerpfad, dem falschen `main`-Branch und dem F5-GUI-Build gibt es jetzt die [Windows-2D-Schnellstartanleitung](WINDOWS_QUICKSTART.md). Die read-only Diagnose lautet `./scripts/check-2d.ps1` im PowerShell-Projektverzeichnis.
+## Projekt bauen
 
-## Konsole bauen
-
-Im Projektstamm muss der UCRT64-Compiler verfügbar sein:
+**Pflichtkonsole** mit C++17, im Projektstamm:
 
 ```powershell
-g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/Board.cpp src/Game.cpp src/ConsoleUI.cpp -o vier-gewinnt.exe
+g++ -std=c++17 -Wall -Wextra -Wpedantic -Iinclude src/main.cpp src/Board.cpp src/Game.cpp src/ConsoleUI.cpp -o vier-gewinnt.exe
 .\vier-gewinnt.exe
 ```
 
-`ConsoleUI.cpp` gehört ausdrücklich zum Build. Der frühere Befehl ohne diese Datei verursachte Linkerfehler.
-
-## GUI und Vorführung
-
-F5-Profil `Vier Gewinnt | Gym Edition 2D` verwendet CMake, Ninja und UCRT64. CMake 3.28 oder neuer ist erforderlich. Die Aufgaben ergänzen den UCRT64-Suchpfad. Falls `cmake` trotzdem nicht gefunden wird, die Paketinstallation aus der [README](../README.md) durchführen. Das Konsolenprofil ist davon unabhängig.
+Alternativ mit CMake und CTest:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\demo.ps1 -Mode Both
+cmake -S . -B build
+cmake --build build --config Debug
+ctest --test-dir build -C Debug --output-on-failure
 ```
 
-Das Skript baut seine GUI unter `build-gui-ucrt64`, wartet auf das Ende des Fensters und startet danach die Konsole. F5 verwendet dagegen `build-gui`. Die zwei Build-Ordner haben unterschiedliche Aufgaben und dürfen nicht als derselbe EXE-Pfad behandelt werden. `-NoBuild` setzt bereits vorhandene, passende EXE-Dateien voraus.
+Die drei VS-Code-Startprofile decken Konsole, 2D und 3D ab. Die grafischen Ziele benötigen eine geeignete CMake-/SFML-Toolchain und Grafiktreiber. Anleitung und Fehleranalyse: [Windows-Schnellstart](WINDOWS_QUICKSTART.md), [VS-Code-Debugging](VS_CODE_DEBUG.md).
 
-## Veröffentlichte Dokumente und Nachweise
+## Präsentation und Nachweise
 
-Die fünf Referenz-PDFs stehen in `reference/`, PPTX und zwei Präsentations-PDFs in `praesentation/`. Der erste Binär-Upload ist in Commit `53612455` dokumentiert. Die Logo-Migration folgte in `ea8bbef8`. Die alten Dateinamen bleiben für bestehende Links erhalten. Historische Inhalte und neue Nachträge werden im [Dokumentenaudit](DOCUMENTATION_AUDIT_2026-10-28.md) unterschieden.
+- [Aktuelle Einzelpräsentation: acht Folien, ca. zehn Minuten](../praesentation/README.md)
+- [Prüfungslernzettel Programmiertechnik](PT_PRUEFUNG_19_11_2026.md)
+- [Architektur mit den drei Frontends](ARCHITECTURE.md)
+- [Testnachweise](QUALITY_AND_TESTS.md)
+- [Release- und Abnahmekriterien](RELEASE_ABNAHME.md)
+- [Hinweise zu den historischen PDF-/PPTX-Dateien](PRUEFUNG_DOKUMENTDATEIEN_2026-11-11.md)
 
-Der C++-Workflow prüft Linux/Windows in Debug/Release und die SFML-GUI. Der Dokumentenworkflow liest PDF, PPTX, SVG, Testplantabellen und Verweise. Der [CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json) belegt erfolgreiche Läufe am Ausgangsstand `02eb79f8`. Ein Windows-MSVC-Runner ersetzt keinen lokalen UCRT64-F5-Test.
+Die Referenz-PDFs und die ältere 17-Folien-Präsentation sind Projektmaterialien aus dem Verlauf. Die aktuelle zehnminütige Fassung ist gesondert verlinkt. Spielstände, persönliche Highscores, Build-Verzeichnisse sowie nicht veröffentlichte Schul- und Gerätekontrollen gehören nicht unkritisch ins Repository.
 
-Spielstände, persönliche Highscores und lokale Build-Ordner werden nicht eingecheckt. Das Workflow-Artefakt der GUI ist ein automatischer Windows-Build, keine bescheinigte Schulfreigabe.
+GitHub Actions belegt nur die tatsächlich ausgeführten Builds und Tests für eine bestimmte Commit-SHA. Der lokale Windows-Start, das Bildschirmbild, die hörbare Audioausgabe und die mündliche Erklärung müssen am vorgesehenen Rechner persönlich geprüft werden.

@@ -1,6 +1,4 @@
-# JK AXIS | SPRECHKARTEN · TEIL A
-
-## Projektvorstellung
+# Sprechkarten Teil A: Projektvorstellung
 
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA 2026/27  
 **Fassung:** Präsentationstraining · Revision 02.11.2026  

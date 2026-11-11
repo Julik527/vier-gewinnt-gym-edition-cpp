@@ -1,5 +1,9 @@
-# Präsentation und Live-Code-Vorführung
+# Präsentationsdateien
 
-Die PPTX-/PDF-Dateien sowie der Vortragsleitfaden sind im Root-Ordner [`praesentation/`](../../praesentation/) veröffentlicht. Dieser Ordner unter `docs/` enthält nur den Navigationshinweis. [Upload-Nachweis](../ASSET_UPLOAD_CHECKLIST.md).
+Die aktuellen Dateien für die Einzelpräsentation am **19.11.2026** liegen unter [praesentation/](../../praesentation/).
 
-Die 17 Folien und ihre PDF-Fassung beschreiben jetzt Konsole plus 2D-GUI. Der aktualisierte [Vortragsleitfaden als Markdown](../../praesentation/VORTRAGSLEITFADEN.md) ergänzt die dreiseitige PDF. PowerPoint-/Beamerprobe bleibt offen.
+- [Aktuelle PPTX mit acht Folien](../../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx)
+- [Aktuelle PDF-Fassung mit acht Seiten](../../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf)
+- [Sprechregie und 10-Minuten-Plan](../../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
+
+Die bisherigen 17-Folien-Dateien und die zwei älteren 15-Minuten-Sprechkartensätze sind als **historische Vortragsfassung** im gleichen Ordner erhalten. Sie gelten nicht als aktuelle Zeitvorgabe für den 19.11.2026. Die Präsentation muss vor dem Schultermin manuell geöffnet und laut geprobt werden.

@@ -1,4 +1,4 @@
-# JK AXIS | PRÜFUNGSVORBEREITUNG UND GENERALPROBE
+# Prüfungsvorbereitung und Generalprobe
 
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 · ITA 2026/27  
 **Version:** Arbeitscheckliste vom 02.11.2026  

@@ -24,10 +24,12 @@
 Dr. Litera hat am 11.11.2026 per E-Mail angekündigt: **PT ca. 70 Minuten**, Themen `struct`/`class`, Getter/Setter, Konstruktor/Parameterkonstruktor, Destruktor, Dateioperationen, dynamischer Speicher, `this`-Zeiger und Header/Implementierung/`main`; **PP ca. 10 Minuten pro Schüler**. Die bislang vorhandenen 15+15-Minuten-Sprechkarten gehören zu einem anderen Format. Die aktualisierten Prüfungsunterlagen liegen hier:
 
 - [Präziser C++-Lernzettel für PT](docs/PT_PRUEFUNG_19_11_2026.md)
-- [Meilenstein-Präsentation: acht Abschnitte, Zielzeit 10:00](praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
+- [Meilenstein-Präsentation: Ablauf und Sprechregie](praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
+- [Aktuelle PowerPoint-Präsentation: 8 Folien](praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx)
+- [Aktuelle Präsentation als PDF: 8 Seiten](praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf)
 - [Schulische Konsolenabgabe](school/README.md) (auf dem zugehörigen Schulabgabe-Branch)
 
-**Wichtig:** Folienzeiten sind Planwerte, die tatsächliche Dauer muss laut mit Stoppuhr gemessen werden. Das vorhandene PowerPoint aus dem älteren Präsentationsformat wurde dadurch nicht stillschweigend ersetzt.
+**Wichtig:** Die neue 8-Folien-PPTX und ihre PDF-Fassung sind das aktuelle Material für die ca. zehnminütige Einzelpräsentation. Die älteren 17 Folien und die 15+15-Minuten-Sprechkarten sind historische Materialien für ein anderes Format. Folienzeiten sind Planwerte; die tatsächliche Dauer muss mit Stoppuhr gemessen werden.
 
 ## VS Code und Merge-Konflikte
 
@@ -106,7 +108,7 @@ $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
 & .\build-school-3d-preflight\vier-gewinnt-3d.exe
 ```
 
-In VS Code ist alternativ das neue Debugprofil **Vier Gewinnt | Gym Edition 3D** verfügbar. Dazu muss tatsächlich der Ordner `C:\Dev\GymEdition` als Workspace geöffnet sein. Der erstmalige SFML-/OpenGL-Build benötigt Internet und dauert länger.
+In VS Code gibt es Drei F5-Profile (Konsole, 2D, 3D). Das Debugprofil **Vier Gewinnt | Gym Edition 3D** startet die räumliche Variante. Dazu muss tatsächlich der Ordner `C:\Dev\GymEdition` als Workspace geöffnet sein. Der erstmalige SFML-/OpenGL-Build benötigt Internet und dauert länger.
 
 **Bedienung:** Rechte Maustaste ziehen = Kamera drehen; Mausrad = Zoom; A/D und Q/E = Kamera; C = zurücksetzen; linke Maustaste = Spalte wählen/setzen; Pfeile und Leertaste = Spalte/Stein; U = Undo; S = Speichern; Escape = Menü; F9/F10/F11 = Originalmusik/Lautstärke. Im Menü 2, 3 oder 4 Spieler wählen.
 
@@ -116,7 +118,7 @@ In VS Code ist alternativ das neue Debugprofil **Vier Gewinnt | Gym Edition 3D**
 
 ## Schnellstart
 
-**Windows 11 und Visual Studio Code:** Die 2D-Version startet nur auf dem Entwicklungsbranch. Wenn `git branch --show-current` noch `main` meldet oder `src/gui/Main.cpp` fehlt, lies zuerst die [Windows-2D-Schnellstartanleitung](docs/WINDOWS_QUICKSTART.md). Dort sind der sichere Git-Branchwechsel, die getestete MSYS2-UCRT64-Toolchain, der Windows-Pfad mit `ß`, GDB-Fehler `-environment-cd` und die Befehle zur Fehlersuche dokumentiert. Im PowerShell-Projektordner bietet `./scripts/check-2d.ps1` eine Diagnose ohne Änderungen.
+**Windows 11 und Visual Studio Code:** Konsole, SFML-2D und OpenGL-3D sind gemeinsam in `main` integriert. Sichere lokale Änderungen vor einem `git pull --ff-only`. Die drei F5-Profile bauen die zugehörigen Programme; für 2D und 3D werden passende SFML-, CMake-/Compiler- und Grafiktreiber-Voraussetzungen benötigt. [Windows-Schnellstart](docs/WINDOWS_QUICKSTART.md).
 
 **Für Spieler:** Sobald ein geprüfter Release bereitsteht, [Releases öffnen](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/releases) und das Windows-ZIP entpacken. Vor einem veröffentlichten Release lassen sich automatisch erzeugte CI-Testpakete unter [Actions](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions) als temporäre Artifacts abrufen. Diese sind keine offizielle Endfassung.
 
@@ -145,7 +147,7 @@ ctest --test-dir build-gui -C Release --output-on-failure
 
 SFML 3.1.0 wird bei Bedarf über CMake FetchContent eingebunden. Auf Windows müssen ein geeigneter Compiler und die entsprechenden Laufzeitbibliotheken verfügbar sein.
 
-**VS Code:** Zwei F5-Profile für Konsole und GUI liegen in `.vscode/`. Für den MSYS2-UCRT64-GUI-Build sind CMake, Ninja und die UCRT64-Toolchain erforderlich. [Details und Fehlerbehebung](docs/REPOSITORY_GUIDE.md).
+**VS Code:** Drei F5-Profile für Konsole, 2D und 3D liegen in `.vscode/`. Für den MSYS2-UCRT64-GUI-Build sind CMake, Ninja und die UCRT64-Toolchain erforderlich. [Details und Fehlerbehebung](docs/REPOSITORY_GUIDE.md).
 
 **Schul-Demo in PowerShell:** `.\scripts\demo.ps1 -Mode Both` baut und startet zunächst die Grafik- und danach die Konsolenversion. Die Programme werden absichtlich **nicht parallel** ausgeführt, da sie dieselben lokalen Dateien verwenden.
 
@@ -171,7 +173,7 @@ reference/            Schulische Referenzdokumente
 - **Persistenz:** `GYM1`-Spielstände werden vor dem Übernehmen geprüft. Highscores werden strikt eingelesen; unvollständige Dateien dürfen keine gültigen Ergebnisse überschreiben.
 - **Tests:** CTest umfasst Spielfeld, Spielzustand, Textoberfläche und Integration. Die GitHub-Actions-Matrix prüft unterschiedliche Compiler- und Betriebssystemkonfigurationen.
 
-[Architektur im Detail](docs/ARCHITECTURE.md) · [Tests und Nachweise](docs/QUALITY_AND_TESTS.md) · [Windows-GUI-Testplan](docs/GUI_TESTPLAN.md)
+[Release- und Abnahmecheckliste](docs/RELEASE_ABNAHME.md) · [Architektur im Detail](docs/ARCHITECTURE.md) · [Tests und Nachweise](docs/QUALITY_AND_TESTS.md) · [Windows-GUI-Testplan](docs/GUI_TESTPLAN.md)
 
 ## Präsentation und Projektnachweise
 

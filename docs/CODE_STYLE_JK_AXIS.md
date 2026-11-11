@@ -6,8 +6,7 @@
   </picture>
 </p>
 
-# JK AXIS | Vier Gewinnt
-## Kommentar- und Codeleitfaden – Vier Gewinnt | Gym Edition
+# Kommentar- und Codeleitfaden | Vier Gewinnt – Gym Edition
 
 **Projekt:** C++17 · Programmiertechnik · Schulprojekt
 **Stand:** 28.10.2026
@@ -18,7 +17,6 @@
 Jede Quell- und Header-Datei beginnt mit einer kurzen Beschreibung. Der Kopf ist absichtlich schlicht: In C++ lassen sich keine verlässlichen Markenfarben darstellen, aber Name, Aufbau und Schreibweise sind einheitlich.
 
 ```cpp
-// JK AXIS | Vier Gewinnt
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   src/Board.cpp
 // Aufgabe: Verwaltet das Spielfeld, die Spielzüge und die Gewinnerkennung.
@@ -65,13 +63,19 @@ int Board::nextFreeRow(int column) const {
 | `scripts/document_preflight.py` | Prüft Dateien und Dokumente nur lesend |
 | `scripts/rebrand_assets.py` | Historisches Werkzeug für die einmalige Logo-Umstellung, nicht Teil des Spielablaufs |
 
-### 5. Gestaltung und Qualität
+### 5. Sachlicher Stil
+
+Texte, Folien, PDFs, Dateikommentare und Begleitunterlagen verwenden konkrete Titel, überprüfbare Aussagen und eindeutige Versionsstände. Eigene Qualitätsnoten und werbliche Auszeichnungen wie „Gold Master“ oder „First Class“ gehören nicht in diese Unterlagen. Ein erfolgreicher CI-Lauf wird nur mit Datum, Commit und tatsächlich überprüftem Umfang beschrieben. Offene manuelle Tests bleiben als offen gekennzeichnet.
+
+Historische Originalprompts im KI-Nachweisregister werden nicht nachträglich umformuliert. KI-Unterstützung bleibt dort sowie in den schulisch erforderlichen Angaben transparent.
+
+### 6. Gestaltung und Qualität
 
 Das **JK-AXIS-Präzisionslogo** steht in der Projekt-README und in diesem Leitfaden. In den Quelltexten sorgt ein kompakter Dateikopf für Wiedererkennung. Farben, große Schriftzüge oder Sonderzeichen im C++-Code würden die Lesbarkeit im Editor eher verschlechtern.
 
 **Wichtig:** Kommentare helfen beim Verstehen. Sie ersetzen weder funktionsfähigen Code noch Tests. Die aktuelle technische Testabdeckung steht in [QUALITY_AND_TESTS.md](QUALITY_AND_TESTS.md).
 
-### 6. Ergänzte Dateien der 2D-Version
+### 7. Ergänzte Dateien der 2D-Version
 
 | Datei | Aufgabe |
 |:--|:--|

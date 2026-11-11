@@ -1,0 +1,27 @@
+name: Export ten-minute milestone presentation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install document generation packages
+        run: python -m pip install --disable-pip-version-check python-pptx reportlab
+      - name: Build PPTX and PDF from one source
+        run: python scripts/build_milestone_10min.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zehn-minuten-praesentation
+          path: |
+            praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx
+            praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf

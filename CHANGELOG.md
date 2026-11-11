@@ -1,5 +1,13 @@
 # Änderungsprotokoll
 
+## 11.11.2026: GUI-Wartbarkeit und aktuelle Installationshinweise
+
+- Systemschrift und Unicode-Pfadprüfung für 2D und 3D gemeinsam in `src/gui/GymPlatform.h`.
+- Klassische OpenGL-Zeichenfunktionen nach `src/gui/Gym3DRender.h` ausgelagert.
+- Veraltete Entwicklungsbranch-Anweisungen im Windows-Quickstart berichtigt.
+- Technische Release- und Abnahmekriterien unter `docs/RELEASE_ABNAHME.md` dokumentiert.
+
+
 ## 11.11.2026: Abgabeweg ausschließlich Konsole (PR-Vorschlag)
 
 - Eigenständiges, quelloffenes C++17-Konsolen-Schulabgabe-ZIP per Datei-Allowlist und SHA-256-Manifest.
