@@ -22,6 +22,8 @@ class RepositoryConsistencyTests(unittest.TestCase):
         readme = self.read("README.md")
         self.assertIn("gemeinsam in `main` integriert", readme)
         self.assertNotIn("nur auf dem Entwicklungsbranch", readme)
+        self.assertNotIn("Zwei F5-Profile", readme)
+        self.assertIn("Drei F5-Profile", readme)
         self.assertIn("docs/DIAMOND_RELEASE_GATE.md", readme)
 
     def test_windows_guide_has_no_obsolete_branch_switch(self):
