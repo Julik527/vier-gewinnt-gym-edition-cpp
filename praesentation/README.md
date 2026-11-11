@@ -4,6 +4,8 @@
 **Ausgabe:** GOLD MASTER | Vorbereitungsunterlagen · Revision 02.11.2026  
 **Ziel:** Die Pflicht-Konsole verständlich präsentieren, den tatsächlichen C++-Code fachlich erklären und typische Rückfragen belegen.
 
+> **AKTUELLE PRÜFUNG (19.11.2026):** Dr. Litera verlangt laut E-Mail vom 11.11.2026 **eine Einzelpräsentation von ca. 10 Minuten**. Die aktuelle, darauf abgestimmte Fassung steht in **[Meilenstein 10 Minuten](MEILENSTEIN_10_MIN_2026-11-19.md)**. Die weiter unten dokumentierten **15 + 15 Minuten** beziehen sich auf ein anderes bzw. späteres Vortragsformat und sind für diesen Klausurtag **nicht** die Zielzeit. Die 10 Minuten sind geplant, nicht bereits mit Stoppuhr bestätigt.
+
 ## Die fünf Arbeitsdokumente
 
 | Ressource | Zweck | Umfang |
