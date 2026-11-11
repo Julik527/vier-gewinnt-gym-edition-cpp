@@ -12,7 +12,8 @@ Die verbindliche Nachweisgrundlage liegt in [SCHULANFORDERUNGEN_51_STATUS.md](SC
 - [x] Eigenes Handout in [Markdown](HANDOUT_AUFGABENBLATT_51.md) erarbeitet und eine dreiseitige PDF-Fassung für die Abgabe erstellt (PDF separat bereitgestellt).
 - [x] Prüfbarkeit der Pflichtanforderungen in einer Nachweismatrix dokumentiert.
 - [x] Zeitplan, offene Freigaben und aktuelles Kanban/Review als [Bestandsaufnahme](SPRINT_REVIEW_2026-10-31.md) dokumentiert.
-- [x] 30-Min.-Vorführablauf, Sicherheitskonzept und isolierte Beispiel-Spielstände vorbereitet.
+- [x] 30-Minuten-Ablauf für den späteren Projekttermin, Sicherheitskonzept und isolierte Beispiel-Spielstände vorbereitet.
+- [x] Aktuelle achtteilige Meilenstein-Präsentation für den 19.11.2026 als PPTX/PDF erstellt; die Zeitangaben sind noch nicht live gemessen.
 - [ ] Handout durch den Schüler selbst gelesen, ausgedruckt und auf fachliche Erklärbarkeit geprüft.
 - [ ] Konsolen-Testplan mit tatsächlichen Windows-Beobachtungen ausgefüllt.
 - [ ] Konsole auf dem Schulgerät demonstriert; Schüler kann Board/Game/Player/Algorithmus erklären.
@@ -47,7 +48,8 @@ Diese automatischen Schritte ersetzen keinen manuellen GUI-Hör-, Sicht- oder Be
 - [ ] Sound bei F9 hörbar, Stumm-/Gerät-los-Verhalten geprüft
 - [ ] Defekte Speicherdaten und parallele Programmstarts geprüft
 - [ ] ZIP auf einem **anderen Windows-Rechner ohne Entwicklungswerkzeuge** entpackt und gestartet
-- [ ] PowerPoint/Beamer/Schul-PC in einer echten Generalprobe getestet
+- [ ] Aktuelle 10-Minuten-PowerPoint und PDF am Schul-PC/Beamer geöffnet, Folien lesbar und Ablauf laut mit Stoppuhr geprüft
+- [ ] Spätere 30-Minuten-Projektpräsentation separat geprobt
 
 ## 3. Veröffentlichung
 - [ ] Draft-PR fachlich reviewed und erst danach nach `main` übernommen

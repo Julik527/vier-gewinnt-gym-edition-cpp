@@ -1,6 +1,6 @@
 # Aufgabenblatt 51 - Anforderungs- und Nachweismatrix
 
-**Stand:** 31.10.2026 · **Referenz:** Projektaufgabe von Dr. Michael Litera, 13 Seiten.  
+**Stand der ursprünglichen Matrix:** 31.10.2026 · **Ergänzt:** 11.11.2026 · **Referenz:** Projektaufgabe von Dr. Michael Litera, 13 Seiten.  
 **Automatisierter Basisnachweis:** Commit `466f5530`, [C++ QA 9/9 erfolgreich](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41202025895), [Dokument-QA erfolgreich](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41202025887).
 
 `Code+CI` belegt eine Implementierung und automatisierte Tests, **nicht** eine persönliche Schulabnahme. `Vorbereitet` bedeutet, dass die Unterlage besteht; `Offen` verlangt reale Beobachtungen.
@@ -16,13 +16,13 @@
 | S. 4: dauerhafter Highscore, Sortierung | `addWin`, `showHighscores`, `ScoreFile` | Code+CI |
 | S. 5: agiles Board, Review, Retrospektive | `PRODUCT_BACKLOG.md`, `SPRINT_REVIEW_2026-10-31.md` | Vorbereitet; Donnerstagsprotokolle fehlen |
 | S. 6: Meilensteine bis 18.02.2027 | `PROJECT_CHARTER.md` und Sprintübersicht | Plan vorhanden; spätere Termine offen |
-| S. 7: GitHub, Branches, Commits, Release | Repository und Draft-PR #1 | Repository vorhanden; Release/Tag offen |
+| S. 7: GitHub, Branches, Commits, Release | Repository, integrierter Standardbranch und Pull-Request-Historie | Repository vorhanden; Release/Tag offen |
 | S. 8: Tests und Abnahmekriterien | `board_tests`, `integration_smoke`, `TESTPLAN.md` | CI grün; tatsächliche Handtests offen |
 | S. 9–11: 30 Minuten + Quellcode und Demo | PPTX, Vortragsleitfaden, `GENERALPROBE_2027.md` | Vorbereitet; Probe 11.02.2027 offen |
 | S. 11: Beispielstände und Rückfallstrategie | `tests/fixtures/`, `GENERALPROBE_2027.md` | Vorbereitet; Vor-Ort-Demo offen |
 | S. 12: Handout | `HANDOUT_AUFGABENBLATT_51.md` | Inhalt erstellt; Druck/Formatprüfung offen |
 | S. 2, 10, 12: KI-Prompts | `KI_PROMPT_DOKUMENTATION.md` | Register; Vollständigkeit kritisch prüfen |
-| S. 13: reproduzierbarer Start | CI und Windows-Diagnose | **Lokaler GUI-Build zuletzt gescheitert**; Konsole separat prüfen |
+| S. 13: reproduzierbarer Start | CI und Windows-Diagnose | Automatisierte Builds vorhanden; letzter dokumentierter lokaler GUI-Fehlversuch vom Oktober nicht durch einen neuen Vor-Ort-Test abgelöst |
 | S. 13: Code selbst erklären | `VORTRAGSLEITFADEN.md` | **persönlicher mündlicher Nachweis offen** |
 
 ## Bewertungspriorität
