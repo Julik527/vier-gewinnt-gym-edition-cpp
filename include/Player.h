@@ -1,4 +1,3 @@
-// JK AXIS | GOLD MASTER
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   include/Player.h
 // Aufgabe: Speichert den Namen und das Spielsymbol eines Spielers.

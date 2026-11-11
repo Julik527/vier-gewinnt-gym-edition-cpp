@@ -1,4 +1,3 @@
-// JK AXIS | GOLD MASTER
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   include/ConsoleUI.h
 // Aufgabe: Einheitliche Bildschirme fuer Menue, Spielfeld und Ergebnis.

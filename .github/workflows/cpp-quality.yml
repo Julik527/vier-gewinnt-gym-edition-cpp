@@ -1,10 +1,9 @@
-# JK AXIS | GOLD MASTER
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   .github/workflows/cpp-quality.yml
 # Aufgabe: Prüft den C++-Code bei Änderungen auf Linux und Windows.
 # ------------------------------------------------------------
 
-name: C++ Gold Standard QA
+name: C++ Build and Tests
 
 on:
   push:

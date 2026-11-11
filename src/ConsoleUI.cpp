@@ -1,4 +1,3 @@
-// JK AXIS | GOLD MASTER
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   src/ConsoleUI.cpp
 // Aufgabe: Zeichnet die Trainings-Arena und zeigt klare Spielinformationen.
