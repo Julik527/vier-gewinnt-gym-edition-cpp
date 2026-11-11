@@ -19,6 +19,16 @@
 
 > **Versionsstatus (Integration 05.11.2026):** Diese Integrationsfassung vereint die bisherigen Konsolen-, SFML-2D- und OpenGL-3D-Quellen sowie zusätzliche automatisierte Tests. Die tatsächliche interaktive Funktion auf dem Schul-PC muss separat vorgeführt werden. Ein erfolgreicher CI-Lauf ersetzt keine manuelle Abnahme.
 
+## Prüfung 19.11.2026: Theorie und zehnminütige Einzelpräsentation
+
+Dr. Litera hat am 11.11.2026 per E-Mail angekündigt: **PT ca. 70 Minuten**, Themen `struct`/`class`, Getter/Setter, Konstruktor/Parameterkonstruktor, Destruktor, Dateioperationen, dynamischer Speicher, `this`-Zeiger und Header/Implementierung/`main`; **PP ca. 10 Minuten pro Schüler**. Die bislang vorhandenen 15+15-Minuten-Sprechkarten gehören zu einem anderen Format. Die aktualisierten Prüfungsunterlagen liegen hier:
+
+- [Präziser C++-Lernzettel für PT](docs/PT_PRUEFUNG_19_11_2026.md)
+- [Meilenstein-Präsentation: acht Abschnitte, Zielzeit 10:00](praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
+- [Schulische Konsolenabgabe](school/README.md) (auf dem zugehörigen Schulabgabe-Branch)
+
+**Wichtig:** Folienzeiten sind Planwerte, die tatsächliche Dauer muss laut mit Stoppuhr gemessen werden. Das vorhandene PowerPoint aus dem älteren Präsentationsformat wurde dadurch nicht stillschweigend ersetzt.
+
 ## VS Code und Merge-Konflikte
 
 Die drei F5-Startprofile sind an ihre Build-Aufgaben gekoppelt:
