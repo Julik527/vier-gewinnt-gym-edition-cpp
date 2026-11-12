@@ -23,6 +23,95 @@ if ($null -eq $binary) { throw "GUI-EXE wurde nicht gebaut." }
 if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
 New-Item -ItemType Directory -Force -Path $stage | Out-Null
 Copy-Item -LiteralPath $binary.FullName -Destination $stage
+# Embed a stable source identifier so old/foreign EXE bundles are detectable.
+$sourceSha = (& git -C $root rev-parse HEAD).Trim().ToLowerInvariant()
+if ($LASTEXITCODE -ne 0 -or $sourceSha -notmatch '^[0-9a-f]{40}
+
+# Runtime dependencies copied by CMake sit next to the executable.
+Get-ChildItem -LiteralPath $binary.DirectoryName -Filter "*.dll" -File |
+    ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $stage }
+
+$logoSource = Join-Path $binary.DirectoryName "assets/school/bernd-blindow-schulen.jpg"
+if (-not (Test-Path $logoSource)) {
+    $logoSource = Join-Path $root "assets/school/bernd-blindow-schulen.jpg"
+}
+if (Test-Path $logoSource) {
+    $logoTarget = Join-Path $stage "assets/school"
+    New-Item -ItemType Directory -Force -Path $logoTarget | Out-Null
+    Copy-Item -LiteralPath $logoSource -Destination $logoTarget
+}
+
+
+# Optional verified SRG774 CC0 OGG sound pack. CI builds without the
+# audio assets are silent, not ready-to-play soundtrack releases.
+$audioSource = Join-Path $root "assets/audio/sci-fi"
+if (Test-Path -LiteralPath (Join-Path $audioSource "title.ogg") -PathType Leaf) {
+
+    if (Test-Path -LiteralPath (Join-Path $audioSource "PROFILE.txt") -PathType Leaf) {
+        & python (Join-Path $root "scripts/install-gym-phonk-v4.py") --destination $audioSource --verify
+    } else {
+        & python (Join-Path $root "scripts/install-sci-fi-audio.py") --destination $audioSource --verify
+    }
+    if ($LASTEXITCODE -ne 0) { throw "Audio-Paket: Profile oder SHA-256-Pruefung fehlgeschlagen." }
+    $audioDest = Join-Path $stage "assets/audio/sci-fi"
+    New-Item -ItemType Directory -Force -Path $audioDest | Out-Null
+    Get-ChildItem -LiteralPath $audioSource -File |
+        Where-Object { $_.Name -eq "PROFILE.txt" -or $_.Extension -eq ".ogg" } |
+        ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $audioDest }
+}
+
+@"
+Vier Gewinnt | Gym Edition 2D
+JK AXIS · Windows-Release-Paket
+
+1. Das ZIP in einen beschreibbaren Ordner entpacken (z. B. Downloads).
+2. vier-gewinnt-gui.exe starten.
+3. Mit acht geprueften OGG-Dateien startet die Musik automatisch.
+   Unterstuetzt: Gym Phonk V4 oder originales SRG774-Sci-Fi-Paket.
+   F9 pausiert/aktiviert; F10/F11 regeln die Lautstaerke.
+   Fehlen Audio-Dateien, bleibt das Spiel absichtlich stumm.
+   Die alte 116-BPM-Musik wird NICHT mehr abgespielt.
+4. Spielstände werden derzeit relativ zum Startordner unter data/ abgelegt.
+
+Technischer Hinweis:
+Dieses Paket wurde aus dem Windows-CI-Build erstellt und einem
+automatischen Self-Test unterzogen. Eine Sicht-/Audio-/Schulrechner-
+Abnahme und ein Test auf einem sauberen zweiten PC sind noch nötig.
+Windows VC++-Laufzeitkomponenten können erforderlich sein.
+Quelle und vollständige Anleitung:
+https://github.com/Julik527/vier-gewinnt-gym-edition-cpp
+"@ | Set-Content -Path (Join-Path $stage "START_HIER.txt") -Encoding UTF8
+
+$checkScript = @'
+@echo off
+cd /d "%~dp0"
+"vier-gewinnt-gui.exe" --audio-check
+echo.
+echo 8/8 = Sci-Fi-Paket erkannt. 0/8 = Musikdateien fehlen.
+pause
+'@
+Set-Content -LiteralPath (Join-Path $stage "AUDIO_PRUEFEN.cmd") -Value $checkScript -Encoding ascii
+
+Push-Location $stage
+try {
+    & (Join-Path $stage "vier-gewinnt-gui.exe") --self-test
+    if ($LASTEXITCODE -ne 0) {
+        throw "Der Self-Test des verpackten Spiels ist fehlgeschlagen."
+    }
+} finally {
+    Pop-Location
+}
+
+if (Test-Path $archive) { Remove-Item $archive -Force }
+Compress-Archive -Path (Join-Path $stage "*") -DestinationPath $archive -Force
+$hash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+"$hash  Gym-Edition-Windows.zip" |
+    Set-Content -Path (Join-Path $dist "SHA256SUMS.txt") -Encoding ascii
+Write-Host "Releasepaket und SHA-256 erfolgreich erstellt: $archive"
+) {
+    throw "Git-Commit-SHA fuer Release nicht ermittelbar."
+}
+Set-Content -LiteralPath (Join-Path $stage "VERSION.txt") -Value $sourceSha -Encoding ascii
 
 # Runtime dependencies copied by CMake sit next to the executable.
 Get-ChildItem -LiteralPath $binary.DirectoryName -Filter "*.dll" -File |

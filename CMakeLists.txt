@@ -260,6 +260,9 @@ if(BUILD_TESTING)
         add_test(NAME gym_phonk_v4_installer_tests
             COMMAND "${Python3_EXECUTABLE}"
                     "${CMAKE_CURRENT_SOURCE_DIR}/tests/install_gym_phonk_v4_test.py")
+        add_test(NAME windows_release_verifier_unit_tests
+            COMMAND "${Python3_EXECUTABLE}"
+                    "${CMAKE_CURRENT_SOURCE_DIR}/tests/windows_release_test.py")
         add_test(
             NAME game_integration_tests
             COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration_smoke.py" "$<TARGET_FILE:vier-gewinnt>"
