@@ -47,8 +47,8 @@ int main() {
         verify(!standard.drop(-1, 'R', row) && row == -1, "left invalid column");
         verify(!standard.drop(0, '.', row) && row == -1, "reject empty-cell token");
         verify(!standard.drop(0, 'X', row) && row == -1, "unknown token rejected");
-        verify(!standard.drop(0, '\\n', row) && row == -1, "control token rejected");
-        verify(!standard.drop(0, '\\0', row) && row == -1, "NUL token rejected");
+        verify(!standard.drop(0, '\n', row) && row == -1, "control token rejected");
+        verify(!standard.drop(0, '\0', row) && row == -1, "NUL token rejected");
         verify(!standard.drop(7, 'R', row) && row == -1, "right invalid column");
         verify(standard.nextFreeRow(-1) == -1, "invalid nextFreeRow");
         verify(standard.nextFreeRow(0) == 5, "gravity on empty board");
