@@ -1,5 +1,6 @@
 // Audio policy tests run without a window, speakers, or SFML.
 #include "GymAudioScene.h"
+#include <initializer_list>
 #include <iostream>
 #include <stdexcept>
 #include <string>
