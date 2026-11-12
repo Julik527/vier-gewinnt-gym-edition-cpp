@@ -23,13 +23,16 @@ python scripts/install-sci-fi-audio.py --verify
 | Menu button | hover.ogg |
 | Win | victory.ogg |
 
-Press F9 to start/stop music; F10/F11 change volume. Streamed audio
+The supplied SRG774 sound pack starts automatically when all eight audio files are installed.
+Press F9 to pause/resume music; F10/F11 change volume. Streamed audio
 crossfades 420 ms when the scene changes or a track reaches its end.
 Individual gains compensate for differing source loudness.
 
-If audio files are missing, the original synthesized 116-BPM soundtrack
-plays. Windows packaging scripts copy installed OGG files into releases.
-GitHub CI packages built without the OGG assets therefore contain only the
-procedural fallback; do not claim otherwise.
+If audio files are missing or cannot be decoded, the graphical game remains
+playable **without music** and shows an actionable error; it does not play
+the old synthesized theme. Windows packaging scripts copy installed OGG files
+into releases. GitHub CI packages built without OGG files remain silent until
+the user adds the complete eight-file pack. Such CI packages are not turnkey
+soundtrack releases.
 
 The audio itself remains CC0, independently of the source-code license.

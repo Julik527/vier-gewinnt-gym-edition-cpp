@@ -43,8 +43,8 @@ Nach realer Durchführung eintragen: Datum, Commit, Compiler, GPU/Treiber, Windo
 
 | ID | Test / Erwartung | Ergebnis |
 |---|---|---|
-| D27 | Acht originale OGG-Dateien installieren, F9 aktivieren | Sci-Fi-Audio startet ohne Interaktionsverlust | offen |
+| D27 | Acht originale OGG-Dateien installieren, GUI starten | Sci-Fi-Audio startet automatisch ohne Interaktionsverlust | offen |
 | D28 | Intro, Hauptmenü, Namenseingabe, Spiel, Ergebnis | Musik folgt der Szene, Übergänge ohne harte Sprünge | offen |
 | D29 | Nach mindestens 75 % belegten Feldern weiter spielen | Tense-Stimmung wechselt zu Urgent ohne Spielstandsänderung | offen |
 | D30 | Sieg auslösen und Menübuttons anklicken | Victory/hover hörbar und angenehm abgemischt | offen |
-| D31 | OGG-Dateien fehlen oder Audiogerät nicht erreichbar | Originales Musikthema als Fallback beziehungsweise stille Spielbarkeit | offen |
+| D31 | OGG-Dateien fehlen oder Audiogerät nicht erreichbar | Deutlicher Audio-Fehler und stille Spielbarkeit; keine alte Synth-Musik | offen |

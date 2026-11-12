@@ -25,8 +25,8 @@ Get-ChildItem -LiteralPath $binary.DirectoryName -Filter "*.dll" -File |
     ForEach-Object {Copy-Item -LiteralPath $_.FullName -Destination $stage}
 
 
-# Optional verified SRG774 CC0 OGG sound pack. Never mistake plain CI
-# fallback builds for sound-pack releases.
+# Optional verified SRG774 CC0 OGG sound pack. CI builds without the
+# audio assets are silent, not ready-to-play soundtrack releases.
 $audioSource = Join-Path $root "assets/audio/sci-fi"
 if (Test-Path -LiteralPath (Join-Path $audioSource "title.ogg") -PathType Leaf) {
     & python (Join-Path $root "scripts/install-sci-fi-audio.py") --destination $audioSource --verify
@@ -45,9 +45,9 @@ JK AXIS | VIER GEWINNT | GYM EDITION 3D
 3. 2, 3 oder 4 Spieler auswählen und Namen eingeben.
 4. Links klicken: Stein setzen. Rechts ziehen: Kamera drehen.
 5. Mausrad: Zoom. A/D, Q/E: Kamera. C: Kamera zurücksetzen.
-6. F9: Musik an/aus; F10/F11: Lautstärke.
-   Mit assets/audio/sci-fi/*.ogg: SRG774 CC0 Sci-Fi-Audio.
-   Ohne OGG-Dateien: originaler prozeduraler 116-BPM-Soundtrack.
+6. Bei acht installierten OGG-Dateien startet SRG774 Sci-Fi-Audio automatisch.
+   F9: Pause/Fortsetzen; F10/F11: Lautstärke.
+   Ohne OGG-Dateien: Spiel bleibt stumm, nicht die alte 116-BPM-Musik.
 7. Speichern mit S, Undo mit U; Spielstände unter data/.
 
 Wichtig: Erfordert einen OpenGL-kompatiblen Windows-Grafiktreiber.
