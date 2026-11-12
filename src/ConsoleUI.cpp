@@ -190,12 +190,12 @@ string mainMenu(const vector<Player>& players, const Board& board,
     menuLine(out, active ? "FORTSCHRITT  " + progressBar(board)
                          : "2-4 SPIELER  |  4 IN EINER REIHE");
     separator(out);
-    menuLine(out, " 01   NEUES SPIEL  /  SPIELER WAEHLEN", "1;97");
-    menuLine(out, active ? " 02   SPIEL FORTSETZEN" : " 02   Spiel fortsetzen (keine Runde)");
-    menuLine(out, " 03   SPIELSTAND LADEN");
-    menuLine(out, " 04   BESTENLISTE");
-    menuLine(out, " 05   REGELN UND STEUERUNG");
-    menuLine(out, " 00   BEENDEN");
+    menuLine(out, " 01   Neues Spiel / Spieler waehlen", "1;97");
+    menuLine(out, active ? " 02   Spiel fortsetzen" : " 02   Spiel fortsetzen (keine Runde)");
+    menuLine(out, " 03   Spielstand laden");
+    menuLine(out, " 04   Bestenliste");
+    menuLine(out, " 05   Anleitung / Regeln und Steuerung");
+    menuLine(out, " 00   Beenden");
     separator(out);
     if (active && !players.empty() && currentPlayer >= 0 &&
         currentPlayer < static_cast<int>(players.size())) {
@@ -237,7 +237,7 @@ string arena(const Board& board, const vector<Player>& players,
             << (onTurn ? "  < AM ZUG" : "") << '\n';
     }
     boardArea(out, board, previewColumn, previewSymbol, winningCells, animationRow);
-    out << "  " << paint("MATCH-FORTSCHRITT", "1;94") << "  "
+    out << "  " << paint("TRAININGSSTAND / MATCH-FORTSCHRITT", "1;94") << "  "
         << progressBar(board) << "\n";
     out << "  " << paint("SPIELZUG", "1;96")
         << "  |  " << (winningCells.empty() ? "Naechster Zug: " : "Letzter Zug: ")

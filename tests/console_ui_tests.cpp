@@ -51,9 +51,9 @@ int main() {
         check(main.find("GYM EDITION") != string::npos, "Gym Edition fehlt");
         check(main.find("keine Runde") != string::npos, "Fortsetzen-Zustand fehlt");
         check(main.find("MATCH LOBBY") != string::npos, "Lobby-Kennzeichnung fehlt");
-        check(main.find("REGELN UND STEUERUNG") != string::npos,
+        check(main.find("Anleitung / Regeln und Steuerung") != string::npos,
               "Hilfe-Einstieg fehlt");
-        check(main.find("00   BEENDEN") != string::npos, "Ausgang fehlt");
+        check(main.find("00   Beenden") != string::npos, "Ausgang fehlt");
         const string resumed = console_ui::mainMenu(players, board, true, 1, 3);
         check(resumed.find("LIVE MATCH  /  RUNDE 3") != string::npos,
               "Live-Match-Status fehlt");
