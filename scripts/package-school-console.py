@@ -30,6 +30,7 @@ PACKAGE_FILES = {
     "include/Player.h": "include/Player.h",
     "include/ConsoleUI.h": "include/ConsoleUI.h",
     "include/AtomicFile.h": "include/AtomicFile.h",
+    "include/GameFileLimits.h": "include/GameFileLimits.h",
     "include/ScoreFile.h": "include/ScoreFile.h",
     "tests/board_tests.cpp": "tests/board_tests.cpp",
     "tests/board_property_tests.cpp": "tests/board_property_tests.cpp",
