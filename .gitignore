@@ -66,3 +66,6 @@ data/*.txt
 .idea/
 .DS_Store
 Thumbs.db
+# Optional locally installed CC0 third-party audio (never silently commit binaries)
+assets/audio/sci-fi/*.ogg
+ogg.zip

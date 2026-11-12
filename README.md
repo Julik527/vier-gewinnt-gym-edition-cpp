@@ -88,7 +88,7 @@ Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhänge
 | 3 | 9 × 8 | Größeres gemeinsames Feld |
 | 4 | 11 × 10 | Vier Farben und Zugreihenfolge |
 
-**Bereits implementiert:** Konsolenmodus und optionale SFML-2D-Version, Maus-/Tastatursteuerung, Fallanimation, Gewinnmarkierung, Undo, Vorschau (Konsole), Revanche, Highscores, Speichern/Laden, ein eigens komponierter 116-BPM-Stereo-Soundtrack (standardmäßig aus, F9/F10/F11).
+**Bereits implementiert:** Konsolenmodus und optionale SFML-2D-Version, Maus-/Tastatursteuerung, Fallanimation, Gewinnmarkierung, Undo, Vorschau (Konsole), Revanche, Highscores, Speichern/Laden, ein optionaler CC0-Sci-Fi-Soundtrack von SRG774 mit automatischem Szenenwechsel, 420-ms-Überblendung, Sieg- und Menüeffekten; falls die OGG-Dateien nicht installiert sind, bleibt der eigens komponierte 116-BPM-Stereo-Soundtrack als Ersatz verfügbar (standardmäßig aus, F9/F10/F11).
 
 **Wichtige Grenzen:** Kein KI-Gegner, kein Netzwerkspiel, keine externe 3D-Engine. Die GUI und die Konsole verwenden noch separate Ablauf-Controller; gemeinsam sind die Spielregeln im `Board` und die sichere Dateiersatzfunktion.
 
@@ -110,7 +110,7 @@ $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
 
 In VS Code gibt es Drei F5-Profile (Konsole, 2D, 3D). Das Debugprofil **Vier Gewinnt | Gym Edition 3D** startet die räumliche Variante. Dazu muss tatsächlich der Ordner `C:\Dev\GymEdition` als Workspace geöffnet sein. Der erstmalige SFML-/OpenGL-Build benötigt Internet und dauert länger.
 
-**Bedienung:** Rechte Maustaste ziehen = Kamera drehen; Mausrad = Zoom; A/D und Q/E = Kamera; C = zurücksetzen; linke Maustaste = Spalte wählen/setzen; Pfeile und Leertaste = Spalte/Stein; U = Undo; S = Speichern; Escape = Menü; F9/F10/F11 = Originalmusik/Lautstärke. Im Menü 2, 3 oder 4 Spieler wählen.
+**Bedienung:** Rechte Maustaste ziehen = Kamera drehen; Mausrad = Zoom; A/D und Q/E = Kamera; C = zurücksetzen; linke Maustaste = Spalte wählen/setzen; Pfeile und Leertaste = Spalte/Stein; U = Undo; S = Speichern; Escape = Menü; F9/F10/F11 = Musik an/aus und Lautstärke. Das optionale SRG774-Sci-Fi-Pack wird unter `assets/audio/sci-fi/` installiert; Anleitung: [Audio-Integration](docs/SCI_FI_AUDIO.md). Im Menü 2, 3 oder 4 Spieler wählen.
 
 [3D-Architektur und Bedienung](docs/3D_ARENA.md) · [3D-Abnahmetests](docs/3D_TESTPLAN.md) · [Teil D: 3D-Code verstehen](docs/3D_LERNPFAD.md)
 

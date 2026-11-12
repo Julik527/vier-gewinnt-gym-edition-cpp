@@ -50,6 +50,10 @@ target_link_libraries(score_file_tests PRIVATE gym_board)
 add_executable(soundtrack_tests tests/soundtrack_tests.cpp)
 target_include_directories(soundtrack_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
 
+# Audio scene decisions can be tested without SFML or sound hardware.
+add_executable(audio_scene_tests tests/audio_scene_tests.cpp)
+target_include_directories(audio_scene_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
+
 # Mathematische 3D-Funktionen brauchen weder Grafiktreiber noch SFML.
 add_executable(scene3d_tests tests/scene3d_tests.cpp)
 target_include_directories(scene3d_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
@@ -63,6 +67,11 @@ endif()
 # Die GUI ist optional, damit das vorhandene Konsolenspiel ohne SFML baubar bleibt.
 option(GYM_BUILD_GUI "Build the standalone SFML 3.1 graphical Gym Edition" OFF)
 if(GYM_BUILD_GUI)
+    # Installed third-party audio is an optional external resource, never mandatory.
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/assets/audio/sci-fi/title.ogg")
+        file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets/audio/sci-fi"
+             DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/assets/audio")
+    endif()
     if(CMAKE_VERSION VERSION_LESS 3.28)
         message(FATAL_ERROR "The SFML 3.1 GUI build requires CMake 3.28 or later.")
     endif()
@@ -213,6 +222,7 @@ if(BUILD_TESTING)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/school-four-players.txt")
     add_test(NAME score_file_unit_tests COMMAND score_file_tests)
     add_test(NAME soundtrack_unit_tests COMMAND soundtrack_tests)
+    add_test(NAME audio_scene_unit_tests COMMAND audio_scene_tests)
     add_test(NAME scene3d_math_tests COMMAND scene3d_tests)
     if(GYM_BUILD_3D)
         add_test(NAME scene3d_core_smoke COMMAND vier-gewinnt-3d --self-test)
@@ -240,6 +250,9 @@ if(BUILD_TESTING)
     add_test(NAME console_ui_unit_tests COMMAND console_ui_tests)
     find_package(Python3 COMPONENTS Interpreter)
     if(Python3_Interpreter_FOUND)
+        add_test(NAME audio_pack_installer_tests
+            COMMAND "${Python3_EXECUTABLE}"
+                    "${CMAKE_CURRENT_SOURCE_DIR}/tests/install_sci_fi_audio_test.py")
         add_test(
             NAME game_integration_tests
             COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration_smoke.py" "$<TARGET_FILE:vier-gewinnt>"

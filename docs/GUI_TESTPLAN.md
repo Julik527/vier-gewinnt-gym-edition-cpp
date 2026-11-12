@@ -49,3 +49,9 @@ G01/G02 bleiben als Prüfungen der vorgesehenen lokalen Umgebung offen. Der Wind
 Der zuletzt gemeldete F5-Fehler lautet „cmake wird nicht erkannt“. Die Tasks ergänzen inzwischen den UCRT64-Suchpfad. Nach der Installation aus der README beide F5-Profile erneut starten und das tatsächliche Ergebnis eintragen.
 
 G23: Das mitgelieferte JPEG kann die dokumentierte skalierte Kopie sein. „Original“ meint das unveränderte Schulmotiv, nicht zwingend dieselbe Bytefolge wie bei Wikimedia. G25: Musik ist zunächst aus, F9 aktiviert sie. F10/F11 steuern die Lautstärke; der Soundtrack ist eine originale prozedurale Komposition. Ein Status „Playing“ ersetzt keinen Hörtest. G26: Ein fehlendes Audiogerät muss man tatsächlich provozieren, bevor der Fall als bestanden gilt.
+
+| G31 | Acht original unveränderte SRG774-OGG-Dateien per SHA-256 installieren und aus dem lokalen Build laden | Album und Effekte werden beim F9-Start erkannt; kein Absturz | nicht geprüft | offen |
+| G32 | Menü, Setup und Spiel nacheinander betreten | Titel, Sector und Pulse erklingen in richtiger Reihenfolge mit sanfter Überblendung | nicht geprüft | offen |
+| G33 | Spielzugzahl auf mindestens 75 % der Feldkapazität erhöhen | Musik wechselt zu Urgent, ohne den Spielzustand zu ändern | nicht geprüft | offen |
+| G34 | Sieg und Revanche auslösen | Victory-Effekt einmal; Ergebnis-Musik Transmission; anschließend normale Spielmusik | nicht geprüft | offen |
+| G35 | OGG-Dateien entfernen und F9 starten | Originaler 116-BPM-Fallback spielt und das Spiel bleibt bedienbar | nicht geprüft | offen |
