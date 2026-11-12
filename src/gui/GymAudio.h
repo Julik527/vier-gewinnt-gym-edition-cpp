@@ -63,7 +63,7 @@ class Director {
         outgoing_ = std::move(current_);
         outgoingGain_ = currentGain_;
         current_ = std::move(fresh);
-        currentGain_ = gain(next);
+        currentGain_ = gain(next, isGymPhonkV4(folder_));
         playingScene_ = next;
         fade_ = 0.f;
         return true;
@@ -186,13 +186,18 @@ public:
     const AssetReport& assets() const { return assets_; }
     std::string statusLabel() const {
         if (!lastError_.empty()) return lastError_;
-        if (enabled_ && usingSciFiPack()) return "SCI-FI AKTIV / SRG774";
-        if (assets_.complete()) return "SCI-FI PAUSIERT / F9 START";
+        if (enabled_ && usingSciFiPack())
+            return isGymPhonkV4(folder_) ? "GYM PHONK V4 AKTIV"
+                                        : "SCI-FI AKTIV / SRG774";
+        if (assets_.complete())
+            return isGymPhonkV4(folder_) ? "GYM PHONK V4 PAUSIERT / F9"
+                                        : "SCI-FI PAUSIERT / F9 START";
         return "SCI-FI OGG " + std::to_string(assets_.found) + "/8 FEHLEN";
     }
     const char* sourceLabel() const {
-        return usingSciFiPack() ? "DARK SCI-FI / SRG774"
-                                : "SCI-FI NICHT AKTIV";
+        return usingSciFiPack()
+            ? (isGymPhonkV4(folder_) ? "GYM PHONK V4" : "DARK SCI-FI / SRG774")
+            : "AUDIO NICHT AKTIV";
     }
 };
 

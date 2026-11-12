@@ -25,6 +25,12 @@ int main() {
                             Scene::Match, Scene::Tense, Scene::Results}) {
             verify(gain(scene) > 0.f && gain(scene) <= 1.f, "safe track gain");
         }
+        verify(gain(Scene::Menu, true) > gain(Scene::Tense, true),
+               "V4 menu track is quieter at source, needs more compensation");
+        for (Scene scene : {Scene::Intro, Scene::Menu, Scene::Setup,
+                            Scene::Match, Scene::Tense, Scene::Results})
+            verify(gain(scene, true) > 0.f && gain(scene, true) <= 1.f,
+                   "V4 gain remains in a safe range");
         verify(gameplayScene(0, 42) == Scene::Match, "early match");
         verify(gameplayScene(31, 42) == Scene::Match, "before threshold");
         verify(gameplayScene(32, 42) == Scene::Tense, "after threshold");

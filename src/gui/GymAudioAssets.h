@@ -13,6 +13,13 @@ inline constexpr std::array<const char*, 8> requiredOgg{{
     "title.ogg", "transmission.ogg", "urgent.ogg", "victory.ogg"
 }};
 
+inline bool isGymPhonkV4(const std::filesystem::path& folder) {
+    std::ifstream profile(folder / "PROFILE.txt");
+    std::string marker;
+    return static_cast<bool>(std::getline(profile, marker))
+        && marker == "JK_AXIS_GYM_PHONK_V4";
+}
+
 struct AssetReport {
     std::filesystem::path folder;
     unsigned found = 0;
