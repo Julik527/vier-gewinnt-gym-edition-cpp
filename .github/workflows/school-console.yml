@@ -3,6 +3,7 @@ name: School Console Only | Build & Acceptance
 on:
   push:
     branches:
+      - main
       - "school/**"
     paths:
       - "school/**"
@@ -23,6 +24,17 @@ on:
     paths:
       - "school/**"
       - "scripts/package-school-console.py"
+      - "src/Board.cpp"
+      - "src/Game.cpp"
+      - "src/ConsoleUI.cpp"
+      - "src/main.cpp"
+      - "include/**"
+      - "tests/board_tests.cpp"
+      - "tests/board_property_tests.cpp"
+      - "tests/console_ui_tests.cpp"
+      - "tests/score_file_tests.cpp"
+      - "tests/integration_smoke.py"
+      - "tests/integration_adversarial.py"
       - ".github/workflows/school-console.yml"
   workflow_dispatch:
 
