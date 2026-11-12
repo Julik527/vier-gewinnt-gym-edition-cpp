@@ -1,5 +1,13 @@
-// Gemeinsame Spielzustands-Tests ohne SFML und ohne Grafikfenster.
-// Testen auch Dateigrenzfälle und die Unveränderlichkeit bei Ladefehlern.
+/**
+ * @file tests/match_session_tests.cpp
+ * @brief Prüft den gemeinsamen Spielzustand der 2D- und 3D-Version.
+ * @details Testet Spieleranlage, Zugfolge, Undo, Sieg, Revanche, Highscores, GYM1 und fehlerhafte Speicherdaten.
+ * @par Abhängigkeiten
+ * MatchSession.h und Standardbibliothek; unabhängig von SFML/OpenGL.
+ * @par Wichtige Randbedingungen
+ * Testdateien liegen im temporären Verzeichnis und sollen echte Spielstände nicht verändern.
+ */
+
 #include "MatchSession.h"
 #include <chrono>
 #include <filesystem>

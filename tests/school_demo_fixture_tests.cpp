@@ -1,5 +1,13 @@
-// Aufgabenblatt 51: prueft nur eigens vorbereitete Schul-Vorfuehrdaten.
-// Kein Audio, keine GUI und keine Veraenderung echter Spielstaende.
+/**
+ * @file tests/school_demo_fixture_tests.cpp
+ * @brief Kontrolliert die vorbereiteten Spielstände für eine Schulvorführung.
+ * @details Lädt vordefinierte GYM1-Dateien und prüft Spielerzahl, Feldgröße, Zugfolge und aktiven Spielstatus.
+ * @par Abhängigkeiten
+ * MatchSession.h; zwei Testdateipfade werden als Programmargumente übergeben.
+ * @par Wichtige Randbedingungen
+ * Der Test liest nur die bereitgestellten Fixtures und verändert keine echten Nutzerdateien.
+ */
+
 #include "MatchSession.h"
 #include <iostream>
 

@@ -1,5 +1,13 @@
-// Musikdateien unabhängig von Lautsprechern oder SFML auf dem Datenträger
-// suchen. Unterstützt Original-Sci-Fi und die markierte Gym-Phonk-V4-Version.
+/**
+ * @file src/gui/GymAudioAssets.h
+ * @brief Sucht das installierte Musikpaket und bestimmt dessen Variante.
+ * @details Prüft acht erwartete .ogg-Dateien im EXE-/Build-Umfeld und erkennt die V4-PROFILE.txt.
+ * @par Abhängigkeiten
+ * C++17-Dateisystem und Dateiströme; ohne Audiohardware lauffähig.
+ * @par Wichtige Randbedingungen
+ * Die Prüfung des OggS-Dateikopfs ist kein vollständiger Decoder- oder SHA-256-Test.
+ */
+
 #pragma once
 #include <array>
 #include <filesystem>

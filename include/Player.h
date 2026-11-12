@@ -1,7 +1,12 @@
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   include/Player.h
-// Aufgabe: Speichert den Namen und das Spielsymbol eines Spielers.
-// ------------------------------------------------------------
+/**
+ * @file include/Player.h
+ * @brief Definiert einen Spieler mit Namen und Spielsymbol.
+ * @details Player stellt einen Konstruktor sowie lesende Getter bereit; die Daten selbst bleiben privat.
+ * @par Abhängigkeiten
+ * C++17-Standardbibliothek; verwendet in Konsole und Grafikversionen.
+ * @par Wichtige Randbedingungen
+ * Die Validierung von Namen und Symbol-Eindeutigkeit erfolgt bei der Spieleranlage, nicht im Player-Konstruktor.
+ */
 
 #pragma once
 #include <string>

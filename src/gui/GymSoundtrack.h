@@ -1,6 +1,13 @@
-// JK AXIS | Gym Edition: original instrumental training theme.
-// Pure C++17 synthesizer: no external recordings, downloads, music royalties,
-// runtime files, or audio devices are needed to render or test the composition.
+/**
+ * @file src/gui/GymSoundtrack.h
+ * @brief Erzeugt das ältere 116-BPM-Thema vollständig in C++.
+ * @details gym::audio::renderTheme berechnet Stereo-PCM mit Rhythmus, Bass und Melodie deterministisch.
+ * @par Abhängigkeiten
+ * Nur C++17-Standardbibliothek; ohne Downloads oder SFML separat testbar.
+ * @par Wichtige Randbedingungen
+ * Legacy-Audio: wird weiterhin separat getestet, ist aber kein automatischer Ersatz für das aktuelle OGG-Paket.
+ */
+
 #pragma once
 
 #include <algorithm>

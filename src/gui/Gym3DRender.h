@@ -1,5 +1,13 @@
-// Kleine OpenGL-Primitive für die räumliche Darstellung.
-// Hier gibt es keine Spieler-, Zug- oder Speicherlogik: nur Geometrie.
+/**
+ * @file src/gui/Gym3DRender.h
+ * @brief Enthält die grundlegenden OpenGL-Zeichenprimitive der 3D-Arena.
+ * @details Erzeugt beleuchtete Quader, Scheiben und weitere Formen im Raum; speichert keinen Spielzustand.
+ * @par Abhängigkeiten
+ * Gym3DMath sowie SFML/OpenGL im Kompatibilitätsprofil.
+ * @par Wichtige Randbedingungen
+ * Verwendet OpenGL-Immediate-Mode und benötigt einen aktiven Grafik-Kontext.
+ */
+
 #pragma once
 #include "Gym3DMath.h"
 #include <SFML/Graphics.hpp>

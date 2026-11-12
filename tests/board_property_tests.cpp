@@ -1,7 +1,13 @@
-// Vier Gewinnt | Gym Edition
-// Reproduzierbare Property-Tests: Viele erlaubte Zugfolgen werden gegen
-// ein unabhängig berechnetes Referenz-Spielfeld geprüft.
-// Ein fester Zufalls-Seed sorgt bei Testfehlern für dieselbe Zugfolge.
+/**
+ * @file tests/board_property_tests.cpp
+ * @brief Vergleicht die Board-Logik mit einem unabhängigen Referenzmodell.
+ * @details Erzeugt reproduzierbare Zugfolgen für zwei bis vier Spieler und prüft Schwerkraft, Gewinn, Undo und Zustandsgrenzen.
+ * @par Abhängigkeiten
+ * Board.h und Standardbibliothek; ohne GUI/Audio.
+ * @par Wichtige Randbedingungen
+ * Ein fester Zufalls-Seed macht fehlgeschlagene Fälle reproduzierbar; Tests ersetzen keinen formalen Beweis.
+ */
+
 #include "Board.h"
 
 #include <algorithm>

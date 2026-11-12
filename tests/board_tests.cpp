@@ -1,7 +1,12 @@
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   tests/board_tests.cpp
-// Aufgabe: Testet das Spielfeld mit automatischen Prüfungen.
-// ------------------------------------------------------------
+/**
+ * @file tests/board_tests.cpp
+ * @brief Prüft Kernregeln und Grenzfälle der Klasse Board.
+ * @details Kontrolliert Feldgrößen, Einwürfe, ungültige Eingaben, vier Gewinnrichtungen, Gewinnmarkierung, Undo und volle Felder.
+ * @par Abhängigkeiten
+ * Board.h und C++17; keine Oberflächenbibliothek.
+ * @par Wichtige Randbedingungen
+ * Fehler führen auch im Release-Build zu einem Testfehler statt zu deaktivierten assert-Prüfungen.
+ */
 
 #include "Board.h"
 #include <iostream>

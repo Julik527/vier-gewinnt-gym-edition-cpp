@@ -1,7 +1,12 @@
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   src/ConsoleUI.cpp
-// Aufgabe: Zeichnet die Trainings-Arena und zeigt klare Spielinformationen.
-// ------------------------------------------------------------
+/**
+ * @file src/ConsoleUI.cpp
+ * @brief Erzeugt die Konsolenmenüs, Spielfeldansichten und Ergebnisanzeige.
+ * @details Textbasierte Darstellung mit optionalen ANSI-Farben, Vorschau, Fortschritt und Fallanimation.
+ * @par Abhängigkeiten
+ * Implementiert ConsoleUI.h; benötigt Board/Player und Terminalfunktionen.
+ * @par Wichtige Randbedingungen
+ * Rendering ist von der Logik getrennt; fehlende ANSI-Unterstützung darf die Bedienung nicht verhindern.
+ */
 
 #include "ConsoleUI.h"
 #include <cstdlib>

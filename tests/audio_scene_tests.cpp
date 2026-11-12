@@ -1,4 +1,13 @@
-// Audio policy tests run without a window, speakers, or SFML.
+/**
+ * @file tests/audio_scene_tests.cpp
+ * @brief Testet die unabhängige Zuordnung der Musik zu Spielzuständen.
+ * @details Prüft Tracknamen, Lautstärkefaktoren für Original und V4 sowie den Tense-Wechsel beim Füllstand.
+ * @par Abhängigkeiten
+ * GymAudioScene.h und Standardbibliothek; kein Fenster oder Lautsprecher erforderlich.
+ * @par Wichtige Randbedingungen
+ * Die Tests prüfen Entscheidungen und Grenzwerte, nicht die tatsächliche Wiedergabe.
+ */
+
 #include "GymAudioScene.h"
 #include <initializer_list>
 #include <iostream>

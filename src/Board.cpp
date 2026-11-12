@@ -1,7 +1,12 @@
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   src/Board.cpp
-// Aufgabe: Verwaltet das Spielfeld, die Spielzüge und die Gewinnerkennung.
-// ------------------------------------------------------------
+/**
+ * @file src/Board.cpp
+ * @brief Implementiert Schwerkraft, Zugrücknahme und Gewinnerkennung.
+ * @details Das Raster misst 6x7, 8x9 oder 10x11; ein Sieg wird entlang von vier Achsen ab dem letzten Stein geprüft.
+ * @par Abhängigkeiten
+ * Implementierung der Schnittstelle Board.h; arbeitet ohne SFML oder OpenGL.
+ * @par Wichtige Randbedingungen
+ * Ungültige Spalten/Symbole setzen keinen Stein; winningCells liefert die komplette erste Gewinnlinie.
+ */
 
 #include "Board.h"
 #include <iostream>

@@ -1,4 +1,13 @@
-// Offline asset-path tests: no SFML, speakers or Windows desktop needed.
+/**
+ * @file tests/audio_asset_tests.cpp
+ * @brief Prüft das Auffinden und die oberflächliche Erkennung von OGG-Dateien.
+ * @details Erstellt ein temporäres Testpaket, prüft den Pfad, acht erwartete Dateien, OggS-Kopf und V4-Profilkennung.
+ * @par Abhängigkeiten
+ * GymAudioAssets.h, C++17-Dateisystem; weder SFML noch Audiohardware nötig.
+ * @par Wichtige Randbedingungen
+ * Die Tests belegen keine vollständige OGG-Dekodierung und keinen hörbaren Klang.
+ */
+
 #include "GymAudioAssets.h"
 #include <chrono>
 #include <filesystem>

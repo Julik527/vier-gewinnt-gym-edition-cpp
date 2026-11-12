@@ -1,5 +1,13 @@
-// Zuordnung von Spielzustand zu Musikdatei und Lautstärkefaktor.
-// Reines C++17 ohne SFML; die Auswahl ist unabhängig von Audiogeräten testbar.
+/**
+ * @file src/gui/GymAudioScene.h
+ * @brief Ordnet Spielphasen den OGG-Tracks und Lautstärkefaktoren zu.
+ * @details Intro, Menü, Setup, Match, Endphase und Ergebnis werden über Scene und filename/gain ausgewählt.
+ * @par Abhängigkeiten
+ * Reines C++17; keine Fenster- oder Audiohardware nötig.
+ * @par Wichtige Randbedingungen
+ * Ab 75 Prozent belegter Felder wird Tense gewählt; die Zuordnung verändert keine Spielregeln.
+ */
+
 #pragma once
 
 namespace gymaudio {

@@ -1,5 +1,13 @@
-// Plattformbrücke für beide SFML-Grafikversionen (C++17):
-// Systemschrift laden und EXE-Pfad betriebssystemgerecht bestimmen.
+/**
+ * @file src/gui/GymPlatform.h
+ * @brief Bietet gemeinsame Plattformhilfen für beide grafischen Programme.
+ * @details gymui::systemFont lädt eine Systemschrift; executablePath ermittelt den echten Programmpfad.
+ * @par Abhängigkeiten
+ * SFML-Grafik, C++17 und unter Windows die Unicode-Windows-API.
+ * @par Wichtige Randbedingungen
+ * Windows-Pfade mit Umlauten müssen als UTF-16 gelesen werden; ohne passende Schrift wird ein Fehler gemeldet.
+ */
+
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <array>

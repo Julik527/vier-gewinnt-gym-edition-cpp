@@ -1,6 +1,13 @@
-// GYM1-Spielstände besitzen höchstens 10x11 Felder (4 Spieler).
-// Die Grenze von 64 KiB ist eine defensive Obergrenze, nicht die erwartete
-// Größe einer normalen Datei. So werden extreme Eingaben früh abgewiesen.
+/**
+ * @file include/GameFileLimits.h
+ * @brief Prüft eine defensive Dateigrößengrenze vor dem Laden von GYM1.
+ * @details gym::validSaveFileSize kontrolliert Existenz und Größe per std::filesystem, bevor Textdaten eingelesen werden.
+ * @par Abhängigkeiten
+ * C++17-Standardbibliothek; verwendet von Game und MatchSession.
+ * @par Wichtige Randbedingungen
+ * Nur Dateien mit 1 bis 65536 Bytes werden zugelassen; die Inhaltsprüfung erfolgt erst beim Parsen.
+ */
+
 #pragma once
 
 #include <cstdint>
