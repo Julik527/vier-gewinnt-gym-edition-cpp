@@ -1,7 +1,7 @@
 // JK AXIS | Gym Edition -- eigenstaendiges 2D-Spiel, SFML 3.1.
 // Die Regeln und das kompatible GYM1-Format kommen aus MatchSession / Board.
 #include "MatchSession.h"
-#include "GymBeat.h"
+#include "GymAudio.h"
 #include "GymPlatform.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -51,7 +51,7 @@ class App {
 public:
     explicit App(const std::filesystem::path& executable) :
             window_(sf::VideoMode({1280u, 800u}), "JK AXIS | Vier Gewinnt - Gym Edition"),
-            font_(gymui::systemFont()) {
+            font_(gymui::systemFont()), audio_(executable) {
         window_.setFramerateLimit(60);
         resizeView();
         // Das originale Schul-Logo wird unveraendert aus einer lokalen Bilddatei geladen,
@@ -104,10 +104,20 @@ public:
                 fallRow_ += dt * (fallRow_ < targetRow_ - 1.f ? 13.f : 7.f);
                 if (fallRow_ >= static_cast<float>(targetRow_)) {
                     falling_ = false;
-                    match_.drop(fallColumn_);
-                    if (match_.finished()) screen_ = Screen::Result;
+                    if (match_.drop(fallColumn_) && match_.finished()) {
+                        audio_.win();
+                        screen_ = Screen::Result;
+                    }
                 }
             }
+            const auto scene = screen_ == Screen::Arena
+                ? gymaudio::gameplayScene(match_.board().tokenCount(),
+                    match_.board().rows() * match_.board().columns())
+                : screen_ == Screen::Result ? gymaudio::Scene::Results
+                : screen_ == Screen::Menu ? gymaudio::Scene::Menu
+                : gymaudio::Scene::Setup;
+            audio_.setScene(scene);
+            audio_.update(dt);
             render();
             if (maxFrames > 0 && ++rendered >= maxFrames) window_.close();
         }
@@ -117,7 +127,7 @@ private:
     sf::Font font_;
     sf::Texture schoolLogo_;
     bool schoolLogoReady_ = false;
-    unique_ptr<GymBeat> beat_;
+    gymaudio::Director audio_;
     bool musicOn_ = false;
     int musicVolume_ = 40;
     float uiTime_ = 0.f;
@@ -437,33 +447,21 @@ private:
     }
     void toggleMusic() {
         if (musicOn_) {
-            if (beat_) beat_->stop();
+            audio_.stop();
             musicOn_ = false;
-            notice_ = "Soundtrack pausiert. F9 = Fortsetzen.";
+            notice_ = "Musik pausiert. F9 = Fortsetzen.";
             return;
         }
-        try {
-            // Ohne echtes Ausgabegeraet wuerde SFML ggf. stumm spielen.
-            if (sf::PlaybackDevice::getAvailableDevices().empty()) {
-                musicOn_ = false;
-                notice_ = "Kein Windows-Audiogeraet erkannt.";
-                return;
-            }
-            if (!beat_) beat_ = make_unique<GymBeat>();
-            beat_->setVolume(static_cast<float>(musicVolume_));
-            musicOn_ = beat_->play();
-            notice_ = musicOn_
-                ? "Original-Soundtrack aktiv. F9: Ton / F10-F11: Lautstaerke."
-                : "Audio konnte nicht gestartet werden. Windows-Ausgabe pruefen.";
-        } catch (const exception&) {
-            musicOn_ = false;
-            notice_ = "Kein Audio-Ausgabegeraet verfuegbar.";
-        }
+        audio_.setVolume(static_cast<float>(musicVolume_));
+        musicOn_ = audio_.play();
+        notice_ = musicOn_
+            ? string("Soundtrack: ") + audio_.sourceLabel() + "  |  F9 ein/aus."
+            : "Keine Audioausgabe. Spiel bleibt ohne Musik nutzbar.";
     }
     void act(int choice) {
         if (choice == 97 || choice == 98) {
             musicVolume_ = std::clamp(musicVolume_ + (choice == 98 ? 10 : -10), 0, 100);
-            if (beat_) beat_->setVolume(static_cast<float>(musicVolume_));
+            audio_.setVolume(static_cast<float>(musicVolume_));
             notice_ = "Musiklautstaerke: " + to_string(musicVolume_) + "%";
             return;
         }
@@ -471,6 +469,7 @@ private:
             toggleMusic();
             return;
         }
+        audio_.button();
         switch (screen_) {
             case Screen::Menu:
                 if (choice == 1) {
@@ -572,8 +571,10 @@ private:
         selectedColumn_ = column;
         notice_.clear();
         if (!animation_) {
-            match_.drop(column);
-            if (match_.finished()) screen_ = Screen::Result;
+            if (match_.drop(column) && match_.finished()) {
+                audio_.win();
+                screen_ = Screen::Result;
+            }
             return;
         }
         falling_ = true;
@@ -814,7 +815,8 @@ private:
         label("MUSIK  " + to_string(musicVolume_) + "%", 826, 124, 14,
               musicOn_ ? green : muted, true);
         if (musicOn_)
-            label("116 BPM  |  ORIGINAL SOUNDTRACK", 958, 768, 12, green, true);
+            label(string("AUDIO  |  ") + audio_.sourceLabel(),
+                  972, 768, 12, green, true);
         if (!notice_.empty())
             label(notice_, 78, 766, 14, sf::Color(254, 213, 132));
         drawButtons();
