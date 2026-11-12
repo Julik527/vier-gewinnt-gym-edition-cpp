@@ -1,5 +1,13 @@
-// Spielzustand für 2D und 3D. Beide GUIs rufen dieselben Methoden auf;
-// Regeln und Zugprüfung bleiben in Board, nicht im Grafikcode.
+/**
+ * @file include/MatchSession.h
+ * @brief Deklariert den gemeinsamen Spielzustand der 2D- und 3D-Version.
+ * @details MatchSession verwaltet Spieler, Zughistorie, Runden, Sieger, Gewinnzellen, GYM1 und die Bestenliste.
+ * @par Abhängigkeiten
+ * Board, Player und C++17; GUIs benötigen keine eigene Gewinnlogik.
+ * @par Wichtige Randbedingungen
+ * Fehlerhafte Dateien dürfen laufende Partien nicht verändern; scoreSaved_ meldet ausstehende Highscore-Speicherung.
+ */
+
 #pragma once
 #include "Board.h"
 #include "Player.h"

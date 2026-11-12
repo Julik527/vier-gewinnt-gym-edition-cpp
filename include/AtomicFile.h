@@ -1,7 +1,13 @@
-// Sicheres Dateischreiben für Spielstände und Highscores (C++17).
-// Erst vollständige temporäre Datei schreiben, dann die Zieldatei ersetzen.
-// Bei Fehler bleibt die vorhandene Datei normalerweise unangetastet;
-// dies ist keine Garantie für Stromausfallsicherheit auf jedem Dateisystem.
+/**
+ * @file include/AtomicFile.h
+ * @brief Schreibt Spielstand- und Highscore-Dateien über eine temporäre Datei.
+ * @details writeSafely(name, writer) führt die Schreibfunktion aus, prüft den Stream und ersetzt danach das Ziel.
+ * @par Abhängigkeiten
+ * C++17-Dateisystem und unter Windows MoveFileExW; keine SFML-Abhängigkeit.
+ * @par Wichtige Randbedingungen
+ * Ein fehlgeschlagener Schreibvorgang liefert false. Kein Versprechen absoluter Stromausfallsicherheit.
+ */
+
 #pragma once
 
 #include <atomic>

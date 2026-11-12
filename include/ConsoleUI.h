@@ -1,7 +1,12 @@
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   include/ConsoleUI.h
-// Aufgabe: Einheitliche Bildschirme fuer Menue, Spielfeld und Ergebnis.
-// ------------------------------------------------------------
+/**
+ * @file include/ConsoleUI.h
+ * @brief Deklariert die Textansichten und die Terminal-Ausgabe der Schulkonsole.
+ * @details mainMenu, arena und result erzeugen Strings; present gibt sie aus, animateDrop simuliert den sichtbaren Fall.
+ * @par Abhängigkeiten
+ * Board und Player; ANSI-Farben sind optional und für die Regeln nicht erforderlich.
+ * @par Wichtige Randbedingungen
+ * Vorschau und Animation verändern den Spielfeldzustand nicht.
+ */
 
 #pragma once
 

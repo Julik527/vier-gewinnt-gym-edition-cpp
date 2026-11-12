@@ -1,7 +1,12 @@
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   src/Game.cpp
-// Aufgabe: Steuert Menü, Spielerwechsel, Spielstand und Highscore.
-// ------------------------------------------------------------
+/**
+ * @file src/Game.cpp
+ * @brief Implementiert das Menü und den Spielablauf der Schulkonsole.
+ * @details Verarbeitet Eingaben, Spielerwechsel, Undo, Revanche, GYM1-Speicherung und Highscores.
+ * @par Abhängigkeiten
+ * Game.h, Board, ConsoleUI, AtomicFile, ScoreFile und GameFileLimits; C++17 ohne SFML.
+ * @par Wichtige Randbedingungen
+ * Beim Laden werden Züge nachgespielt und verifiziert, bevor der aktive Zustand ersetzt wird.
+ */
 
 #include "Game.h"
 #include "ConsoleUI.h"

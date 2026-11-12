@@ -1,3 +1,13 @@
+/**
+ * @file src/MatchSession.cpp
+ * @brief Implementiert den gemeinsamen Match-Zustand der beiden GUIs.
+ * @details Validiert Spieler und Züge, erkennt Sieg/Remis, speichert GYM1 und verwaltet Highscores.
+ * @par Abhängigkeiten
+ * MatchSession.h, Board, AtomicFile, ScoreFile und GameFileLimits; ohne SFML.
+ * @par Wichtige Randbedingungen
+ * Eine beschädigte Datei wird nicht übernommen; ein nicht gespeicherter Sieg kann ohne Doppelzählung erneut geschrieben werden.
+ */
+
 #include "MatchSession.h"
 #include "AtomicFile.h"
 #include "ScoreFile.h"

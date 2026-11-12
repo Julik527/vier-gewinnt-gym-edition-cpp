@@ -1,7 +1,12 @@
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   include/Board.h
-// Aufgabe: Beschreibt die Spielfeld-Klasse und ihre Funktionen.
-// ------------------------------------------------------------
+/**
+ * @file include/Board.h
+ * @brief Deklariert die gemeinsamen Spielfeldregeln für zwei bis vier Spieler.
+ * @details Board stellt Einwurf, Schwerkraft, Undo, vier Gewinnachsen, Gewinnzellen und eine einfache Textausgabe bereit.
+ * @par Abhängigkeiten
+ * C++17-Standardbibliothek; Game und MatchSession verwenden dieselbe Klasse.
+ * @par Wichtige Randbedingungen
+ * Interne Koordinaten beginnen bei 0; '.' ist leer; gültige Spielsymbole sind R, B, G und Y.
+ */
 
 #pragma once
 #include <utility>

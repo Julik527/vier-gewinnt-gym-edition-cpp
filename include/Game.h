@@ -1,7 +1,12 @@
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   include/Game.h
-// Aufgabe: Beschreibt Spielablauf, Eingaben und den gespeicherten Spielstand.
-// ------------------------------------------------------------
+/**
+ * @file include/Game.h
+ * @brief Deklariert die Steuerung des vollständigen Konsolenspiels.
+ * @details Game verarbeitet Menüs, Spieleranlage, Zugreihenfolge, Revanche, Undo, GYM1-Spielstände und Highscores.
+ * @par Abhängigkeiten
+ * Board, Player und die getrennte ConsoleUI-Implementierung; keine SFML-Bibliothek.
+ * @par Wichtige Randbedingungen
+ * Der neue Zustand wird bei ungültigen Eingaben oder defekten Speicherdateien nicht teilweise übernommen.
+ */
 
 #pragma once
 #include "Board.h"

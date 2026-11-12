@@ -1,6 +1,13 @@
-// Gemeinsamer Highscore-Parser für Konsole und MatchSession.
-// Liest zeilenweise; erst wenn ALLE Datensätze gültig sind, wird die
-// übergebene Bestenliste ersetzt. Doppelte Namen sind nicht erlaubt.
+/**
+ * @file include/ScoreFile.h
+ * @brief Deklariert den gemeinsam genutzten Highscore-Parser.
+ * @details parseScores liest zitierte Spielernamen und nichtnegative Siege in eine temporäre map ein.
+ * @par Abhängigkeiten
+ * C++17 iostream, std::quoted und ein übergebener Namensvalidator; keine GUI-Abhängigkeit.
+ * @par Wichtige Randbedingungen
+ * Ungültige, doppelte oder über 512 Zeichen lange Zeilen verhindern die komplette Übernahme.
+ */
+
 #pragma once
 
 #include <iomanip>
