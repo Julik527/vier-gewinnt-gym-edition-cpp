@@ -99,6 +99,7 @@ def test_corrupted_saves(binary: pathlib.Path, root: pathlib.Path) -> int:
         "falscher-spieler-am-zug": valid.replace("2 0 6 7 2", "2 1 6 7 2", 1),
         "zu-viele-zuege": valid.replace("2 0 6 7 2", "2 0 6 7 43", 1),
         "doppelter-spielername": "\n".join(lines[:3] + ['"Ada" B'] + lines[4:]) + "\n",
+        "nur-leerzeichen-spielername": valid.replace('"Ada" R', '"   " R', 1),
         "falsches-spielsymbol": valid.replace('"Ada" R', '"Ada" X', 1),
         "falsche-fallhoehe": valid.replace("5 0 0", "4 0 0", 1),
         "falsche-zugreihenfolge": valid.replace("5 1 1", "5 1 0", 1),
@@ -149,6 +150,18 @@ def test_bad_highscores(binary: pathlib.Path, root: pathlib.Path) -> None:
         raise AssertionError("Beschaedigte Bestenliste teilweise uebernommen")
 
 
+def test_blank_score_name(binary: pathlib.Path, root: pathlib.Path) -> None:
+    folder = make_dir(root, "blank-highscore-name")
+    (folder / "data").mkdir()
+    (folder / "data" / "highscore.txt").write_text(
+        '"   " 9\n', encoding="utf-8"
+    )
+    output = play(binary, folder, ["4", "0"])
+    contains(output, "Noch keine Siege gespeichert.")
+    if "9 Siege" in output:
+        raise AssertionError("Unzulaessiger Leerzeichenname in Highscores akzeptiert")
+
+
 def test_eof(binary: pathlib.Path, root: pathlib.Path) -> None:
     folder = make_dir(root, "eof")
     result = subprocess.run(
@@ -174,6 +187,7 @@ def main() -> int:
         mutated = test_corrupted_saves(binary, root)
         test_zero_move_save(binary, root)
         test_bad_highscores(binary, root)
+        test_blank_score_name(binary, root)
         test_eof(binary, root)
     print(f"Adversarial-E2E: Eingabegrenzen, volle Spalte, {mutated} "
           "defekte Speicherdateien, leere Partie, Highscore und EOF bestanden.")

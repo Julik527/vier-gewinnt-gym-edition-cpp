@@ -54,7 +54,9 @@ string ask(const string& message) {
 
 // Namen dürfen nicht leer oder zu lang sein.
 bool validName(const string& name) {
-    if (name.empty() || name.size() > 24) return false;
+    // Loaded files must follow the same rule as interactive input.
+    if (name.empty() || name.size() > 24
+        || name.find_first_not_of(' ') == string::npos) return false;
     for (unsigned char ch : name) {
         // Tab, ESC und andere Steuerzeichen duerfen das Terminal nicht veraendern.
         if (ch < 32 || ch == 127) return false;
