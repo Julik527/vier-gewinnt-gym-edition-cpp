@@ -1,6 +1,13 @@
-// 2D-Spieloberfläche mit SFML 3.1 (C++17).
-// Verantwortlich für Fenster, Eingaben, Animation und Anzeige.
-// Board/MatchSession prüfen die Regeln und verwalten den GYM1-Spielstand.
+/**
+ * @file src/gui/Main.cpp
+ * @brief Startet die interaktive 2D-Oberfläche von Vier Gewinnt.
+ * @details SFML-Fenster, Bildschirmwechsel, Eingaben, Buttons, Fallanimation und OGG-Audio; Regeln kommen aus MatchSession.
+ * @par Abhängigkeiten
+ * C++17, SFML 3.1, MatchSession, GymAudio und GymPlatform.
+ * @par Wichtige Randbedingungen
+ * Fenster-Smoke-Tests begrenzen die Laufzeit; Zeichnung/Animation ändern den Spielzustand erst beim gültigen Zug.
+ */
+
 #include "MatchSession.h"
 #include "GymAudio.h"
 #include "GymPlatform.h"

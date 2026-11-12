@@ -1,5 +1,13 @@
-// Reine 3D-Mathematik ohne SFML oder OpenGL. Vektoren, Kamera, Projektion
-// und Animationskurven sind dadurch separat und deterministisch testbar.
+/**
+ * @file src/gui/Gym3DMath.h
+ * @brief Stellt die unabhängigen 3D-Mathematikfunktionen bereit.
+ * @details Vektoroperationen, Kamerabasis, Projektion, Spielfeldkoordinaten und Easing für Animationen.
+ * @par Abhängigkeiten
+ * Nur C++17-Standardbibliothek; ohne SFML/OpenGL separat testbar.
+ * @par Wichtige Randbedingungen
+ * Die Projektion meldet Punkte hinter der Kamera als nicht sichtbar; Kamerawinkel und Abstand sind begrenzt.
+ */
+
 #pragma once
 #include <algorithm>
 #include <cmath>

@@ -1,6 +1,13 @@
-// 3D-Oberfläche: OpenGL zeichnet die Arena im Raum, SFML das interaktive HUD.
-// Die gleiche MatchSession/Board-Logik wie in 2D hält Regeln und GYM1-Dateien
-// zwischen beiden Grafikversionen kompatibel; die Konsole bleibt eigenständig.
+/**
+ * @file src/gui/Main3D.cpp
+ * @brief Startet die interaktive 3D-Arena mit 2D-HUD.
+ * @details OpenGL rendert Welt/Kamera; SFML behandelt Eingaben/Overlays; Gym3DPicking berechnet geklickte Spalten.
+ * @par Abhängigkeiten
+ * C++17, SFML 3.1, OpenGL, MatchSession, Gym3DMath, Gym3DRender und GymAudio.
+ * @par Wichtige Randbedingungen
+ * Der Fall wird erst nach der Animation als Zug gewertet; GYM1 bleibt mit der 2D-Version kompatibel.
+ */
+
 #include "MatchSession.h"
 #include "Gym3DMath.h"
 #include "Gym3DPicking.h"

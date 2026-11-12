@@ -1,6 +1,13 @@
-// Gemeinsame Audiosteuerung für 2D und 3D mit SFML 3.1.
-// OGG-Musik wird gestreamt und zwischen Spielphasen überblendet.
-// Fehlt ein gültiges Musikpaket, bleibt das Spiel bewusst ohne Musik.
+/**
+ * @file src/gui/GymAudio.h
+ * @brief Steuert OGG-Musik und Effekte der grafischen Spielversionen.
+ * @details gymaudio::Director lädt Szenentracks, mischt Lautstärken, blendet 420 ms über und spielt UI-/Siegsounds.
+ * @par Abhängigkeiten
+ * SFML 3.1 Audio; GymAudioAssets und GymAudioScene; getrennt von Board und GYM1.
+ * @par Wichtige Randbedingungen
+ * Bei fehlenden/defekten OGG-Dateien wird keine alte Synthesizer-Musik als Ersatz gestartet.
+ */
+
 #pragma once
 
 #include "GymAudioScene.h"

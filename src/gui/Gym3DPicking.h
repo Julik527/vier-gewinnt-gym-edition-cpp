@@ -1,6 +1,13 @@
-// Mausauswahl im 3D-Spiel: Pixelkoordinaten als Strahl in den Raum
-// zurückrechnen und mit der Ebene des Spielbretts schneiden.
-// Dieselbe Kamera-Geometrie wie beim Rendern verhindert versetzte Klicks.
+/**
+ * @file src/gui/Gym3DPicking.h
+ * @brief Ermittelt aus einer Mausposition die gewählte 3D-Spielspalte.
+ * @details Ein Sichtstrahl wird aus Kamera und Pixel berechnet und mit der Spielbrettebene geschnitten.
+ * @par Abhängigkeiten
+ * Gym3DMath.h; keine SFML- oder OpenGL-Funktionen erforderlich.
+ * @par Wichtige Randbedingungen
+ * Rückgabewert -1 bedeutet keinen gültigen Treffer; die Spaltenindizes beginnen bei 0.
+ */
+
 #pragma once
 #include "Gym3DMath.h"
 #include <cmath>

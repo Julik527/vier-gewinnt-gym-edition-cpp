@@ -1,5 +1,13 @@
-// JK AXIS | Gym Edition: original 116-BPM stereo theme.
-// The waveform generator in GymSoundtrack.h is independently unit-tested.
+/**
+ * @file src/gui/GymBeat.h
+ * @brief Kapselt das ältere, synthetisch erzeugte 116-BPM-Thema.
+ * @details GymBeat erzeugt sf::SoundBuffer aus renderTheme() und erlaubt Start, Stop und Lautstärke.
+ * @par Abhängigkeiten
+ * GymSoundtrack.h sowie SFML 3.1 Audio; nicht Teil der aktuellen OGG-Audio-Engine.
+ * @par Wichtige Randbedingungen
+ * Legacy-Baustein: GymAudio nutzt heute OGG-Dateien ohne automatischen Rückfall auf dieses Thema.
+ */
+
 #pragma once
 #include "GymSoundtrack.h"
 #include <SFML/Audio.hpp>
