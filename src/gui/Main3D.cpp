@@ -347,11 +347,24 @@ private:
         const sf::FloatRect bounds({x,y},{width,52});
         const auto cursor=window_.mapPixelToCoords(sf::Mouse::getPosition(window_));
         const bool hover=active && bounds.contains(cursor);
-        rect(x,y,width,52,!active?sf::Color(25,39,54)
-                              :hover?sf::Color(40,89,147):sf::Color(25,58,96),
-             hover?green:active?sf::Color(51,100,158):sf::Color(32,51,75));
-        if(hover)rect(x+2,y+8,4,36,green);
-        text(std::move(title),x+16,y+12,18,active?white:muted,true);
+        const bool selected=(action==20&&playerCount_==2)
+                         ||(action==21&&playerCount_==3)
+                         ||(action==22&&playerCount_==4);
+        const bool primary=action==1||action==8||action==9;
+        const sf::Color fill=!active?sf::Color(25,39,54)
+               :hover?sf::Color(42,103,158)
+               :selected?sf::Color(26,91,98)
+               :primary?sf::Color(34,82,140):sf::Color(25,58,96);
+        rect(x,y+3,width,52,sf::Color(0,5,13,105));
+        rect(x,y,width,52,fill,
+             !active?sf::Color(32,51,75)
+                    :(hover||selected?green:sf::Color(51,100,158)));
+        if((hover||selected||primary)&&active)
+            rect(x+3,y+8,4,36,hover||selected?green:blue);
+        text(std::move(title),x+(hover?21.f:16.f),y+12,18,
+             active?white:muted,true);
+        if(selected)
+            rect(x+width-20.f,y+18,8,17,green);
         if(active)hits_.push_back({bounds,action});
     }
     void logo(float x,float y,float scale) {
@@ -404,6 +417,11 @@ private:
         const int cols=demo?7:match_.board().columns();
         auto camera=gym3d::adjustedCamera(camera_,rows,cols);
         if(page_==Page::Intro){camera.yaw=.22f+.33f*sin(elapsed_*.68f);camera.pitch=.13f+.08f*sin(elapsed_*.37f);}
+        if(page_==Page::Menu) {
+            // Subtle camera drift lets the 3D board read as a live scene.
+            camera.yaw=.20f+.13f*sin(elapsed_*.26f);
+            camera.pitch=.12f+.04f*sin(elapsed_*.19f);
+        }
         if(page_==Page::Result)camera.yaw=gym3d::clamp(camera.yaw+.06f*sin(victoryTime_*1.4f),-.8f,.8f);
         cameraGL(camera,vw,vh);
         glClearColor(.035f,.07f,.13f,1);
@@ -507,7 +525,15 @@ private:
         } else if(page_==Page::Menu) {
             text("DEINE ARENA.",94,192,47,white,true);
             text("DREHEN. PLANEN. GEWINNEN.",94,250,23,green,true);
-            text("Echtes 3D-Spielbrett mit freier Kamerasteuerung.",95,297,19,muted);
+            text("3D-BRETT  /  FREIE KAMERA  /  LOKALER MULTIPLAYER",95,297,17,muted);
+            rect(95,344,385,3,sf::Color(38,78,118));
+            rect(95,344,95.f+25.f*sin(elapsed_*1.7f),3,green);
+            text("01  SPIELER WAEHLEN",95,382,20,white,true);
+            text("02  MATCH STARTEN",95,423,20,white,true);
+            text("03  VIER IN EINER REIHE SETZEN",95,464,20,white,true);
+            if(match_.active())
+                text("AKTIVE RUNDE "+to_string(match_.round())+
+                     "  /  DU KANNST FORTSETZEN",95,535,19,green,true);
         } else if(page_==Page::Names) {
             text("DEIN TEAM",94,184,44,white,true);
             text("SPIELER "+to_string(names_.size()+1)+" VON "+to_string(playerCount_),95,249,23,green,true);
@@ -528,6 +554,9 @@ private:
             else text(dropActive_?"DEIN STEIN FAELLT ...":"SPALTE "+to_string(selected_+1)+
                  " / "+to_string(match_.board().columns())+"  -  ZUG "+to_string(match_.board().tokenCount()+1),
                  82,821,21,muted);
+            if(page_==Page::Playing)
+                text("PFEILE: SPALTE  |  SPACE: EINWERFEN  |  RECHTSKLICK: KAMERA",
+                     82,851,14,muted);
         } else if(page_==Page::Help) {
             text("3D STEUERUNG",96,196,44,white,true);
             const array<string,8> help={{
@@ -556,6 +585,8 @@ private:
             text("SPIELERANZAHL",1100,221,17,muted,true);
             text(to_string(playerCount_)+" SPIELER  /  "+to_string(7+(playerCount_-2)*2)+"x"+
                  to_string(6+(playerCount_-2)*2),1100,256,23,green,true);
+            rect(1100,290,300,2,sf::Color(38,77,116));
+            rect(1100,290,100.f*static_cast<float>(playerCount_-1),2,green);
             button("2 SPIELER",1100,302,146,20);
             button("3 SPIELER",1255,302,146,21);
             button("4 SPIELER",1100,362,300,22);
@@ -577,6 +608,12 @@ private:
                 text(player.getName().substr(0,17),1116,y+5,17,current?white:muted,true);
                 text(to_string(match_.wins(player.getName()))+" W",1328,y+7,17,colors[i],true);
             }
+            const float played=static_cast<float>(match_.board().tokenCount());
+            const float capacity=static_cast<float>(
+                match_.board().rows()*match_.board().columns());
+            rect(1100,486,300,5,sf::Color(37,65,91));
+            if(played>0.f)rect(1100,486,300.f*played/capacity,5,
+                              page_==Page::Result?green:blue);
             const float buttonY=510;
             if(page_==Page::Playing) {
                 button("STEIN SETZEN",1100,buttonY,300,8,!dropActive_);
