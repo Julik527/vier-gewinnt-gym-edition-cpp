@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   tests/document_language_lint.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Prüft sprachliche Vorgaben der Projektdokumentation.
+# ------------------------------------------------------------
+
 """Checks public-facing text for unsupported promotional quality labels.
 
 The historical KI prompt record contains original quotes and is excluded so

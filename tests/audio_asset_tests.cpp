@@ -1,5 +1,17 @@
 /**
  * @file tests/audio_asset_tests.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Prüft das Auffinden und die oberflächliche Erkennung von OGG-Dateien.
  * @details Erstellt ein temporäres Testpaket, prüft den Pfad, acht erwartete Dateien, OggS-Kopf und V4-Profilkennung.
  * @par Abhängigkeiten

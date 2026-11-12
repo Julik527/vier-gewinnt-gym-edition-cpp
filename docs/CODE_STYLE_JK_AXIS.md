@@ -14,16 +14,38 @@
 
 ### 1. Einheitlicher Dateikopf
 
-Jede Quell- und Header-Datei beginnt mit einer kurzen Beschreibung. Der Kopf ist absichtlich schlicht: In C++ lassen sich keine verlässlichen Markenfarben darstellen, aber Name, Aufbau und Schreibweise sind einheitlich.
+Alle C++-Quelldateien besitzen individuelle Doxygen-Dateiköpfe mit relativen
+Pfaden, Projektverantwortlichem, Schule, Klasse, Unterricht, Fachlehrer,
+Dokumentationsstand, Datei-Aufgabe, Abhängigkeiten und Randbedingungen.
 
 ```cpp
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   src/Board.cpp
-// Aufgabe: Verwaltet das Spielfeld, die Spielzüge und die Gewinnerkennung.
-// ------------------------------------------------------------
+/**
+ * @file src/Board.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
+ * @brief Implementiert Schwerkraft, Zugrücknahme und Gewinnerkennung.
+ * @details Die Spielfeldlogik wird unabhängig von Konsole und GUI umgesetzt.
+ * @par Abhängigkeiten
+ * Board.h und C++17-Standardbibliothek.
+ * @par Wichtige Randbedingungen
+ * Zeilen- und Spaltenindizes beginnen bei null.
+ */
 ```
 
-Die ergänzenden Python-, CMake- und GitHub-Actions-Dateien verwenden denselben Aufbau mit `#` statt `//`.
+Die Python-, PowerShell-, CMake- und Workflow-Dateien haben stattdessen
+schlichte `#`-Dateiköpfe mit denselben Projektangaben und einer passenden
+Aufgabenbeschreibung. Der vollständige Standard steht in
+[DATEIKOPF_STANDARD.md](DATEIKOPF_STANDARD.md).
 
 ### 2. So schreibe ich die Kommentare
 

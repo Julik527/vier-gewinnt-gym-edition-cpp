@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/verify_windows_release.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Überprüft die zusammengestellte Windows-Veröffentlichung.
+# ------------------------------------------------------------
+
 """Validate the *contents* of an assembled portable Windows game ZIP.
 
 Designed for Linux/Windows CI and end-user V4 release candidates. No

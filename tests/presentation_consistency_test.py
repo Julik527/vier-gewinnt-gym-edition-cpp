@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   tests/presentation_consistency_test.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Prüft die Konsistenz der Präsentationsunterlagen.
+# ------------------------------------------------------------
+
 """Cross-check the current 8-slide milestone PPTX and PDF.
 
 The files are independently generated from one slide definition. This test

@@ -1,3 +1,14 @@
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/preflight-school.ps1
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Kontrolliert die Vorbedingungen für die schulische Abgabe.
+# ------------------------------------------------------------
+
 # JK AXIS | Aufgabenblatt 51 | reproducible Windows CMake/CTest preflight.
 # Only new build directories are written; no saved games or scores are touched.
 param([switch]$WithGui, [switch]$With3D)

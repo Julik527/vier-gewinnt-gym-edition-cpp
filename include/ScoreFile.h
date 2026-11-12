@@ -1,5 +1,17 @@
 /**
  * @file include/ScoreFile.h
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Deklariert den gemeinsam genutzten Highscore-Parser.
  * @details parseScores liest zitierte Spielernamen und nichtnegative Siege in eine temporäre map ein.
  * @par Abhängigkeiten

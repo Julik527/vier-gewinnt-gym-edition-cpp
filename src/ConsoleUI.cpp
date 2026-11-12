@@ -1,5 +1,17 @@
 /**
  * @file src/ConsoleUI.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Erzeugt die Konsolenmenüs, Spielfeldansichten und Ergebnisanzeige.
  * @details Textbasierte Darstellung mit optionalen ANSI-Farben, Vorschau, Fortschritt und Fallanimation.
  * @par Abhängigkeiten

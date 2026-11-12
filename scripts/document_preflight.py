@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   scripts/document_preflight.py
-# Aufgabe: Kontrolliert Präsentation, PDFs und alle Markdown-Dateilinks, ohne sie zu ändern.
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Prüft Projektdateien und Dokumentationsunterlagen vor einer Abgabe.
 # ------------------------------------------------------------
 
 """Prüft die veröffentlichten Projektdateien auf technische Fehler.

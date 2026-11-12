@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   tests/install_sci_fi_audio_test.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Testet die Installation des optionalen Sci-Fi-Audiopakets.
+# ------------------------------------------------------------
+
 """Offline regression tests for the third-party audio installer."""
 from __future__ import annotations
 import hashlib

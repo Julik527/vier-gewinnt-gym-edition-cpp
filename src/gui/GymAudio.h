@@ -1,5 +1,17 @@
 /**
  * @file src/gui/GymAudio.h
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Steuert OGG-Musik und Effekte der grafischen Spielversionen.
  * @details gymaudio::Director lädt Szenentracks, mischt Lautstärken, blendet 420 ms über und spielt UI-/Siegsounds.
  * @par Abhängigkeiten

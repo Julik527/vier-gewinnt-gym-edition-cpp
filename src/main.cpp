@@ -1,5 +1,17 @@
 /**
  * @file src/main.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Einstiegspunkt des eigenständigen C++17-Konsolenspiels.
  * @details main erstellt Game, ruft run auf und fängt unerwartete std::exception-Fehler ab.
  * @par Abhängigkeiten

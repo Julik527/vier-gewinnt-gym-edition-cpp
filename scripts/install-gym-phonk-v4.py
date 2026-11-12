@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/install-gym-phonk-v4.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Installiert und prüft optionale Musik-Assets für die Gym-Edition.
+# ------------------------------------------------------------
+
 """Reproducible, checksum-locked installation of JK AXIS Gym Phonk V4 OGG.
 
 Only accepts the eight reviewed OGGs from the user's original soundtrack ZIP.

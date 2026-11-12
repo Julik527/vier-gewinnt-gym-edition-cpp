@@ -1,5 +1,17 @@
 /**
  * @file tests/board_property_tests.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Vergleicht die Board-Logik mit einem unabhängigen Referenzmodell.
  * @details Erzeugt reproduzierbare Zugfolgen für zwei bis vier Spieler und prüft Schwerkraft, Gewinn, Undo und Zustandsgrenzen.
  * @par Abhängigkeiten

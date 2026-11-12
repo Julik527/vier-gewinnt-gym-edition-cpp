@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   tests/source_prologues_test.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Prüft Doxygen-Dateiköpfe und relative Pfadangaben aller C++-Dateien.
+# ------------------------------------------------------------
+
 """Validate meaningful Doxygen prologues in all C++ project sources."""
 from __future__ import annotations
 

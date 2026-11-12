@@ -1,5 +1,17 @@
 /**
  * @file include/Game.h
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Deklariert die Steuerung des vollständigen Konsolenspiels.
  * @details Game verarbeitet Menüs, Spieleranlage, Zugreihenfolge, Revanche, Undo, GYM1-Spielstände und Highscores.
  * @par Abhängigkeiten

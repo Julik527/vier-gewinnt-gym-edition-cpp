@@ -1,3 +1,14 @@
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/check-2d.ps1
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Diagnostiziert die Windows-Umgebung für die 2D-Version, ohne sie zu verändern.
+# ------------------------------------------------------------
+
 # JK AXIS | Gym Edition 2D | read-only Windows diagnosis
 param([switch]$Strict)
 $ErrorActionPreference = "Stop"

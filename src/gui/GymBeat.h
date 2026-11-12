@@ -1,5 +1,17 @@
 /**
  * @file src/gui/GymBeat.h
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Kapselt das ältere, synthetisch erzeugte 116-BPM-Thema.
  * @details GymBeat erzeugt sf::SoundBuffer aus renderTheme() und erlaubt Start, Stop und Lautstärke.
  * @par Abhängigkeiten

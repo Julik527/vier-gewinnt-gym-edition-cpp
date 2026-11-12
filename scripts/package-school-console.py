@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/package-school-console.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Erzeugt und kontrolliert ein eigenständiges ZIP mit den Konsolen-Quelldateien.
+# ------------------------------------------------------------
+
 """Create and verify a source-only, standalone console-school ZIP.
 
 The allowlist intentionally excludes GUI/3D files, SFML and private save data.

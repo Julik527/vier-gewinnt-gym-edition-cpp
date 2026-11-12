@@ -1,6 +1,12 @@
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   CMakeLists.txt
-# Aufgabe: Baut das C++-Spiel und führt die automatischen Tests aus.
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Konfiguriert die C++17-Buildziele, Tests und optionalen grafischen Anwendungen.
 # ------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.16)

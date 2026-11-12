@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   tests/vscode_config_test.py
-# Aufgabe: Prueft, dass F5 auch nach neuen C++-Dateien funktioniert.
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Prüft Debug- und Build-Konfigurationen von Visual Studio Code.
 # ------------------------------------------------------------
 
 """Vergleicht die VS-Code-Builddateien mit den echten C++-Quellen."""

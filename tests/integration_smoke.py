@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   tests/integration_smoke.py
-# Aufgabe: Prueft den Menueablauf und die wichtigsten Funktionen.
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Testet typische Abläufe des Konsolenspiels über Ein- und Ausgaben.
 # ------------------------------------------------------------
 
 """Testet das C++-Konsolenspiel ueber echte Tastatureingaben.

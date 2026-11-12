@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/build_milestone_10min.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Erzeugt die zehnminütige Meilenstein-Präsentation.
+# ------------------------------------------------------------
+
 """Create the current ten-minute school presentation in PPTX and PDF.
 
 The older 15+15-minute presentation remains an archived reference.

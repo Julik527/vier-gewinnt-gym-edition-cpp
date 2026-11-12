@@ -2,7 +2,8 @@
 
 Alle **36 C++-Dateien** im Projekt (Header, Implementierungen, Tests und
 Übungen) besitzen einen einheitlichen, deutschsprachigen Dateikopf im
-**Doxygen-Format**. Die Informationen sind bewusst auf den tatsächlichen
+**Doxygen-Format**. Zusätzlich besitzen Python-, PowerShell-, CMake- und GitHub-Actions-Dateien
+lesbare Kopfkommentare. Insgesamt umfasst der Standard **70 Quell-, Skript- und Build-Dateien**. Die Informationen sind bewusst auf den tatsächlichen
 Dateiinhalt abgestimmt.
 
 ## Felder
@@ -10,6 +11,10 @@ Dateiinhalt abgestimmt.
 | Doxygen-Feld | Bedeutung |
 |---|---|
 | `@file` | Eindeutiger relativer Pfad der Quellcodedatei |
+| `@author` | Julian Krauß als Projektverantwortlicher |
+| `@date` | Bearbeitungsstand der Dateikopf-Dokumentation, nicht das ursprüngliche Erstellungsdatum |
+| `@par Projekt`, `@par Schule`, `@par Klasse` | Projekt und schulische Einordnung |
+| `@par Unterricht`, `@par Fachlehrer` | Unterrichtsfach und Lehrkraft |
 | `@brief` | Ein Satz zur Hauptaufgabe dieser Datei |
 | `@details` | Zentrale Funktionen, Zusammenarbeit und Datenfluss |
 | `@par Abhängigkeiten` | Verwendete Klassen, Standardbibliothek, SFML oder OpenGL |
@@ -20,10 +25,18 @@ Indizierung und zulässigen Symbole. In `src/gui/GymAudio.h` erklärt
 er das OGG-Streaming, Crossfades und den Verzicht auf den alten
 Synthesizer-Fallback. Die Details stehen jeweils im zugehörigen Code.
 
+## Skripte, Build-Konfigurationen und Workflows
+
+Python-, PowerShell-, CMake- und YAML-Dateien nutzen `#`-Kommentare mit Projekt,
+Pfad, Autor, Schule, Klasse, Fach, Lehrkraft, Dokumentationsstand und einer
+individuellen Aufgabenbeschreibung. Vorhandene Python-Shebangs bleiben in der
+ersten Zeile. Modul-Dokumentation und eigentlicher Quellcode bleiben erhalten.
+
 ## Was nicht in den Dateikopf gehört
 
 - Eine erfundene Versionsnummer, ein ungeprüftes Qualitätsversprechen
-  oder ein automatisch veraltendes Tagesdatum.
+  oder ein nicht überprüftes Erstellungsdatum. Der ausgewiesene Stand
+  **12.11.2026** bezieht sich nur auf diese Dokumentationsänderung.
 - Eine pauschale Lizenzbehauptung. Die Nutzung des Quellcodes und der
   zugelieferten Audiodateien wird getrennt in `docs/LICENSING.md`
   und den Audio-Unterlagen beschrieben.

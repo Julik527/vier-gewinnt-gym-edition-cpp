@@ -1,5 +1,17 @@
 /**
  * @file tests/soundtrack_tests.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Prüft den früheren C++-Synthesizer ohne Audiohardware.
  * @details Kontrolliert Eigenschaften der von GymSoundtrack.h berechneten Stereo-PCM-Samples.
  * @par Abhängigkeiten

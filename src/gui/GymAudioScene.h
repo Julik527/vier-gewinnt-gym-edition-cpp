@@ -1,5 +1,17 @@
 /**
  * @file src/gui/GymAudioScene.h
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Ordnet Spielphasen den OGG-Tracks und Lautstärkefaktoren zu.
  * @details Intro, Menü, Setup, Match, Endphase und Ergebnis werden über Scene und filename/gain ausgewählt.
  * @par Abhängigkeiten

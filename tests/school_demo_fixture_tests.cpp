@@ -1,5 +1,17 @@
 /**
  * @file tests/school_demo_fixture_tests.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Kontrolliert die vorbereiteten Spielstände für eine Schulvorführung.
  * @details Lädt vordefinierte GYM1-Dateien und prüft Spielerzahl, Feldgröße, Zugfolge und aktiven Spielstatus.
  * @par Abhängigkeiten

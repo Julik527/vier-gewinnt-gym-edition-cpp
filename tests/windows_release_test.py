@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   tests/windows_release_test.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Testet Prüfungen und Inhalte des Windows-Releasepakets.
+# ------------------------------------------------------------
+
 """Portable ZIP negative tests without requiring a GUI or actual EXE."""
 from __future__ import annotations
 

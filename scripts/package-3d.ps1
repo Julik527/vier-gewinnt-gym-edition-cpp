@@ -1,3 +1,14 @@
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/package-3d.ps1
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Bereitet das 3D-Projektpaket unter Windows vor.
+# ------------------------------------------------------------
+
 # JK AXIS | 3D Windows portable package, based on tested MSVC output.
 # Does not modify source files or existing 2D release ZIP.
 param([string]$BuildDirectory="build-gui")

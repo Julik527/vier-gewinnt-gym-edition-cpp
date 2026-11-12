@@ -1,5 +1,17 @@
 /**
  * @file include/ConsoleUI.h
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Deklariert die Textansichten und die Terminal-Ausgabe der Schulkonsole.
  * @details mainMenu, arena und result erzeugen Strings; present gibt sie aus, animateDrop simuliert den sichtbaren Fall.
  * @par Abhängigkeiten

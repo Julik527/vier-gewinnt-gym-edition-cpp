@@ -1,5 +1,17 @@
 /**
  * @file src/Board.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Implementiert Schwerkraft, Zugrücknahme und Gewinnerkennung.
  * @details Das Raster misst 6x7, 8x9 oder 10x11; ein Sieg wird entlang von vier Achsen ab dem letzten Stein geprüft.
  * @par Abhängigkeiten

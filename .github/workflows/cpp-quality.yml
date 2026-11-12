@@ -1,6 +1,12 @@
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   .github/workflows/cpp-quality.yml
-# Aufgabe: Prüft den C++-Code bei Änderungen auf Linux und Windows.
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Kompiliert und testet den C++-Projektcode per GitHub Actions.
 # ------------------------------------------------------------
 
 name: C++ Build and Tests

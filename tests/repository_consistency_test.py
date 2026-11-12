@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   tests/repository_consistency_test.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Prüft die Konsistenz der Dateistruktur und Projektverweise.
+# ------------------------------------------------------------
+
 """Static consistency checks for current setup documentation and GUI structure.
 
 This intentionally makes no claim about human Windows/visual/audio acceptance.

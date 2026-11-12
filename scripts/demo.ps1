@@ -1,3 +1,14 @@
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/demo.ps1
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Startet eine vorbereitete Projektvorführung unter Windows.
+# ------------------------------------------------------------
+
 # Schulvorfuehrung: grafisches Spiel und die PowerShell-Konsole nacheinander.
 # Keine Spielstand-Kollisionen durch gleichzeitige Prozesse.
 param(

@@ -1,5 +1,17 @@
 /**
  * @file tests/board_tests.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Prüft Kernregeln und Grenzfälle der Klasse Board.
  * @details Kontrolliert Feldgrößen, Einwürfe, ungültige Eingaben, vier Gewinnrichtungen, Gewinnmarkierung, Undo und volle Felder.
  * @par Abhängigkeiten

@@ -1,3 +1,14 @@
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/install-school-logo.ps1
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Bindet das Schul-Logo als lokale Projektdatei ein.
+# ------------------------------------------------------------
+
 # Installiert das originale Schulkennzeichen (unveraenderte bzw. verkleinerte Fassung).
 # 429-robust: eine bekannte alternative Quelle, keine Wiederholungsschleife.
 # Attribution und Lizenz: docs/SCHOOL_LOGO.md

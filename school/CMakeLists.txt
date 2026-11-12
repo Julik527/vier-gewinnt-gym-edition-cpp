@@ -1,3 +1,14 @@
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   school/CMakeLists.txt
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Definiert Build und Tests für die getrennte C++-Konsolen-Schulabgabe.
+# ------------------------------------------------------------
+
 cmake_minimum_required(VERSION 3.16)
 project(VierGewinntSchulabgabe LANGUAGES CXX)
 

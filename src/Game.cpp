@@ -1,5 +1,17 @@
 /**
  * @file src/Game.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Implementiert das Menü und den Spielablauf der Schulkonsole.
  * @details Verarbeitet Eingaben, Spielerwechsel, Undo, Revanche, GYM1-Speicherung und Highscores.
  * @par Abhängigkeiten

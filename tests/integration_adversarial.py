@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   tests/integration_adversarial.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Prüft fehlerhafte und gezielt problematische Konsoleneingaben.
+# ------------------------------------------------------------
+
 """Strenge, reproduzierbare Akzeptanztests gegen Grenzfaelle und kaputte Dateien.
 
 Alle Dateizugriffe finden in einem temporaeren Verzeichnis statt. Vorhandene

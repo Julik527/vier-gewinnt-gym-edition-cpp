@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/normalize_legacy_presentation.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Vereinheitlicht ältere Präsentationsdateien für die weitere Nutzung.
+# ------------------------------------------------------------
+
 """Remove promotional slogans from the archived 17-slide presentation.
 
 The script edits only the existing presentation's text, then regenerates its PDF

@@ -1,6 +1,12 @@
 # Projekt: Vier Gewinnt | Gym Edition
 # Datei:   .github/workflows/docs-quality.yml
-# Aufgabe: Prüft die veröffentlichten Dokumente ohne sie zu überschreiben.
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Prüft die Dokumentation und zugehörige Qualitätstests in GitHub Actions.
 # ------------------------------------------------------------
 
 name: Document Checks

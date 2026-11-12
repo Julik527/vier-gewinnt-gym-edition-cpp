@@ -1,5 +1,17 @@
 /**
  * @file tests/audio_scene_tests.cpp
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Testet die unabhängige Zuordnung der Musik zu Spielzuständen.
  * @details Prüft Tracknamen, Lautstärkefaktoren für Original und V4 sowie den Tense-Wechsel beim Füllstand.
  * @par Abhängigkeiten

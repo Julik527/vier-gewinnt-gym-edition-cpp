@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   tests/verify_school_logo.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Kontrolliert die lokal vorhandene Schul-Logo-Datei.
+# ------------------------------------------------------------
+
 """Verify school logo is an actual JPEG with plausible dimensions (stdlib only).
 
 Commons original: 2185x945, SHA1 71bc2f41e221b85e09907cedaeecb861b025b047

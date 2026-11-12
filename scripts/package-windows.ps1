@@ -1,3 +1,14 @@
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/package-windows.ps1
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Stellt eine Windows-Ausgabe des Programms zusammen.
+# ------------------------------------------------------------
+
 # JK AXIS | Portable Windows release assembly (MSVC build).
 # Packages real build output, validates command-line self-test, emits SHA-256.
 param(

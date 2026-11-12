@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+# Projekt: Vier Gewinnt | Gym Edition
+# Datei:   scripts/artifact_language_audit.py
+# Autor:   Julian Krauß
+# Schule:  Bernd-Blindow-Schule Ravensburg
+# Klasse:  ITA25/9
+# Fach:    Programmiertechnik (C++)
+# Lehrer:  Dr. Litera
+# Stand:   12.11.2026 (Dokumentation)
+# Aufgabe: Prüft die Sprache und Formulierungen in Präsentations- und PDF-Artefakten.
+# ------------------------------------------------------------
+
 """Audit PDFs and PowerPoint text without modifying original archives.
 
 Current exam presentation must be free of promotional quality claims.

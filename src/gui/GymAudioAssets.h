@@ -1,5 +1,17 @@
 /**
  * @file src/gui/GymAudioAssets.h
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Sucht das installierte Musikpaket und bestimmt dessen Variante.
  * @details Prüft acht erwartete .ogg-Dateien im EXE-/Build-Umfeld und erkennt die V4-PROFILE.txt.
  * @par Abhängigkeiten

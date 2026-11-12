@@ -1,5 +1,17 @@
 /**
  * @file src/gui/Gym3DMath.h
+ * @author Julian Krauß
+ * @date 2026-11-12 (Dokumentationsstand)
+ * @par Projekt
+ * Vier Gewinnt | Gym Edition (C++17)
+ * @par Schule
+ * Bernd-Blindow-Schule Ravensburg
+ * @par Klasse
+ * ITA25/9
+ * @par Unterricht
+ * Programmiertechnik (C++)
+ * @par Fachlehrer
+ * Dr. Litera
  * @brief Stellt die unabhängigen 3D-Mathematikfunktionen bereit.
  * @details Vektoroperationen, Kamerabasis, Projektion, Spielfeldkoordinaten und Easing für Animationen.
  * @par Abhängigkeiten
