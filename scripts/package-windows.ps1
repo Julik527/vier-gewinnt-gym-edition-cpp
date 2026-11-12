@@ -38,14 +38,29 @@ if (Test-Path $logoSource) {
     Copy-Item -LiteralPath $logoSource -Destination $logoTarget
 }
 
+
+# Optional verified SRG774 CC0 OGG sound pack. Never mistake plain CI
+# fallback builds for sound-pack releases.
+$audioSource = Join-Path $root "assets/audio/sci-fi"
+if (Test-Path -LiteralPath (Join-Path $audioSource "title.ogg") -PathType Leaf) {
+    & python (Join-Path $root "scripts/install-sci-fi-audio.py") --destination $audioSource --verify
+    if ($LASTEXITCODE -ne 0) { throw "Soundpaket ist unvollstaendig oder veraendert." }
+    $audioDest = Join-Path $stage "assets/audio/sci-fi"
+    New-Item -ItemType Directory -Force -Path $audioDest | Out-Null
+    Get-ChildItem -LiteralPath $audioSource -Filter "*.ogg" -File |
+        ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $audioDest }
+}
+
 @"
 Vier Gewinnt | Gym Edition 2D
 JK AXIS · Windows-Release-Paket
 
 1. Das ZIP in einen beschreibbaren Ordner entpacken (z. B. Downloads).
 2. vier-gewinnt-gui.exe starten.
-3. F9 schaltet den eigens komponierten Stereo-Soundtrack ein/aus.
-   F10/F11 regeln die Musiklautstaerke in 10-Prozent-Schritten.
+3. F9 schaltet Musik ein/aus; F10/F11 regeln die Lautstaerke.
+   Wenn assets/audio/sci-fi/*.ogg vorhanden: SRG774 CC0 Sci-Fi-Musik
+   mit Szenenwechsel, Crossfades und Sieg-/Klick-Effekten.
+   Sonst wird der originale prozedurale 116-BPM-Soundtrack gespielt.
 4. Spielstände werden derzeit relativ zum Startordner unter data/ abgelegt.
 
 Technischer Hinweis:

@@ -24,6 +24,19 @@ Copy-Item -LiteralPath $binary.FullName -Destination $stage
 Get-ChildItem -LiteralPath $binary.DirectoryName -Filter "*.dll" -File |
     ForEach-Object {Copy-Item -LiteralPath $_.FullName -Destination $stage}
 
+
+# Optional verified SRG774 CC0 OGG sound pack. Never mistake plain CI
+# fallback builds for sound-pack releases.
+$audioSource = Join-Path $root "assets/audio/sci-fi"
+if (Test-Path -LiteralPath (Join-Path $audioSource "title.ogg") -PathType Leaf) {
+    & python (Join-Path $root "scripts/install-sci-fi-audio.py") --destination $audioSource --verify
+    if ($LASTEXITCODE -ne 0) { throw "Soundpaket ist unvollstaendig oder veraendert." }
+    $audioDest = Join-Path $stage "assets/audio/sci-fi"
+    New-Item -ItemType Directory -Force -Path $audioDest | Out-Null
+    Get-ChildItem -LiteralPath $audioSource -Filter "*.ogg" -File |
+        ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $audioDest }
+}
+
 @"
 JK AXIS | VIER GEWINNT | GYM EDITION 3D
 
@@ -32,7 +45,9 @@ JK AXIS | VIER GEWINNT | GYM EDITION 3D
 3. 2, 3 oder 4 Spieler auswählen und Namen eingeben.
 4. Links klicken: Stein setzen. Rechts ziehen: Kamera drehen.
 5. Mausrad: Zoom. A/D, Q/E: Kamera. C: Kamera zurücksetzen.
-6. F9: eigener Soundtrack an/aus; F10/F11: Lautstärke.
+6. F9: Musik an/aus; F10/F11: Lautstärke.
+   Mit assets/audio/sci-fi/*.ogg: SRG774 CC0 Sci-Fi-Audio.
+   Ohne OGG-Dateien: originaler prozeduraler 116-BPM-Soundtrack.
 7. Speichern mit S, Undo mit U; Spielstände unter data/.
 
 Wichtig: Erfordert einen OpenGL-kompatiblen Windows-Grafiktreiber.
