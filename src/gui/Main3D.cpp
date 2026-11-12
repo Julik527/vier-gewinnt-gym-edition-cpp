@@ -4,7 +4,7 @@
 #include "MatchSession.h"
 #include "Gym3DMath.h"
 #include "Gym3DPicking.h"
-#include "GymBeat.h"
+#include "GymAudio.h"
 #include "GymPlatform.h"
 #include "Gym3DRender.h"
 #include <SFML/Graphics.hpp>
@@ -40,8 +40,9 @@ using gym3d_render::cameraGL;
 struct Hit {sf::FloatRect area;int action;};
 class Arena3D {
 public:
-    Arena3D():window_(sf::VideoMode({1440u,900u}),"JK AXIS | Gym Edition 3D"),
-              font_(gymui::systemFont()) {
+    explicit Arena3D(const std::filesystem::path& executable)
+        : window_(sf::VideoMode({1440u,900u}),"JK AXIS | Gym Edition 3D"),
+          font_(gymui::systemFont()), audio_(executable) {
         window_.setFramerateLimit(60);
         resizeView();
         camera_.distance=16.f;
@@ -62,7 +63,10 @@ public:
                 if(dropTime_>=.44f) {
                     dropActive_=false;
                     if(match_.drop(dropCol_)) {
-                        if(match_.finished()) {page_=Page::Result;victoryTime_=0.f;}
+                        if(match_.finished()) {
+                            audio_.win();
+                            page_=Page::Result;victoryTime_=0.f;
+                        }
                     }
                 }
             }
@@ -102,6 +106,15 @@ public:
                 }
             }
             if(!window_.isOpen())break;
+            const auto scene = page_ == Page::Intro ? gymaudio::Scene::Intro
+                : page_ == Page::Playing
+                    ? gymaudio::gameplayScene(match_.board().tokenCount(),
+                         match_.board().rows()*match_.board().columns())
+                : page_ == Page::Result ? gymaudio::Scene::Results
+                : page_ == Page::Menu ? gymaudio::Scene::Menu
+                : gymaudio::Scene::Setup;
+            audio_.setScene(scene);
+            audio_.update(dt);
             draw();
             if(maxFrames>0 && ++frames>=maxFrames)window_.close();
         }
@@ -110,7 +123,7 @@ private:
     sf::RenderWindow window_;
     sf::Font font_;
     MatchSession match_;
-    unique_ptr<GymBeat> beat_;
+    gymaudio::Director audio_;
     bool music_=false;
     int volume_=35;
     Page page_=Page::Intro;
@@ -149,17 +162,17 @@ private:
     }
     void notice(string message) {info_=std::move(message);messageTime_=4.f;}
     void musicToggle() {
-        if(music_) {if(beat_)beat_->stop(); music_=false;notice("MUSIK PAUSIERT");return;}
-        try {
-            if(!beat_)beat_=make_unique<GymBeat>();
-            beat_->setVolume(static_cast<float>(volume_));
-            music_=beat_->play();
-            notice(music_?"ORIGINAL SOUNDTRACK AKTIV":"AUDIOAUSGABE NICHT VERFUEGBAR");
-        } catch(const exception&) {music_=false;notice("TON NICHT VERFUEGBAR - SPIEL WEITERHIN MOEGLICH");}
+        if(music_) {
+            audio_.stop(); music_=false; notice("SOUNDTRACK PAUSIERT");return;
+        }
+        audio_.setVolume(static_cast<float>(volume_));
+        music_=audio_.play();
+        notice(music_?string("AUDIO: ")+audio_.sourceLabel()
+                     :"KEINE AUDIOAUSGABE - SPIEL WEITERHIN MOEGLICH");
     }
     void volumeBy(int step) {
         volume_=std::clamp(volume_+step,0,100);
-        if(beat_)beat_->setVolume(static_cast<float>(volume_));
+        audio_.setVolume(static_cast<float>(volume_));
         notice("MUSIKLAUTSTAERKE: "+to_string(volume_)+" %");
     }
     void startNames() {
@@ -221,6 +234,7 @@ private:
         dropTime_=0.f;dropActive_=true;
     }
     void act(int action) {
+        if(action!=10 && action!=11 && action!=12)audio_.button();
         switch(action) {
             case 1:
                 if(dropActive_) {notice("WARTEN BIS DER SPIELSTEIN LIEGT");break;}
@@ -643,6 +657,7 @@ private:
         button("-",1282,825,55,11);
         button("+",1343,825,55,12);
         text("VOL "+to_string(volume_)+"%",1099,780,16,music_?green:muted,true);
+        if(music_)text(audio_.sourceLabel(),1193,782,12,green);
         if(messageTime_>0.f)text(info_.substr(0,87),68,875,15,green);
         window_.display();
     }
@@ -660,7 +675,7 @@ int main(int argc,char** argv) {
             cout<<"Gym Edition 3D scene and shared match core: OK\n";
             return 0;
         }
-        Arena3D app;
+        Arena3D app(gymui::executablePath(argc>0?argv[0]:""));
         if(argc>1&&string(argv[1])=="--window-smoke")app.run(12);
         else app.run();
         return 0;
