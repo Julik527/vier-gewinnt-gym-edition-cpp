@@ -1,5 +1,6 @@
-// JK AXIS | Gym Edition -- eigenstaendiges 2D-Spiel, SFML 3.1.
-// Die Regeln und das kompatible GYM1-Format kommen aus MatchSession / Board.
+// 2D-Spieloberfläche mit SFML 3.1 (C++17).
+// Verantwortlich für Fenster, Eingaben, Animation und Anzeige.
+// Board/MatchSession prüfen die Regeln und verwalten den GYM1-Spielstand.
 #include "MatchSession.h"
 #include "GymAudio.h"
 #include "GymPlatform.h"
@@ -74,6 +75,9 @@ public:
         }
     }
 
+    // Hauptschleife: SFML-Ereignisse abholen, Darstellung aktualisieren,
+    // Audio passend zum Bildschirm wählen und einen Frame zeichnen.
+    // maxFrames > 0 begrenzt den automatischen Fenster-Smoke-Test.
     void run(int maxFrames = -1) {
         // Real play starts the supplied Sci-Fi theme immediately; CI smoke
         // runs and machines without the OGG pack remain silent and playable.
@@ -107,6 +111,8 @@ public:
             }
             // Nach Fenster-X kein Rendern auf ein bereits geschlossenes Fenster.
             if (!window_.isOpen()) break;
+            // Der Stein wird erst bei Erreichen der Zielzeile in MatchSession
+            // gesetzt. Vorher ist seine Position ausschließlich eine Animation.
             if (falling_ && screen_ == Screen::Arena) {
                 fallRow_ += dt * (fallRow_ < targetRow_ - 1.f ? 13.f : 7.f);
                 if (fallRow_ >= static_cast<float>(targetRow_)) {
@@ -117,6 +123,8 @@ public:
                     }
                 }
             }
+            // AudioScene gehört zum angezeigten Zustand; die Musik ändert
+            // weder Spielerfolge noch Spielregeln oder gespeicherte Daten.
             const auto scene = screen_ == Screen::Arena
                 ? gymaudio::gameplayScene(match_.board().tokenCount(),
                     match_.board().rows() * match_.board().columns())
@@ -152,6 +160,8 @@ private:
     float fallRow_ = -1.2f;
     int selectedColumn_ = 0;
 
+    // Festes 1280x800-Layout bei jeder Fenstergröße beibehalten.
+    // SFML-View + Letterboxing verhindern verzerrte Spielfelder.
     void resizeView() {
         // Letterboxing verhindert, dass Hanteln bei Fenster-Resize verzerrt wirken.
         const auto size = window_.getSize();
@@ -344,6 +354,8 @@ private:
             label("BERND BLINDOW SCHULEN | RAVENSBURG", 797, 72, 15, muted);
         }
     }
+    // Zentrale Button-Liste: dieselben Action-IDs werden von Maus und
+    // Tastatur verwendet. Deaktivierte Aktionen sind nicht anklickbar.
     vector<Button> buttons() const {
         auto add = [](vector<Button>& b, const char* name, float x, float y,
                       float w, int action, bool enabled = true) {
@@ -452,6 +464,7 @@ private:
         notice_.clear();
         screen_ = Screen::Count;
     }
+    // F9 steuert nur die Wiedergabe; die Audiodateien prüft der Director.
     void toggleMusic() {
         if (musicOn_) {
             audio_.stop();
@@ -465,6 +478,8 @@ private:
             ? string("Soundtrack: ") + audio_.sourceLabel() + "  |  F9 ein/aus."
             : audio_.lastError() + "  |  AUDIO_PRUEFEN.cmd";
     }
+    // Die Oberfläche übersetzt Button-IDs in Bedienaktionen.
+    // Echte Spielzüge gehen danach ausschließlich über MatchSession.
     void act(int choice) {
         if (choice == 97 || choice == 98) {
             musicVolume_ = std::clamp(musicVolume_ + (choice == 98 ? 10 : -10), 0, 100);
@@ -565,12 +580,16 @@ private:
         if (static_cast<int>(names_.size()) == number_) screen_ = Screen::Confirm;
     }
     struct Grid {float x, y, cell;};
+    // Die Zellgröße wird an 2-, 3- oder 4-Spieler-Felder angepasst,
+    // sodass die komplette Spielfläche in die vorgesehene Arena passt.
     Grid grid() const {
         const float cell = std::min(72.f,
              std::min(520.f / match_.board().rows(), 835.f / match_.board().columns()));
         return {100.f + (815.f - cell * match_.board().columns()) / 2.f,
                 185.f, cell};
     }
+    // Eingabe erst auf gültige Spalte prüfen. Bei aktiver Animation werden
+    // nur Start- und Zielposition gesetzt, nicht sofort das Board verändert.
     void move(int column) {
         if (falling_ || !match_.active()) return;
         const int goal = match_.board().nextFreeRow(column);
@@ -589,6 +608,7 @@ private:
         targetRow_ = goal;
         fallRow_ = -1.2f;
     }
+    // Priorität: zuerst die UI-Schaltflächen, danach das Spielbrett.
     void click(sf::Vector2f point) {
         for (const auto& b : buttons()) {
             if (b.enabled && b.box.contains(point)) { act(b.action); return; }
@@ -662,6 +682,8 @@ private:
             else if (key == sf::Keyboard::Key::Num4) act(4);
         }
     }
+    // Zeichnet aus dem lesbaren Zustand der MatchSession.
+    // Gewinnzellen werden durch die von Board berechnete winLine markiert.
     void renderBoard(bool finished) {
         const auto g = grid();
         const Board& board = match_.board();
@@ -713,6 +735,7 @@ private:
         for (int col = 0; col < board.columns(); ++col)
             label(to_string(col + 1), g.x + (col + .5f) * g.cell - 6, g.y - 58, 19, muted);
     }
+    // Seitliche Match-Informationen bleiben unabhängig vom Spielfeld-Rendering.
     void arena(bool end) {
         renderBoard(end);
         roundedBox(947, 168, 300, 594, 18, sf::Color(16, 35, 60), border);
@@ -752,6 +775,8 @@ private:
                   to_string(match_.board().columns()), 89, 742, 15, sky, true);
         }
     }
+    // Eine zentrale Zeichenfunktion für alle Screens vermeidet duplizierte
+    // Fensterverwaltung und hält die Anzeigezustände konsistent.
     void render() {
         window_.clear(navy);
         backdrop();

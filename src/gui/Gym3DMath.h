@@ -1,5 +1,5 @@
-// JK AXIS | Gym Edition 3D - geometry, camera and animation helpers.
-// No SFML/OpenGL dependency: deterministic geometry tests on every platform.
+// Reine 3D-Mathematik ohne SFML oder OpenGL. Vektoren, Kamera, Projektion
+// und Animationskurven sind dadurch separat und deterministisch testbar.
 #pragma once
 #include <algorithm>
 #include <cmath>
@@ -13,6 +13,8 @@ inline Vec3 operator-(Vec3 a, Vec3 b) { return {a.x-b.x,a.y-b.y,a.z-b.z}; }
 inline Vec3 operator*(Vec3 a,float f) {return {a.x*f,a.y*f,a.z*f};}
 inline float dot(Vec3 a,Vec3 b) {return a.x*b.x+a.y*b.y+a.z*b.z;}
 inline Vec3 cross(Vec3 a,Vec3 b) {return {a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};}
+// Teilt einen Vektor durch seine Länge. Für Null-/Kurzvektoren wird
+// {0,0,0} geliefert, damit keine Division durch null entsteht.
 inline Vec3 normalize(Vec3 a) {
     const float l=std::sqrt(dot(a,a));
     return l<1.e-6f?Vec3{0,0,0}:a*(1.f/l);
@@ -34,12 +36,16 @@ inline Vec3 eye(Camera c) {
             std::cos(c.yaw)*std::cos(c.pitch)*c.distance};
 }
 struct Basis { Vec3 right,up,forward; };
+// Erzeugt die orthogonale Kamera-Basis aus Blickrichtung und Welt-Hochachse.
+// Sie wird sowohl beim Zeichnen als auch beim Pixel-Raycast verwendet.
 inline Basis basis(Camera c) {
     const auto forward=normalize(eye(c)*-1.f);
     const auto right=normalize(cross(forward,{0,1,0}));
     return {right,cross(right,forward),forward};
 }
 struct Screen {float x,y,depth;bool visible;};
+// Perspektivische Projektion: mit wachsender Tiefe schrumpft die
+// Abbildung. Punkte hinter der Nahgrenze werden als unsichtbar markiert.
 inline Screen project(Vec3 point,Camera camera,Vec2 centre,float height,float fov=48.f) {
     const auto axis=basis(camera);
     const auto offset=point-eye(camera);
@@ -54,9 +60,12 @@ inline Vec3 slot(int row,int col,int rows,int cols,float spacing=1.05f) {
     return {(static_cast<float>(col)-(cols-1)*.5f)*spacing,
             ((rows-1)*.5f-static_cast<float>(row))*spacing,0.f};
 }
+// Ease-out: gegen Ende wird die Fallbewegung langsamer.
 inline float dropHeight(float elapsed,float seconds,float from,float to) {
     return from+(to-from)*easeOut(elapsed/std::max(.01f,seconds));
 }
+// Begrenzte Kamerawinkel und Mindestabstand schützen die Sichtbarkeit
+// des Spielfelds auch bei 4 Spielern (10x11).
 inline Camera adjustedCamera(Camera c,int rows,int cols) {
     c.pitch=clamp(c.pitch,-.38f,.55f);
     c.yaw=clamp(c.yaw,-.82f,.82f);

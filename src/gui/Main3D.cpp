@@ -1,6 +1,6 @@
-// JK AXIS | Vier Gewinnt - Gym Edition 3D.
-// An additional, real OpenGL 3D presentation of the shared C++17 MatchSession.
-// 2D and console versions remain independent, including GYM1 persistence.
+// 3D-Oberfläche: OpenGL zeichnet die Arena im Raum, SFML das interaktive HUD.
+// Die gleiche MatchSession/Board-Logik wie in 2D hält Regeln und GYM1-Dateien
+// zwischen beiden Grafikversionen kompatibel; die Konsole bleibt eigenständig.
 #include "MatchSession.h"
 #include "Gym3DMath.h"
 #include "Gym3DPicking.h"
@@ -48,6 +48,8 @@ public:
         camera_.distance=16.f;
         window_.setKeyRepeatEnabled(false);
     }
+    // Spielfenster-Schleife: Events, Kamera, Fallanimation, Musik und Bild.
+    // --window-smoke begrenzt Frames und benötigt kein echtes Audiogerät.
     void run(int maxFrames=-1) {
         // Start the new title suite automatically on a real run only.
         // Do not touch audio devices in CI graphical smoke tests.
@@ -66,6 +68,8 @@ public:
             introTime_+=(page_==Page::Intro?dt:0.f);
             if(page_==Page::Intro && introTime_>4.f) page_=Page::Menu;
             if(messageTime_>0.f)messageTime_=max(0.f,messageTime_-dt);
+            // Erst nach 440 ms wird der animierte Stein wirklich gesetzt.
+            // So kann während des Fallens kein zweiter Zug starten.
             if(dropActive_) {
                 dropTime_+=dt;
                 if(dropTime_>=.44f) {
@@ -114,6 +118,7 @@ public:
                 }
             }
             if(!window_.isOpen())break;
+            // Der Audiozustand folgt dem Bildschirm und dem Füllstand des Boards.
             const auto scene = page_ == Page::Intro ? gymaudio::Scene::Intro
                 : page_ == Page::Playing
                     ? gymaudio::gameplayScene(match_.board().tokenCount(),
@@ -151,6 +156,8 @@ private:
     vector<Hit> hits_;
     sf::FloatRect viewport_{{0.f,0.f},{1.f,1.f}};
 
+    // Viewport mit Balken statt Streckung: die 3D-Kamera soll auch bei
+    // anderem Fensterformat zur 2D-HUD-Koordinatenbasis passen.
     void resizeView() {
         const auto sz=window_.getSize();
         if(!sz.x||!sz.y)return;
@@ -201,6 +208,8 @@ private:
             } else notice("SPIELSTART FEHLGESCHLAGEN");
         }
     }
+    // Unicode-Codepunkt in ein bis vier UTF-8-Bytes umwandeln.
+    // Die Gültigkeit von Steuerzeichen/Surrogaten wird vor dem Aufruf geprüft.
     static string encodeUtf8(unsigned int code) {
         string out;
         if(code<0x80)out.push_back(static_cast<char>(code));
@@ -219,6 +228,8 @@ private:
         }
         return out;
     }
+    // Backspace entfernt alle Bytes des letzten UTF-8-Zeichens statt nur
+    // ein einzelnes Byte. So bleiben Umlaute bei der Namenseingabe intakt.
     static void eraseUtf8(string& value) {
         if(value.empty())return;
         unsigned char byte=0;
@@ -234,6 +245,8 @@ private:
         const string next=encodeUtf8(code);
         if(nameInput_.size()+next.size()<=24)nameInput_+=next;
     }
+    // Die Zielzeile kommt aus Board::nextFreeRow; hier startet nur die
+    // visuelle Fallbewegung. MatchSession::drop() erfolgt später.
     void startDrop() {
         if(page_!=Page::Playing||!match_.active()||dropActive_)return;
         const int row=match_.board().nextFreeRow(selected_);
@@ -241,6 +254,8 @@ private:
         dropCol_=selected_;dropRow_=row;dropPlayer_=match_.current();
         dropTime_=0.f;dropActive_=true;
     }
+    // Button-Aktionen verändern die Ansicht oder rufen MatchSession auf;
+    // die Audioeffekte sind von den Spielentscheidungen getrennt.
     void act(int action) {
         if(action!=10 && action!=11 && action!=12)audio_.button();
         switch(action) {
@@ -300,6 +315,8 @@ private:
                 break;
         }
     }
+    // Bedienung per Tastatur: globale Audiotasten zuerst, dann
+    // bildschirmabhängige Navigation/Kamera-/Spielzugtasten.
     void keyPressed(sf::Keyboard::Key key) {
         using K=sf::Keyboard::Key;
         if(key==K::F9) {musicToggle();return;}
@@ -338,6 +355,8 @@ private:
         } else if(page_==Page::Result&&key==K::Enter)act(9);
         else if(page_==Page::Help&&key==K::Enter)act(5);
     }
+    // Leitet einen Bildschirmklick durch den zentralen Raycast auf eine
+    // nullbasierte Spalte ab; -1 bedeutet außerhalb des Boards.
     int boardColumnAt(sf::Vector2f pixel) const {
         if(!match_.active() || pixel.x<0.f || pixel.x>=viewportWidth ||
            pixel.y<viewportTop || pixel.y>=H) return -1;
@@ -412,6 +431,8 @@ private:
         part(j,sf::Color(225,238,255));
         part(k,blue);
     }
+    // 3D-Pass: Tiefentest, Lichtquellen und Kamera für die räumliche Arena.
+    // Anschließend wird der OpenGL-Zustand für das SFML-HUD zurückgesetzt.
     void renderWorld() {
         const auto size=window_.getSize();
         const unsigned contentW=max(1u,static_cast<unsigned>(size.x*viewport_.size.x));
@@ -523,6 +544,8 @@ private:
         // Return all OpenGL state to SFML before the 2D interactive HUD.
         glViewport(0,0,static_cast<GLsizei>(size.x),static_cast<GLsizei>(size.y));
     }
+    // Zeichnungsreihenfolge: 3D-Welt zuerst, 2D-Bedienelemente darüber.
+    // SFML muss seine OpenGL-Zustände zwischen beiden Pässen sichern.
     void draw() {
         window_.clear(sf::Color(6,14,28));
         window_.pushGLStates();

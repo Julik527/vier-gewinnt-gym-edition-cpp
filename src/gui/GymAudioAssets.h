@@ -1,4 +1,5 @@
-// JK AXIS | Inspect original Sci-Fi assets without opening an audio device.
+// Musikdateien unabhängig von Lautsprechern oder SFML auf dem Datenträger
+// suchen. Unterstützt Original-Sci-Fi und die markierte Gym-Phonk-V4-Version.
 #pragma once
 #include <array>
 #include <filesystem>
@@ -13,6 +14,8 @@ inline constexpr std::array<const char*, 8> requiredOgg{{
     "title.ogg", "transmission.ogg", "urgent.ogg", "victory.ogg"
 }};
 
+// Erkennungsmerkmal für das separat geprüfte V4-Audioprofil.
+// Die Datei allein ersetzt KEINE SHA-256-Verifikation des Installers.
 inline bool isGymPhonkV4(const std::filesystem::path& folder) {
     std::ifstream profile(folder / "PROFILE.txt");
     std::string marker;
@@ -26,6 +29,8 @@ struct AssetReport {
     bool complete() const { return found == requiredOgg.size(); }
 };
 
+// Schnellprüfung: Datei existiert, ist nicht winzig und beginnt mit OggS.
+// Das ist KEIN vollständiger OGG-Decoder- oder Integritätstest.
 inline bool isOgg(const std::filesystem::path& path) {
     std::error_code ec;
     if (!std::filesystem::is_regular_file(path, ec)
@@ -44,8 +49,8 @@ inline AssetReport inspectFolder(std::filesystem::path folder) {
     return result;
 }
 
-// Match portable ZIPs first; accept typical VS Code / CMake build paths.
-// Never report a pack ready unless all eight source files are present.
+// Zuerst neben der EXE, danach in typischen CMake-/VS-Code-Verzeichnissen
+// suchen. Nur 8/8 vorhandene OGG-Header erlauben den Audio-Start.
 inline AssetReport inspectAssets(const std::filesystem::path& executable) {
     namespace fs = std::filesystem;
     std::error_code ec;

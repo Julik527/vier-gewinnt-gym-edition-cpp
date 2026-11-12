@@ -1,5 +1,5 @@
-// JK AXIS | Public-domain Sci-Fi audio scene and level policy.
-// Pure C++17; tested independently of SFML and audio devices.
+// Zuordnung von Spielzustand zu Musikdatei und Lautstärkefaktor.
+// Reines C++17 ohne SFML; die Auswahl ist unabhängig von Audiogeräten testbar.
 #pragma once
 
 namespace gymaudio {
@@ -18,8 +18,8 @@ constexpr const char* filename(Scene scene) {
     return "title.ogg";
 }
 
-// Volume compensation from measured integrated loudness.
-// Controls are multipliers on the user's 0..100 volume setting.
+// Richtwerte zum Angleich der ursprünglichen Sci-Fi-Tracks.
+// Faktoren multiplizieren die vom Nutzer gewählte Lautstärke (0 bis 100).
 constexpr float gain(Scene scene) {
     switch (scene) {
         case Scene::Intro:   return 0.48f;
@@ -32,9 +32,8 @@ constexpr float gain(Scene scene) {
     return 0.75f;
 }
 
-// V4 files are independently normalized. Compensate their measured mean
-// amplitude instead of retaining gains tuned for the original Sci-Fi pack.
-// Values approximate a consistent -16.5 dBFS music bed before user volume.
+// Eigenständige Pegelfaktoren für Gym Phonk V4. Sie beruhen auf der
+// Dateianalyse und ersetzen keinen praktischen Hörtest.
 constexpr float gain(Scene scene, bool gymPhonkV4) {
     if (!gymPhonkV4) return gain(scene);
     switch (scene) {
@@ -48,7 +47,8 @@ constexpr float gain(Scene scene, bool gymPhonkV4) {
     return .65f;
 }
 
-// Switch to a more intense theme only when a match is well advanced.
+// Ab 75 % belegter Zellen wechselt die Musik zur Spannungsphase.
+// Die Schwelle hat keinerlei Einfluss auf Sieg- oder Zugregeln.
 constexpr Scene gameplayScene(int occupied, int capacity) {
     return capacity > 0 && occupied >= 0 && occupied * 4 >= capacity * 3
         ? Scene::Tense : Scene::Match;

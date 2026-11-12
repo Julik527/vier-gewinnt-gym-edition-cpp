@@ -1,10 +1,13 @@
-// JK AXIS | 3D game-board input: independent of SFML/OpenGL.
-// Pixel-to-world ray intersection keeps selection correct as the camera rotates.
+// Mausauswahl im 3D-Spiel: Pixelkoordinaten als Strahl in den Raum
+// zurückrechnen und mit der Ebene des Spielbretts schneiden.
+// Dieselbe Kamera-Geometrie wie beim Rendern verhindert versetzte Klicks.
 #pragma once
 #include "Gym3DMath.h"
 #include <cmath>
 
 namespace gym3d {
+// Rückgabe: nullbasierte Spalte oder -1 (außerhalb/parallel/hinter Kamera).
+// rows/cols und spacing müssen zur tatsächlich gezeichneten Arena passen.
 inline int pickColumn(Vec2 pixel, Camera camera, Vec2 centre,
                       float viewportHeight, int rows, int cols,
                       float planeDepth = .22f, float spacing = 1.05f) {
@@ -14,7 +17,8 @@ inline int pickColumn(Vec2 pixel, Camera camera, Vec2 centre,
     const float scale = (viewportHeight * .5f) / std::tan(48.f * pi / 360.f);
     const auto axes = basis(camera);
     const auto origin = eye(camera);
-    // The same perspective model used by project() and cameraGL().
+    // Bildschirmverschiebung in einen Raumstrahl umrechnen.
+    // Die Richtung muss hier nicht normiert werden (Schnittpunkt ist invariant).
     const Vec3 ray = axes.forward
         + axes.right * ((pixel.x - centre.x) / scale)
         + axes.up * ((centre.y - pixel.y) / scale);
