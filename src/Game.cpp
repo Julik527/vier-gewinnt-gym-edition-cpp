@@ -359,7 +359,7 @@ bool Game::saveGame(const string& path) const {
 
 // Erst alles in einem neuen Spielfeld prüfen, dann wirklich laden.
 bool Game::loadGame(const string& path) {
-    ifstream in(path);
+    ifstream in(std::filesystem::u8path(path));
     string signature;
     if (!(in >> signature) || signature != "GYM1") return false;
     int n, current, rows, cols, moves;
@@ -404,7 +404,7 @@ bool Game::loadGame(const string& path) {
     // Kein weiteres Token nach der letzten Rasterzeile akzeptieren.
     // So werden auch ansonsten plausible, aber manipulierte Spielstaende verworfen.
     string trailingToken;
-    if (in >> trailingToken) return false;
+    if (in >> trailingToken || in.bad()) return false;
 
     // Ausschließlich nach vollständiger Prüfung den echten Spielstand ersetzen.
     // Bis hierhin ist die Datei gültig. Jetzt wird der Spielstand übernommen.

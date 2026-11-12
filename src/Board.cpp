@@ -75,7 +75,9 @@ int Board::countDirection(int row, int column, int dRow, int dColumn,
 
 // Vier gleiche Hanteln in einer Reihe bedeuten einen Sieg.
 bool Board::hasWon(int row, int column, char symbol) const {
-    if (!inside(row, column) || grid_[row][column] != symbol) return false;
+    // '.' marks empty cells and cannot form a winning line.
+    if (symbol == '.' || !inside(row, column)
+        || grid_[row][column] != symbol) return false;
     // Wir prüfen waagerecht, senkrecht und die beiden Diagonalen.
     const int dr[4] = {0, 1, 1, 1};
     const int dc[4] = {1, 0, 1, -1};
@@ -91,7 +93,8 @@ bool Board::hasWon(int row, int column, char symbol) const {
 // So kann das Spielfeld die gewinnende Reihe spaeter extra markieren.
 vector<pair<int, int>> Board::winningCells(int row, int column,
                                                       char symbol) const {
-    if (!inside(row, column) || grid_[row][column] != symbol) return {};
+    if (symbol == '.' || !inside(row, column)
+        || grid_[row][column] != symbol) return {};
     const int dr[4] = {0, 1, 1, 1};
     const int dc[4] = {1, 0, 1, -1};
     for (int i = 0; i < 4; ++i) {
