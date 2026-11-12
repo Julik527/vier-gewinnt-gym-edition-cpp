@@ -1,6 +1,7 @@
 # Quellcode lesen und erklären
 
-Dieser Leitfaden ergänzt die **Kommentare direkt in den C++-Dateien**. Die
+Dieser Leitfaden ergänzt die **Kommentare direkt in den C++-Dateien**.
+Die standardisierten Doxygen-Dateiköpfe sind unter [Dateikopf-Standard](DATEIKOPF_STANDARD.md) erläutert. Die
 Kommentare erklären wichtige Entscheidungen, Zustände, Ein-/Ausgaben und
 Grenzfälle. Selbstverständliche Syntax wie `i++` wird bewusst nicht kommentiert.
 
