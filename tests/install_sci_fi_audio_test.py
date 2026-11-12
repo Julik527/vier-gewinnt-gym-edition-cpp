@@ -42,6 +42,12 @@ def main() -> None:
         module.install(good, target, expected)
         module.verify(target, expected)
         assert len(list(target.glob("*.ogg"))) == 8
+        # Downgrading from Gym Phonk V4 must remove the profile marker.
+        (target / "PROFILE.txt").write_text("JK_AXIS_GYM_PHONK_V4\\n",
+                                            encoding="ascii")
+        module.install(good, target, expected)
+        assert not (target / "PROFILE.txt").exists()
+        module.verify(target, expected)
 
         bad = root / "bad.zip"
         changed = dict(files)

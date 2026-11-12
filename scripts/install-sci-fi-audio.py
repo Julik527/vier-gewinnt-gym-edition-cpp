@@ -59,15 +59,29 @@ def verify(destination: Path, expected: dict[str, str] = HASHES) -> None:
 
 def install(archive: Path, destination: Path,
             expected: dict[str, str] = HASHES) -> None:
-    files = read_archive(archive, expected)  # Validate the entire archive first.
-    destination.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix=".stage-", dir=destination) as tmp:
-        stage = Path(tmp)
+    files = read_archive(archive, expected)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    # Validate the entire new folder before switching the existing source.
+    # This removes a stale V4 marker when switching back to the CC0 originals.
+    with tempfile.TemporaryDirectory(prefix=".staged-audio-",
+                                     dir=destination.parent) as tmp:
+        staging = Path(tmp) / "new"
+        staging.mkdir()
         for name, content in files.items():
-            (stage / name).write_bytes(content)
-        verify(stage, expected)
-        for name in sorted(files):
-            (stage / name).replace(destination / name)
+            (staging / name).write_bytes(content)
+        verify(staging, expected)
+        backup = Path(tmp) / "old"
+        existed = destination.exists()
+        if existed:
+            if not destination.is_dir() or destination.is_symlink():
+                raise ValueError("Ziel muss ein normaler Ordner sein.")
+            destination.rename(backup)
+        try:
+            staging.rename(destination)
+        except Exception:
+            if existed:
+                backup.rename(destination)
+            raise
     verify(destination, expected)
 
 
