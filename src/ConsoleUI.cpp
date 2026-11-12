@@ -74,6 +74,16 @@ void menuLine(ostringstream& out, const string& text,
         << " |\n";
 }
 
+// Compact progress readout works on terminals without ANSI colors.
+string progressBar(const Board& board) {
+    constexpr int segments = 24;
+    const int capacity = board.rows() * board.columns();
+    const int used = board.tokenCount();
+    const int filled = capacity > 0 ? (used * segments + capacity / 2) / capacity : 0;
+    return "[" + string(filled, '#') + string(segments - filled, '.') + "] "
+        + to_string(used) + "/" + to_string(capacity);
+}
+
 int score(const map<string, int>& scores, const string& name) {
     const auto found = scores.find(name);
     return found == scores.end() ? 0 : found->second;
@@ -171,30 +181,35 @@ string mainMenu(const vector<Player>& players, const Board& board,
     ostringstream out;
     separator(out);
     menuLine(out, "JK AXIS  /  VIER GEWINNT  /  GYM EDITION", "1;94");
-    menuLine(out, "HEBEN. SETZEN. SIEGEN.  |  C++17", "1;97");
+    menuLine(out, "KONSOLE  |  HEBEN. SETZEN. SIEGEN.  |  C++17", "1;97");
     menuLine(out, "BERND-BLINDOW-SCHULEN  /  RAVENSBURG");
     separator(out);
-    menuLine(out, active ? "STATUS: TRAININGSRUNDE LAEUFT" : "STATUS: BEREIT FUER DEIN MATCH");
-    menuLine(out, "1  Neues Spiel");
-    menuLine(out, active ? "2  Spiel fortsetzen" : "2  Spiel fortsetzen (keine Runde)");
-    menuLine(out, "3  Spielstand laden");
-    menuLine(out, "4  Bestenliste");
-    menuLine(out, "5  Anleitung");
-    menuLine(out, "0  Beenden");
+    menuLine(out, active ? "LIVE MATCH  /  RUNDE " + to_string(round)
+                         : "MATCH LOBBY  /  BEREIT FUER DEIN MATCH",
+             active ? "1;92" : "1;96");
+    menuLine(out, active ? "FORTSCHRITT  " + progressBar(board)
+                         : "2-4 SPIELER  |  4 IN EINER REIHE");
+    separator(out);
+    menuLine(out, " 01   NEUES SPIEL  /  SPIELER WAEHLEN", "1;97");
+    menuLine(out, active ? " 02   SPIEL FORTSETZEN" : " 02   Spiel fortsetzen (keine Runde)");
+    menuLine(out, " 03   SPIELSTAND LADEN");
+    menuLine(out, " 04   BESTENLISTE");
+    menuLine(out, " 05   REGELN UND STEUERUNG");
+    menuLine(out, " 00   BEENDEN");
     separator(out);
     if (active && !players.empty() && currentPlayer >= 0 &&
         currentPlayer < static_cast<int>(players.size())) {
-        out << "  RUNDE " << round << "  |  " << board.tokenCount() << " Zuege\n"
-            << "  SPIELER UND ZUGREIHENFOLGE:\n";
-        // Jeder Name bekommt eine eigene Zeile; auch 4 lange Namen passen.
+        menuLine(out, "TEAM  /  ZUGREIHENFOLGE", "1;94");
         for (size_t i = 0; i < players.size(); ++i) {
-            out << (static_cast<int>(i) == currentPlayer ? "  >> " : "     ")
-                << '[' << players[i].getSymbol() << "] " << players[i].getName()
-                << (static_cast<int>(i) == currentPlayer ? "  < AM ZUG" : "")
-                << "\n";
+            const bool now = static_cast<int>(i) == currentPlayer;
+            menuLine(out, string(now ? " > " : "   ") + "[" + players[i].getSymbol()
+                     + "] " + players[i].getName() + (now ? "  < AM ZUG" : ""),
+                     now ? "1;92" : nullptr);
         }
+        separator(out);
     }
-    out << "  Auswahl mit Zahl bestaetigen.\n";
+    menuLine(out, "ZAHL EINGEBEN + ENTER  |  IM SPIEL: H FUER HILFE");
+    separator(out);
     return out.str();
 }
 
@@ -222,8 +237,11 @@ string arena(const Board& board, const vector<Player>& players,
             << (onTurn ? "  < AM ZUG" : "") << '\n';
     }
     boardArea(out, board, previewColumn, previewSymbol, winningCells, animationRow);
-    out << "  " << paint("TRAININGSSTAND", "1;94")
-        << "  |  Zug " << board.tokenCount() + (winningCells.empty() ? 1 : 0)
+    out << "  " << paint("MATCH-FORTSCHRITT", "1;94") << "  "
+        << progressBar(board) << "\n";
+    out << "  " << paint("SPIELZUG", "1;96")
+        << "  |  " << (winningCells.empty() ? "Naechster Zug: " : "Letzter Zug: ")
+        << board.tokenCount() + (winningCells.empty() ? 1 : 0)
         << "  |  " << board.columns() << " Spalten\n";
     out << "  " << (previewColumn >= 0 ? "VORSCHAU: Noch kein Stein gesetzt.\n"
                                      : "EINGABE: Spalte 1-" + to_string(board.columns()) + "\n");
@@ -259,6 +277,7 @@ string result(const Board& board, const vector<Player>& players,
     out << "\n  " << (winner.empty() ? "REMIS: Spielfeld voll."
                        : "GEWONNEN: " + winner + "!") << "\n";
     if (!winner.empty()) out << "  Vier Hanteln in einer Reihe!\n";
+    out << "  SPIELSTAND  " << progressBar(board) << "\n";
     boardArea(out, board, -1, '.', winningCells, -2);
     out << "  GESAMTSIEGE\n";
     for (const auto& player : players) {

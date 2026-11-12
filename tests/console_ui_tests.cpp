@@ -50,6 +50,15 @@ int main() {
         check(main.find("JK AXIS") != string::npos, "Marke fehlt");
         check(main.find("GYM EDITION") != string::npos, "Gym Edition fehlt");
         check(main.find("keine Runde") != string::npos, "Fortsetzen-Zustand fehlt");
+        check(main.find("MATCH LOBBY") != string::npos, "Lobby-Kennzeichnung fehlt");
+        check(main.find("REGELN UND STEUERUNG") != string::npos,
+              "Hilfe-Einstieg fehlt");
+        check(main.find("00   BEENDEN") != string::npos, "Ausgang fehlt");
+        const string resumed = console_ui::mainMenu(players, board, true, 1, 3);
+        check(resumed.find("LIVE MATCH  /  RUNDE 3") != string::npos,
+              "Live-Match-Status fehlt");
+        check(resumed.find("[........................] 0/42") != string::npos,
+              "Fortschritt der neuen Partie fehlt");
 
         const string initial = console_ui::arena(board, players, 0, 1, scores);
         check(initial.find("TRAININGS-ARENA") != string::npos, "Arena-Titel fehlt");
@@ -59,6 +68,9 @@ int main() {
         check(count(initial, "|  .  ") == 42, "Leeres Feld nicht vollstaendig");
         check(initial.find("AM ZUG") != string::npos, "Aktueller Spieler fehlt");
         check(initial.find("Rueckgaengig") != string::npos, "Bedienhilfe fehlt");
+        check(initial.find("MATCH-FORTSCHRITT") != string::npos,
+              "Fortschrittsanzeige fehlt");
+        check(initial.find("0/42") != string::npos, "Leerer Fortschritt fehlt");
 
         const string preview = console_ui::arena(board, players, 0, 1, scores, 2, 'R');
         check(preview.find(" (R) ") != string::npos, "Vorschau fehlt");
@@ -81,6 +93,8 @@ int main() {
         check(count(result, " {R} ") == 4, "Gewinn-Hanteln nicht markiert");
         check(result.find("Revanche") != string::npos, "Revanche fehlt");
         check(result.find("3 Siege") != string::npos, "Gesamtsiege fehlen");
+        check(result.find("4/42") != string::npos,
+              "Ergebnis-Fortschritt fehlt");
 
         // Bei 4 Spielern muss das grosse Feld ohne abgeschnittene Spalten passen.
         Board large(4);
