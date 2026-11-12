@@ -59,6 +59,15 @@ Quelle:
 https://github.com/Julik527/vier-gewinnt-gym-edition-cpp
 "@ | Set-Content -LiteralPath (Join-Path $stage "START_HIER.txt") -Encoding UTF8
 
+@"
+@echo off
+cd /d "%%~dp0"
+"vier-gewinnt-3d.exe" --audio-check
+echo.
+echo 8/8 = Sci-Fi-Paket erkannt. 0/8 = Musikdateien fehlen.
+pause
+"@.Replace('%%', '%') | Set-Content -LiteralPath (Join-Path $stage "AUDIO_PRUEFEN.cmd") -Encoding ascii
+
 Push-Location $stage
 try {
     & (Join-Path $stage "vier-gewinnt-3d.exe") --self-test

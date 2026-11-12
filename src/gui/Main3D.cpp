@@ -168,7 +168,7 @@ private:
         audio_.setVolume(static_cast<float>(volume_));
         music_=audio_.play();
         notice(music_?string("AUDIO: ")+audio_.sourceLabel()
-                     :"KEINE AUDIOAUSGABE - SPIEL WEITERHIN MOEGLICH");
+                     :audio_.lastError()+" - AUDIO-CHECK STARTEN");
     }
     void volumeBy(int step) {
         volume_=std::clamp(volume_+step,0,100);
@@ -657,7 +657,8 @@ private:
         button("-",1282,825,55,11);
         button("+",1343,825,55,12);
         text("VOL "+to_string(volume_)+"%",1099,780,16,music_?green:muted,true);
-        if(music_)text(audio_.sourceLabel(),1193,782,12,green);
+        text(audio_.statusLabel(),1128,782,12,
+             music_&&audio_.usingSciFiPack()?green:muted);
         if(messageTime_>0.f)text(info_.substr(0,87),68,875,15,green);
         window_.display();
     }
@@ -666,6 +667,19 @@ private:
 
 int main(int argc,char** argv) {
     try {
+        if(argc>1 && string(argv[1])=="--audio-check") {
+            const auto result=gymaudio::inspectAssets(
+                gymui::executablePath(argc>0?argv[0]:""));
+            cout<<"JK AXIS SCI-FI AUDIO CHECK V2 / 3D\n"
+                <<"Audio-Ordner: "<<result.folder<<"\n"
+                <<"Gueltige OGG-Dateien: "<<result.found<<"/8\n";
+            for(const auto* name:gymaudio::requiredOgg)
+                cout<<(gymaudio::isOgg(result.folder/name)?"[OK] ":"[FEHLT] ")
+                    <<name<<'\n';
+            cout<<(result.complete()?"SCI-FI BEREIT\n"
+                                   :"SCI-FI NICHT VOLLSTAENDIG - ALTE MUSIK MOEGLICH\n");
+            return result.complete()?0:3;
+        }
         if(argc>1 && string(argv[1])=="--self-test") {
             MatchSession sample;
             if(!sample.begin({"Ada","Ben"})||!sample.drop(0)||

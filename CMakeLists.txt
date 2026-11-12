@@ -54,6 +54,9 @@ target_include_directories(soundtrack_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}
 add_executable(audio_scene_tests tests/audio_scene_tests.cpp)
 target_include_directories(audio_scene_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
 
+add_executable(audio_asset_tests tests/audio_asset_tests.cpp)
+target_include_directories(audio_asset_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
+
 # Mathematische 3D-Funktionen brauchen weder Grafiktreiber noch SFML.
 add_executable(scene3d_tests tests/scene3d_tests.cpp)
 target_include_directories(scene3d_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gui")
@@ -223,6 +226,7 @@ if(BUILD_TESTING)
     add_test(NAME score_file_unit_tests COMMAND score_file_tests)
     add_test(NAME soundtrack_unit_tests COMMAND soundtrack_tests)
     add_test(NAME audio_scene_unit_tests COMMAND audio_scene_tests)
+    add_test(NAME audio_asset_unit_tests COMMAND audio_asset_tests)
     add_test(NAME scene3d_math_tests COMMAND scene3d_tests)
     if(GYM_BUILD_3D)
         add_test(NAME scene3d_core_smoke COMMAND vier-gewinnt-3d --self-test)
