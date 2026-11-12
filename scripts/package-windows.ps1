@@ -72,6 +72,16 @@ Quelle und vollständige Anleitung:
 https://github.com/Julik527/vier-gewinnt-gym-edition-cpp
 "@ | Set-Content -Path (Join-Path $stage "START_HIER.txt") -Encoding UTF8
 
+$checkScript = @'
+@echo off
+cd /d "%~dp0"
+"vier-gewinnt-gui.exe" --audio-check
+echo.
+echo 8/8 = Sci-Fi-Paket erkannt. 0/8 = Musikdateien fehlen.
+pause
+'@
+Set-Content -LiteralPath (Join-Path $stage "AUDIO_PRUEFEN.cmd") -Value $checkScript -Encoding ascii
+
 Push-Location $stage
 try {
     & (Join-Path $stage "vier-gewinnt-gui.exe") --self-test

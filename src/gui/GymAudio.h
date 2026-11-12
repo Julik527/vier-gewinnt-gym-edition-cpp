@@ -4,6 +4,7 @@
 #pragma once
 
 #include "GymAudioScene.h"
+#include "GymAudioAssets.h"
 #include "GymBeat.h"
 #include <SFML/Audio.hpp>
 #include <algorithm>
@@ -17,7 +18,10 @@
 namespace gymaudio {
 
 class Director {
+    std::filesystem::path executable_;
+    AssetReport assets_;
     std::filesystem::path folder_;
+    std::string lastError_;
     std::unique_ptr<sf::Music> current_;
     std::unique_ptr<sf::Music> outgoing_;
     std::unique_ptr<GymBeat> fallback_;
@@ -34,25 +38,6 @@ class Director {
     float fade_ = 1.f;
     bool enabled_ = false;
     bool effectsLoaded_ = false;
-
-    static std::filesystem::path discover(const std::filesystem::path& executable) {
-        namespace fs = std::filesystem;
-        std::error_code ec;
-        const auto dir = executable.parent_path();
-        const std::array<fs::path, 5> locations = {{
-            dir / "assets/audio/sci-fi",
-            fs::current_path(ec) / "assets/audio/sci-fi",
-            dir.parent_path() / "assets/audio/sci-fi",
-            dir.parent_path().parent_path() / "assets/audio/sci-fi",
-            dir.parent_path().parent_path().parent_path() / "assets/audio/sci-fi"
-        }};
-        for (const auto& location : locations) {
-            if (fs::is_regular_file(location / "title.ogg", ec))
-                return location;
-            ec.clear();
-        }
-        return {};
-    }
 
     std::unique_ptr<sf::Music> open(Scene scene) const {
         if (folder_.empty()) return {};
@@ -114,21 +99,39 @@ class Director {
 
 public:
     explicit Director(const std::filesystem::path& executable)
-        : folder_(discover(executable)) {}
+        : executable_(executable), assets_(inspectAssets(executable)),
+          folder_(assets_.complete() ? assets_.folder : std::filesystem::path{}) {}
 
     // Music is opt-in, preserving the original F9 behavior and quiet startup.
     bool play() {
         if (enabled_) return true;
+        // Detect assets copied into the folder while the game is already open.
+        assets_ = inspectAssets(executable_);
+        folder_ = assets_.complete() ? assets_.folder : std::filesystem::path{};
+        lastError_.clear();
         try {
-            if (sf::PlaybackDevice::getAvailableDevices().empty()) return false;
+            if (sf::PlaybackDevice::getAvailableDevices().empty()) {
+                lastError_ = "KEIN AUDIOAUSGABEGERAET";
+                return false;
+            }
             enabled_ = true;
-            prepareEffects();
-            if (switchTo(requested_)) return true;
+            if (!folder_.empty()) {
+                // A pack which is present but cannot decode must NOT silently
+                // fall back to the old music: the user needs an actionable error.
+                if (switchTo(requested_)) {
+                    prepareEffects();
+                    return true;
+                }
+                lastError_ = "OGG KANN NICHT GELADEN WERDEN";
+                stop();
+                return false;
+            }
             fallback_ = std::make_unique<GymBeat>();
             fallback_->setVolume(volume_);
             if (fallback_->play()) return true;
+            lastError_ = "AUDIO KANN NICHT STARTEN";
         } catch (...) {
-            // No valid audio output must never interrupt a match.
+            lastError_ = "AUDIOINITIALISIERUNG FEHLGESCHLAGEN";
         }
         stop();
         return false;
@@ -189,6 +192,16 @@ public:
 
     bool enabled() const { return enabled_; }
     bool usingSciFiPack() const { return current_ != nullptr; }
+    const std::string& lastError() const { return lastError_; }
+    const AssetReport& assets() const { return assets_; }
+    std::string statusLabel() const {
+        if (!lastError_.empty()) return lastError_;
+        if (enabled_) return usingSciFiPack() ? "SCI-FI AKTIV / SRG774"
+                                              : "ORIGINAL 116 BPM AKTIV";
+        if (assets_.complete()) return "SCI-FI BEREIT / F9";
+        return "OGG " + std::to_string(assets_.found) +
+            "/8 FEHLEN / ORIGINAL 116 BPM";
+    }
     const char* sourceLabel() const {
         return usingSciFiPack() ? "DARK SCI-FI / SRG774"
                                 : "ORIGINAL 116 BPM";

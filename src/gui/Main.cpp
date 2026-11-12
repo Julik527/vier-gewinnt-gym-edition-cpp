@@ -456,7 +456,7 @@ private:
         musicOn_ = audio_.play();
         notice_ = musicOn_
             ? string("Soundtrack: ") + audio_.sourceLabel() + "  |  F9 ein/aus."
-            : "Keine Audioausgabe. Spiel bleibt ohne Musik nutzbar.";
+            : audio_.lastError() + "  |  Mit --audio-check pruefen.";
     }
     void act(int choice) {
         if (choice == 97 || choice == 98) {
@@ -814,9 +814,8 @@ private:
         }
         label("MUSIK  " + to_string(musicVolume_) + "%", 826, 124, 14,
               musicOn_ ? green : muted, true);
-        if (musicOn_)
-            label(string("AUDIO  |  ") + audio_.sourceLabel(),
-                  972, 768, 12, green, true);
+        label(audio_.statusLabel(), 957, 768, 12,
+              musicOn_ && audio_.usingSciFiPack() ? green : muted, true);
         if (!notice_.empty())
             label(notice_, 78, 766, 14, sf::Color(254, 213, 132));
         drawButtons();
@@ -827,6 +826,19 @@ private:
 
 int main(int argc, char** argv) {
     try {
+        if (argc > 1 && string(argv[1]) == "--audio-check") {
+            const auto result = gymaudio::inspectAssets(
+                gymui::executablePath(argc > 0 ? argv[0] : ""));
+            cout << "JK AXIS SCI-FI AUDIO CHECK V2 / 2D\n"
+                 << "Audio-Ordner: " << result.folder << "\n"
+                 << "Gueltige OGG-Dateien: " << result.found << "/8\n";
+            for (const auto* name : gymaudio::requiredOgg)
+                cout << (gymaudio::isOgg(result.folder / name) ? "[OK] " : "[FEHLT] ")
+                     << name << '\n';
+            cout << (result.complete() ? "SCI-FI BEREIT\n"
+                                      : "SCI-FI NICHT VOLLSTAENDIG - ALTE MUSIK MOEGLICH\n");
+            return result.complete() ? 0 : 3;
+        }
         if (argc > 1 && string(argv[1]) == "--path-self-test") {
             const auto executable = gymui::executablePath(argc > 0 ? argv[0] : "");
             error_code error;

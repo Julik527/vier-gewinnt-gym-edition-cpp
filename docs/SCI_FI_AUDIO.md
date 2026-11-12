@@ -38,3 +38,26 @@ Die Musik wird mittels SFML 3.1 `sf::Music` gestreamt. Es werden zwei Streams f�
 Ohne OGG-Dateien oder mit fehlenden einzelnen Quellen fällt das Spiel auf das ursprüngliche `GymBeat`-Thema zurück beziehungsweise verwendet einen noch spielbaren Track. Ohne Ausgabegerät bleibt das Programm stumm und benutzbar. Automatische Tests prüfen Übersetzung, Funktionen ohne Audioausgabe, Installationssicherheit und Szenenlogik. Ein **echter Hörtest** mit Audiohardware und unterschiedlicher Lautstärke ist weiterhin erforderlich.
 
 Es gibt keine Garantie für samplegenaue musikalische Übergänge zwischen unterschiedlich komponierten Songs; das 420-ms-Fading verhindert jedoch harte Lautstärkesprünge.
+
+
+## Fehlerdiagnose: Es klingt weiterhin wie der alte Soundtrack
+
+Ab dem Audio-Check V2 zeigen beide GUIs dauerhaft die **tatsächlich aktive Klangquelle**:
+`SCI-FI AKTIV / SRG774`, `ORIGINAL 116 BPM AKTIV` oder `OGG 0/8 FEHLEN`.
+Wenn ein vollständiges Pack vorhanden ist, aber nicht geladen werden kann,
+wird **keine alte Musik mehr als vermeintlicher Sci-Fi-Sound abgespielt**.
+Stattdessen erscheint ein klarer OGG-Fehler.
+
+Im entpackten Windows-Paket `AUDIO_PRUEFEN.cmd` starten. Es kontrolliert
+den tatsächlich laufenden EXE-Ordner, listet alle acht OGG-Dateien und
+endet bei erfolgreicher Prüfung mit `SCI-FI BEREIT`. Alternativ:
+```powershell
+.\vier-gewinnt-gui.exe --audio-check
+.\vier-gewinnt-3d.exe --audio-check
+```
+(Je nach Paket nur die vorhandene EXE aufrufen.)
+
+Dies überprüft die Dateistruktur und OGG-Header ohne Audiogerät; den
+echten Ton anschließend mit F9 testen. Wer die alte EXE aus einem
+anderen Ordner startet, hört weiterhin die alte Komposition. Die
+versionierten Komplettpakete müssen **vollständig entpackt** werden.
