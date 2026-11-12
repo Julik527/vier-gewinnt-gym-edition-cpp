@@ -1,8 +1,12 @@
-// Projekt: Vier Gewinnt | Gym Edition (C++17)
-// Datei:   tests/console_ui_tests.cpp
-// Aufgabe: Prüft Textdarstellung und Bedienhinweise ohne interaktives Terminal.
-// Regeln und Grafik sind getrennt, deshalb lassen sich Screens als Strings testen.
-// ------------------------------------------------------------
+/**
+ * @file tests/console_ui_tests.cpp
+ * @brief Prüft Textansichten und Bedienhinweise der Schulkonsole.
+ * @details Vergleicht erzeugte Menü-, Arena- und Ergebnis-Strings, Vorschau, Gewinnmarkierung und Mehrspieleranzeige.
+ * @par Abhängigkeiten
+ * ConsoleUI.h, Board.h und Player.h; keine Tastatureingaben erforderlich.
+ * @par Wichtige Randbedingungen
+ * Dies sind Darstellungs-Regressionen, kein manueller Test eines konkreten Terminals.
+ */
 
 #include "Board.h"
 #include "ConsoleUI.h"

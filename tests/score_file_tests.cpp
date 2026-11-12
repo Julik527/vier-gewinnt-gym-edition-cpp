@@ -1,4 +1,13 @@
-// Reject malformed, truncated or duplicated highscore files.
+/**
+ * @file tests/score_file_tests.cpp
+ * @brief Prüft die strenge Einlesung von Highscore-Daten.
+ * @details Testet gültige Datensätze und verwirft beschädigte, doppelte oder unzulässige Einträge.
+ * @par Abhängigkeiten
+ * ScoreFile.h, C++17-Strings und Stringstreams; ohne GUI.
+ * @par Wichtige Randbedingungen
+ * Eine ungültige Zeile darf die zuvor vorhandene Bestenliste nicht teilweise überschreiben.
+ */
+
 #include "ScoreFile.h"
 #include <iostream>
 #include <limits>

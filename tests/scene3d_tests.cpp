@@ -1,3 +1,13 @@
+/**
+ * @file tests/scene3d_tests.cpp
+ * @brief Testet die reine Kameramathematik und Spaltenauswahl der 3D-Arena.
+ * @details Prüft Projektion, Kamerabasis, Sichtbarkeitsgrenzen, Animation und Pixel-Raycast auf das Spielfeld.
+ * @par Abhängigkeiten
+ * Gym3DMath.h und Gym3DPicking.h; kein OpenGL-Kontext nötig.
+ * @par Wichtige Randbedingungen
+ * Geometrische Unit-Tests bestätigen nicht die tatsächliche Darstellung auf einer Grafikkarte.
+ */
+
 #include "Gym3DMath.h"
 #include "Gym3DPicking.h"
 #include <cmath>

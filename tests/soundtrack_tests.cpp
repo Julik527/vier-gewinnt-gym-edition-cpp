@@ -1,4 +1,13 @@
-// Original soundtrack verification without SFML, speakers or a GUI.
+/**
+ * @file tests/soundtrack_tests.cpp
+ * @brief Prüft den früheren C++-Synthesizer ohne Audiohardware.
+ * @details Kontrolliert Eigenschaften der von GymSoundtrack.h berechneten Stereo-PCM-Samples.
+ * @par Abhängigkeiten
+ * GymSoundtrack.h, C++17-Standardbibliothek; kein SFML erforderlich.
+ * @par Wichtige Randbedingungen
+ * Betrifft das synthetische Legacy-Thema, nicht die Wiedergabe der heutigen Gym-Phonk-V4-OGG-Dateien.
+ */
+
 #include "GymSoundtrack.h"
 #include <algorithm>
 #include <stdexcept>
