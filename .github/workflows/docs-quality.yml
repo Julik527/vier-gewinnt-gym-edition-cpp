@@ -18,6 +18,7 @@ on:
       - "scripts/artifact_language_audit.py"
       - "tests/testplan_lint.py"
       - "tests/repository_consistency_test.py"
+      - "tests/presentation_consistency_test.py"
       - ".github/workflows/docs-quality.yml"
   pull_request:
     paths:
@@ -30,6 +31,7 @@ on:
       - "tests/testplan_lint.py"
       - "tests/document_language_lint.py"
       - "tests/repository_consistency_test.py"
+      - "tests/presentation_consistency_test.py"
       - ".github/workflows/docs-quality.yml"
   workflow_dispatch:
 
@@ -57,5 +59,7 @@ jobs:
         run: python tests/repository_consistency_test.py
       - name: Check current presentation and summarize historical documents
         run: python scripts/artifact_language_audit.py
+      - name: Check slide content, time windows and PDF consistency
+        run: python tests/presentation_consistency_test.py
       - name: Technical preflight for all published documents
         run: python scripts/document_preflight.py

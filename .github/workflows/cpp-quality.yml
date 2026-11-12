@@ -201,6 +201,31 @@ jobs:
             dist/SHA256SUMS.txt
           if-no-files-found: error
 
+  address-sanitizer:
+    name: Linux / AddressSanitizer
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Configure AddressSanitizer for console and unit tests
+        shell: bash
+        run: >-
+          cmake -S . -B build-asan
+          -DCMAKE_BUILD_TYPE=Debug
+          "-DCMAKE_CXX_FLAGS=-fsanitize=address -fno-omit-frame-pointer -fno-sanitize-recover=all"
+          "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address"
+      - name: Build with AddressSanitizer
+        shell: bash
+        run: cmake --build build-asan --parallel
+      - name: Run AddressSanitizer tests
+        shell: bash
+        env:
+          ASAN_OPTIONS: "detect_leaks=1:abort_on_error=1"
+        run: ctest --test-dir build-asan --output-on-failure
+
   undefined-behavior:
     name: Linux / UndefinedBehaviorSanitizer
     runs-on: ubuntu-latest
