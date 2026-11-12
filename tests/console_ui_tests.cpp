@@ -1,6 +1,7 @@
 // Projekt: Vier Gewinnt | Gym Edition (C++17)
 // Datei:   tests/console_ui_tests.cpp
-// Aufgabe: Prueft die sichtbaren Texte der neuen Trainings-Arena.
+// Aufgabe: Prüft Textdarstellung und Bedienhinweise ohne interaktives Terminal.
+// Regeln und Grafik sind getrennt, deshalb lassen sich Screens als Strings testen.
 // ------------------------------------------------------------
 
 #include "Board.h"
@@ -45,7 +46,8 @@ int main() {
             {"Ada", 3}, {"Ben", 1}
         };
 
-        // Der Startbildschirm soll klare Aktionen und den aktuellen Status haben.
+        // Die sichtbaren Texte dienen hier als überprüfbarer UI-Vertrag:
+        // Start, Fortsetzen, Hilfe und Exit müssen erkennbar bleiben.
         const string main = console_ui::mainMenu(players, board, false, 0, 1);
         check(main.find("JK AXIS") != string::npos, "Marke fehlt");
         check(main.find("GYM EDITION") != string::npos, "Gym Edition fehlt");

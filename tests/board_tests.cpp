@@ -43,6 +43,8 @@ int main() {
             verify(rejected, "invalid player count rejected");
         }
 
+        // Grenzfälle: ungültige Spielerzahl, Spalte und Symbol dürfen
+        // den Board-Zustand nicht verändern.
         int row = -999;
         verify(!standard.drop(-1, 'R', row) && row == -1, "left invalid column");
         verify(!standard.drop(0, '.', row) && row == -1, "reject empty-cell token");
@@ -58,6 +60,7 @@ int main() {
                "empty cells must never be marked as a win");
         verify(standard.tokenCount() == 0 && !standard.isFull(), "empty board counts");
 
+        // Vier benachbarte Felder derselben Zeile müssen als Sieg gelten.
         for (int col = 0; col < 4; ++col) put(standard, col, 'R');
         verify(standard.hasWon(5, 3, 'R'), "horizontal win");
         verify(standard.winningCells(5, 3, 'R').size() == 4, "highlight 4 horizontal");
