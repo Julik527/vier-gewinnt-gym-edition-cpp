@@ -34,6 +34,8 @@ int main() {
         reject("\"Ada\" -1\n", "negative");
         reject("\"Ada\" 1 extra\n", "trailing token");
         reject("\"Ada\" 999999999999999999999\n", "overflow");
+        reject(string(513, ' ') + "\n", "oversized empty row");
+        reject(string(513, '\t') + "\n", "oversized blank row");
         reject("Ada 2\n", "unquoted");
         reject("\"\" 1\n", "empty name");
         cout << "Highscores: strict loading and failure preservation OK.\n";

@@ -131,7 +131,7 @@ bool MatchSession::save(const string& path) const {
 }
 
 bool MatchSession::load(const string& path) {
-    ifstream in(path);
+    ifstream in(std::filesystem::u8path(path));
     string header;
     if (!(in >> header) || header != "GYM1") return false;
     int count, turn, rows, columns, moveCount;
@@ -167,7 +167,7 @@ bool MatchSession::load(const string& path) {
             if (line[col] != candidate.cells()[row][col]) return false;
     }
     string trailing;
-    if (in >> trailing) return false;
+    if (in >> trailing || in.bad()) return false;
     board_ = std::move(candidate);
     players_ = std::move(people);
     moves_ = std::move(history);
@@ -182,7 +182,7 @@ bool MatchSession::load(const string& path) {
 }
 
 bool MatchSession::loadScores(const string& path) {
-    ifstream in(path);
+    ifstream in(std::filesystem::u8path(path));
     if (!in) return false;
     map<string, int> next;
     if (!gym::parseScores(in, next, validName)) return false;

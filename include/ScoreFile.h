@@ -17,8 +17,9 @@ bool parseScores(std::istream& input,
     std::map<std::string, int> parsed;
     std::string line;
     while (std::getline(input, line)) {
-        if (line.find_first_not_of(" \t\r") == std::string::npos) continue;
+        // Bound every record, including whitespace-only lines.
         if (line.size() > 512) return false;
+        if (line.find_first_not_of(" \t\r") == std::string::npos) continue;
         const auto first = line.find_first_not_of(" \t");
         if (first == std::string::npos || line[first] != '"') return false;
 

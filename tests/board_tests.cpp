@@ -50,12 +50,18 @@ int main() {
         verify(standard.nextFreeRow(-1) == -1, "invalid nextFreeRow");
         verify(standard.nextFreeRow(0) == 5, "gravity on empty board");
         verify(!standard.hasWon(5, 0, 'R'), "no win on empty board");
+        verify(!standard.hasWon(5, 0, '.'), "four empty cells are not a win");
+        verify(standard.winningCells(5, 0, '.').empty(),
+               "empty cells must never be marked as a win");
         verify(standard.tokenCount() == 0 && !standard.isFull(), "empty board counts");
 
         for (int col = 0; col < 4; ++col) put(standard, col, 'R');
         verify(standard.hasWon(5, 3, 'R'), "horizontal win");
         verify(standard.winningCells(5, 3, 'R').size() == 4, "highlight 4 horizontal");
         verify(standard.winningCells(5, 3, 'B').empty(), "wrong symbol not highlighted");
+        verify(!standard.hasWon(0, 3, '.'), "empty cells above tokens cannot win");
+        verify(standard.winningCells(0, 3, '.').empty(),
+               "empty winning line cannot be highlighted");
         verify(!standard.hasWon(5, 3, 'B'), "wrong symbol is not winner");
         verify(standard.tokenCount() == 4, "token count after 4 moves");
 

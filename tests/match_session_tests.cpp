@@ -53,6 +53,14 @@ int main() {
         verify(loaded.load(), "load saved game");
         verify(loaded.current() == 1 && loaded.board().tokenCount() == 1, "load move/turn");
         verify(loaded.board().cells()[5][2] == 'R', "loaded board");
+        // Windows paths with Umlaute must use UTF-8 decoding when opening files.
+        const string unicodeSave = "data/unicode-\xC3\x9C-\xC3\x9F.txt";
+        verify(loaded.save(unicodeSave), "save to UTF-8 path");
+        MatchSession unicodeLoaded;
+        verify(unicodeLoaded.load(unicodeSave), "load from UTF-8 path");
+        verify(unicodeLoaded.current() == 1
+               && unicodeLoaded.board().cells()[5][2] == 'R',
+               "UTF-8 saved state preserved");
         verify(!loaded.begin({"Ada", "Ada"}), "invalid new game leaves state intact");
         verify(loaded.board().tokenCount() == 1, "state preserved after bad setup");
         {
@@ -90,6 +98,11 @@ int main() {
                "names and round preserved");
         win(loaded);
         verify(loaded.wins("Ada") == 2, "two games two credits");
+        const string unicodeScore = "data/highscore-\xC3\x9F.txt";
+        verify(loaded.saveScores(unicodeScore), "save scores to UTF-8 path");
+        MatchSession unicodeScores;
+        verify(unicodeScores.loadScores(unicodeScore), "load scores from UTF-8 path");
+        verify(unicodeScores.wins("Ada") == 2, "UTF-8 score round-trip");
 
         // A stale .tmp directory from an old application cannot block new writes.
         fs::create_directory("data/highscore.txt.tmp");
