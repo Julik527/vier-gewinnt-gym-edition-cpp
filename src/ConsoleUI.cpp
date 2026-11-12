@@ -26,6 +26,8 @@ using namespace std;
 namespace {
 constexpr int WIDTH = 69; // Rahmen so breit wie das Feld mit 11 Spalten.
 
+// Farbsteuerung nur aktivieren, wenn das Terminal sie unterstützt.
+// Umgeleitete Ausgaben und NO_COLOR bleiben ohne ANSI-Escape-Sequenzen.
 bool terminalSupportsAnsi() {
     if (std::getenv("NO_COLOR") != nullptr) return false;
 #ifdef _WIN32
@@ -74,7 +76,8 @@ void menuLine(ostringstream& out, const string& text,
         << " |\n";
 }
 
-// Compact progress readout works on terminals without ANSI colors.
+// Rein textuelle Füllstandsanzeige: funktioniert auch ohne Farbausgabe.
+// Die Rundung erfolgt auf 24 Segmente, der echte Zähler steht daneben.
 string progressBar(const Board& board) {
     constexpr int segments = 24;
     const int capacity = board.rows() * board.columns();
@@ -97,6 +100,8 @@ bool winningCell(const vector<pair<int, int>>& cells,
     return false;
 }
 
+// Rendert eine Momentaufnahme; Vorschau und Animation schreiben niemals
+// in Board. Gewinnzellen kommen aus Board::winningCells().
 void boardArea(ostringstream& out, const Board& board,
                int previewColumn, char previewSymbol,
                const vector<pair<int, int>>& win, int animationRow) {
@@ -176,6 +181,8 @@ void present(const string& screen) {
     cout << "\x1b[J" << flush;
 }
 
+// Liefert einen fertig formatierten Bildschirm als String zurück.
+// Dadurch können die Menüansichten ohne echte Terminal-Eingaben getestet werden.
 string mainMenu(const vector<Player>& players, const Board& board,
                      bool active, int currentPlayer, int round) {
     ostringstream out;
@@ -213,6 +220,7 @@ string mainMenu(const vector<Player>& players, const Board& board,
     return out.str();
 }
 
+// Dieselbe Ansicht wird für normales Gameplay und unverbindliche Vorschau benutzt.
 string arena(const Board& board, const vector<Player>& players,
                   int currentPlayer, int round,
                   const map<string, int>& highscores,
@@ -251,6 +259,7 @@ string arena(const Board& board, const vector<Player>& players,
     return out.str();
 }
 
+// Reine Darstellungsanimation vor Board::drop(): die Animation ist kein Zug.
 void animateDrop(const Board& board, const vector<Player>& players,
                  int currentPlayer, int round,
                  const map<string, int>& highscores,

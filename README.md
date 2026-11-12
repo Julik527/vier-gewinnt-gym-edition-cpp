@@ -23,6 +23,7 @@
 
 Dr. Litera hat am 11.11.2026 per E-Mail angekündigt: **PT ca. 70 Minuten**, Themen `struct`/`class`, Getter/Setter, Konstruktor/Parameterkonstruktor, Destruktor, Dateioperationen, dynamischer Speicher, `this`-Zeiger und Header/Implementierung/`main`; **PP ca. 10 Minuten pro Schüler**. Die bislang vorhandenen 15+15-Minuten-Sprechkarten gehören zu einem anderen Format. Die aktualisierten Prüfungsunterlagen liegen hier:
 
+- [Quellcode mit fachlichen Kommentaren verstehen](docs/QUELLCODE_KOMMENTARE.md)
 - [Präziser C++-Lernzettel für PT](docs/PT_PRUEFUNG_19_11_2026.md)
 - [Meilenstein-Präsentation: Ablauf und Sprechregie](praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
 - [Aktuelle PowerPoint-Präsentation: 8 Folien](praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx)

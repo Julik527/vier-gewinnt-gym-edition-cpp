@@ -7,31 +7,37 @@
 #include <utility>
 #include <vector>
 
-// In Board liegt das ganze Spielfeld. Die Klasse kennt keine Spielernamen.
+// Spielfeld und Regeln sind unabhängig von Konsole, 2D und 3D.
+// Koordinaten: Zeile 0 oben, Spalte 0 links; '.' kennzeichnet ein freies Feld.
 class Board {
 private:
     int rows_;
     int columns_;
-    // Jede Zeile enthält die Zeichen der einzelnen Spalten.
+    // grid_[zeile][spalte] speichert ausschließlich '.', 'R', 'B', 'G' oder 'Y'.
     std::vector<std::vector<char>> grid_;
 
     bool inside(int row, int column) const;
     int countDirection(int row, int column, int dRow, int dColumn, char symbol) const;
 public:
-    // Erstellt ein passendes Feld für 2, 3 oder 4 Spieler.
+    // 2 Spieler: 6x7, 3 Spieler: 8x9, 4 Spieler: 10x11.
+    // Ungültige Spielerzahlen führen zu std::invalid_argument.
     explicit Board(int playerCount = 2);
     int rows() const { return rows_; }
     int columns() const { return columns_; }
     int tokenCount() const;
     // Liefert die nächste freie Zeile von unten oder -1 bei voller Spalte.
     int nextFreeRow(int column) const;
-    // Setzt eine Hantel. Die tatsächliche Zeile kommt in rowPlaced.
+    // Spalte ist nullbasiert; gültige Symbole: R, B, G, Y.
+    // false bei voller/ungültiger Spalte oder Symbol; rowPlaced wird dann -1.
     bool drop(int column, char symbol, int& rowPlaced);
-    // Entfernt nur einen Stein, der nicht unter anderen Steinen liegt.
+    // Undo entfernt nur den obersten belegten Stein dieser Spalte.
+    // Andere Steine müssen wegen der Schwerkraft unverändert bleiben.
     bool undo(int row, int column);
-    // Prüft von einem Feld aus alle vier Gewinnrichtungen.
+    // Prüft ausschließlich Linien durch den zuletzt gesetzten Stein.
+    // Gezählt wird in beide Richtungen jeder der vier Achsen.
     bool hasWon(int row, int column, char symbol) const;
-    // Liefert die zusammenhaengende Viererreihe fuer die Gewinnmarkierung.
+    // Liefert alle verbundenen Zellen der ersten gefundenen Gewinnlinie.
+    // Bei fünf verbundenen Steinen können also mehr als vier Zellen zurückkommen.
     std::vector<std::pair<int, int>> winningCells(int row, int column, char symbol) const;
     bool isFull() const;
     const std::vector<std::vector<char>>& cells() const { return grid_; }

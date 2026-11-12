@@ -1,5 +1,6 @@
-// JK AXIS | Vier Gewinnt: strict, shared highscore parser (C++17).
-// A malformed or partially written file never replaces an existing scoreboard.
+// Gemeinsamer Highscore-Parser für Konsole und MatchSession.
+// Liest zeilenweise; erst wenn ALLE Datensätze gültig sind, wird die
+// übergebene Bestenliste ersetzt. Doppelte Namen sind nicht erlaubt.
 #pragma once
 
 #include <iomanip>
@@ -23,6 +24,7 @@ bool parseScores(std::istream& input,
         const auto first = line.find_first_not_of(" \t");
         if (first == std::string::npos || line[first] != '"') return false;
 
+        // std::quoted liest Spielernamen mit Leerzeichen als ein Feld.
         std::istringstream row(line);
         std::string name;
         int victories = -1;
@@ -33,6 +35,7 @@ bool parseScores(std::istream& input,
             return false;
     }
     if (input.bad()) return false;
+    // Commit erst nach erfolgreicher vollständiger Prüfung: keine Teilergebnisse.
     destination = std::move(parsed);
     return true;
 }

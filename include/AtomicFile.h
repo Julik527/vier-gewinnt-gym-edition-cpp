@@ -1,5 +1,7 @@
-// JK AXIS | Vier Gewinnt: replace a completed file, keeping the previous copy
-// if writing or replacing fails. Unique temporary names avoid a shared *.tmp path.
+// Sicheres Dateischreiben für Spielstände und Highscores (C++17).
+// Erst vollständige temporäre Datei schreiben, dann die Zieldatei ersetzen.
+// Bei Fehler bleibt die vorhandene Datei normalerweise unangetastet;
+// dies ist keine Garantie für Stromausfallsicherheit auf jedem Dateisystem.
 #pragma once
 
 #include <atomic>
@@ -20,6 +22,7 @@ namespace gym {
 template <typename Writer>
 bool writeSafely(const std::string& name, Writer writer) {
     namespace fs = std::filesystem;
+    // std::filesystem::u8path interpretiert auch Windows-Pfade mit Umlauten richtig.
     const fs::path target = fs::u8path(name);
     static std::atomic<unsigned long long> sequence{0};
 
@@ -41,6 +44,7 @@ bool writeSafely(const std::string& name, Writer writer) {
     }
     if (!available) return false;
 
+    // Fehlgeschlagene Schreibversuche sollen keine *.tmp-Dateien zurücklassen.
     const auto cleanup = [&temporary]() {
         std::error_code ignored;
         fs::remove(temporary, ignored);
@@ -62,10 +66,12 @@ bool writeSafely(const std::string& name, Writer writer) {
     }
 
 #ifdef _WIN32
+    // Windows: vorhandene Datei ersetzen; WRITE_THROUGH fordert zügiges Schreiben an.
     const bool success = MoveFileExW(temporary.c_str(), target.c_str(),
         MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH) != 0;
 #else
     std::error_code error;
+    // POSIX: Umbenennung im gleichen Dateisystem ersetzt die Zieldatei atomar.
     fs::rename(temporary, target, error);
     const bool success = !error;
 #endif

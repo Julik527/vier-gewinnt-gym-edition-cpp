@@ -1,6 +1,6 @@
-// JK AXIS | Sci-Fi Audio Director for the 2D and 3D SFML 3.1 games.
-// Streams the supplied CC0 OGG music with crossfades. Never substitutes the
-// old synthesized soundtrack: a missing/undecodable pack is shown as an error.
+// Gemeinsame Audiosteuerung für 2D und 3D mit SFML 3.1.
+// OGG-Musik wird gestreamt und zwischen Spielphasen überblendet.
+// Fehlt ein gültiges Musikpaket, bleibt das Spiel bewusst ohne Musik.
 #pragma once
 
 #include "GymAudioScene.h"
@@ -37,6 +37,8 @@ class Director {
     bool enabled_ = false;
     bool effectsLoaded_ = false;
 
+    // Jede Szene nutzt eine eigene OGG-Datei. Streaming hält lange Tracks
+    // aus dem RAM; unlesbare Dateien werden als fehlender Stream gemeldet.
     std::unique_ptr<sf::Music> open(Scene scene) const {
         if (folder_.empty()) return {};
         std::error_code ec;
@@ -52,6 +54,8 @@ class Director {
         return stream;
     }
 
+    // Neuen Track zunächst öffnen, erst danach den bisher laufenden Track
+    // als ausblendenden Stream behalten. Bei Fehler bleibt er unberührt.
     bool switchTo(Scene next) {
         std::unique_ptr<sf::Music> fresh;
         try {
@@ -69,9 +73,11 @@ class Director {
         return true;
     }
 
+    // Kurze Klick-/Sieg-Sounds werden einmalig vollständig geladen.
+    // Buffer leben länger als sf::Sound, das auf sie zugreift.
     void prepareEffects() {
         if (effectsLoaded_ || folder_.empty()) return;
-        effectsLoaded_ = true; // Never retry missing assets on every click.
+        effectsLoaded_ = true; // Fehlende Dateien nicht bei jedem Klick neu laden.
         try {
             if (hoverBuffer_.loadFromFile(folder_ / "hover.ogg"))
                 hover_ = std::make_unique<sf::Sound>(hoverBuffer_);
@@ -84,6 +90,8 @@ class Director {
         }
     }
 
+    // Benutzerlautstärke, Track-Normalisierung und Überblendungsfaktor
+    // werden multipliziert. Effekte sind absichtlich leiser als Musik.
     void applyVolume() {
         if (current_)
             current_->setVolume(volume_ * currentGain_ * fade_);
@@ -99,6 +107,8 @@ public:
           folder_(assets_.complete() ? assets_.folder : std::filesystem::path{}) {}
 
     // The user's Sci-Fi pack is authoritative: no hidden 116-BPM fallback.
+    // Musik nur starten, wenn acht OGG-Dateien und ein Ausgabegerät
+    // gefunden wurden. Kein unbemerkter Wechsel zur alten Synthesizer-Musik.
     bool play() {
         if (enabled_) return true;
         assets_ = inspectAssets(executable_);
@@ -135,6 +145,7 @@ public:
         fade_ = 1.f;
     }
 
+    // Szenenwechsel aus der GUI; bei fehlender Datei Fehler sichtbar machen.
     void setScene(Scene next) {
         if (next == requested_) return;
         requested_ = next;
@@ -146,6 +157,8 @@ public:
         }
     }
 
+    // Pro Frame die 420-ms-Überblendung vorantreiben und kurz vor dem
+    // Dateiende den nächsten Stream starten. Kein samplegenaues Beat-Matching.
     void update(float deltaSeconds) {
         if (!enabled_) return;
         if (current_ && !outgoing_) {

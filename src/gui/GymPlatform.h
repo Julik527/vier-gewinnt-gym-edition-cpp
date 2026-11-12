@@ -1,4 +1,5 @@
-// Shared SFML platform integration (C++17).
+// Plattformbrücke für beide SFML-Grafikversionen (C++17):
+// Systemschrift laden und EXE-Pfad betriebssystemgerecht bestimmen.
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <array>
@@ -13,6 +14,8 @@
 #endif
 
 namespace gymui {
+// Verwendet vorhandene Betriebssystemschriften statt Fonts mitzuliefern.
+// Wenn keine der bekannten Dateien vorhanden ist, wird klar abgebrochen.
 inline sf::Font systemFont() {
     sf::Font font;
     const std::array<const char*, 6> locations = {

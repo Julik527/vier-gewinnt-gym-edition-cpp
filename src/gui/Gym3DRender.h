@@ -1,4 +1,5 @@
-// Isolated OpenGL compatibility rendering primitives; no gameplay state.
+// Kleine OpenGL-Primitive für die räumliche Darstellung.
+// Hier gibt es keine Spieler-, Zug- oder Speicherlogik: nur Geometrie.
 #pragma once
 #include "Gym3DMath.h"
 #include <SFML/Graphics.hpp>
@@ -10,6 +11,8 @@ namespace gym3d_render {
 inline void color(sf::Color c,float strength=1.f,float alpha=1.f) {
     glColor4f(c.r/255.f*strength,c.g/255.f*strength,c.b/255.f*strength,alpha);
 }
+// Quader mit sechs Flächen und Normalen für die Beleuchtung.
+// Koordinaten geben Mittelpunkt und Ausdehnung im 3D-Raum an.
 inline void cube(float x,float y,float z,float sx,float sy,float sz,sf::Color tint) {
     const float a=x-sx*.5f,b=x+sx*.5f;
     const float c=y-sy*.5f,d=y+sy*.5f;
@@ -24,7 +27,8 @@ inline void cube(float x,float y,float z,float sx,float sy,float sz,sf::Color ti
     glNormal3f(0,-1,0);glVertex3f(a,c,e);glVertex3f(b,c,e);glVertex3f(b,c,f);glVertex3f(a,c,f);
     glEnd();
 }
-// A real illuminated cylinder: front, side wall and back, all in world space.
+// Beleuchtete Zylinderscheibe mit Stirnflächen und Mantel im Weltraum.
+// 28 Segmente nähern die kreisförmige Kontur an.
 inline void disc(float x,float y,float z,float radius,float thickness,sf::Color tint) {
     constexpr int segments=28;
     glPushMatrix();

@@ -38,7 +38,8 @@ string trim(const string& text) {
     return text.substr(start, end - start + 1);
 }
 
-// Eine Eingabe wie "3abc" soll keine gültige Zahl sein.
+// Prüft auf eine vollständige Ganzzahl: "3abc" und "3 4" sind ungültig.
+// Dadurch können Menüs keine teilweise interpretierten Zahlen übernehmen.
 bool wholeInt(const string& raw, int& result) {
     istringstream in(trim(raw));
     char extra;
@@ -55,7 +56,8 @@ string ask(const string& message) {
 
 // Namen dürfen nicht leer oder zu lang sein.
 bool validName(const string& name) {
-    // Loaded files must follow the same rule as interactive input.
+    // Dieselbe Namensprüfung gilt für Eingaben und aus GYM1 geladene Daten.
+    // Die Grenze bezieht sich auf Bytes (UTF-8), nicht auf sichtbare Zeichen.
     if (name.empty() || name.size() > 24
         || name.find_first_not_of(' ') == string::npos) return false;
     for (unsigned char ch : name) {
@@ -150,7 +152,8 @@ void Game::newGame() {
         return;
     }
 
-    // Erst nach beiden Schritten wird die bisherige Partie ersetzt.
+    // Beide Dialoge laufen zuerst in lokalen Variablen.
+    // Abbruch bewahrt die aktuelle Partie: Commit erst nach gültigem Setup.
     chosenPlayers_ = nextCount;
     chosenNames_ = nextNames;
     players_.clear();
@@ -244,6 +247,8 @@ int Game::showResultMenu() const {
 
 // Das Spielfeld wird nur nach einer Aenderung neu gezeichnet.
 // Hilfe oder Fehlermeldungen brauchen keinen kompletten Neudruck.
+// Ereignisschleife der Konsole: Befehle verändern den Zustand, ConsoleUI
+// zeigt ihn an. Die angezeigte Spaltennummer beginnt bei 1, Board bei 0.
 void Game::play() {
     cout << "\n  SPIELFELD  |  " << players_.size()
               << " Spieler  |  H = Hilfe  |  M = Hauptmenue\n";
@@ -306,6 +311,7 @@ void Game::play() {
             cout << "Ungueltige Eingabe. Bitte eine Spalte waehlen.\n";
             continue;
         }
+        // Nutzereingabe (1..N) in den nullbasierten Board-Index umrechnen.
         int zeroCol = col - 1;
         int landing = board_.nextFreeRow(zeroCol);
         if (landing == -1) {
@@ -317,6 +323,7 @@ void Game::play() {
                                                 highscores_, zeroCol, landing, symbol);
         int row;
         if (!board_.drop(zeroCol, symbol, row)) continue;
+        // Nur erfolgreich gesetzte Züge landen in der Undo-/Speicherhistorie.
         history_.push_back({row, zeroCol, current_});
         if (board_.hasWon(row, zeroCol, symbol)) {
             // Die vier verbundenen Hanteln werden im Ergebnis gruen markiert.
@@ -386,7 +393,8 @@ bool Game::loadGame(const string& path) {
         loadedPlayers.emplace_back(name, symbol);
     }
     vector<Move> loadedMoves;
-    // Die gespeicherten Züge werden einzeln nachgespielt und kontrolliert.
+    // Nicht blind das gespeicherte Raster übernehmen: Jeder Zug muss
+    // zur Schwerkraft, Spielerreihenfolge und zu einem laufenden Match passen.
     for (int i = 0; i < moves; ++i) {
         int savedRow, column, player;
         if (!(in >> savedRow >> column >> player) || player != i % n) return false;
@@ -410,8 +418,8 @@ bool Game::loadGame(const string& path) {
     string trailingToken;
     if (in >> trailingToken || in.bad()) return false;
 
-    // Ausschließlich nach vollständiger Prüfung den echten Spielstand ersetzen.
-    // Bis hierhin ist die Datei gültig. Jetzt wird der Spielstand übernommen.
+    // Transaktionaler Ladevorgang: Erst jetzt werden die lokal geprüften
+    // Daten übernommen. Ein defektes GYM1 verändert die laufende Runde nicht.
     board_ = std::move(candidate);
     players_ = std::move(loadedPlayers);
     history_ = std::move(loadedMoves);
@@ -487,7 +495,8 @@ void Game::showHighscores() const {
 // laden oder die Ergebnisse ansehen. Die Vorbereitung passiert bei Neues Spiel.
 void Game::run() {
     while (true) {
-        // Ergebnis erst nach Rueckkehr aus play() behandeln: keine Rekursion.
+        // Das Ergebnis wird erst nach Rückkehr aus play() bearbeitet.
+        // Kein rekursiver Spielstart: Auch viele Revanchen wachsen nicht im Callstack.
         if (resultPending_) {
             const int action = showResultMenu();
             resultPending_ = false;

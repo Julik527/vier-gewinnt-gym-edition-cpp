@@ -7,7 +7,8 @@
 #include <string>
 #include <utility>
 
-// Ein Spieler besitzt einen Namen und ein eindeutiges Symbol.
+// Player ist ein einfaches Datenobjekt. Die Gültigkeit von Namen und die
+// Einmaligkeit der Symbole werden bei der Spieleranlage geprüft.
 class Player {
 private:
     // Der Name wird später im Menü und beim Highscore angezeigt.

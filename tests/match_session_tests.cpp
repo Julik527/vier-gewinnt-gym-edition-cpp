@@ -1,4 +1,5 @@
-// Tests of the shared match state; no SFML or graphical display is required.
+// Gemeinsame Spielzustands-Tests ohne SFML und ohne Grafikfenster.
+// Testen auch Dateigrenzfälle und die Unveränderlichkeit bei Ladefehlern.
 #include "MatchSession.h"
 #include <chrono>
 #include <filesystem>
@@ -15,6 +16,8 @@ namespace {
 void verify(bool value, const char* what) {
     if (!value) throw runtime_error(what);
 }
+// Bekannte Zugfolge: Rot gewinnt horizontal, Blau besetzt Spalte 7.
+// Damit können Sieg, Highscore und Revanche deterministisch getestet werden.
 void win(MatchSession& match) {
     for (int column : {0, 6, 1, 6, 2, 6, 3})
         verify(match.drop(column), "valid winning move");
@@ -23,6 +26,8 @@ void win(MatchSession& match) {
 
 int main() {
     namespace fs = std::filesystem;
+    // Testdaten in ein separates temporäres Verzeichnis schreiben,
+    // damit reale lokale Spielstände nicht überschrieben werden.
     const auto original = fs::current_path();
     const auto temp = fs::temp_directory_path() /
         ("gym_match_" + to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
@@ -53,7 +58,8 @@ int main() {
         verify(loaded.load(), "load saved game");
         verify(loaded.current() == 1 && loaded.board().tokenCount() == 1, "load move/turn");
         verify(loaded.board().cells()[5][2] == 'R', "loaded board");
-        // Windows paths with Umlaute must use UTF-8 decoding when opening files.
+        // Regression gegen Windows-Pfadprobleme: Ü und ß müssen beim
+        // Speichern und Laden über std::filesystem::u8path funktionieren.
         const string unicodeSave = "data/unicode-\xC3\x9C-\xC3\x9F.txt";
         verify(loaded.save(unicodeSave), "save to UTF-8 path");
         MatchSession unicodeLoaded;

@@ -1,6 +1,7 @@
 // Vier Gewinnt | Gym Edition
-// Deterministische Regressionstests mit unabhaengigem Referenz-Spielfeld.
-// Die Zufallsfolge wird durch einen festen Seed reproduzierbar.
+// Reproduzierbare Property-Tests: Viele erlaubte Zugfolgen werden gegen
+// ein unabhängig berechnetes Referenz-Spielfeld geprüft.
+// Ein fester Zufalls-Seed sorgt bei Testfehlern für dieselbe Zugfolge.
 #include "Board.h"
 
 #include <algorithm>
@@ -23,6 +24,8 @@ bool within(const std::vector<std::string>& grid, int row, int col) {
         && col >= 0 && col < static_cast<int>(grid[0].size());
 }
 
+// Zweite, unabhängige Gewinnprüfung: vergleicht Board::hasWon()
+// gegen ein Referenzmodell statt nur fest verdrahtete Beispiele.
 bool referenceWin(const std::vector<std::string>& grid, int row, int col, char symbol) {
     if (!within(grid, row, col) || grid[row][col] != symbol) return false;
     const std::array<std::pair<int, int>, 4> directions = {
@@ -45,6 +48,8 @@ bool referenceWin(const std::vector<std::string>& grid, int row, int col, char s
     return false;
 }
 
+// Prüft nicht nur die Anzahl, sondern auch Reihenfolge, Nachbarschaft,
+// Symbol und Einbeziehung des zuletzt gesetzten Steins.
 void checkWinningLine(const Board& board,
                       const std::vector<std::pair<int, int>>& cells,
                       int row, int col, char symbol) {
