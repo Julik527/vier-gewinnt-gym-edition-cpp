@@ -30,6 +30,17 @@ int main() {
             }
             report = gymaudio::inspectAssets(fakeExe);
             check(report.complete(), "complete portable pack");
+            check(!gymaudio::isGymPhonkV4(report.folder), "original profile");
+            {
+                std::ofstream profile(music / "PROFILE.txt");
+                profile << "JK_AXIS_GYM_PHONK_V4\n";
+            }
+            check(gymaudio::isGymPhonkV4(music), "V4 profile marker");
+            {
+                std::ofstream profile(music / "PROFILE.txt", std::ios::trunc);
+                profile << "not-a-valid-version\n";
+            }
+            check(!gymaudio::isGymPhonkV4(music), "reject unknown version marker");
             check(report.folder == music, "portable location");
             std::ofstream(music / "pulse.ogg", std::ios::trunc) << "bad";
             report = gymaudio::inspectAssets(fakeExe);

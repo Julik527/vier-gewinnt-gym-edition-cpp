@@ -1,6 +1,7 @@
 #include "MatchSession.h"
 #include "AtomicFile.h"
 #include "ScoreFile.h"
+#include "GameFileLimits.h"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -131,6 +132,7 @@ bool MatchSession::save(const string& path) const {
 }
 
 bool MatchSession::load(const string& path) {
+    if (!gym::validSaveFileSize(path)) return false;
     ifstream in(std::filesystem::u8path(path));
     string header;
     if (!(in >> header) || header != "GYM1") return false;

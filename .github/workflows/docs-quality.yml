@@ -19,6 +19,7 @@ on:
       - "tests/testplan_lint.py"
       - "tests/repository_consistency_test.py"
       - "tests/presentation_consistency_test.py"
+      - "docs/GYM_PHONK_V4_MANIFEST.md"
       - ".github/workflows/docs-quality.yml"
   pull_request:
     paths:
@@ -32,6 +33,7 @@ on:
       - "tests/document_language_lint.py"
       - "tests/repository_consistency_test.py"
       - "tests/presentation_consistency_test.py"
+      - "docs/GYM_PHONK_V4_MANIFEST.md"
       - ".github/workflows/docs-quality.yml"
   workflow_dispatch:
 

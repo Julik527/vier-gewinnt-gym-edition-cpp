@@ -32,6 +32,22 @@ constexpr float gain(Scene scene) {
     return 0.75f;
 }
 
+// V4 files are independently normalized. Compensate their measured mean
+// amplitude instead of retaining gains tuned for the original Sci-Fi pack.
+// Values approximate a consistent -16.5 dBFS music bed before user volume.
+constexpr float gain(Scene scene, bool gymPhonkV4) {
+    if (!gymPhonkV4) return gain(scene);
+    switch (scene) {
+        case Scene::Intro:   return .62f;
+        case Scene::Menu:    return .96f;
+        case Scene::Setup:   return .61f;
+        case Scene::Match:   return .66f;
+        case Scene::Tense:   return .61f;
+        case Scene::Results: return .63f;
+    }
+    return .65f;
+}
+
 // Switch to a more intense theme only when a match is well advanced.
 constexpr Scene gameplayScene(int occupied, int capacity) {
     return capacity > 0 && occupied >= 0 && occupied * 4 >= capacity * 3

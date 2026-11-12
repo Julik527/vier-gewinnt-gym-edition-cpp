@@ -23,6 +23,12 @@ if ($null -eq $binary) { throw "GUI-EXE wurde nicht gebaut." }
 if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
 New-Item -ItemType Directory -Force -Path $stage | Out-Null
 Copy-Item -LiteralPath $binary.FullName -Destination $stage
+# The tested binary must be traceable to its exact Git source revision.
+$sourceSha = (& git -C $root rev-parse HEAD).Trim().ToLowerInvariant()
+if ($LASTEXITCODE -ne 0 -or $sourceSha -notmatch '^[0-9a-f]{40}$') {
+    throw "Git-Commit-SHA fuer Release nicht ermittelbar."
+}
+Set-Content -LiteralPath (Join-Path $stage "VERSION.txt") -Value $sourceSha -Encoding ascii
 
 # Runtime dependencies copied by CMake sit next to the executable.
 Get-ChildItem -LiteralPath $binary.DirectoryName -Filter "*.dll" -File |
@@ -43,11 +49,16 @@ if (Test-Path $logoSource) {
 # audio assets are silent, not ready-to-play soundtrack releases.
 $audioSource = Join-Path $root "assets/audio/sci-fi"
 if (Test-Path -LiteralPath (Join-Path $audioSource "title.ogg") -PathType Leaf) {
-    & python (Join-Path $root "scripts/install-sci-fi-audio.py") --destination $audioSource --verify
-    if ($LASTEXITCODE -ne 0) { throw "Soundpaket ist unvollstaendig oder veraendert." }
+    if (Test-Path -LiteralPath (Join-Path $audioSource "PROFILE.txt") -PathType Leaf) {
+        & python (Join-Path $root "scripts/install-gym-phonk-v4.py") --destination $audioSource --verify
+    } else {
+        & python (Join-Path $root "scripts/install-sci-fi-audio.py") --destination $audioSource --verify
+    }
+    if ($LASTEXITCODE -ne 0) { throw "Audio-Profil oder SHA256-Pruefung fehlgeschlagen." }
     $audioDest = Join-Path $stage "assets/audio/sci-fi"
     New-Item -ItemType Directory -Force -Path $audioDest | Out-Null
-    Get-ChildItem -LiteralPath $audioSource -Filter "*.ogg" -File |
+    Get-ChildItem -LiteralPath $audioSource -File |
+        Where-Object { $_.Extension -eq ".ogg" -or $_.Name -eq "PROFILE.txt" } |
         ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $audioDest }
 }
 
@@ -57,8 +68,9 @@ JK AXIS · Windows-Release-Paket
 
 1. Das ZIP in einen beschreibbaren Ordner entpacken (z. B. Downloads).
 2. vier-gewinnt-gui.exe starten.
-3. Mit acht OGG-Dateien startet die SRG774-CC0-Musik automatisch.
-   F9 pausiert/aktiviert sie; F10/F11 regeln die Lautstaerke.
+3. Mit acht geprueften OGG-Dateien startet die Musik automatisch.
+   Unterstuetzt: Gym Phonk V4 und originales SRG774-Sci-Fi-Paket.
+   F9 pausiert/aktiviert; F10/F11 regeln die Lautstaerke.
    Fehlen Audio-Dateien, bleibt das Spiel absichtlich stumm.
    Die alte 116-BPM-Musik wird NICHT mehr abgespielt.
 4. Spielstände werden derzeit relativ zum Startordner unter data/ abgelegt.

@@ -62,6 +62,27 @@ echten Ton anschließend mit F9 testen. Wer die alte EXE aus einem
 anderen Ordner startet, hört weiterhin die alte Komposition. Die
 versionierten Komplettpakete müssen **vollständig entpackt** werden.
 
+## Gym Phonk V4 (neues optionales Musikprofil)
+
+V4 enthält acht eigene Gym-Phonk-Audioarrangements auf Basis des CC0-Materials.
+Die acht OGG-Binärdateien werden separat verteilt. Für die reproduzierbare
+Installation:
+
+```powershell
+python scripts/install-gym-phonk-v4.py --zip JK_AXIS_Gym_Phonk_OGG_Soundtrack_V4.zip
+python scripts/install-gym-phonk-v4.py --verify
+```
+
+Die neue V4-Version ist über eine `PROFILE.txt` als solche erkennbar. Der
+Spielstatus zeigt dann `GYM PHONK V4 AKTIV`, statt sie als unveränderten
+SRG774-Sci-Fi-Soundtrack auszugeben. Der V4-Installer überprüft alle acht
+SHA-256-Werte; beide Windows-Paketskripte unterstützen dieses Profil.
+
+Die Lautheitsfaktoren wurden aus dem V4-Audiosignal separat bestimmt, damit
+Titel, Spiel und Endphase bei gleicher Benutzereinstellung ausgeglichen klingen.
+Ein tatsächlich durchgeführter Hörtest bleibt erforderlich. Siehe
+[Gym Phonk V4 Manifest](GYM_PHONK_V4_MANIFEST.md).
+
 ## Änderung: automatische Sci-Fi-Musik und kein altes Audiothema (V3)
 
 Wenn alle acht SRG774-OGG-Dateien am Startort gefunden werden, startet die Musik beim

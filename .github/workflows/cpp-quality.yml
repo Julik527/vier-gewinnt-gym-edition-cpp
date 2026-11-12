@@ -13,6 +13,12 @@ on:
       - "include/**"
       - "tests/**"
       - "CMakeLists.txt"
+      - "scripts/install-gym-phonk-v4.py"
+      - "scripts/install-sci-fi-audio.py"
+      - "scripts/package-windows.ps1"
+      - "scripts/package-3d.ps1"
+      - "scripts/verify_windows_release.py"
+      - "scripts/package-school-console.py"
       - ".vscode/launch.json"
       - ".vscode/tasks.json"
       - ".github/workflows/cpp-quality.yml"
@@ -22,6 +28,12 @@ on:
       - "include/**"
       - "tests/**"
       - "CMakeLists.txt"
+      - "scripts/install-gym-phonk-v4.py"
+      - "scripts/install-sci-fi-audio.py"
+      - "scripts/package-windows.ps1"
+      - "scripts/package-3d.ps1"
+      - "scripts/verify_windows_release.py"
+      - "scripts/package-school-console.py"
       - ".vscode/launch.json"
       - ".vscode/tasks.json"
       - ".github/workflows/cpp-quality.yml"
@@ -182,6 +194,12 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: ./scripts/package-3d.ps1 -BuildDirectory build-gui
+      - name: Verify portable Windows 2D/3D ZIP file contents
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          python scripts/verify_windows_release.py --zip dist/Gym-Edition-Windows.zip --mode 2d
+          python scripts/verify_windows_release.py --zip dist/Gym-Edition-3D-Windows.zip --mode 3d
       - name: Upload portable Windows 3D ZIP and SHA-256
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
