@@ -132,3 +132,14 @@ Die Datei [`tests/integration_smoke.py`](../tests/integration_smoke.py) enthält
 In der Konsole beginnt die Runde direkt nach der letzten Namenseingabe. Die GUI zeigt davor noch eine Zusammenfassung mit Startbestätigung. Der GUI-Abbruch erfolgt über Schaltflächen oder Esc. Beide Varianten behalten eine laufende Runde bei abgebrochener Einrichtung bei. Die Konsole verwendet `Game`, die GUI `App` mit `MatchSession`.
 
 Die beschriebenen automatisierten Konsolenszenarien sind am Ausgangsstand `02eb79f8` in der Linux-/Windows-Matrix erfolgreich. Beleg: [CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json). Der vollständige manuelle Durchlauf bleibt in den Testplänen offen.
+
+
+## Überarbeitung der Spieloberflächen (12.11.2026)
+
+**Konsolenmenü:** Die Startansicht trennt Matchstatus, sechs nummerierte Aktionen und Spielerreihenfolge. Aktive Partien zeigen einen Fortschrittsbalken aus belegten und freien Feldern. In der Arena sowie im Ergebnisbildschirm steht derselbe Zähler. ANSI-Farben sind optional; umgeleitete Ausgaben bleiben lesbar und ohne Escape-Codes.
+
+**2D-Grafik:** Die Lobby erhält eine animierte Hantelvorschau und einen sichtbaren Hinweis auf laufende Spiele. Hover-Zustände und Tastaturkürzel sind deutlich markiert. Auf dem Spielfeld erscheint die ausgewählte Spalte mit eigener Leitmarkierung, der Füllstand wird in der Seitenleiste angezeigt und eine Gewinnreihe pulsiert dezent.
+
+**3D-Grafik:** Im Hauptmenü bewegt sich die Kamera langsam um die Vorschauarena. Die Zahl der Spieler ist über aktive Auswahlfelder erkennbar. Die primären Aktionen erhalten stärkere Kontraste, und die Spielansicht zeigt den Spielfortschritt. Im Fenster-Smoke-Test wird direkt das Menü gezeichnet statt ausschließlich das Intro.
+
+**Technische Grenzen:** Diese Effekte verändern keine Regeln in `Board` oder `MatchSession`, benötigen keine zusätzlichen Bibliotheken und sollen die 60-FPS-Begrenzung nicht erhöhen. Ein erfolgreicher automatisierter Fenster-Smoke-Test und C++-Build ersetzen keine persönliche Sicht- und Bedienungsprüfung auf dem Zielrechner. Die ältere 10-Minuten-Präsentation wurde dadurch nicht automatisch neu geprobt.

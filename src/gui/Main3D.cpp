@@ -48,6 +48,8 @@ public:
         window_.setKeyRepeatEnabled(false);
     }
     void run(int maxFrames=-1) {
+        // Smoke runs render the interactive lobby instead of only the intro.
+        if(maxFrames>0)page_=Page::Menu;
         sf::Clock clock;int frames=0;
         while(window_.isOpen()) {
             const float dt=min(clock.restart().asSeconds(),.06f);
