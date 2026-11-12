@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "ConsoleUI.h"
 #include "AtomicFile.h"
+#include "GameFileLimits.h"
 #include "ScoreFile.h"
 #include <algorithm>
 #include <cctype>
@@ -361,6 +362,7 @@ bool Game::saveGame(const string& path) const {
 
 // Erst alles in einem neuen Spielfeld prüfen, dann wirklich laden.
 bool Game::loadGame(const string& path) {
+    if (!gym::validSaveFileSize(path)) return false;
     ifstream in(std::filesystem::u8path(path));
     string signature;
     if (!(in >> signature) || signature != "GYM1") return false;

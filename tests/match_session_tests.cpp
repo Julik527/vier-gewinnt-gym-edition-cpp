@@ -69,6 +69,15 @@ int main() {
         }
         verify(!loaded.load("data/corrupt.txt"), "reject corrupted save");
         verify(loaded.board().tokenCount() == 1, "load failure leaves state intact");
+        // Reject untrusted unbounded files before quoted() can allocate
+        // arbitrarily long strings. Existing matches stay intact.
+        {
+            ofstream oversized("data/oversized.txt", ios::binary);
+            oversized << "GYM1\n" << string(65536, ' ');
+        }
+        verify(!loaded.load("data/oversized.txt"), "oversized save rejected");
+        verify(loaded.board().tokenCount() == 1,
+               "oversized file does not change the active match");
 
         // An existing file survives a failed replacement.
         {
