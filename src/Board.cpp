@@ -41,8 +41,12 @@ int Board::nextFreeRow(int column) const {
 
 // Ein Zug klappt nur, wenn die Spalte noch Platz hat.
 bool Board::drop(int column, char symbol, int& rowPlaced) {
-    // Ein Punkt steht für ein leeres Feld. Deshalb ist er kein Spielsymbol.
-    if (symbol == '.') { rowPlaced = -1; return false; }
+    // Nur die vier festgelegten Spielersymbole sind erlaubt. Sonstige
+    // Steuerzeichen wuerden GYM1-Spielstaende unlesbar machen.
+    if (symbol != 'R' && symbol != 'B' && symbol != 'G' && symbol != 'Y') {
+        rowPlaced = -1;
+        return false;
+    }
     rowPlaced = nextFreeRow(column);
     if (rowPlaced == -1) return false;
     grid_[rowPlaced][column] = symbol;
