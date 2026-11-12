@@ -238,8 +238,22 @@ private:
                              tokenColor(player));
             }
         }
+        // An animated, decorative preview uses no MatchSession state.
+        const int previewCol = static_cast<int>(uiTime_ * .85f) % 7;
+        const float floatY = std::sin(uiTime_ * 3.4f) * 5.f;
+        roundedBox(757 + previewCol * tile, 332, 41.f, 4.f, 2.f,
+                   sf::Color(64, 225, 177, 125));
+        dumbbell(ox + (previewCol + .5f) * tile, oy + 18.f + floatY,
+                 tile * .44f, green, .75f);
         label("LOKAL  /  2-4 SPIELER", 757, 630, 16, green, true);
         label("TAKTIK   •   PRAEZISION   •   SPASS", 757, 665, 15, muted);
+        if (match_.active()) {
+            label("LAUFENDES MATCH  /  RUNDE " + to_string(match_.round()),
+                  743, 695, 14, green, true);
+        } else {
+            label("SPIELBEREIT  /  DRUECKE 1 FUER DEN START",
+                  743, 695, 14, sky, true);
+        }
         label("WILLKOMMEN ZURUECK", 132, 157, 17, sky, true);
         label("HEBEN. SETZEN.", 132, 185, 33, white, true);
         label("SIEGEN.", 132, 223, 33, green, true);
@@ -398,13 +412,22 @@ private:
             if (primary && b.enabled)
                 roundedBox(b.box.position.x + 4.f, b.box.position.y + 8.f,
                            4.f, b.box.size.y - 16.f, 2.f, green);
-            const float textX = b.box.position.x + (audio ? 12.f : 22.f);
+            const float textX = b.box.position.x + (audio ? 12.f : 22.f)
+                + (hover && !audio ? 4.f : 0.f);
             const float textY = b.box.position.y + (audio ? 8.f : 13.f);
             label(b.text, textX, textY, audio ? 15u : 17u,
                   b.enabled ? white : muted, true);
-            if (screen_ == Screen::Menu && !audio && b.enabled)
-                label(">", b.box.position.x + b.box.size.x - 35.f,
-                      b.box.position.y + 13.f, 17, primary ? green : sky, true);
+            if (hover && !audio) {
+                // A restrained light strip follows the highlighted action.
+                roundedBox(b.box.position.x + 5.f, b.box.position.y + 7.f,
+                           4.f, b.box.size.y - 14.f, 2.f, green);
+            }
+            if (screen_ == Screen::Menu && !audio) {
+                const string shortcut = "[" + to_string(b.action) + "]";
+                label(shortcut, b.box.position.x + b.box.size.x - 54.f,
+                      b.box.position.y + 13.f, 16,
+                      !b.enabled ? muted : hover ? green : sky, true);
+            }
         }
     }
     void newSetup() {
@@ -642,10 +665,15 @@ private:
         const auto mouse = window_.mapPixelToCoords(pixel);
         int hover = static_cast<int>(std::floor((mouse.x - g.x) / g.cell));
         if (mouse.x < g.x || hover < 0 || hover >= board.columns()) hover = selectedColumn_;
-        if (!finished && !falling_ && board.nextFreeRow(hover) >= 0)
+        if (!finished && !falling_ && board.nextFreeRow(hover) >= 0) {
+            // Selected-column guide and pulsing preview always follow mouse/keyboard.
+            roundedBox(g.x + hover * g.cell + 4.f, g.y - 15.f,
+                       g.cell - 8.f, 3.f, 1.5f,
+                       tokenColor(match_.current()));
             dumbbell(g.x + (hover + .5f) * g.cell, g.y - 29.f,
                      g.cell * .62f, tokenColor(match_.current()),
                      .62f + .24f * (.5f + .5f * std::sin(uiTime_ * 3.4f)));
+        }
         for (int r = 0; r < board.rows(); ++r) {
             for (int c = 0; c < board.columns(); ++c) {
                 const float x = g.x + c * g.cell, y = g.y + r * g.cell;
@@ -659,9 +687,12 @@ private:
                         if (match_.players()[i].getSymbol() == symbol) player = static_cast<int>(i);
                     const bool winner = std::find(match_.winLine().begin(), match_.winLine().end(),
                                                   make_pair(r, c)) != match_.winLine().end();
-                    if (winner)
+                    if (winner) {
+                        const float wave = .5f + .5f * std::sin(uiTime_ * 4.6f);
                         roundedBox(x + 3, y + 3, g.cell - 6, g.cell - 6, 9,
-                            sf::Color(29, 100, 81), green);
+                            sf::Color(29, static_cast<std::uint8_t>(82 + 23 * wave),
+                                      81), green);
+                    }
                     dumbbell(x + g.cell / 2, y + g.cell / 2, g.cell * .78f,
                              winner ? green : tokenColor(player));
                 }
@@ -682,7 +713,13 @@ private:
         label("RUNDE " + to_string(match_.round()) +
               "    /    " + to_string(match_.board().tokenCount()) + " ZUEGE",
               967, 224, 16, muted);
-        label(end ? "ERGEBNIS" : "AKTIVER SPIELER", 967, 259, 14, sky, true);
+        const float played = static_cast<float>(match_.board().tokenCount());
+        const float capacity = static_cast<float>(
+            match_.board().rows() * match_.board().columns());
+        roundedBox(967, 251, 262, 5, 2, sf::Color(36, 66, 96));
+        if (played > 0.f) roundedBox(967, 251, 262.f * played / capacity, 5.f, 2.f,
+                                    end ? green : blue);
+        label(end ? "ERGEBNIS" : "AKTIVER SPIELER", 967, 266, 14, sky, true);
         for (size_t i = 0; i < match_.players().size(); ++i) {
             const auto& player = match_.players()[i];
             const float y = 296 + static_cast<float>(i) * 48.f;
@@ -702,6 +739,9 @@ private:
         } else {
             label(falling_ ? "HANTEL FÄLLT ..." : "MAUS: SPALTE WAEHLEN  /  LEERTASTE: SETZEN",
                   89, 710, 17, muted);
+            const int next = selectedColumn_ + 1;
+            label("AKTIVE SPALTE  " + to_string(next) + " / " +
+                  to_string(match_.board().columns()), 89, 742, 15, sky, true);
         }
     }
     void render() {
