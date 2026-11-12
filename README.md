@@ -110,7 +110,7 @@ $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
 
 In VS Code gibt es Drei F5-Profile (Konsole, 2D, 3D). Das Debugprofil **Vier Gewinnt | Gym Edition 3D** startet die räumliche Variante. Dazu muss tatsächlich der Ordner `C:\Dev\GymEdition` als Workspace geöffnet sein. Der erstmalige SFML-/OpenGL-Build benötigt Internet und dauert länger.
 
-**Bedienung:** Rechte Maustaste ziehen = Kamera drehen; Mausrad = Zoom; A/D und Q/E = Kamera; C = zurücksetzen; linke Maustaste = Spalte wählen/setzen; Pfeile und Leertaste = Spalte/Stein; U = Undo; S = Speichern; Escape = Menü; F9/F10/F11 = Musik an/aus und Lautstärke. Das optionale SRG774-Sci-Fi-Pack wird unter `assets/audio/sci-fi/` installiert; Anleitung: [Audio-Integration](docs/SCI_FI_AUDIO.md). Im Menü 2, 3 oder 4 Spieler wählen.
+**Bedienung:** Rechte Maustaste ziehen = Kamera drehen; Mausrad = Zoom; A/D und Q/E = Kamera; C = zurücksetzen; linke Maustaste = Spalte wählen/setzen; Pfeile und Leertaste = Spalte/Stein; U = Undo; S = Speichern; Escape = Menü; F9/F10/F11 = Musik an/aus und Lautstärke. Du kannst alternativ das neue **Gym Phonk V4** (148 BPM) als geprüfte OGG-Dateien installieren. Der aktive Titel wird im Spiel angezeigt. [Audio-Integration](docs/SCI_FI_AUDIO.md) · [V4-Prüfmanifest](docs/GYM_PHONK_V4_MANIFEST.md). Im Menü 2, 3 oder 4 Spieler wählen.
 
 [3D-Architektur und Bedienung](docs/3D_ARENA.md) · [3D-Abnahmetests](docs/3D_TESTPLAN.md) · [Teil D: 3D-Code verstehen](docs/3D_LERNPFAD.md)
 

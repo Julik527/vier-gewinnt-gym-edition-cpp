@@ -29,11 +29,17 @@ Get-ChildItem -LiteralPath $binary.DirectoryName -Filter "*.dll" -File |
 # audio assets are silent, not ready-to-play soundtrack releases.
 $audioSource = Join-Path $root "assets/audio/sci-fi"
 if (Test-Path -LiteralPath (Join-Path $audioSource "title.ogg") -PathType Leaf) {
-    & python (Join-Path $root "scripts/install-sci-fi-audio.py") --destination $audioSource --verify
-    if ($LASTEXITCODE -ne 0) { throw "Soundpaket ist unvollstaendig oder veraendert." }
+
+    if (Test-Path -LiteralPath (Join-Path $audioSource "PROFILE.txt") -PathType Leaf) {
+        & python (Join-Path $root "scripts/install-gym-phonk-v4.py") --destination $audioSource --verify
+    } else {
+        & python (Join-Path $root "scripts/install-sci-fi-audio.py") --destination $audioSource --verify
+    }
+    if ($LASTEXITCODE -ne 0) { throw "Audio-Paket: Profile oder SHA-256-Pruefung fehlgeschlagen." }
     $audioDest = Join-Path $stage "assets/audio/sci-fi"
     New-Item -ItemType Directory -Force -Path $audioDest | Out-Null
-    Get-ChildItem -LiteralPath $audioSource -Filter "*.ogg" -File |
+    Get-ChildItem -LiteralPath $audioSource -File |
+        Where-Object { $_.Name -eq "PROFILE.txt" -or $_.Extension -eq ".ogg" } |
         ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $audioDest }
 }
 
@@ -45,7 +51,8 @@ JK AXIS | VIER GEWINNT | GYM EDITION 3D
 3. 2, 3 oder 4 Spieler auswählen und Namen eingeben.
 4. Links klicken: Stein setzen. Rechts ziehen: Kamera drehen.
 5. Mausrad: Zoom. A/D, Q/E: Kamera. C: Kamera zurücksetzen.
-6. Bei acht installierten OGG-Dateien startet SRG774 Sci-Fi-Audio automatisch.
+6. Mit acht installierten/verifizierten OGG-Dateien startet der Sound automatisch:
+   Gym Phonk V4 oder originales SRG774-Sci-Fi-Paket.
    F9: Pause/Fortsetzen; F10/F11: Lautstärke.
    Ohne OGG-Dateien: Spiel bleibt stumm, nicht die alte 116-BPM-Musik.
 7. Speichern mit S, Undo mit U; Spielstände unter data/.
