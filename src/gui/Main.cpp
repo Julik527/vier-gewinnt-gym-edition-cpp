@@ -75,6 +75,13 @@ public:
     }
 
     void run(int maxFrames = -1) {
+        // Real play starts the supplied Sci-Fi theme immediately; CI smoke
+        // runs and machines without the OGG pack remain silent and playable.
+        if (maxFrames < 0 && audio_.assets().complete()) {
+            audio_.setVolume(static_cast<float>(musicVolume_));
+            musicOn_ = audio_.play();
+            if (!musicOn_) notice_ = audio_.lastError();
+        }
         int rendered = 0;
         sf::Clock frame;
         while (window_.isOpen()) {
@@ -456,7 +463,7 @@ private:
         musicOn_ = audio_.play();
         notice_ = musicOn_
             ? string("Soundtrack: ") + audio_.sourceLabel() + "  |  F9 ein/aus."
-            : audio_.lastError() + "  |  Mit --audio-check pruefen.";
+            : audio_.lastError() + "  |  AUDIO_PRUEFEN.cmd";
     }
     void act(int choice) {
         if (choice == 97 || choice == 98) {

@@ -1,11 +1,10 @@
 // JK AXIS | Sci-Fi Audio Director for the 2D and 3D SFML 3.1 games.
-// Streams CC0 OGG music, crossfades scenes and loop boundaries, and keeps
-// the original procedural soundtrack as the offline fallback.
+// Streams the supplied CC0 OGG music with crossfades. Never substitutes the
+// old synthesized soundtrack: a missing/undecodable pack is shown as an error.
 #pragma once
 
 #include "GymAudioScene.h"
 #include "GymAudioAssets.h"
-#include "GymBeat.h"
 #include <SFML/Audio.hpp>
 #include <algorithm>
 #include <array>
@@ -24,7 +23,6 @@ class Director {
     std::string lastError_;
     std::unique_ptr<sf::Music> current_;
     std::unique_ptr<sf::Music> outgoing_;
-    std::unique_ptr<GymBeat> fallback_;
     sf::SoundBuffer hoverBuffer_;
     sf::SoundBuffer victoryBuffer_;
     // Sound must be destroyed before the buffers referenced by it.
@@ -62,7 +60,6 @@ class Director {
             return false; // GUI remains playable if audio is unavailable.
         }
         if (!fresh) return false;
-        if (fallback_) fallback_->stop();
         outgoing_ = std::move(current_);
         outgoingGain_ = currentGain_;
         current_ = std::move(fresh);
@@ -92,7 +89,6 @@ class Director {
             current_->setVolume(volume_ * currentGain_ * fade_);
         if (outgoing_)
             outgoing_->setVolume(volume_ * outgoingGain_ * (1.f - fade_));
-        if (fallback_) fallback_->setVolume(volume_);
         if (hover_) hover_->setVolume(volume_ * .34f);
         if (victory_) victory_->setVolume(volume_ * .46f);
     }
@@ -102,36 +98,29 @@ public:
         : executable_(executable), assets_(inspectAssets(executable)),
           folder_(assets_.complete() ? assets_.folder : std::filesystem::path{}) {}
 
-    // Music is opt-in, preserving the original F9 behavior and quiet startup.
+    // The user's Sci-Fi pack is authoritative: no hidden 116-BPM fallback.
     bool play() {
         if (enabled_) return true;
-        // Detect assets copied into the folder while the game is already open.
         assets_ = inspectAssets(executable_);
         folder_ = assets_.complete() ? assets_.folder : std::filesystem::path{};
         lastError_.clear();
+        if (!assets_.complete()) {
+            lastError_ = "SCI-FI OGG " + std::to_string(assets_.found) + "/8 FEHLEN";
+            return false;
+        }
         try {
             if (sf::PlaybackDevice::getAvailableDevices().empty()) {
                 lastError_ = "KEIN AUDIOAUSGABEGERAET";
                 return false;
             }
             enabled_ = true;
-            if (!folder_.empty()) {
-                // A pack which is present but cannot decode must NOT silently
-                // fall back to the old music: the user needs an actionable error.
-                if (switchTo(requested_)) {
-                    prepareEffects();
-                    return true;
-                }
-                lastError_ = "OGG KANN NICHT GELADEN WERDEN";
-                stop();
-                return false;
+            if (switchTo(requested_)) {
+                prepareEffects();
+                return true;
             }
-            fallback_ = std::make_unique<GymBeat>();
-            fallback_->setVolume(volume_);
-            if (fallback_->play()) return true;
-            lastError_ = "AUDIO KANN NICHT STARTEN";
+            lastError_ = "SCI-FI OGG NICHT LESBAR / DECODER";
         } catch (...) {
-            lastError_ = "AUDIOINITIALISIERUNG FEHLGESCHLAGEN";
+            lastError_ = "SCI-FI AUDIOINITIALISIERUNG FEHLGESCHLAGEN";
         }
         stop();
         return false;
@@ -143,7 +132,6 @@ public:
         if (victory_) victory_->stop();
         outgoing_.reset();
         current_.reset();
-        if (fallback_) fallback_->stop();
         fade_ = 1.f;
     }
 
@@ -151,8 +139,10 @@ public:
         if (next == requested_) return;
         requested_ = next;
         if (enabled_ && current_ && !switchTo(next)) {
-            // Keep the last healthy stream when an optional track is missing.
-            playingScene_ = next;
+            // Never disguise a failed scene as the correct soundtrack.
+            lastError_ = "SCI-FI SZENENWECHSEL FEHLGESCHLAGEN";
+        } else if (enabled_ && current_) {
+            lastError_.clear();
         }
     }
 
@@ -196,15 +186,13 @@ public:
     const AssetReport& assets() const { return assets_; }
     std::string statusLabel() const {
         if (!lastError_.empty()) return lastError_;
-        if (enabled_) return usingSciFiPack() ? "SCI-FI AKTIV / SRG774"
-                                              : "ORIGINAL 116 BPM AKTIV";
-        if (assets_.complete()) return "SCI-FI BEREIT / F9";
-        return "OGG " + std::to_string(assets_.found) +
-            "/8 FEHLEN / ORIGINAL 116 BPM";
+        if (enabled_ && usingSciFiPack()) return "SCI-FI AKTIV / SRG774";
+        if (assets_.complete()) return "SCI-FI PAUSIERT / F9 START";
+        return "SCI-FI OGG " + std::to_string(assets_.found) + "/8 FEHLEN";
     }
     const char* sourceLabel() const {
         return usingSciFiPack() ? "DARK SCI-FI / SRG774"
-                                : "ORIGINAL 116 BPM";
+                                : "SCI-FI NICHT AKTIV";
     }
 };
 

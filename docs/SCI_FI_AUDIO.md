@@ -61,3 +61,18 @@ Dies überprüft die Dateistruktur und OGG-Header ohne Audiogerät; den
 echten Ton anschließend mit F9 testen. Wer die alte EXE aus einem
 anderen Ordner startet, hört weiterhin die alte Komposition. Die
 versionierten Komplettpakete müssen **vollständig entpackt** werden.
+
+## Änderung: automatische Sci-Fi-Musik und kein altes Audiothema (V3)
+
+Wenn alle acht SRG774-OGG-Dateien am Startort gefunden werden, startet die Musik beim
+normalen Öffnen der 2D-/3D-GUI **automatisch**. F9 pausiert/aktiviert sie weiterhin.
+Die ältere prozedurale Musik ist in dieser Audio-Variante absichtlich nicht mehr
+als Fallback vorgesehen. Fehlende Dateien, Decoderfehler oder ein fehlendes
+Audiogerät führen zu einer **sichtbaren Fehlermeldung** und stillem, weiterhin
+spielbarem Zustand. CI-`--window-smoke` startet weiterhin stumm. Die
+Konsolenversion enthält keine Musik und ist unverändert.
+
+Die ZIP-Dateien müssen vollständig entpackt werden. Im jeweiligen Spielordner
+`AUDIO_PRUEFEN.cmd` starten: Nur `8/8` weist nach, dass alle OGG-Header
+vorhanden sind. Ein separater Hörtest mit Windows-Lautsprecher und Windows-
+Lautstärkemixer bleibt notwendig.
