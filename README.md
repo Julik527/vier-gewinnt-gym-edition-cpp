@@ -88,7 +88,7 @@ Mit **2 bis 4 Personen** setzt du Gym-Hanteln in ein Raster. Vier zusammenhänge
 | 3 | 9 × 8 | Größeres gemeinsames Feld |
 | 4 | 11 × 10 | Vier Farben und Zugreihenfolge |
 
-**Bereits implementiert:** Konsolenmodus und optionale SFML-2D-Version, Maus-/Tastatursteuerung, Fallanimation, Gewinnmarkierung, Undo, Vorschau (Konsole), Revanche, Highscores, Speichern/Laden, ein optionaler CC0-Sci-Fi-Soundtrack von SRG774 mit automatischem Szenenwechsel, 420-ms-Überblendung, Sieg- und Menüeffekten; falls die OGG-Dateien nicht installiert sind, bleibt der eigens komponierte 116-BPM-Stereo-Soundtrack als Ersatz verfügbar (standardmäßig aus, F9/F10/F11).
+**Bereits implementiert:** Konsolenmodus und optionale SFML-2D-Version, Maus-/Tastatursteuerung, Fallanimation, Gewinnmarkierung, Undo, Vorschau (Konsole), Revanche, Highscores, Speichern/Laden, ein optionaler CC0-Sci-Fi-Soundtrack von SRG774 mit automatischem Szenenwechsel, 420-ms-Überblendung, Sieg- und Menüeffekten; bei vollständig installiertem OGG-Paket startet der Sci-Fi-Soundtrack automatisch; die alte 116-BPM-Musik wird bewusst nicht mehr als Ersatz gespielt (F9 pausiert, F10/F11 regeln die Lautstärke).
 
 **Wichtige Grenzen:** Kein KI-Gegner, kein Netzwerkspiel, keine externe 3D-Engine. Die GUI und die Konsole verwenden noch separate Ablauf-Controller; gemeinsam sind die Spielregeln im `Board` und die sichere Dateiersatzfunktion.
 
@@ -160,7 +160,7 @@ src/Game.cpp          Ablauf der Konsole
 src/ConsoleUI.cpp     Konsolenoberfläche
 src/MatchSession.cpp  Testbare Spiellogik der grafischen Variante
 src/gui/Main.cpp      SFML-Fenster, Eingaben, Zeichnen
-src/gui/GymBeat.h     Originaler, synthetischer Gym-Beat
+src/gui/GymAudio.h    Streaming-Sci-Fi-Audio in beiden grafischen Versionen
 tests/                Unit-, Integrations- und Konfigurationsprüfungen
 .github/workflows/    Linux-/Windows-/UCRT64-CI und Dokumentenchecks
 docs/                 Architektur, Testpläne und Projektverlauf

@@ -49,6 +49,14 @@ public:
         window_.setKeyRepeatEnabled(false);
     }
     void run(int maxFrames=-1) {
+        // Start the new title suite automatically on a real run only.
+        // Do not touch audio devices in CI graphical smoke tests.
+        if (maxFrames < 0 && audio_.assets().complete()) {
+            audio_.setScene(gymaudio::Scene::Intro);
+            audio_.setVolume(static_cast<float>(volume_));
+            music_ = audio_.play();
+            if (!music_) notice(audio_.lastError());
+        }
         // Smoke runs render the interactive lobby instead of only the intro.
         if(maxFrames>0)page_=Page::Menu;
         sf::Clock clock;int frames=0;
@@ -168,7 +176,7 @@ private:
         audio_.setVolume(static_cast<float>(volume_));
         music_=audio_.play();
         notice(music_?string("AUDIO: ")+audio_.sourceLabel()
-                     :audio_.lastError()+" - AUDIO-CHECK STARTEN");
+                     :audio_.lastError()+" - AUDIO_PRUEFEN.CMD");
     }
     void volumeBy(int step) {
         volume_=std::clamp(volume_+step,0,100);

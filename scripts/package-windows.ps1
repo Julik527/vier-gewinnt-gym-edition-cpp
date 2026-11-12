@@ -39,8 +39,8 @@ if (Test-Path $logoSource) {
 }
 
 
-# Optional verified SRG774 CC0 OGG sound pack. Never mistake plain CI
-# fallback builds for sound-pack releases.
+# Optional verified SRG774 CC0 OGG sound pack. CI builds without the
+# audio assets are silent, not ready-to-play soundtrack releases.
 $audioSource = Join-Path $root "assets/audio/sci-fi"
 if (Test-Path -LiteralPath (Join-Path $audioSource "title.ogg") -PathType Leaf) {
     & python (Join-Path $root "scripts/install-sci-fi-audio.py") --destination $audioSource --verify
@@ -57,10 +57,10 @@ JK AXIS · Windows-Release-Paket
 
 1. Das ZIP in einen beschreibbaren Ordner entpacken (z. B. Downloads).
 2. vier-gewinnt-gui.exe starten.
-3. F9 schaltet Musik ein/aus; F10/F11 regeln die Lautstaerke.
-   Wenn assets/audio/sci-fi/*.ogg vorhanden: SRG774 CC0 Sci-Fi-Musik
-   mit Szenenwechsel, Crossfades und Sieg-/Klick-Effekten.
-   Sonst wird der originale prozedurale 116-BPM-Soundtrack gespielt.
+3. Mit acht OGG-Dateien startet die SRG774-CC0-Musik automatisch.
+   F9 pausiert/aktiviert sie; F10/F11 regeln die Lautstaerke.
+   Fehlen Audio-Dateien, bleibt das Spiel absichtlich stumm.
+   Die alte 116-BPM-Musik wird NICHT mehr abgespielt.
 4. Spielstände werden derzeit relativ zum Startordner unter data/ abgelegt.
 
 Technischer Hinweis:
