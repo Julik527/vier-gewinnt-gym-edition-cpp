@@ -182,7 +182,7 @@ bool MatchSession::load(const string& path) {
 }
 
 bool MatchSession::loadScores(const string& path) {
-    ifstream in(path);
+    ifstream in(std::filesystem::u8path(path));
     if (!in) return false;
     map<string, int> next;
     if (!gym::parseScores(in, next, validName)) return false;
