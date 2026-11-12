@@ -18,7 +18,8 @@ struct Move {
     int player;
 };
 
-// Game steuert das Menü. Board kümmert sich nur um das Spielfeld.
+// Die Konsolensteuerung verarbeitet Eingaben und Spielzustand; Board enthält
+// nur die Regeln. ConsoleUI rendert den Zustand, ohne Züge selbst auszuführen.
 class Game {
 private:
     // Einstellung für die nächste Runde.
@@ -26,7 +27,7 @@ private:
     std::vector<std::string> chosenNames_;
     std::vector<Player> players_;
     Board board_;
-    // Diese Liste brauchen wir für den Undo-Befehl.
+    // Jeder gültige Zug wird protokolliert: Undo und GYM1-Laden benutzen die Reihenfolge.
     std::vector<Move> history_;
     // Index des Spielers, der als Nächstes dran ist.
     int current_ = 0;
@@ -53,9 +54,9 @@ private:
     void showHelp() const;
     void showInfo() const;
     void showHighscores() const;
-    // Speichert die aktive Runde in einer Textdatei.
+    // GYM1-Format: Spieler, Zugliste und Feldzustand; nur für aktive Runden.
     bool saveGame(const std::string& path = "data/savegame.txt") const;
-    // Lädt nur einen vollständig geprüften Spielstand.
+    // Erst alle Daten in temporären Objekten prüfen, dann das laufende Match ersetzen.
     bool loadGame(const std::string& path = "data/savegame.txt");
     // Liest die Siegerliste beim Programmstart ein.
     void loadHighscores();

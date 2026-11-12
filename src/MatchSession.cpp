@@ -28,6 +28,8 @@ bool MatchSession::validName(const string& name) {
     return true;
 }
 
+// Zuerst Spielerzahl, Namen und Duplikate prüfen. Erst danach eine neue
+// Session anlegen, damit ein abgebrochener Start das Match nicht verwirft.
 bool MatchSession::begin(const vector<string>& names) {
     if (names.size() < 2 || names.size() > 4) return false;
     for (size_t i = 0; i < names.size(); ++i) {
@@ -51,6 +53,8 @@ bool MatchSession::begin(const vector<string>& names) {
     return true;
 }
 
+// Erfolgreichen Zug in die Historie übernehmen und die drei möglichen
+// Folgezustände behandeln: Sieg, Remis oder Spielerwechsel.
 bool MatchSession::drop(int column) {
     if (!active_ || finished_ || current_ < 0 || current_ >= static_cast<int>(players_.size()))
         return false;
@@ -64,7 +68,8 @@ bool MatchSession::drop(int column) {
         active_ = false;
         winner_ = players_[playing].getName();
         winLine_ = board_.winningCells(row, column, symbol);
-        // Keine Ueberlaeufe bei historischen/manipulierten Maximalwerten.
+        // Saturierung am Maximalwert verhindert int-Überlauf bei Highscores.
+        // Ein Dateifehler lässt den Sieg im Speicher bestehen (scoreSaved_=false).
         auto& victories = scores_[winner_];
         if (victories < numeric_limits<int>::max()) ++victories;
         scoreSaved_ = saveScores();
@@ -102,6 +107,7 @@ bool MatchSession::rematch() {
     return true;
 }
 
+// Wiederholt NUR das Schreiben. Der Sieg wurde bei drop() bereits gezählt.
 bool MatchSession::retryPendingScoreSave() {
     if(scoreSaved_) return true;
     if(!finished_ || winner_.empty()) return false;
@@ -131,6 +137,8 @@ bool MatchSession::save(const string& path) const {
     });
 }
 
+// Validierung in temporären Objekten: Spielerfolge, Schwerkraft, Spielstatus,
+// gespeichertem Raster und Rest der Datei prüfen, BEVOR Felder übernommen werden.
 bool MatchSession::load(const string& path) {
     if (!gym::validSaveFileSize(path)) return false;
     ifstream in(std::filesystem::u8path(path));
@@ -152,6 +160,8 @@ bool MatchSession::load(const string& path) {
         for (const auto& person : people) if (person.getName() == name) return false;
         people.emplace_back(name, symbol);
     }
+    // Aus der Zughistorie ein unabhängiges Board rekonstruieren.
+    // Manipulierte Zeilenpositionen und bereits beendete Partien sind ungültig.
     vector<GymMove> history;
     for (int i = 0; i < moveCount; ++i) {
         int savedRow, col, player;
@@ -170,6 +180,7 @@ bool MatchSession::load(const string& path) {
     }
     string trailing;
     if (in >> trailing || in.bad()) return false;
+    // Commit-Punkt: erst nach allen Checks den aktiven Zustand ersetzen.
     board_ = std::move(candidate);
     players_ = std::move(people);
     moves_ = std::move(history);

@@ -10,12 +10,13 @@
 
 using namespace std;
 
-// Hier beginnt das Programm. Die Klasse Game übernimmt danach das Spiel.
+// Einstiegspunkt der Schulkonsole: Die gesamte Spiellogik wird über
+// Game::run() gesteuert. Die GUI-Programme haben eigene main()-Funktionen.
 int main() {
     try {
         Game game;
         game.run();
-    // Falls etwas schiefgeht, bekommt man eine lesbare Fehlermeldung.
+    // Eine unerwartete Exception beendet das Programm kontrolliert mit Exitcode 1.
     } catch (const exception& ex) {
         cerr << "Programm beendet: " << ex.what() << '\n';
         return 1;

@@ -1,5 +1,6 @@
-// GYM1 game saves have a bounded schema and a maximum 110-cell board.
-// Reject unexpectedly large files before formatted extraction allocates strings.
+// GYM1-Spielstände besitzen höchstens 10x11 Felder (4 Spieler).
+// Die Grenze von 64 KiB ist eine defensive Obergrenze, nicht die erwartete
+// Größe einer normalen Datei. So werden extreme Eingaben früh abgewiesen.
 #pragma once
 
 #include <cstdint>

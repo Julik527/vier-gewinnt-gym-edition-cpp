@@ -30,7 +30,8 @@ bool Board::inside(int row, int column) const {
     return row >= 0 && row < rows_ && column >= 0 && column < columns_;
 }
 
-// Von unten nach oben suchen: Dort landet die nächste Hantel.
+// Wegen der Schwerkraft belegt eine Hantel das unterste noch freie Feld.
+// -1 bedeutet: Spalte existiert nicht oder ist bereits voll.
 int Board::nextFreeRow(int column) const {
     if (column < 0 || column >= columns_) return -1;
     for (int row = rows_ - 1; row >= 0; --row) {
@@ -39,7 +40,8 @@ int Board::nextFreeRow(int column) const {
     return -1;
 }
 
-// Ein Zug klappt nur, wenn die Spalte noch Platz hat.
+// Zuerst Symbol und Spalte validieren; eine ungültige Eingabe ändert
+// den gespeicherten Feldzustand nicht.
 bool Board::drop(int column, char symbol, int& rowPlaced) {
     // Nur die vier festgelegten Spielersymbole sind erlaubt. Sonstige
     // Steuerzeichen wuerden GYM1-Spielstaende unlesbar machen.
@@ -63,7 +65,8 @@ bool Board::undo(int row, int column) {
     return true;
 }
 
-// Zählt gleiche Hanteln in genau einer Richtung.
+// Zählt nur zusammenhängende gleiche Symbole ab dem NACHBARFELD.
+// Das Startfeld wird bei der Gewinnerkennung separat als 1 gezählt.
 int Board::countDirection(int row, int column, int dRow, int dColumn,
                           char symbol) const {
     int count = 0;
@@ -79,10 +82,11 @@ int Board::countDirection(int row, int column, int dRow, int dColumn,
 
 // Vier gleiche Hanteln in einer Reihe bedeuten einen Sieg.
 bool Board::hasWon(int row, int column, char symbol) const {
-    // '.' marks empty cells and cannot form a winning line.
+    // Ein leeres Feld darf nicht als Gewinnlinie gewertet werden.
     if (symbol == '.' || !inside(row, column)
         || grid_[row][column] != symbol) return false;
-    // Wir prüfen waagerecht, senkrecht und die beiden Diagonalen.
+    // Achsen: horizontal (0,1), vertikal (1,0) und beide Diagonalen.
+    // Durch Zählen vorwärts und rückwärts erkennt auch ein mittlerer Stein den Sieg.
     const int dr[4] = {0, 1, 1, 1};
     const int dc[4] = {1, 0, 1, -1};
     for (int i = 0; i < 4; ++i) {
@@ -94,7 +98,8 @@ bool Board::hasWon(int row, int column, char symbol) const {
     return false;
 }
 
-// So kann das Spielfeld die gewinnende Reihe spaeter extra markieren.
+// Liefert die erste zusammenhängende Gewinnlinie als Zeilen-/Spaltenpaare.
+// Die GUI nutzt sie zum Markieren, die Gewinnregel selbst bleibt in Board.
 vector<pair<int, int>> Board::winningCells(int row, int column,
                                                       char symbol) const {
     if (symbol == '.' || !inside(row, column)
@@ -115,6 +120,7 @@ vector<pair<int, int>> Board::winningCells(int row, int column,
              r += dr[i], c += dc[i]) {
             line.emplace_back(r, c);
         }
+        // Auch bei 5 oder mehr verbundenen Steinen die ganze Linie anzeigen.
         if (line.size() >= 4) return line;
     }
     return {};
