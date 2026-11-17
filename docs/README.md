@@ -56,7 +56,8 @@
 ## Meilensteine und Abgabe
 
 - [Meilensteine mit Datum und Status](../milestones/README.md) – 29.10. (historisch), 19.11. (Einzelpräsentation) und 26.11. (Live-Demo)
-- [Präsentationsversionen](../milestones/PRAESENTATION_VERSIONEN.md) – aktuelle Arbeitsfassung, V6-Alternative und historisches Format
+- [Präsentationsversionen](../milestones/PRAESENTATION_VERSIONEN.md) – bisherige Arbeitsfassung, V6, V7.1 und historisches Format
+- [V7.1 mit Schullogo und Herrn Funke](../milestones/meilenstein-1-und-2/v7.1/README.md)
 - [Wichtige Abgabe- und Präsentationsdateien](../deliverables/README.md) – Originaldateien statt Kopien
 - [Prüf- und Freigabeübersicht](../quality/README.md) – aktuelle Prüfungen von früheren Nachweisen trennen
 

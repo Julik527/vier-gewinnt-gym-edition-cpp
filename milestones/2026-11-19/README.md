@@ -10,6 +10,7 @@
 |:--|:--|
 | Ziel | Acht Folien in ungefähr zehn Minuten sowie verständliche Erklärung zentraler C++-Methoden |
 | Belegt | Bestehende Repository-Arbeitsfassung, zugehöriges PDF, Sprechregie und Lernzettel vorhanden |
+| Neueste Fassung | [V7.1 mit Schullogo und Herrn Funke](../meilenstein-1-und-2/v7.1/README.md): acht Vortragsfolien plus Feedbackfolie 9; Endfreigabe offen |
 | Alternative | [V6-Präsentation mit Leitfragen](../meilenstein-1-und-2/v6/README.md) – **nicht automatisch** Schul-Endfassung |
 | Offen | Verbindliche Auswahl, Stoppuhr-Generalprobe, Schul-PC-/Beamerkontrolle und Lehrkraftabnahme |
 | Vorführung | Gezeigten Git-Commit dokumentieren; historischer CI-Status ist kein aktueller Live-Test |

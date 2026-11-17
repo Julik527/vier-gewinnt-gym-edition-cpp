@@ -8,6 +8,11 @@ Das Ausgangspaket `JK_AXIS_V6_Meilensteine_1_und_2_mit_Leitfragen` enthält die 
 
 **Präsentationsversionen:** Die seit längerem gepflegte 8-Folien-Fassung bleibt aktuelle Repository-Arbeitsfassung. Die V6-Leitfragenfassung ist eine zusätzliche Alternative. [Welche Datei ist für welchen Termin vorgesehen?](../PRAESENTATION_VERSIONEN.md)
 
+## Aktuelle zusätzliche Präsentationsfassung V7.1
+
+- [V7.1-Dateiindex: PPTX, PDF, Schullogo, Feedback und QA](v7.1/README.md)
+- Die Originale von V6 und V7.1 bleiben getrennt und nachvollziehbar.
+
 ## V6-Unterlagen auf GitHub
 
 - **[Vollständiger V6-Dateiindex (PPTX, PDF, DOCX, Leitfragen)](v6/README.md)**

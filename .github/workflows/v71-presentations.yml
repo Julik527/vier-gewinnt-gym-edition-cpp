@@ -1,0 +1,30 @@
+name: JK AXIS V7.1 presentation integrity
+
+on:
+  pull_request:
+    paths:
+      - "milestones/meilenstein-1-und-2/v7.1/**"
+      - "scripts/verify_v71_presentations.py"
+      - ".github/workflows/v71-presentations.yml"
+  push:
+    branches: [main]
+    paths:
+      - "milestones/meilenstein-1-und-2/v7.1/**"
+      - "scripts/verify_v71_presentations.py"
+      - ".github/workflows/v71-presentations.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-v71:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify original file hashes and slide structure
+        run: python scripts/verify_v71_presentations.py

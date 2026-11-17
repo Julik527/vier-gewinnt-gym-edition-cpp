@@ -16,6 +16,10 @@ Dieser Bereich führt chronologisch durch Planung, Präsentation und Live-Demo. 
 
 Für **19.11.2026** existieren zwei **verschiedene** 8-Folien-Präsentationen. Die im bestehenden Ordner `praesentation/` gepflegte Fassung bleibt die **aktuelle Repository-Arbeitsfassung**; die später importierte V6-Leitfragenversion ist eine **Alternative**. Der zwölf Folien umfassende M1+M2-Projektüberblick ist wiederum ein anderes Format. Alle Pfade, Leitfäden und Freigabeschritte stehen im [Präsentationsregister](PRAESENTATION_VERSIONEN.md).
 
+## Neu: V7.1 mit Schullogo und Lehrerfeedback
+
+Die [V7.1-Fassung](meilenstein-1-und-2/v7.1/README.md) liegt **getrennt** von V6 vor: PowerPoint und PDF mit acht Kernfolien plus optionalem Feedback für den 19.11. sowie zwölf Kernfolien plus Feedback für den M1+M2-Überblick. Originales Schullogo und Herr Funke sind integriert. Die schulische Endfassung ist noch nicht als freigegeben dokumentiert.
+
 ## V6-Archiv und Dokumentenpflege
 
 - [Dateiindex mit Word-, PDF-, PowerPoint- und TXT-Fassungen](meilenstein-1-und-2/v6/README.md)
