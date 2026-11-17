@@ -1,0 +1,80 @@
+VIER GEWINNT | GYM EDITION
+Sprechernotizen: Einzelpräsentation vom 19.11.2026 | JK AXIS V6
+© 2026 Julian Krauß | 12.11.2026
+
+FOLIE 01 / 08
+Meine Leitfrage lautet: Wie sorgen klare C++-Klassen für gültige Spielzüge und eine zuverlässige Gewinnerkennung? Ich beantworte sie anhand des Aufbaus, der Methoden nextFreeRow und hasWon und einer kurzen Demo.
+
+00:00–00:40 | Einstieg. Der Titel heißt Vier Gewinnt – Gym Edition. Ich habe als Schulprojekt ein C++17-Programm entwickelt, bei dem mehrere Personen an einem Gerät gegeneinander spielen können. Der Pflichtteil läuft im Terminal. Die grafischen Varianten sind zusätzliche Arbeiten und nicht mein Nachweis für den zweiten Meilenstein.
+
+Heute möchte ich drei Dinge zeigen: die Aufteilung des Programms in Klassen, die Logik für einen Spielzug und die Tests. Danach zeige ich eine kurze vorbereitete Vorführung. Ich beginne mit dem Ziel der Grundversion.
+
+----------------------------------------------------------------
+
+FOLIE 02 / 08
+00:40–01:50 | Anforderungen. Für Meilenstein 2 müssen zunächst zwei Personen spielen können. Das Spielfeld ist 7 Spalten breit und 6 Reihen hoch. Beide Namen werden nacheinander abgefragt. Man wählt eine Spalte, und der Spielstein fällt nach unten, solange dort noch Platz ist.
+
+Später soll dieselbe Software auch drei oder vier Spieler unterstützen. Dann wächst das Brett auf 9 × 8 beziehungsweise 11 × 10. Speichern, Laden und Highscores gehören ebenfalls zum Gesamtprojekt. Wichtig ist mir hier die Abgrenzung: Heute steht der spielbare Konsolenkern im Vordergrund.
+
+Eine falsche Eingabe darf keine Spielrunde beschädigen. Wenn zum Beispiel „abc“ oder eine Spaltenzahl außerhalb des Bereichs eingegeben wird, muss das Programm erneut fragen und denselben Spieler am Zug lassen.
+
+----------------------------------------------------------------
+
+FOLIE 03 / 08
+01:50–03:10 | OOP. Ich habe die Aufgaben auf vier Bestandteile verteilt, damit nicht alles in der main-Funktion steht. Player speichert Name und Spielsymbol. Board verwaltet das Raster, prüft freie Felder und entscheidet, ob vier Steine zusammenhängen.
+
+Game steuert die Runde, Eingaben, Spielerwechsel und das Menü. ConsoleUI erstellt nur die Textdarstellung. Das ist sinnvoll, weil ich die Regeln ohne die ganze Konsolenoberfläche testen kann. Wenn später die Anzeige geändert wird, müssen die Regeln nicht neu geschrieben werden.
+
+Im Code liegt die Schnittstelle der Board-Klasse in include/Board.h; die Methoden werden in src/Board.cpp implementiert. main.cpp erstellt ein Game-Objekt und ruft run() auf. Diese Trennung kann ich anhand der Dateien zeigen.
+
+----------------------------------------------------------------
+
+FOLIE 04 / 08
+03:10–04:40 | Schwerkraft. Die Spalten werden dem Nutzer mit 1 bis 7 angezeigt. Intern arbeitet der Vektor jedoch ab Index 0. Deshalb macht Game aus Spalte 4 den Index 3. Im Board sucht nextFreeRow dann das nächste freie Feld.
+
+Die for-Schleife beginnt bei rows_ minus 1, also ganz unten. Solange die Spalte noch Platz hat, findet sie ein Punktzeichen und gibt die Zeile zurück. Bei einer vollen oder ungültigen Spalte liefert sie -1. So wird verhindert, dass ein Stein außerhalb des Rasters landet.
+
+Danach ruft Game die Funktion drop auf. Sie liefert als bool zurück, ob das Einwerfen geklappt hat. Zusätzlich schreibt sie über int& rowPlaced die tatsächliche Zeile an den Aufrufer zurück. Dieses & ist hier ein Referenzparameter, keine Kopie der Variablen.
+
+----------------------------------------------------------------
+
+FOLIE 05 / 08
+04:40–06:10 | Gewinnerkennung. Ein Gewinn bedeutet vier gleiche, direkt benachbarte Steine. Der letzte gesetzte Stein ist dabei der Ausgangspunkt. Board prüft vier Achsen: waagerecht, senkrecht und die beiden Diagonalen.
+
+Für jede Achse zählt countDirection in eine Richtung und anschließend in die Gegenrichtung. Dazu kommt einmal der Stein, der gerade gesetzt wurde. Wenn die Summe mindestens vier ergibt, ist das Spiel gewonnen.
+
+Warum beide Richtungen? Der letzte Stein kann in der Mitte der Gewinnreihe liegen. Wenn ich nur nach rechts suchen würde, könnte ich solche Fälle übersehen. Die Methode arbeitet für das 7 × 6-Feld genauso wie später für größere Bretter.
+
+Optional kann ich dazu kurz src/Board.cpp zeigen; die Grafik auf der Folie ist nur eine schematische Erklärung.
+
+----------------------------------------------------------------
+
+FOLIE 06 / 08
+06:10–07:15 | Dateiverarbeitung. Die aktuelle Entwicklung kann Spielstände in einer Textdatei ablegen. Das Format beginnt mit der Kennung GYM1. Danach folgen unter anderem Spielernamen, aktuelle Zugreihenfolge und das Spielfeld.
+
+Beim Laden werden die Angaben nicht sofort in eine laufende Partie kopiert. Das Programm versucht erst, die Zugliste auf einem neuen Board nachzuspielen. Stimmen die Informationen nicht zusammen, wird die Datei abgewiesen. Das verhindert, dass eine beschädigte Datei den bestehenden Zustand verändert.
+
+Beim Speichern wird zuerst eine temporäre Datei geschrieben und erst danach ersetzt. Das verringert das Risiko einer unvollständigen Datei, ist aber keine Garantie für jeden Fehlerfall.
+
+----------------------------------------------------------------
+
+FOLIE 07 / 08
+07:15–08:50 | Live-Demo. Die Konsole und der Editor sind bereits geöffnet; ich baue während des Vortrags nicht neu. Ich starte „Neues Spiel“, wähle zwei Spieler und gebe zwei unterschiedliche Namen ein. Dann sieht man 7 Spalten und 6 Reihen.
+
+Mit V 4 zeige ich eine Vorschau. Dabei wird noch kein Stein gesetzt. Nach Eingabe von 4 landet der erste Stein unten in der vierten Spalte. Mit U kann ich den letzten Zug zurücknehmen. Anschließend gehe ich mit M ins Hauptmenü.
+
+Falls die Live-Demo auf dem Schulgerät nicht startet, zeige ich die Funktionen direkt in Board.cpp und erkläre den geplanten Ablauf. Den tatsächlichen Fehler würde ich im Testprotokoll festhalten, statt die Demo als bestanden auszugeben.
+
+----------------------------------------------------------------
+
+FOLIE 08 / 08
+08:50–10:00 | Fazit. Für den referenzierten Commit 1e60436 waren die automatischen Prüfungen auf GitHub erfolgreich. Außerdem lässt sich die getrennte Konsolenabgabe lokal mit CMake bauen und testen. Die automatischen Tests prüfen unter anderem Spielfeldauswahl, Schwerkraft und fehlerhafte Eingaben.
+
+Für den nächsten Schultermin ist entscheidend, dass ich das Spiel persönlich am Schul-PC starte und die Ergebnisse dokumentiere. Ich kann erklären, welche Verantwortung jede Klasse hat und wie ein gültiger Zug verarbeitet wird.
+
+Damit schließe ich meine Vorstellung ab. Bei Fragen kann ich direkt die betroffene Methode im Quellcode öffnen.
+
+Damit ist meine Leitfrage beantwortet: Board hält die Spielregeln unabhängig von der Ausgabe. Game prüft Eingaben und steuert den Spielerwechsel. Dadurch lassen sich Schwerkraft und Gewinnerkennung getrennt testen. Die persönliche Vorführung am Schul-PC und die Abnahme durch die Lehrkraft sind noch offen.
+
+----------------------------------------------------------------
+
