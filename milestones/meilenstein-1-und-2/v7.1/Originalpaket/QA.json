@@ -1,0 +1,26 @@
+{
+  "07_Einzelpraesentation_19_11_2026_JK_AXIS_V7_Schullogo_Herr_Funke.pptx": {
+    "slides": 9,
+    "logo_on_every_slide": true,
+    "feedback_subtitle_updated": true,
+    "teacher_in_cover": true,
+    "teacher_in_feedback_notes": true,
+    "original_teacher_mentions_cover": 1,
+    "notes_updates": 1,
+    "pdf_pages": 9,
+    "pdf_text_inside_pages": true,
+    "logo_source": "JK_AXIS_Designsystem_V3_13_1(10).zip/assets/Bernd_Blindow_Original.png"
+  },
+  "06_Meilenstein_1_und_2_JK_AXIS_V7_Schullogo_Herr_Funke.pptx": {
+    "slides": 13,
+    "logo_on_every_slide": true,
+    "feedback_subtitle_updated": true,
+    "teacher_in_cover": true,
+    "teacher_in_feedback_notes": true,
+    "original_teacher_mentions_cover": 0,
+    "notes_updates": 1,
+    "pdf_pages": 13,
+    "pdf_text_inside_pages": true,
+    "logo_source": "JK_AXIS_Designsystem_V3_13_1(10).zip/assets/Bernd_Blindow_Original.png"
+  }
+}
