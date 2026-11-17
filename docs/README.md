@@ -4,7 +4,7 @@
 
 **Schnelle Wege:** [Zur Hauptseite](../README.md) · [Meilensteine](../milestones/README.md) · [Wichtige Abgabedateien](../deliverables/README.md) · [Qualitätsübersicht](../quality/README.md) · [Schulabgabe](../school/README.md) · [Aktuelle Präsentation](../praesentation/README.md) · [Quellcode](../src/) · [Tests](../tests/)
 
-**Aktuell für die Prüfung:** [PT-Theorie](PT_PRUEFUNG_19_11_2026.md) · [8-Folien-Präsentation](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx) · [Sprechleitfaden](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
+**Aktuell für die Prüfung:** [PT-Theorie](PT_PRUEFUNG_19_11_2026.md) · [8-Folien-Repository-Arbeitsfassung](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx) · [Sprechleitfaden](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md) · [Versionsregister](../milestones/PRAESENTATION_VERSIONEN.md)
 
 ## Einstieg und Projektverwaltung
 
@@ -55,7 +55,8 @@
 
 ## Meilensteine und Abgabe
 
-- [Meilensteine mit Datum und Status](../milestones/README.md) – 29.10.2026 (historisch) und 19.11.2026 (Vorbereitung)
+- [Meilensteine mit Datum und Status](../milestones/README.md) – 29.10. (historisch), 19.11. (Einzelpräsentation) und 26.11. (Live-Demo)
+- [Präsentationsversionen](../milestones/PRAESENTATION_VERSIONEN.md) – aktuelle Arbeitsfassung, V6-Alternative und historisches Format
 - [Wichtige Abgabe- und Präsentationsdateien](../deliverables/README.md) – Originaldateien statt Kopien
 - [Prüf- und Freigabeübersicht](../quality/README.md) – aktuelle Prüfungen von früheren Nachweisen trennen
 

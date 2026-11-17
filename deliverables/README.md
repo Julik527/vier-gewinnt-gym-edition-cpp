@@ -15,6 +15,8 @@ Dieser Wegweiser trennt **aktuelle Abgabe**, **Vortragsunterlagen** und **histor
 
 ## Präsentation für den 19.11.2026
 
+**Aktuelle Repository-Arbeitsfassung:** acht Folien aus `praesentation/`. Die separat importierte V6-Alternative und der zwölf Folien umfassende Überblick sind im [Versionsregister](../milestones/PRAESENTATION_VERSIONEN.md) verlinkt. Die tatsächliche Schul-Endfassung muss vor dem Vortrag ausgewählt und geprüft werden.
+
 - [Aktuelle Folien (PPTX)](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx)
 - [Aktuelle Folien (PDF)](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf)
 - [Zeit- und Sprechplan](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
@@ -23,7 +25,8 @@ Dieser Wegweiser trennt **aktuelle Abgabe**, **Vortragsunterlagen** und **histor
 ## Meilensteinpaket V6
 
 - [V6-Leitfragen und Projektstatus](../milestones/meilenstein-1-und-2/README.md)
-- [V6-Präsentationen, DOCX, PDF und Nachweise](../milestones/meilenstein-1-und-2/v6/README.md) – vollständig auf dem Import-Branch, mit eigener Prüfsummenliste. Die vorhandene Schulabgabe wird nicht ersetzt.
+- [V6-Präsentationen, DOCX, PDF und Nachweise](../milestones/meilenstein-1-und-2/v6/README.md) – vollständig in `main`, mit eigener Prüfsummenliste. Die vorhandene Schulabgabe wird nicht ersetzt.
+- [Eindeutige Zuordnung der Präsentationsversionen](../milestones/PRAESENTATION_VERSIONEN.md).
 
 ## Längerfristige Projektunterlagen
 

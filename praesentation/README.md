@@ -4,6 +4,8 @@
 
 ## Aktuelle Einzelpräsentation am 19.11.2026
 
+**Versionshinweis:** Diese acht Folien sind die **aktuelle Repository-Arbeitsfassung**. Die später importierte [V6-Variante](../milestones/meilenstein-1-und-2/v6/README.md) ist eine separate Alternative. Vortragsnotizen und PDF-/PPTX-Dateien unterschiedlicher Fassungen nicht kombinieren. [Fassungen und Auswahl dokumentieren](../milestones/PRAESENTATION_VERSIONEN.md). Eine schulische Freigabe ist nicht nachgewiesen.
+
 Dr. Litera hat am 11.11.2026 eine Einzelpräsentation von ungefähr zehn Minuten angekündigt. Die neue Präsentation umfasst **acht Folien mit insgesamt 600 Sekunden geplanter Zeit**. Eine gemessene Generalprobe bleibt notwendig.
 
 | Datei | Zweck |
