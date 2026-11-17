@@ -1,0 +1,17 @@
+VIER GEWINNT | GYM EDITION – QUELLEN
+
+Repository (offentlich): https://github.com/Julik527/vier-gewinnt-gym-edition-cpp
+
+Dokumentationsbasis: main, Commit 1e6043659d2861f503da634e536cf91a90698ebc (12.11.2026)
+GitHub Actions am referenzierten Commit:
+  C++ Build and Tests: https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/43237164839
+  School Console Only: https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/43237164717
+  Document Checks: https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/43237164629
+
+Primarquellen:
+  Aufgabenblatt 51, Programmiertechnik 2026/27, Dr. Michael Litera
+  docs/PROJECT_CHARTER.md; docs/PRODUCT_BACKLOG.md; docs/ARCHITECTURE.md
+  src/Board.cpp; src/Game.cpp; include/Board.h; include/Game.h
+  tests/board_tests.cpp; tests/integration_smoke.py
+
+Abnahmehinweis: Erfolgreiche GitHub-Prüfungen ersetzen nicht die Schul-PC-Demo.

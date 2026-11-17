@@ -1,0 +1,92 @@
+VIER GEWINNT | GYM EDITION
+Sprechernotizen: Meilenstein 1 und 2 | JK AXIS V6
+© 2026 Julian Krauß | 12.11.2026
+
+FOLIE 01 / 12
+Meine Leitfrage lautet: Wie wird aus einer Idee eine spielbare und überprüfbare C++-Grundversion? Dafür zeige ich zuerst die Planung, dann die Klassen, die Spielfeldlogik und schließlich den Test- und Vorführstand.
+
+Guten Tag. Ich zeige zuerst, wie ich das Projekt geplant habe und wie meine C++-Klassen zusammenarbeiten. Anschließend stelle ich die Zwei-Spieler-Grundversion vor.
+
+Die Präsentation ist eine Vorbereitung für die beiden Meilensteine. Eine Vorführung an der Schule wird nicht vorweggenommen.
+
+----------------------------------------------------------------
+
+FOLIE 02 / 12
+Die Konsole ist der Pflichtteil. Bei zwei Spielern ist das Feld 7 Spalten breit und 6 Reihen hoch.
+
+Weitere Spieler, Speichern und Highscores gehören zum späteren Gesamtprojekt.
+
+----------------------------------------------------------------
+
+FOLIE 03 / 12
+Der 19. November ist nicht derselbe Termin wie Meilenstein 2.
+
+Am 26. November geht es konkret um die spielbare Zwei-Spieler-Fassung.
+
+----------------------------------------------------------------
+
+FOLIE 04 / 12
+Die Feldgröße wird zentral in Board berechnet. Ich brauche deshalb keinen eigenen Code für jede Spielerzahl.
+
+Ein Gewinn bleibt immer vier zusammenhängende Steine.
+
+----------------------------------------------------------------
+
+FOLIE 05 / 12
+Der erste Meilenstein ist ein Planungs- und Entwurfstermin.
+
+Ich kann für jeden Punkt die passende Datei im Repository zeigen. Ob der Lehrer M1 vor Ort abgenommen hat, ist separat zu dokumentieren.
+
+----------------------------------------------------------------
+
+FOLIE 06 / 12
+main erzeugt ein Game-Objekt. Game steuert den Ablauf, aber Board entscheidet, ob ein Zug gültig ist.
+
+Player hält Name und Symbol. ConsoleUI zeigt nur Text an. So kann ich Board auch ohne Terminalfunktionen testen.
+
+----------------------------------------------------------------
+
+FOLIE 07 / 12
+Ich konzentriere mich erst auf den Pflichtumfang. Das grafische Spiel ist Zusatzarbeit.
+
+Das Product Backlog enthält noch weitere Aufgaben für Dezember und Januar.
+
+----------------------------------------------------------------
+
+FOLIE 08 / 12
+Das Brett hat 7 Spalten und 6 Reihen. Die Spalten werden für Spieler von 1 bis 7 angezeigt.
+
+In Board sind die Positionen nullbasiert. Das Beispiel ist eine schematische Darstellung, kein tatsächlicher Screenshot der Konsolenoberfläche.
+
+----------------------------------------------------------------
+
+FOLIE 09 / 12
+Den Code in drei Schritten erklären: Die angezeigte Spalte 4 wird intern zu Index 3. Die Schleife startet unten am Board und sucht nach einem Punkt als freiem Feld. Ohne freie Zelle kommt -1 zurück.
+
+Bei Board::drop wird die gefundene Reihe über int& rowPlaced zurückgegeben. Eine falsche Eingabe verändert das Board nicht.
+
+----------------------------------------------------------------
+
+FOLIE 10 / 12
+Eine gültige Spalte wird erst geprüft, dann gesetzt.
+
+Auch eine volle Spalte gilt nicht als Spielzug. Der Spieler darf erneut eingeben.
+
+----------------------------------------------------------------
+
+FOLIE 11 / 12
+Wichtig: Das sind geplante Schritte mit Soll-Ergebnissen. Ich muss den Ablauf vor dem Unterricht am vorgesehenen Rechner selbst testen.
+
+Im Protokoll notiere ich Abweichungen und die Rückmeldung der Lehrkraft.
+
+----------------------------------------------------------------
+
+FOLIE 12 / 12
+Der nächste Schritt ist keine weitere Grafik, sondern die echte Vorführung.
+
+Im Anschluss dokumentiere ich, was funktioniert hat und welche Korrekturen noch nötig sind.
+
+Die Leitfrage kann ich so beantworten: Aus Anforderungen und einem Klassenentwurf ist eine spielbare Zwei-Spieler-Konsole entstanden. Board übernimmt die Regeln, Game steuert den Ablauf und automatische Tests überprüfen zentrale Funktionen. Die Vorführung und Abnahme am Schul-PC muss ich noch selbst durchführen.
+
+----------------------------------------------------------------
+
