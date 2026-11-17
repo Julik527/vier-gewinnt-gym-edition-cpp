@@ -4,6 +4,15 @@
 
 **Einordnung:** Historischer Entwicklungsstand. Der damalige Bericht und die damaligen CI-Snapshots sind keine aktuelle Freigabe des heutigen Quellcodes.
 
+## Ergebnis- und Abnahmestand
+
+| Kriterium | Einordnung |
+|:--|:--|
+| Ziel | Planung, Entwurf und frühen Entwicklungsstand nachvollziehbar dokumentieren |
+| Belegt | Datierter Meilensteinbericht, PDF-Bericht, Entwicklungstagebuch und CI-Snapshot vorhanden |
+| Offen / nicht behauptet | Schulische Bewertung, Vorführung auf Zielhardware und Freigabe des heutigen `main` |
+| Versionierung | Historischer Projektstand; Ergebnisse gelten nicht automatisch für spätere Commits |
+
 ## Originale und Nachweise
 
 - [Meilensteinbericht mit damaligem Status und offenen Punkten](../../docs/MILESTONE_2026-10-29.md)

@@ -1,8 +1,20 @@
 # Meilenstein – 19.11.2026 | Einzelpräsentation
 
-[Alle Meilensteine](../README.md) · [Präsentationsordner](../../praesentation/README.md) · [Schulabgabe](../../school/README.md)
+[Alle Meilensteine](../README.md) · [Präsentationsversionen](../PRAESENTATION_VERSIONEN.md) · [Präsentationsordner](../../praesentation/README.md) · [Schulabgabe](../../school/README.md)
 
 **Ziel:** Etwa zehn Minuten Einzelpräsentation zum aktuellen C++17-Schulprojekt. Die Konsolenversion bildet den Pflichtumfang; 2D und 3D sind zusätzliche Erweiterungen.
+
+## Ergebnis- und Abnahmestand
+
+| Kriterium | Einordnung |
+|:--|:--|
+| Ziel | Acht Folien in ungefähr zehn Minuten sowie verständliche Erklärung zentraler C++-Methoden |
+| Belegt | Bestehende Repository-Arbeitsfassung, zugehöriges PDF, Sprechregie und Lernzettel vorhanden |
+| Alternative | [V6-Präsentation mit Leitfragen](../meilenstein-1-und-2/v6/README.md) – **nicht automatisch** Schul-Endfassung |
+| Offen | Verbindliche Auswahl, Stoppuhr-Generalprobe, Schul-PC-/Beamerkontrolle und Lehrkraftabnahme |
+| Vorführung | Gezeigten Git-Commit dokumentieren; historischer CI-Status ist kein aktueller Live-Test |
+
+**Versionen:** Die unten verlinkten Dateien aus `praesentation/` bleiben die **aktuelle Repository-Arbeitsfassung**. Die abweichende V6-Fassung ist im [Versionenregister](../PRAESENTATION_VERSIONEN.md) getrennt aufgeführt. Keine PDF- und PPTX-Dateien verschiedener Fassungen mischen.
 
 ## Maßgebliche Dateien
 
@@ -23,4 +35,4 @@
 - [ ] Sprechdauer mit Stoppuhr prüfen und Lesbarkeit am Beamer kontrollieren
 - [ ] Ergebnis, Datum und verwendeten Commit nach der Probe dokumentieren
 
-**Status 17.11.2026:** Unterlagen vorhanden, praktische Vorführung und schulische Abnahme hier nicht als abgeschlossen bestätigt. Frühere 15+15-Minuten-Unterlagen bleiben in `praesentation/` als historische Arbeitsstände erhalten.
+**Status 17.11.2026:** Unterlagen verfügbar. Tatsächlich ausgewählte Endfassung, gemessene Dauer, Schul-PC-Test und schulische Abnahme sind nicht als abgeschlossen dokumentiert. Historische 15+15-Minuten-Unterlagen bleiben erhalten.

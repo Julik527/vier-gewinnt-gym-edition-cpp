@@ -1,8 +1,18 @@
 # Meilenstein 2 – 26.11.2026 | Zwei-Spieler-Konsole
 
-[Alle Meilensteine](../README.md) · [V6-Leitfragen](../meilenstein-1-und-2/v6/vorfuehrung/15_Leitfragen_und_Antworten_JK_AXIS_V6.txt) · [Schulabgabe](../../school/README.md)
+[Alle Meilensteine](../README.md) · [V6-Dateiindex](../meilenstein-1-und-2/v6/README.md) · [V6-Leitfragen](../meilenstein-1-und-2/v6/vorfuehrung/15_Leitfragen_und_Antworten_JK_AXIS_V6.txt) · [Schulabgabe](../../school/README.md)
 
 **Ziel gemäß V6-Unterlagen:** Eine spielbare Zwei-Spieler-Version mit einem Raster von sieben Spalten und sechs Reihen. Spielerwechsel nur nach gültigem Zug; fehlerhafte Eingaben sollen den Spielzustand nicht verändern.
+
+## Ergebnis- und Abnahmestand
+
+| Kriterium | Einordnung |
+|:--|:--|
+| Ziel | 7 × 6 Konsolenspiel für zwei Personen mit Eingabevalidierung und Spielerwechsel demonstrieren |
+| Dokumente | [M2-Ausarbeitung](../meilenstein-1-und-2/v6/schulunterlagen/02_Meilenstein_2_Grundversion_und_Tests_JK_AXIS_Abgabefassung_V5.pdf), [Live-Demo-Plan](../meilenstein-1-und-2/v6/vorfuehrung/08_Live_Demo_26_11_2026.md) und [Testprotokoll](../meilenstein-1-und-2/v6/schulunterlagen/04_Test_und_Abnahmeprotokoll_M1_M2_JK_AXIS_Abgabefassung_V5.docx) vorhanden |
+| Historische Tests | Linux-CTest-Nachweis aus einem älteren Referenzstand, kein aktueller Windows-Beleg |
+| Offen | Konsolen-Start auf Schul-PC, dokumentierte Demo, Lehrkraftabnahme |
+| Nach der Vorführung | Commit, Zeitpunkt, Testfälle, Ergebnis und offene Fehler festhalten |
 
 ## Vorführung vorbereiten
 
