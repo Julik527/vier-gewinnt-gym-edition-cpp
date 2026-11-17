@@ -14,6 +14,12 @@ V6 = ROOT / "milestones" / "meilenstein-1-und-2" / "v6"
 MANIFEST = V6 / "SHA256SUMS.txt"
 LINK_DOCS = [
     ROOT / "milestones" / "README.md",
+    ROOT / "milestones" / "PRAESENTATION_VERSIONEN.md",
+    ROOT / "milestones" / "2026-10-29" / "README.md",
+    ROOT / "milestones" / "2026-11-19" / "README.md",
+    ROOT / "praesentation" / "README.md",
+    ROOT / "docs" / "README.md",
+    ROOT / "README.md",
     ROOT / "milestones" / "2026-11-26" / "README.md",
     ROOT / "milestones" / "meilenstein-1-und-2" / "README.md",
     ROOT / "deliverables" / "README.md",
@@ -82,6 +88,30 @@ for doc in [*V6.rglob("*.md"), *LINK_DOCS]:
         target = (doc.parent / link_path).resolve()
         if not target.is_relative_to(ROOT.resolve()) or not target.exists():
             errors.append(f"Broken relative link: {doc.relative_to(ROOT)} -> {address}")
+
+# Präsentation und Archiv enthalten verschiedene, separat geführte Folienfassungen.
+presentation_specs = [
+    ("praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx", 8),
+    ("milestones/meilenstein-1-und-2/v6/praesentationen/07_Einzelpraesentation_19_11_2026_10_Min_JK_AXIS.pptx", 8),
+    ("milestones/meilenstein-1-und-2/v6/praesentationen/06_Praesentation_Meilenstein_1_und_2_JK_AXIS.pptx", 12),
+]
+for rel, expected_slides in presentation_specs:
+    ppt = ROOT / rel
+    if not ppt.is_file():
+        errors.append(f"Missing presentation: {rel}")
+        continue
+    try:
+        with zipfile.ZipFile(ppt) as archive:
+            slide_names = [
+                name for name in archive.namelist()
+                if re.fullmatch(r"ppt/slides/slide[0-9]+[.]xml", name)
+            ]
+            if len(slide_names) != expected_slides:
+                errors.append(
+                    f"Presentation {rel} has {len(slide_names)} slides, expected {expected_slides}"
+                )
+    except (OSError, zipfile.BadZipFile) as exc:
+        errors.append(f"Invalid PPTX: {rel}: {exc}")
 
 for name in ("schulunterlagen", "praesentationen", "vorfuehrung", "nachweise"):
     if not (V6 / name).is_dir():
