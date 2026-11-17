@@ -28,7 +28,7 @@ if not MANIFEST.is_file():
 for lineno, line in enumerate(MANIFEST.read_text(encoding="utf-8").splitlines(), 1):
     if not line.strip():
         continue
-    match = re.fullmatch(r"([a-f0-9]{64})  (.+)", line)
+    match = re.fullmatch(r"([a-f0-9]{64})[ \t]{2,}(.+)", line)
     if not match:
         errors.append(f"Invalid SHA256SUMS line {lineno}")
         continue
