@@ -29,7 +29,8 @@ Die **C++17-Konsolenversion** ist das eigentliche Schulprojekt. Die Varianten **
 | Verstehen, wie der Code aufgebaut ist | [Architektur](docs/ARCHITECTURE.md) |
 | Die Schulabgabe vorbereiten | [Schulordner](school/README.md) |
 | Für die Prüfung am 19.11.2026 lernen | [PT-Lernzettel](docs/PT_PRUEFUNG_19_11_2026.md) |
-| Die aktuelle 10-Minuten-Präsentation öffnen | [Präsentationsordner](praesentation/README.md) |
+| Die aktuelle 10-Minuten-Arbeitsfassung öffnen | [Präsentationsordner](praesentation/README.md) |
+| Zwei 8-Folien-Fassungen auseinanderhalten | [Versionsregister](milestones/PRAESENTATION_VERSIONEN.md) |
 | Tests und Qualitätsnachweise einsehen | [Tests](docs/QUALITY_AND_TESTS.md) |
 | Alle Projektunterlagen finden | **[Dokumentationsübersicht](docs/README.md)** |
 | Meilensteine chronologisch ansehen | [Meilensteinübersicht](milestones/README.md) |
@@ -100,7 +101,7 @@ Die GitHub Actions prüfen Builds und automatisierte Tests. Eine erfolgreiche CI
 
 ## Prüfungsunterlagen
 
-Für die am **19.11.2026** vorgesehene Einzelpräsentation ist die **8-Folien-/10-Minuten-Fassung** aktuell; die ältere 17-Folien-Fassung und die 15+15-Minuten-Sprechkarten sind frühere Arbeitsstände.
+Für die am **19.11.2026** vorgesehene Einzelpräsentation bleibt die **8-Folien-/10-Minuten-Fassung aus `praesentation/`** die aktuelle Repository-Arbeitsfassung. Zusätzlich liegt eine **andere V6-Fassung mit acht Folien** vor. Beide sind im [Versionenregister](milestones/PRAESENTATION_VERSIONEN.md) getrennt geführt. Die schulisch verwendete Endfassung ist hier noch nicht bestätigt. Die ältere 17-Folien-Fassung und die 15+15-Minuten-Sprechkarten sind historische Arbeitsstände.
 
 [Aktuelle Folien (PPTX)](praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx) · [PDF](praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf) · [Sprechleitfaden](praesentation/MEILENSTEIN_10_MIN_2026-11-19.md) · [Prüfungsvorbereitung](docs/PT_PRUEFUNG_19_11_2026.md).
 

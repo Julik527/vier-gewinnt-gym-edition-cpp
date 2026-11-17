@@ -1,25 +1,37 @@
 # Meilensteine | Vier Gewinnt – Gym Edition
 
-[Projektstartseite](../README.md) · [Abgabedateien](../deliverables/README.md) · [Qualitätsübersicht](../quality/README.md)
+[Projektstartseite](../README.md) · [Präsentationsfassungen](PRAESENTATION_VERSIONEN.md) · [Abgaben](../deliverables/README.md) · [Qualität](../quality/README.md)
 
-Dieser Ordner ordnet die **Meilensteine** nach Datum. Die vollständigen PPTX-, PDF- und Markdown-Originale bleiben an ihren bisherigen Speicherorten. Die Einträge hier enthalten ausschließlich Orientierung und Verweise, damit keine unnötigen Kopien entstehen.
+Dieser Bereich führt chronologisch durch Planung, Präsentation und Live-Demo. **Die datierten Ordner sind Wegweiser:** Sie verlinken auf Originaldateien, statt PDF-, DOCX- oder PPTX-Kopien anzulegen. Das vollständige V6-Archiv liegt einmalig unter [`meilenstein-1-und-2/v6/`](meilenstein-1-und-2/v6/README.md).
 
-| Datum | Abschnitt | Status | Weiter |
+## Termine und dokumentierter Stand
+
+| Datum | Ziel / Meilenstein | Nachweislage | Unterlagen |
 |:--|:--|:--|:--|
-| 29.10.2026 | Früher Entwicklungsmeilenstein | Historischer Bericht; keine aktuelle Freigabe | [Unterlagen](2026-10-29/README.md) |
-| 19.11.2026 | Einzelpräsentation, Ziel 10 Minuten | Vorbereitete Unterlagen; Vortrag noch nicht nachgewiesen | [Unterlagen](2026-11-19/README.md) |
-| 26.11.2026 | Meilenstein 2: Zwei-Spieler-Version | Vorbereitung und Live-Demo noch zu bestätigen | [Vorführplan](2026-11-26/README.md) |
+| **29.10.2026** | Planung und früher Entwicklungsstand | Historische Dokumente vorhanden; keine aktuelle Freigabe | [Meilenstein 1](2026-10-29/README.md) |
+| **19.11.2026** | Einzelpräsentation, ca. zehn Minuten | Folien und Lernunterlagen vorhanden; Generalprobe/Schul-PC offen | [Präsentation](2026-11-19/README.md) |
+| **26.11.2026** | Zwei-Spieler-Konsole mit Live-Demo | Demoplan und Testvorlage vorhanden; Zielgerätetest offen | [Meilenstein 2](2026-11-26/README.md) |
 
-## Meilenstein 1 und 2 – V6
+## Zuerst auswählen: Präsentationsfassung
 
-Die neue Leitfragenfassung ist unter [Meilenstein 1+2](meilenstein-1-und-2/README.md) eingeordnet. Die Word-, PowerPoint-, PDF- und Leitfragen-Unterlagen sind im [V6-Dateiindex](meilenstein-1-und-2/v6/README.md) auf diesem Branch vorhanden. Die technische Prüfung und die reale Schulabnahme müssen gesondert erfolgen.
+Für **19.11.2026** existieren zwei **verschiedene** 8-Folien-Präsentationen. Die im bestehenden Ordner `praesentation/` gepflegte Fassung bleibt die **aktuelle Repository-Arbeitsfassung**; die später importierte V6-Leitfragenversion ist eine **Alternative**. Der zwölf Folien umfassende M1+M2-Projektüberblick ist wiederum ein anderes Format. Alle Pfade, Leitfäden und Freigabeschritte stehen im [Präsentationsregister](PRAESENTATION_VERSIONEN.md).
 
-## Arbeitsregel für weitere Meilensteine
+## V6-Archiv und Dokumentenpflege
 
-1. Für einen neuen Termin einen Ordner `milestones/JJJJ-MM-TT/` mit `README.md` anlegen.
-2. Den Stand mit Datum, Ziel, Ergebnis, offenen Punkten und zugehörigem Commit festhalten.
-3. Auf die **eine maßgebliche Datei** in `docs/`, `praesentation/` oder `school/` verweisen, statt sie erneut zu kopieren.
-4. GitHub Actions, praktische Tests und Lehrkraftabnahme klar voneinander trennen. Erfolgreiche Prüfungen erst nach tatsächlichem Nachweis als bestanden markieren.
-5. Abgeschlossene Stände über Git-Commits oder Tags nachvollziehbar machen. Keine alten Dateien allein wegen ähnlicher Namen löschen.
+- [Dateiindex mit Word-, PDF-, PowerPoint- und TXT-Fassungen](meilenstein-1-und-2/v6/README.md)
+- [Meilenstein 1+2 und Importstatus](meilenstein-1-und-2/README.md)
+- [Herkunft der unverändert übernommenen Originale](meilenstein-1-und-2/v6/HERKUNFT.md)
+- [SHA-256-Manifest](meilenstein-1-und-2/v6/SHA256SUMS.txt)
 
-Für Dateien der nächsten Abgabe: [Abgabeübersicht](../deliverables/README.md).
+Der Import wurde mit [PR #28](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/pull/28) in `main` übernommen. Die [automatische V6-Integritätsprüfung](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/44171452189) war **für den damaligen Import-Commit** erfolgreich. Das ist **keine** bestandene Präsentation, Windows-Vorführung oder Lehrkraftabnahme.
+
+## Qualitäts- und Freigabestufen
+
+| Stufe | Benötigter Nachweis | Stand 17.11.2026 |
+|:--|:--|:--|
+| Dateiintegrität V6 | SHA-256, Dokumentcontainer, Dateiliste, relative Links | Beim Import bestanden |
+| Schul-PC-Funktion | Tatsächlicher Build und Demo mit Testprotokoll | Noch nicht dokumentiert |
+| Vortrag | Ausgewählte PPTX/PDF, Beamerkontrolle, gemessene Dauer | Noch nicht dokumentiert |
+| Schulische Abnahme | Tatsächliche Rückmeldung der Lehrkraft | Noch nicht dokumentiert |
+
+Neue Meilensteine bekommen einen Ordner `JJJJ-MM-TT/README.md` mit **Ziel, Ergebnis, nachgewiesenem Stand, offenen Prüfungen und relevantem Commit**. Historische Nachweise werden nicht als aktueller CI-Status ausgegeben. Originaldateien nur bei dokumentiertem Anlass ersetzen, nicht wegen eines ähnlichen Dateinamens löschen.
