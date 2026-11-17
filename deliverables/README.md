@@ -22,8 +22,8 @@ Dieser Wegweiser trennt **aktuelle Abgabe**, **Vortragsunterlagen** und **histor
 
 ## Meilensteinpaket V6
 
-- [V6-Leitfragen und Importstatus](../milestones/meilenstein-1-und-2/README.md)
-- Die zusätzlichen V6-PowerPoints, DOCX und PDFs sind für einen separaten Import vorbereitet; sie sind in diesem Entwurf **noch nicht online**. Die vorhandene Schulabgabe wird nicht ersetzt.
+- [V6-Leitfragen und Projektstatus](../milestones/meilenstein-1-und-2/README.md)
+- [V6-Präsentationen, DOCX, PDF und Nachweise](../milestones/meilenstein-1-und-2/v6/README.md) – vollständig auf dem Import-Branch, mit eigener Prüfsummenliste. Die vorhandene Schulabgabe wird nicht ersetzt.
 
 ## Längerfristige Projektunterlagen
 

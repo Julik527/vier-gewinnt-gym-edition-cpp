@@ -14,4 +14,4 @@
 
 **Wichtig:** Das V6-Archiv berichtet über sechs erfolgreiche CTest-Tests auf Linux für einen älteren Referenzcommit vom 12.11.2026. Das ist kein aktueller Windows-/Schul-PC-Abnahmenachweis.
 
-Die vollständigen V6-PDFs, DOCX und Präsentationen werden mit dem bereinigten Importpaket nachgereicht. Hier sind sie noch **nicht** als hochgeladen angegeben.
+Die V6-PDFs, DOCX und Präsentationen sind im [V6-Dateiindex](../meilenstein-1-und-2/v6/README.md) auf diesem Branch vorhanden. Die praktische Vorführung und die schulische Freigabe bleiben offen.
