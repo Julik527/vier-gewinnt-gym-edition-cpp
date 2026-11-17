@@ -1,11 +1,11 @@
+# Änderungsprotokoll
+
 ## 17.11.2026: Meilenstein- und Dateinavigation
 
 - Verweisordner `milestones/`, `deliverables/` und `quality/` für Meilensteine, wichtige Unterlagen und Prüfnachweise angelegt.
 - Bestehende PDFs, PowerPoints und Quellcodedateien bewusst nur verlinkt, nicht dupliziert oder verschoben.
 - Haupt-README und Dokumentationsindex um direkte Navigation erweitert; historische Nachweise bleiben unverändert.
 - Kein Eingriff in Spiellogik, Build-Konfiguration, Workflows oder bisherige Git-Historie.
-
-# Änderungsprotokoll
 
 ## 11.11.2026: GUI-Wartbarkeit und aktuelle Installationshinweise
 
