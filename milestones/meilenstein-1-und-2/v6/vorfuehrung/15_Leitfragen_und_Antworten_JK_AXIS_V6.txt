@@ -1,0 +1,34 @@
+JK AXIS | LEITFRAGEN ZU MEILENSTEIN 1+2 UND EINZELPRÄSENTATION
+© 2026 Julian Krauß | Stand: 12.11.2026
+
+Meilenstein 1 + 2 (12 Folien)
+=============================
+Zentrale Leitfrage: Wie wird aus einer Idee eine spielbare und überprüfbare C++-Grundversion?
+
+Leitfragen im Vortrag:
+Folie 02: Was muss mein Vier-Gewinnt-Spiel können?
+Folie 06: Warum ist der Code in vier Bereiche aufgeteilt?
+Folie 08: Wie entsteht ein gültiger Spielzug?
+Folie 10: Was passiert bei einer falschen Eingabe?
+Folie 11: Wie demonstriere ich die Grundversion?
+
+Antwort auf die Leitfrage:
+- Projektauftrag, Backlog und Klassenentwurf schaffen die Grundlage.
+- Board prüft das Spielfeld; Game steuert Eingaben und Spielerwechsel.
+- Die Grundversion ist automatisch getestet. Die Vorführung am Schul-PC steht noch aus.
+
+Einzelpräsentation 19.11.2026 (8 Folien)
+========================================
+Zentrale Leitfrage: Wie sorgen klare C++-Klassen für gültige Spielzüge und eine zuverlässige Gewinnerkennung?
+
+Leitfragen im Vortrag:
+Folie 02: Was muss die Zwei-Spieler-Version können?
+Folie 03: Warum braucht mein Spiel mehrere Klassen?
+Folie 04: Wie findet Board die freie Zeile?
+Folie 07: Was zeige ich in der kurzen Live-Demo?
+
+Antwort auf die Leitfrage:
+- Board sucht freie Felder und prüft vier Gewinnrichtungen.
+- Game verarbeitet die Eingaben und wechselt nur nach einem gültigen Zug.
+- Die automatischen Tests sind erfolgreich; die praktische Schulabnahme ist noch offen.
+

@@ -20,6 +20,11 @@ Dieser Wegweiser trennt **aktuelle Abgabe**, **Vortragsunterlagen** und **histor
 - [Zeit- und Sprechplan](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
 - [Prüfungslernzettel](../docs/PT_PRUEFUNG_19_11_2026.md)
 
+## Meilensteinpaket V6
+
+- [V6-Leitfragen und Importstatus](../milestones/meilenstein-1-und-2/README.md)
+- Die zusätzlichen V6-PowerPoints, DOCX und PDFs sind für einen separaten Import vorbereitet; sie sind in diesem Entwurf **noch nicht online**. Die vorhandene Schulabgabe wird nicht ersetzt.
+
 ## Längerfristige Projektunterlagen
 
 - [Vollständige Dokumentationsübersicht](../docs/README.md)

@@ -8,6 +8,11 @@ Dieser Ordner ordnet die **Meilensteine** nach Datum. Die vollständigen PPTX-, 
 |:--|:--|:--|:--|
 | 29.10.2026 | Früher Entwicklungsmeilenstein | Historischer Bericht; keine aktuelle Freigabe | [Unterlagen](2026-10-29/README.md) |
 | 19.11.2026 | Einzelpräsentation, Ziel 10 Minuten | Vorbereitete Unterlagen; Vortrag noch nicht nachgewiesen | [Unterlagen](2026-11-19/README.md) |
+| 26.11.2026 | Meilenstein 2: Zwei-Spieler-Version | Vorbereitung und Live-Demo noch zu bestätigen | [Vorführplan](2026-11-26/README.md) |
+
+## Meilenstein 1 und 2 – V6
+
+Die neue Leitfragenfassung ist unter [Meilenstein 1+2](meilenstein-1-und-2/README.md) eingeordnet. Die vollständigen Word-, PowerPoint- und PDF-Unterlagen werden erst mit dem separaten geprüften Importpaket hochgeladen. **Dieser Entwurf enthält sie noch nicht.**
 
 ## Arbeitsregel für weitere Meilensteine
 
