@@ -17,6 +17,10 @@ Dr. Litera hat am 11.11.2026 eine Einzelpräsentation von ungefähr zehn Minuten
 
 Die Dateien werden aus [einem gemeinsamen Python-Skript](../scripts/build_milestone_10min.py) erzeugt. Die beiden Formate enthalten dieselben acht Kapitel. Die tatsächliche Bildschirmdarstellung und Dauer müssen im Vortragsraum kontrolliert werden.
 
+## Neuere V7.1-Kandidatenfassung
+
+Die [V7.1-Dateien](../milestones/meilenstein-1-und-2/v7.1/README.md) enthalten Schullogo und Herrn Funke sowie optionale Feedbackfolien. Sie ersetzen die hier gepflegte Arbeitsfassung **nicht automatisch**. Die Auswahl ist im [Versionenregister](../milestones/PRAESENTATION_VERSIONEN.md) dokumentiert.
+
 ## Ältere Unterlagen: anderes Präsentationsformat
 
 Die folgenden Dokumente gehören zum früher geplanten **15+15-Minuten-Vortrag** und sind **nicht** für den Prüfungstermin am 19.11.2026 vorgesehen:

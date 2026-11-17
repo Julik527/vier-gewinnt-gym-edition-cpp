@@ -8,6 +8,8 @@
 
 | Anlass | Repository-Einordnung | Bearbeitbare Datei und PDF | Sprechunterlagen |
 |:--|:--|:--|:--|
+| **19.11.2026, V7.1, 8+1 Folien** | **Neueste Kandidatenfassung:** Schullogo, Herr Funke, optionale Feedbackfolie; Freigabe offen | [PPTX](meilenstein-1-und-2/v7.1/Originalpaket/07_Einzelpraesentation_19_11_2026_JK_AXIS_V7_Schullogo_Herr_Funke.pptx) · [PDF](meilenstein-1-und-2/v7.1/Originalpaket/07_Einzelpraesentation_19_11_2026_JK_AXIS_V7_Schullogo_Herr_Funke.pdf) | [V7.1-Index](meilenstein-1-und-2/v7.1/README.md) |
+| **M1+M2, V7.1, 12+1 Folien** | **Neuester Projektüberblick:** Schullogo und Feedbackfolie | [PPTX](meilenstein-1-und-2/v7.1/Originalpaket/06_Meilenstein_1_und_2_JK_AXIS_V7_Schullogo_Herr_Funke.pptx) · [PDF](meilenstein-1-und-2/v7.1/Originalpaket/06_Meilenstein_1_und_2_JK_AXIS_V7_Schullogo_Herr_Funke.pdf) | [V7.1-Index](meilenstein-1-und-2/v7.1/README.md) |
 | **19.11.2026, Einzelpräsentation, ca. 10 Minuten** | **Aktuelle Repository-Arbeitsfassung**, acht Folien | [PPTX](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx) · [PDF](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf) | [Sprechregie und 600-Sekunden-Plan](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md) |
 | **19.11.2026, V6-Leitfragenvariante** | **Zusätzliche Arbeitsalternative**, ebenfalls acht Folien | [V6-PPTX](meilenstein-1-und-2/v6/praesentationen/07_Einzelpraesentation_19_11_2026_10_Min_JK_AXIS.pptx) · [V6-PDF](meilenstein-1-und-2/v6/praesentationen/07_Einzelpraesentation_19_11_2026_10_Min_JK_AXIS.pdf) | [V6-Sprechernotizen](meilenstein-1-und-2/v6/vorfuehrung/14_19_11_Sprechernotizen.txt) |
 | **Meilenstein 1 und 2, Projektüberblick** | Eigenständiger Überblick, zwölf Folien, **kein Ersatz** für den Zehn-Minuten-Vortrag | [PPTX](meilenstein-1-und-2/v6/praesentationen/06_Praesentation_Meilenstein_1_und_2_JK_AXIS.pptx) · [PDF](meilenstein-1-und-2/v6/praesentationen/06_Praesentation_Meilenstein_1_und_2_JK_AXIS.pdf) | [M1+M2-Sprechernotizen](meilenstein-1-und-2/v6/vorfuehrung/13_M1_M2_Sprechernotizen.txt) |
@@ -17,7 +19,7 @@
 
 Die beiden 8-Folien-Dateien sind **nicht identisch** (unterschiedliche Git-Blob-Hashes). Die ursprüngliche Fassung steht in `praesentation/`; die V6-Variante ist durch das jüngere Meilensteinarchiv hinzugekommen. Gleiche Folienzahl bedeutet weder gleichen Inhalt noch eine passende Sprechregie.
 
-**Bis zu einer dokumentierten Entscheidung bleibt `praesentation/` die aktuelle Referenz für das Repository.** Die V6-Datei wird nicht automatisch zum Ersatz oder zur schulisch genehmigten Endfassung. Ein vollständiger visueller Vergleich der beiden Präsentationen ist nicht als bestanden belegt.
+**Bis zu einer dokumentierten Entscheidung bleibt `praesentation/` die bisherige Referenz. V7.1 ist die neueste, separat abgelegte Kandidatenfassung – nicht automatisch die schulisch freigegebene Endfassung.** Die V6-Datei wird nicht automatisch zum Ersatz oder zur schulisch genehmigten Endfassung. Ein vollständiger visueller Vergleich der beiden Präsentationen ist nicht als bestanden belegt.
 
 ## Vor der tatsächlichen Vorführung
 

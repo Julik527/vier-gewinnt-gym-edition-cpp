@@ -22,6 +22,10 @@ Dieser Wegweiser trennt **aktuelle Abgabe**, **Vortragsunterlagen** und **histor
 - [Zeit- und Sprechplan](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
 - [Prüfungslernzettel](../docs/PT_PRUEFUNG_19_11_2026.md)
 
+## Neue Präsentationen V7.1
+
+- [V7.1 mit Schullogo und Herrn Funke](../milestones/meilenstein-1-und-2/v7.1/README.md): zwei PowerPoints, zwei PDFs, Vorschauen und technische Prüfnachweise. Keine stillschweigende Ersetzung der bisherigen Schul-Arbeitsfassung.
+
 ## Meilensteinpaket V6
 
 - [V6-Leitfragen und Projektstatus](../milestones/meilenstein-1-und-2/README.md)
