@@ -2,7 +2,7 @@
 
 **Hier findest du die Projektunterlagen nach Thema statt nach Dateinamen.** Der eigentliche Schulabgabeumfang ist das C++17-Konsolenspiel. 2D, 3D und Audio sind Erweiterungen.
 
-**Schnelle Wege:** [Zur Hauptseite](../README.md) · [Schulabgabe](../school/README.md) · [Aktuelle Präsentation](../praesentation/README.md) · [Quellcode](../src/) · [Tests](../tests/)
+**Schnelle Wege:** [Zur Hauptseite](../README.md) · [Meilensteine](../milestones/README.md) · [Wichtige Abgabedateien](../deliverables/README.md) · [Qualitätsübersicht](../quality/README.md) · [Schulabgabe](../school/README.md) · [Aktuelle Präsentation](../praesentation/README.md) · [Quellcode](../src/) · [Tests](../tests/)
 
 **Aktuell für die Prüfung:** [PT-Theorie](PT_PRUEFUNG_19_11_2026.md) · [8-Folien-Präsentation](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx) · [Sprechleitfaden](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
 
@@ -52,6 +52,12 @@
 - [Lizenzen](LICENSING.md)
 - [Präsentationsdateien prüfen](PRUEFUNG_DOKUMENTDATEIEN_2026-11-11.md)
 - [Design-Prüfung](BRAND_QA_REPORT.md)
+
+## Meilensteine und Abgabe
+
+- [Meilensteine mit Datum und Status](../milestones/README.md) – 29.10.2026 (historisch) und 19.11.2026 (Vorbereitung)
+- [Wichtige Abgabe- und Präsentationsdateien](../deliverables/README.md) – Originaldateien statt Kopien
+- [Prüf- und Freigabeübersicht](../quality/README.md) – aktuelle Prüfungen von früheren Nachweisen trennen
 
 ## Entwicklungsverlauf und ältere Prüfberichte
 

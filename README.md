@@ -32,6 +32,9 @@ Die **C++17-Konsolenversion** ist das eigentliche Schulprojekt. Die Varianten **
 | Die aktuelle 10-Minuten-Präsentation öffnen | [Präsentationsordner](praesentation/README.md) |
 | Tests und Qualitätsnachweise einsehen | [Tests](docs/QUALITY_AND_TESTS.md) |
 | Alle Projektunterlagen finden | **[Dokumentationsübersicht](docs/README.md)** |
+| Meilensteine chronologisch ansehen | [Meilensteinübersicht](milestones/README.md) |
+| Wichtige Abgabe- und Präsentationsdateien finden | [Abgabeübersicht](deliverables/README.md) |
+| Aktuellen Qualitätsstand überprüfen | [Prüfübersicht](quality/README.md) |
 
 ## Das Spiel
 
@@ -75,6 +78,9 @@ include/          Header und gemeinsame Schnittstellen
 src/              Spielregeln, Konsolenlogik und GUI
   gui/            SFML 2D, OpenGL 3D und Audio
 tests/            C++-, Python- und Integrationstests
+milestones/       Datierte Meilensteine, mit Verweisen auf die Originaldateien
+deliverables/     Übersicht der Abgabe- und Präsentationsdateien
+quality/          Orientierung zu Tests, CI und Freigabe
 school/           Eigenständige schulische Konsolenabgabe
 praesentation/    Aktuelle Präsentation und ältere Materialien
 docs/            Fachliche Dokumentation, Lern- und Prüfunterlagen
@@ -100,4 +106,4 @@ Für die am **19.11.2026** vorgesehene Einzelpräsentation ist die **8-Folien-/1
 
 ---
 
-<sub>ITA-Programmierprojekt 2026/27 · Stand der Übersicht: 16.11.2026 · Historische Änderungen sind über die Git-Versionierung nachvollziehbar. Details zu Herkunft und Lizenzen: [Lizenzhinweise](docs/LICENSING.md).</sub>
+<sub>ITA-Programmierprojekt 2026/27 · Stand der Übersicht: 17.11.2026 · Historische Änderungen sind über die Git-Versionierung nachvollziehbar. Details zu Herkunft und Lizenzen: [Lizenzhinweise](docs/LICENSING.md).</sub>
