@@ -32,7 +32,7 @@ Start unter Linux haeufig mit **./build-ai/vier-gewinnt-ki**. Bei Windows mit Ni
 Die KI-Ausgabe verwendet dieselbe ANSI-Erkennung, die gleichen Farben
 (Blau fuer R, Gold fuer B) und die 69-Spalten-Rahmengestaltung der
 normalen Gym-Edition-Konsole. Ohne ANSI-Unterstuetzung oder mit
-\`NO_COLOR\` bleibt die Bedienung lesbar. Das Schulspiel und seine
+`NO_COLOR` bleibt die Bedienung lesbar. Das Schulspiel und seine
 Menues wurden nicht umgebaut; die KI bleibt ein getrenntes Programm.
 
 | Auswahl | Funktion |
@@ -46,22 +46,22 @@ Menues wurden nicht umgebaut; die KI bleibt ein getrenntes Programm.
 | 07 | Letzte abgeschlossene Partie im Replay |
 | 00 | Programm beenden |
 
-**Während des Duells:** Mit \`1\` bis \`7\` einen Stein setzen,
-mit \`V4\` eine unverbindliche Vorschau fuer Spalte 4 betrachten,
-mit \`H\` die Hilfe aufrufen und mit \`M\` ins Hauptmenue wechseln,
+**Während des Duells:** Mit `1` bis `7` einen Stein setzen,
+mit `V4` eine unverbindliche Vorschau fuer Spalte 4 betrachten,
+mit `H` die Hilfe aufrufen und mit `M` ins Hauptmenue wechseln,
 ohne den laufenden Brettzustand zu verlieren. Die KI zieht danach
 automatisch. Bei einem Sieg sind die Gewinnzellen markiert.
 
-**Rundenende:** \`01\` Revanche, \`02\` Schwierigkeit waehlen,
-\`03\` Replay, \`00\` Hauptmenue. Replay: \`N\` vorwaerts,
-\`P\` zurueck, \`Q\` verlassen. Letzte Partie und Bilanz
+**Rundenende:** `01` Revanche, `02` Schwierigkeit waehlen,
+`03` Replay, `00` Hauptmenue. Replay: `N` vorwaerts,
+`P` zurueck, `Q` verlassen. Letzte Partie und Bilanz
 bleiben nur im RAM; die bisherigen Highscores und GYM1-Dateien
 werden weder gelesen noch ueberschrieben.
 
-**VS Code:** Nach \`git pull\` im Arbeitsordner \`C:\\Dev\\GymEdition\`
+**VS Code:** Nach `git pull` im Arbeitsordner `C:\Dev\GymEdition`
 unter **Ausfuehren und Debuggen** das vierte Profil
-\`Vier Gewinnt | KI-Agent\` waehlen und **F5** druecken.
-Es konfiguriert \`GYM_BUILD_AI=ON\` und baut nur die KI-Konsole.
+`Vier Gewinnt | KI-Agent` waehlen und **F5** druecken.
+Es konfiguriert `GYM_BUILD_AI=ON` und baut nur die KI-Konsole.
 Alternativ gelten die manuellen CMake-Befehle oben.
 
 

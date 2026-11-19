@@ -1,9 +1,13 @@
 /**
  * @file src/ai_main.cpp
- * @brief Eigenstaendige KI-Konsole mit Gym-Edition-Menue und Replay.
- * @details Verwendet denselben Regelkern und die Terminalausgabe wie die
- *          Pflichtkonsole, schreibt aber keine Schulspielstaende oder Scores.
+ * @brief Steuert KI-Duelle mit Hauptmenue, Schwierigkeit, Pause und Replay.
+ * @details Separater Mensch-gegen-KI-Modus mit gemeinsamer Board- und ConsoleUI-Basis.
+ * @par Abhängigkeiten
+ * AiConsoleUI, ConsoleUI, GymAi, GymReplay und C++17.
+ * @par Wichtige Randbedingungen
+ * Schulspiel bleibt unangetastet; Session-Daten bleiben nur im Arbeitsspeicher.
  */
+
 #include "AiConsoleUI.h"
 #include "ConsoleUI.h"
 #include "GymAi.h"
