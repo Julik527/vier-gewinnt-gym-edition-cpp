@@ -108,3 +108,22 @@ Für die am **19.11.2026** vorgesehene Einzelpräsentation bleibt die **8-Folien
 ---
 
 <sub>ITA-Programmierprojekt 2026/27 · Stand der Übersicht: 17.11.2026 · Historische Änderungen sind über die Git-Versionierung nachvollziehbar. Details zu Herkunft und Lizenzen: [Lizenzhinweise](docs/LICENSING.md).</sub>
+
+## Optionales KI-Labor und Replay (eigener Build)
+
+Die Pflicht-Konsole, SFML-2D und OpenGL-3D bleiben unveraendert. Die experimentelle
+Zusatzanwendung **vier-gewinnt-ki** bietet einen zweispielerbasierten Computergegner
+mit drei Stufen, ein Match-Replay und eine nur im RAM gefuehrte Sitzungsbilanz.
+
+~~~bash
+cmake -S . -B build-ai -DGYM_BUILD_AI=ON -DGYM_BUILD_GUI=OFF
+cmake --build build-ai --parallel
+ctest --test-dir build-ai --output-on-failure -R ai_replay_unit_tests
+~~~
+
+Dokumentation: [KI und Replay](docs/AI_REPLAY.md) sowie
+[Umsetzung und offene Abnahmen](docs/IMPLEMENTIERUNG_REVIEW_2026-11-19.md).
+
+**Hinweis:** Die KI ist nicht Bestandteil des separaten Schulabgabe-ZIPs.
+Der Build-Schalter ist standardmaessig OFF; ein offizielles Release
+erfordert weiterhin echte Windows-/Schul-PC-Tests und Lizenzpruefung.
