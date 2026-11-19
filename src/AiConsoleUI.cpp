@@ -1,3 +1,12 @@
+/**
+ * @file src/AiConsoleUI.cpp
+ * @brief Rendert das KI-Menue im Erscheinungsbild der Gym-Edition-Konsole.
+ * @details Nutzt die bestehende ANSI-Farbsteuerung und gepruefte 69-Spalten-Rahmen.
+ * @par Abhängigkeiten
+ * AiConsoleUI.h, ConsoleUI.h, Board und C++17.
+ * @par Wichtige Randbedingungen
+ * Ansichten sind rein; keine Schreibzugriffe auf Spielstaende oder KI-Entscheidungen.
+ */
 #include "AiConsoleUI.h"
 #include "ConsoleUI.h"
 #include <algorithm>
