@@ -33,6 +33,8 @@ namespace console_ui {
 
 // Ein Spiel bleibt ein Konsolenprogramm. Farben sind nur eine Ergaenzung.
 void present(const std::string& screen);
+// Dieselbe ANSI-Farblogik auch fuer die optionale KI-Oberflaeche nutzen.
+std::string accent(const std::string& text, const char* sgrCode);
 // Laesst Anleitungen und Bestenlisten auf einem echten Terminal sichtbar.
 void pauseForReading();
 
