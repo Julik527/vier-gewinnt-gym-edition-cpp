@@ -162,6 +162,10 @@ void boardArea(ostringstream& out, const Board& board,
 
 namespace console_ui {
 
+std::string accent(const std::string& text, const char* sgrCode) {
+    return paint(text, sgrCode);
+}
+
 void pauseForReading() {
     // Wenn die Eingabe aus einer Testdatei kommt, niemals auf Enter warten.
 #ifdef _WIN32
