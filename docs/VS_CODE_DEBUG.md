@@ -1,4 +1,4 @@
-# VS Code: Konsole, 2D und 3D bauen und debuggen
+# VS Code: Konsole, 2D, 3D und KI-Agent bauen und debuggen
 
 **Stand:** 05.11.2026. Projekt: Vier Gewinnt | Gym Edition (C++17).
 
@@ -25,13 +25,16 @@ Zweiter Fehler: Auf dem Entwicklungsbranch waren die 2D/3D-Aufgaben in
 `.vscode/tasks.json` vorhanden, jedoch fehlten die `preLaunchTask`-Verweise
 in `.vscode/launch.json`. So wurde F5 ohne Neubau ausgeführt.
 
-## Aktuelle drei Startprofile
+## Aktuelle vier Startprofile
 
 | F5-Profil | Build-Task | Ausgabedatei |
 |---|---|---|
 | Vier Gewinnt | Gym Edition | Vier Gewinnt bauen | `vier-gewinnt.exe` |
 | Vier Gewinnt | Gym Edition 2D | Gym Edition 2D bauen | `build-gui/vier-gewinnt-gui.exe` |
 | Vier Gewinnt | Gym Edition 3D | Gym Edition 3D bauen | `build-3d/vier-gewinnt-3d.exe` |
+| Vier Gewinnt \| KI-Agent | Gym Edition KI bauen | `build-ai/vier-gewinnt-ki.exe` |
+
+Der KI-Agent ist ein **separates C++17-Konsolenspiel**, nicht in der 2D-/3D-Oberflaeche integriert. Die KI-F5-Aufgabe konfiguriert `build-ai` mit `GYM_BUILD_AI=ON` und `GYM_BUILD_GUI=OFF`, baut `vier-gewinnt-ki` und startet danach per F5 die Konsole. Das Programm fragt nach Stufe 1 (Einfach), 2 (Normal) oder 3 (Schwer). Kein manuelles `cd` und keine vorherige CMake-Eingabe notwendig. Bestehende Speicherstaende/Highscores werden nicht vom KI-Zusatz beschrieben.
 
 Die Grafik-Aufgaben rufen zuerst die passende CMake-Konfiguration auf
 (`GYM_BUILD_GUI=ON` bzw. `GYM_BUILD_3D=ON`) und kompilieren anschließend
@@ -51,8 +54,8 @@ Remote-Informationen abruft. Das **pusht keine Änderungen** automatisch.
 2. Bereits offene Terminals mit altem Verzeichnis schließen und mit
    **Terminal → Neues Terminal** neu öffnen. Die Eingabeaufforderung sollte
    `PS C:\Dev\GymEdition>` zeigen; ein `cd` ist nicht mehr notwendig.
-3. **Ausführen und Debuggen** öffnen, eines der drei Profile (Konsole / 2D /
-   3D) auswählen und **F5** drücken. `preLaunchTask` erledigt den Build.
+3. **Ausführen und Debuggen** öffnen, eines der vier Profile (Konsole / 2D /
+   3D / KI-Agent) auswählen und **F5** drücken. `preLaunchTask` erledigt den Build.
    Die vorhandenen `launch.json`- und `tasks.json`-Pfade sind
    projektordnerbezogen und benötigen keine Anpassung für einzelne Benutzer.
 4. Für GitHub **Quellcodeverwaltung** (`Strg+Umschalt+G`) nutzen.
@@ -94,7 +97,7 @@ Repository **als neue Kopie** in einen Pfad mit ASCII-Zeichen klonen, z. B.
 
 ## Prüfungen und Einschränkungen
 
-`tests/vscode_config_test.py` vergleicht die drei F5-Profile mit den
+`tests/vscode_config_test.py` vergleicht die vier F5-Profile mit den
 verfügbaren Build-Tasks, den C++-Quellen und CMake. GitHub Actions prüft
 zusätzlich Konsole und Grafikziele auf mehreren Systemen. Ein grüner
 Headless-Selbsttest ersetzt **nicht** den manuellen Test des Windows-

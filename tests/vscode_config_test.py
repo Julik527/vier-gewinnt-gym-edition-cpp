@@ -101,7 +101,38 @@ def main() -> int:
               if t.get('label') == 'Gym Edition 3D konfigurieren'
               for arg in t.get('args', [])), '3D-Konfiguration nicht aktiviert')
     check((root / 'src/gui/Gym3DMath.h').is_file(), '3D-Mathematik-Header fehlt')
-    print("VS Code: Konsole, SFML 2D und OpenGL 3D stimmen mit CMake ueberein.")
+    # Der KI-Spielagent bleibt ein separates Konsolenprogramm mit eigenem F5-Build.
+    ai = [c for c in launch["configurations"]
+          if c.get("name") == "Vier Gewinnt | KI-Agent"]
+    check(len(ai) == 1, "KI-F5-Profil fehlt oder ist doppelt")
+    check(ai[0].get("program") == "${workspaceFolder}/build-ai/vier-gewinnt-ki.exe",
+          "KI-F5 startet nicht die richtige EXE")
+    check(ai[0].get("cwd") == "${workspaceFolder}",
+          "KI-Debugger muss im Projektordner starten")
+    ai_build = [t for t in tasks["tasks"]
+                if t.get("label") == ai[0].get("preLaunchTask")]
+    check(len(ai_build) == 1, "KI-preLaunchTask ist nicht eindeutig")
+    check(ai_build[0].get("dependsOn") == ["Gym Edition KI konfigurieren"],
+          "KI-Build muss zuvor konfigurieren")
+    check(ai_build[0].get("options", {}).get("cwd") == "${workspaceFolder}",
+          "KI-Build muss im Repository starten")
+    check("vier-gewinnt-ki" in ai_build[0].get("args", []),
+          "KI-Buildziel fehlt")
+    ai_cfg = [t for t in tasks["tasks"]
+              if t.get("label") == "Gym Edition KI konfigurieren"]
+    check(len(ai_cfg) == 1, "KI-Konfiguration fehlt")
+    check(ai_cfg[0].get("options", {}).get("cwd") == "${workspaceFolder}",
+          "KI-Konfiguration muss im Repository laufen")
+    check("-DGYM_BUILD_AI=ON" in ai_cfg[0]["args"],
+          "KI-Build ist per Default ausgeschaltet")
+    check("-DGYM_BUILD_GUI=OFF" in ai_cfg[0]["args"],
+          "KI soll unabhaengig von der SFML-GUI gebaut werden")
+    check((root / "src" / "ai_main.cpp").is_file(),
+          "Eigenstaendige KI-Konsolenquelle fehlt")
+    check("add_executable(vier-gewinnt-ki src/ai_main.cpp)" in cmake,
+          "KI-CMake-Ziel fehlt")
+
+    print("VS Code: Konsole, SFML 2D, OpenGL 3D und KI-Agent stimmen mit CMake ueberein.")
     return 0
 
 
