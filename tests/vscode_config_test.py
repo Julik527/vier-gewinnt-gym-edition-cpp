@@ -29,6 +29,15 @@ def main() -> int:
     tasks = json.loads((root / ".vscode" / "tasks.json").read_text(encoding="utf-8"))
     cmake = (root / "CMakeLists.txt").read_text(encoding="utf-8")
 
+    # Neue Terminals und Git-Abgleich duerfen keinen manuellen cd-Befehl brauchen.
+    settings = json.loads((root / ".vscode" / "settings.json").read_text(encoding="utf-8"))
+    check(settings.get("terminal.integrated.cwd") == "${workspaceFolder}",
+          "Terminal muss im geoeffneten Repository starten")
+    check(settings.get("terminal.integrated.defaultProfile.windows") == "PowerShell",
+          "Windows-Terminal soll PowerShell verwenden")
+    check(settings.get("git.autofetch") is True,
+          "Git-Fetch soll automatisch im Hintergrund stattfinden")
+
     # F5 muss die richtige Build-Aufgabe aufrufen.
     configs = [c for c in launch["configurations"]
                if c.get("name") == "Vier Gewinnt | Gym Edition"]

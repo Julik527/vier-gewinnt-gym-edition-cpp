@@ -61,7 +61,7 @@ data/*.txt
 !data/.gitkeep
 
 # IDE / OS
-.vscode/settings.json
+# Gemeinsame .vscode/settings.json wird mit Git versioniert.
 .vs/
 .idea/
 .DS_Store
