@@ -8,6 +8,7 @@
 
 ## Einstieg und Projektverwaltung
 
+- **[Technisches Projekt- und Codeprotokoll (20 Kapitel, Markdown)](JK_AXIS_CODEPROTOKOLL_2026-11-19.md)** – Erklärung aller vier Spielvarianten, Klassen, KI, Build, VS Code und Tests; Textfassung der PDF-/Word-Dokumentation
 - [Git und Repository sicher verwenden](REPOSITORY_GUIDE.md)
 - [Zusammenspiel der drei Spielvarianten](ARCHITECTURE.md)
 - [Projektauftrag und Zielsetzung](PROJECT_CHARTER.md)
