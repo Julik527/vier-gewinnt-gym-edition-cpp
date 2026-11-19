@@ -1,3 +1,12 @@
+/**
+ * @file tests/ai_console_ui_tests.cpp
+ * @brief Prueft KI-Menue, Arena, Vorschau, Replay und Ergebnisansichten.
+ * @details Kontrolliert UI-Texte, Rahmenbreite und unveraenderten Spielfeldzustand.
+ * @par Abhängigkeiten
+ * AiConsoleUI, Board und C++17.
+ * @par Wichtige Randbedingungen
+ * Keine Dateien, Highscores oder Benutzerprofile werden geschrieben.
+ */
 #include "AiConsoleUI.h"
 #include <iostream>
 #include <regex>
