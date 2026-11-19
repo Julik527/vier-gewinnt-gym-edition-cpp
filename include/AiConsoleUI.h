@@ -1,3 +1,12 @@
+/**
+ * @file include/AiConsoleUI.h
+ * @brief Deklariert Menues, Arena, Ergebnis und Replay-Darstellung des KI-Modus.
+ * @details Reine Ansichts-Funktionen im JK-AXIS-Konsolenstil ohne Zustandsaenderung.
+ * @par Abhängigkeiten
+ * Board.h, GymAi.h und C++17-Standardbibliothek.
+ * @par Wichtige Randbedingungen
+ * Kein Zugriff auf Highscores oder GYM1; Vorschau veraendert Board nicht.
+ */
 #pragma once
 
 #include "Board.h"
