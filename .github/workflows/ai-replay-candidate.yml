@@ -9,6 +9,10 @@ on:
       - "src/GymAi.cpp"
       - "src/GymReplay.cpp"
       - "src/ai_main.cpp"
+      - "src/AiConsoleUI.cpp"
+      - "include/AiConsoleUI.h"
+      - "tests/ai_console_ui_tests.cpp"
+      - "tests/ai_console_flow_test.py"
       - "tests/ai_replay_tests.cpp"
       - "CMakeLists.txt"
       - ".github/workflows/ai-replay-candidate.yml"
@@ -38,10 +42,10 @@ jobs:
         run: |
           $exe = 'build-ai/Release/vier-gewinnt-ki.exe'
           if (-not (Test-Path $exe)) { throw "AI executable missing: $exe" }
-          $output = @('1', 'q') | & $exe 2>&1
+          $output = @('00') | & $exe 2>&1
           if ($LASTEXITCODE -ne 0) { throw "AI CLI smoke test returned $LASTEXITCODE" }
-          if (-not (($output -join [Environment]::NewLine) -match "KI-Labor")) {
-            throw 'AI CLI did not print its expected title'
+          if (-not (($output -join [Environment]::NewLine) -match "KI-ARENA")) {
+            throw 'AI Arena did not print its expected title'
           }
       - name: Package ZIP with integrity manifest
         shell: pwsh
