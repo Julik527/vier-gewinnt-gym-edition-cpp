@@ -38,6 +38,37 @@ Die Grafik-Aufgaben rufen zuerst die passende CMake-Konfiguration auf
 mit Ninja. Die 2D- und 3D-Quellcodes befinden sich in `src/gui/Main.cpp`
 bzw. `src/gui/Main3D.cpp`.
 
+## Ein VS-Code-Fenster: kein manuelles cd, GitHub integriert (Windows)
+
+Die gemeinsame Datei `.vscode/settings.json` startet **neue** integrierte
+PowerShell-Terminals im geöffneten Projektordner (`${workspaceFolder}`).
+Sie aktiviert außerdem `git.autofetch`, damit VS Code regelmäßig die
+Remote-Informationen abruft. Das **pusht keine Änderungen** automatisch.
+
+1. Das Repository unter `C:\Dev\GymEdition` einmal in VS Code öffnen:
+   **Datei → Ordner öffnen** und im bestehenden Fenster bestätigen. Alternativ
+   aus einer PowerShell: `code --reuse-window C:\Dev\GymEdition`.
+2. Bereits offene Terminals mit altem Verzeichnis schließen und mit
+   **Terminal → Neues Terminal** neu öffnen. Die Eingabeaufforderung sollte
+   `PS C:\Dev\GymEdition>` zeigen; ein `cd` ist nicht mehr notwendig.
+3. **Ausführen und Debuggen** öffnen, eines der drei Profile (Konsole / 2D /
+   3D) auswählen und **F5** drücken. `preLaunchTask` erledigt den Build.
+   Die vorhandenen `launch.json`- und `tasks.json`-Pfade sind
+   projektordnerbezogen und benötigen keine Anpassung für einzelne Benutzer.
+4. Für GitHub **Quellcodeverwaltung** (`Strg+Umschalt+G`) nutzen.
+   Lokale Änderungen prüfen, committen und mit **Push/Synchronisieren**
+   übertragen. Vorher nötigenfalls Pull ausführen. Die `origin`-Verbindung
+   wird beim Klonen im lokalen `.git/config` gespeichert; sie muss nicht
+   vor jedem Start neu eingerichtet werden.
+
+**Wichtig:** Diese Einstellungen wirken nur, wenn der richtige Repository-Ordner
+geöffnet ist. Sie verschieben kein bereits offenes Terminal, konfigurieren
+nicht automatisch ein zweites lokales Repository und ändern nicht die
+benutzerweite VS-Code-Fensteroption. Wer `C:\Dev\GymEdition` nicht
+im selben Fenster öffnet, kann weiter im alten Projektpfad landen.
+Der erste 2D-/3D-Build benötigt weiterhin CMake, Ninja, MSYS2 und SFML.
+Optional installierte OGG-Musikdateien werden nicht durch Git mitgeliefert.
+
 ## Windows-Voraussetzungen
 
 - VS Code mit Microsoft C/C++-Erweiterung (`cppdbg`)
