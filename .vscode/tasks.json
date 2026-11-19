@@ -141,6 +141,60 @@
         "$gcc"
       ],
       "detail": "Separates 3D-Spiel fuer F5 kompilieren."
+    },
+    {
+      "label": "Gym Edition KI konfigurieren",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        ".",
+        "-B",
+        "build-ai",
+        "-G",
+        "Ninja",
+        "-DGYM_BUILD_AI=ON",
+        "-DGYM_BUILD_GUI=OFF",
+        "-DGYM_BUILD_3D=OFF",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
+      },
+      "problemMatcher": [],
+      "detail": "Optionale C++17-KI als getrennten Konsolenmodus konfigurieren; kein SFML noetig."
+    },
+    {
+      "label": "Gym Edition KI bauen",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "build-ai",
+        "--target",
+        "vier-gewinnt-ki",
+        "--parallel",
+        "2"
+      ],
+      "dependsOn": [
+        "Gym Edition KI konfigurieren"
+      ],
+      "dependsOrder": "sequence",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build",
+      "detail": "Eigenstaendigen KI-Agenten fuer F5 automatisch kompilieren."
     }
   ]
 }
