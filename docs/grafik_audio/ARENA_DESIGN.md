@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../assets/brand/jk-axis-precision-symbol-inverse.svg">
-    <source media="(prefers-color-scheme: light)" srcset="../assets/brand/jk-axis-precision-symbol.svg">
-    <img src="../assets/brand/jk-axis-precision-symbol.svg" alt="JK AXIS" width="84">
+    <source media="(prefers-color-scheme: dark)" srcset="../../assets/brand/jk-axis-precision-symbol-inverse.svg">
+    <source media="(prefers-color-scheme: light)" srcset="../../assets/brand/jk-axis-precision-symbol.svg">
+    <img src="../../assets/brand/jk-axis-precision-symbol.svg" alt="JK AXIS" width="84">
   </picture>
 </p>
 
@@ -93,8 +93,8 @@ cmake --build build --config Release
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-**Abgrenzung dieses Leitfadens:** Hier wird die Terminalversion beschrieben. Zusätzlich gibt es im Entwicklungsbranch eine eigenständige SFML-2D-GUI mit Mausbedienung. Die gemeinsame Regelbasis und die getrennten Controller stehen in [ARCHITECTURE.md](ARCHITECTURE.md). Eine 3D-Version ist nicht implementiert. Sichtprüfung und vollständige Windows-Abnahme bleiben offen.
+**Abgrenzung dieses Leitfadens:** Hier wird die Terminalversion beschrieben. Zusätzlich gibt es im Entwicklungsbranch eine eigenständige SFML-2D-GUI mit Mausbedienung. Die gemeinsame Regelbasis und die getrennten Controller stehen in [ARCHITECTURE.md](../ARCHITECTURE.md). Eine 3D-Version ist nicht implementiert. Sichtprüfung und vollständige Windows-Abnahme bleiben offen.
 
 ## Nachweisstand
 
-Die ConsoleUI- und Konsolen-Integrationstests sind am Ausgangsstand `02eb79f8` unter Windows und Ubuntu erfolgreich. [CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json). Die Terminalversion zeigt zusätzlich den Schulnamen. Die tatsächliche Darstellung mit langen Namen und ohne Farben am Schulrechner muss noch bestätigt werden.
+Die ConsoleUI- und Konsolen-Integrationstests sind am Ausgangsstand `02eb79f8` unter Windows und Ubuntu erfolgreich. [CI-Snapshot](../evidence/CI_SNAPSHOT_2026-10-28.json). Die Terminalversion zeigt zusätzlich den Schulnamen. Die tatsächliche Darstellung mit langen Namen und ohne Farben am Schulrechner muss noch bestätigt werden.

@@ -71,7 +71,7 @@ Erkläre das Format `GYM1`: welche Daten es speichert und warum der Loader das R
 4. In VS Code Haltepunkte bei `startDrop` und `MatchSession::drop` setzen.
 5. Mindestens einmal Schritt für Schritt durch den Gewinnalgorithmus gehen.
 6. Drei Spieler und danach vier Spieler vorführen.
-7. Alle manuellen Punkte aus `docs/3D_TESTPLAN.md` protokollieren.
+7. Alle manuellen Punkte aus `docs/pruefung/3D_TESTPLAN.md` protokollieren.
 8. Eine eigene zehnminütige Codeerklärung aufnehmen und Fachbegriffe präzise verwenden.
 
 **Fünf typische Prüfungsfragen:** Warum C++17? Warum objektorientiert? Wie entscheidet die Schwerkraft? Wie funktioniert die perspektivische Kamera? Welche Fehlerfälle prüft die CI und welche nicht?

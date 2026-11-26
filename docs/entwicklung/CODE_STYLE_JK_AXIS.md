@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../assets/brand/jk-axis-precision-symbol-inverse.svg">
-    <source media="(prefers-color-scheme: light)" srcset="../assets/brand/jk-axis-precision-symbol.svg">
-    <img src="../assets/brand/jk-axis-precision-symbol.svg" alt="JK AXIS" width="76">
+    <source media="(prefers-color-scheme: dark)" srcset="../../assets/brand/jk-axis-precision-symbol-inverse.svg">
+    <source media="(prefers-color-scheme: light)" srcset="../../assets/brand/jk-axis-precision-symbol.svg">
+    <img src="../../assets/brand/jk-axis-precision-symbol.svg" alt="JK AXIS" width="76">
   </picture>
 </p>
 
@@ -95,7 +95,7 @@ Historische Originalprompts im KI-Nachweisregister werden nicht nachträglich um
 
 Das **JK-AXIS-Präzisionslogo** steht in der Projekt-README und in diesem Leitfaden. In den Quelltexten sorgt ein kompakter Dateikopf für Wiedererkennung. Farben, große Schriftzüge oder Sonderzeichen im C++-Code würden die Lesbarkeit im Editor eher verschlechtern.
 
-**Wichtig:** Kommentare helfen beim Verstehen. Sie ersetzen weder funktionsfähigen Code noch Tests. Die aktuelle technische Testabdeckung steht in [QUALITY_AND_TESTS.md](QUALITY_AND_TESTS.md).
+**Wichtig:** Kommentare helfen beim Verstehen. Sie ersetzen weder funktionsfähigen Code noch Tests. Die aktuelle technische Testabdeckung steht in [QUALITY_AND_TESTS.md](../QUALITY_AND_TESTS.md).
 
 ### 7. Ergänzte Dateien der 2D-Version
 
