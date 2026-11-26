@@ -15,9 +15,9 @@ Hier findest du die Prüfwerkzeuge und die maßgeblichen Berichte, ohne identisc
 ## Manuelle Abnahme und Veröffentlichung
 
 - [Release-Abnahmekriterien](../docs/RELEASE_ABNAHME.md)
-- [Release-Checkliste](../docs/RELEASE_CHECKLIST.md)
-- [GUI-Testplan](../docs/GUI_TESTPLAN.md)
-- [3D-Testplan](../docs/3D_TESTPLAN.md)
+- [Release-Checkliste](../docs/pruefung/RELEASE_CHECKLIST.md)
+- [GUI-Testplan](../docs/pruefung/GUI_TESTPLAN.md)
+- [3D-Testplan](../docs/pruefung/3D_TESTPLAN.md)
 - [Schulisches Testprotokoll](../school/TESTPROTOKOLL.md)
 
 ## Historische Nachweise

@@ -1,83 +1,32 @@
-# Dokumentation – Vier Gewinnt | Gym Edition
+# Projektdokumentation
 
-Die Konsole ist die Schulabgabe. Grafik, Audio und KI sind optionale Erweiterungen.
+[Startseite](../README.md) · [Schulabgabe](../school/README.md) · [Abgabedateien](../deliverables/README.md) · [Präsentationsversionen](../milestones/PRAESENTATION_VERSIONEN.md)
 
-[Startseite](../README.md) · [Schulabgabe](../school/README.md) · [Präsentationen](../praesentation/README.md) · [Tests](../tests/)
+## Schnellstart
+- [Windows und MSYS2](WINDOWS_QUICKSTART.md)
+- [VS Code und F5](VS_CODE_DEBUG.md)
+- [Git-Arbeitsablauf](REPOSITORY_GUIDE.md)
 
-**Prüfungsvorbereitung vom 19.11.2026:** [PT-Theorie](PT_PRUEFUNG_19_11_2026.md) · [8-Folien-Repository-Arbeitsfassung](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx) · [Sprechleitfaden](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md) · [Versionsregister](../milestones/PRAESENTATION_VERSIONEN.md)
+## Nach Themen
+| Bereich | Inhalt |
+|---|---|
+| [Entwicklung](entwicklung/) | C++-Leitfäden, Codeprotokoll und 3D-Lernpfad |
+| [Grafik und Audio](grafik_audio/) | Bedienung, Gestaltung, Sound und Assets |
+| [Schule](schule/) | Anforderungen, Handout, Prüfungsvorbereitung und KI-Nachweise |
+| [Planung](planung/) | Projektauftrag, Backlog, Sprint und Meilenstein |
+| [Prüfung](pruefung/) | GUI-/3D-Testpläne und Release-Checkliste |
+| [Nachweise](evidence/) | Datierte technische Nachweise |
 
-## Installation und Code
+## Technische Referenz
+- [Architektur](ARCHITECTURE.md)
+- [KI und Replay](AI_REPLAY.md)
+- [Testplan](TESTPLAN.md) · [Qualität und Tests](QUALITY_AND_TESTS.md) · [Release-Abnahme](RELEASE_ABNAHME.md)
+- [Gym-Phonk-Medienmanifest](GYM_PHONK_V4_MANIFEST.md) · [Lizenzen](LICENSING.md)
 
-- [Codeprotokoll vom 19.11.2026](JK_AXIS_CODEPROTOKOLL_2026-11-19.md) – Entwicklungsstand vor dem Refactoring
-- [Git und Repository sicher verwenden](REPOSITORY_GUIDE.md)
-- [Architektur und gemeinsame Spiellogik](ARCHITECTURE.md)
-- [Projektauftrag und Zielsetzung](PROJECT_CHARTER.md)
-- [Geplante und offene Aufgaben](PRODUCT_BACKLOG.md)
-- [Installation und Start unter Windows](WINDOWS_QUICKSTART.md)
-- [F5-Profile und Fehlersuche](VS_CODE_DEBUG.md)
+## Originalunterlagen
+- [Meilensteinpakete und Prüfsummen](../milestones/README.md)
+- [Präsentationsunterlagen](../praesentation/README.md)
+- [Referenz-PDFs](../reference/)
+- [Entwicklungsverlauf](../CHANGELOG.md)
 
-### C++-Code verstehen
-
-- [Quellcode-Stilregeln](CODE_STYLE_JK_AXIS.md)
-- [Dateiköpfe und Klassenverständnis](DATEIKOPF_STANDARD.md)
-- [Codeerklärungen für die Prüfung](QUELLCODE_KOMMENTARE.md)
-
-## Schule, Abgabe und Prüfung
-
-- [Theorielernzettel am 19. November](PT_PRUEFUNG_19_11_2026.md)
-- [Pflichtanforderungen aus Aufgabenblatt 51](SCHULANFORDERUNGEN_51_STATUS.md)
-- [Schulisches Handout](HANDOUT_AUFGABENBLATT_51.md)
-- [Grenzfallprüfungen](LEHRER_ABNAHME_TESTPROTOKOLL_2026-11-05.md)
-- [Generalprobe](GENERALPROBE_2027.md)
-- [Dokumentation der KI-Nutzung](KI_PROMPT_DOKUMENTATION.md)
-
-## Grafik, Arena und Audio
-
-- [Bedienung der 3D-Arena](3D_ARENA.md)
-- [3D-Code verstehen](3D_LERNPFAD.md)
-- [Abnahmetests für 3D](3D_TESTPLAN.md)
-- [Arena-Konzept](ARENA_DESIGN.md)
-- [Menügestaltung](MENU_DESIGN.md)
-- [GUI-Testfälle](GUI_TESTPLAN.md)
-- [Audio-Integration](SCI_FI_AUDIO.md)
-- [Gym-Phonk-Medienmanifest](GYM_PHONK_V4_MANIFEST.md)
-- [Assets bereitstellen](ASSET_UPLOAD_CHECKLIST.md)
-- [Schullogo und Verwendung](SCHOOL_LOGO.md)
-
-## Qualität, Tests und Release
-
-- [Build- und Testnachweise](QUALITY_AND_TESTS.md)
-- [Testplan](TESTPLAN.md)
-- [Abnahmekriterien](RELEASE_ABNAHME.md)
-- [Release-Checkliste](RELEASE_CHECKLIST.md)
-- [Lizenzen](LICENSING.md)
-- [Präsentationsdateien prüfen](PRUEFUNG_DOKUMENTDATEIEN_2026-11-11.md)
-- [Design-Prüfung](BRAND_QA_REPORT.md)
-
-## Meilensteine und Abgabe
-
-- [Meilensteine mit Datum und Status](../milestones/README.md) – 29.10. (historisch), 19.11. (Einzelpräsentation) und 26.11. (Live-Demo)
-- [Präsentationsversionen](../milestones/PRAESENTATION_VERSIONEN.md) – bisherige Arbeitsfassung, V6, V7.1 und historisches Format
-- [V7.1 mit Schullogo und Herrn Funke](../milestones/meilenstein-1-und-2/v7.1/README.md)
-- [Wichtige Abgabe- und Präsentationsdateien](../deliverables/README.md) – Originaldateien statt Kopien
-- [Prüf- und Freigabeübersicht](../quality/README.md) – aktuelle Prüfungen von früheren Nachweisen trennen
-
-## Archiv und Entwicklungsverlauf
-
-- [Älteres Entwicklungstagebuch](DEVELOPMENT_LOG_2026-10-28.md)
-- [Älterer Dokumentationsbericht](DOCUMENTATION_AUDIT_2026-10-28.md)
-- [Früherer Meilenstein](MILESTONE_2026-10-29.md)
-- [Sprint-Rückblick](SPRINT_REVIEW_2026-10-31.md)
-- [Früherer Qualitätsbericht](QUALITY_REVIEW_2026-11-05.md)
-
-### Weitere Unterlagen
-
-- [Präsentationshinweise](praesentation/README.md) – Informationen zur aktuellen und früheren Fassung
-- [Referenzunterlagen](reference/README.md) – Hinweise zu unveränderten Quelldokumenten
-- [Prüfnachweise](evidence/) – datierte Testprotokolle und Snapshots (nicht als aktueller CI-Status zu verstehen)
-
-
-
-Die Startseite beschreibt den Entwicklungsstand. Die Unterlagen vom 19.11.2026 dokumentieren die damalige Vorbereitung. Dateien mit älteren Datumsangaben bleiben als Projektverlauf erhalten. Ein historischer Testbericht belegt nicht automatisch den neuesten Commit.
-
-Die praktische Abnahme von Windows-Oberfläche, Audio und Vortrag erfolgt getrennt von GitHub Actions.
+Historische Dokumente sind keine aktuellen Freigaben. Die Schulkonsole und ihre Nachweise haben Vorrang.

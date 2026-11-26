@@ -50,4 +50,4 @@ Für **jeden** Test Ergebnis mit Datum, Commit, Windows-Version, Grafikkarte, Au
 
 **Noch nicht freigegeben.** Die Kästchen bleiben offen, solange keine realen Belege vorliegen. Ein grüner Pull Request ist ein technischer Zwischenstand, keine schulische Abnahme oder Bewertung.
 
-Siehe auch [Release-Checkliste](RELEASE_CHECKLIST.md), [GUI-Testplan](GUI_TESTPLAN.md), [3D-Testplan](3D_TESTPLAN.md), [Anforderungsmatrix](SCHULANFORDERUNGEN_51_STATUS.md).
+Siehe auch [Release-Checkliste](pruefung/RELEASE_CHECKLIST.md), [GUI-Testplan](pruefung/GUI_TESTPLAN.md), [3D-Testplan](pruefung/3D_TESTPLAN.md), [Anforderungsmatrix](schule/SCHULANFORDERUNGEN_51_STATUS.md).

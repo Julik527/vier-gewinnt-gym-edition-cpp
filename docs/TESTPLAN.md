@@ -76,4 +76,4 @@ Testbelege können unter `docs/evidence/` abgelegt werden. Der Testplan selbst i
 
 Der [CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json) belegt erfolgreiche Unit- und Integrationstests unter Ubuntu und Windows am Ausgangscommit `02eb79f8`. Diese Läufe führen ausgewählte Abläufe mit umgeleiteter Ein-/Ausgabe aus. Die offenen Ist-Felder dieser 47 manuellen Testfälle werden dadurch nicht rückwirkend ausgefüllt.
 
-Der letzte lokale F5-Versuch scheiterte bereits an `cmake` im Suchpfad. Nach Installation beziehungsweise Aktualisierung der UCRT64-Werkzeuge und Übernahme der korrigierten Build-Aufgaben ist der Versuch zu wiederholen. Das Konsolenprofil und das zusätzliche GUI-Profil sind getrennt zu prüfen. GUI, Musik und Schullogo stehen in [GUI_TESTPLAN.md](GUI_TESTPLAN.md).
+Der letzte lokale F5-Versuch scheiterte bereits an `cmake` im Suchpfad. Nach Installation beziehungsweise Aktualisierung der UCRT64-Werkzeuge und Übernahme der korrigierten Build-Aufgaben ist der Versuch zu wiederholen. Das Konsolenprofil und das zusätzliche GUI-Profil sind getrennt zu prüfen. GUI, Musik und Schullogo stehen in [GUI_TESTPLAN.md](pruefung/GUI_TESTPLAN.md).

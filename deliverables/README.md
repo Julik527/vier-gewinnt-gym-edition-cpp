@@ -20,7 +20,7 @@ Dieser Wegweiser trennt **aktuelle Abgabe**, **Vortragsunterlagen** und **histor
 - [Aktuelle Folien (PPTX)](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx)
 - [Aktuelle Folien (PDF)](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf)
 - [Zeit- und Sprechplan](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md)
-- [Prüfungslernzettel](../docs/PT_PRUEFUNG_19_11_2026.md)
+- [Prüfungslernzettel](../docs/schule/PT_PRUEFUNG_19_11_2026.md)
 
 ## Neue Präsentationen V7.1
 

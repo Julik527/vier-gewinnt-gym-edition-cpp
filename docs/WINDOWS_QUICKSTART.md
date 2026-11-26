@@ -132,4 +132,4 @@ Write-Host "Exit-Code: $LASTEXITCODE"
 - **Self-Test erfolgreich, Fenster öffnet sich nicht:** Windows-Treiber/OpenGL, Fonts und Laufzeitbibliotheken prüfen; die Self-Test-Option prüft nicht die Darstellung.
 - **Fehlende DLL:** Build-Ausgabe und UCRT64-Laufzeitpfad prüfen; nicht beliebige DLLs aus dem Internet laden.
 
-Für Test- und Präsentationsnachweise gilt weiterhin [GUI_TESTPLAN.md](GUI_TESTPLAN.md). Ein bestandener CI-Lauf ist kein Nachweis für korrektes Rendering, Tastatur, Maus oder Musik auf deinem eigenen Rechner.
+Für Test- und Präsentationsnachweise gilt weiterhin [GUI_TESTPLAN.md](pruefung/GUI_TESTPLAN.md). Ein bestandener CI-Lauf ist kein Nachweis für korrektes Rendering, Tastatur, Maus oder Musik auf deinem eigenen Rechner.
