@@ -43,6 +43,16 @@ using namespace std;
 namespace {
 constexpr float W=1440.f,H=900.f;
 constexpr float viewportWidth=1072.f,viewportTop=120.f,viewportHeight=780.f;
+constexpr float backButtonY = 720.f;
+constexpr float audioDividerY = 780.f;
+constexpr float audioVolumeY = 786.f;
+constexpr float audioStatusY = 809.f;
+constexpr float audioButtonY = 835.f;
+constexpr float buttonHeight = 52.f;
+static_assert(backButtonY + buttonHeight < audioDividerY);
+static_assert(audioVolumeY + 20.f < audioStatusY);
+static_assert(audioStatusY + 18.f < audioButtonY);
+static_assert(audioButtonY + buttonHeight < H);
 const sf::Color white(244,248,255),muted(153,176,206),blue(63,131,242),green(69,224,180);
 const array<sf::Color,4> colors={sf::Color(61,149,252),sf::Color(247,190,85),
                                  sf::Color(76,217,163),sf::Color(196,145,252)};
@@ -382,15 +392,15 @@ private:
         if(col>=0) {selected_=col;startDrop();}
     }
     void text(const string& s, float x, float y, unsigned size = 20,
-              sf::Color tint = white, bool bold = false) {
-        gymui::text(window_, font_, s, x, y, size, tint, bold);
+              sf::Color tint = white, bool bold = false, float maxWidth = 0.f) {
+        gymui::text(window_, font_, s, x, y, size, tint, bold, maxWidth);
     }
     void rect(float x, float y, float w, float h, sf::Color fill,
               sf::Color outline = sf::Color::Transparent) {
         gymui::rectangle(window_, x, y, w, h, fill, outline);
     }
     void button(string title,float x,float y,float width,int action,bool active=true) {
-        const sf::FloatRect bounds({x,y},{width,52});
+        const sf::FloatRect bounds({x,y},{width,buttonHeight});
         const auto cursor=window_.mapPixelToCoords(sf::Mouse::getPosition(window_));
         const bool hover=active && bounds.contains(cursor);
         const bool selected=(action==20&&playerCount_==2)
@@ -401,8 +411,8 @@ private:
                :hover?sf::Color(42,103,158)
                :selected?sf::Color(26,91,98)
                :primary?sf::Color(34,82,140):sf::Color(25,58,96);
-        rect(x,y+3,width,52,sf::Color(0,5,13,105));
-        rect(x,y,width,52,fill,
+        rect(x,y+3,width,buttonHeight,sf::Color(0,5,13,105));
+        rect(x,y,width,buttonHeight,fill,
              !active?sf::Color(32,51,75)
                     :(hover||selected?green:sf::Color(51,100,158)));
         if((hover||selected||primary)&&active)
@@ -656,9 +666,9 @@ private:
                 if(!match_.scoreSaved())
                     button("HIGHSCORE ERNEUT SICHERN",1100,buttonY+105,300,18);
             }
-            button("HAUPTMENUE",1100,743,300,5);
+            button("HAUPTMENUE",1100,backButtonY,300,5);
         } else if(page_==Page::Help) {
-            button("ZURUECK",1100,734,300,5);
+            button("ZURUECK",1100,backButtonY,300,5);
         } else if(page_==Page::ConfirmExit) {
             button("SICHERN UND BEENDEN",1100,422,300,14);
             button("OHNE SICHERN BEENDEN",1100,484,300,13);
@@ -668,13 +678,15 @@ private:
                    1100,430,300,page_==Page::ConfirmNew?16:17);
             button("ABBRECHEN",1100,494,300,15);
         }
-        rect(1095,812,310,1,sf::Color(47,94,143));
-        button(music_?"MUSIK PAUSE":"MUSIK START",1099,825,177,10);
-        button("-",1282,825,55,11);
-        button("+",1343,825,55,12);
-        text("VOL "+to_string(volume_)+"%",1099,780,16,music_?green:muted,true);
-        text(audio_.statusLabel(),1128,782,12,
-             music_&&audio_.usingSciFiPack()?green:muted);
+        // Eigene Zeilen für Lautstärke und Audiostatus, getrennt vom Spielmenü.
+        rect(1099,audioDividerY,300,1,sf::Color(47,94,143));
+        text("LAUTSTAERKE",1100,audioVolumeY,15,muted,true);
+        text(to_string(volume_)+" %",1343,audioVolumeY,16,music_?green:white,true,56.f);
+        text(audio_.statusLabel(),1100,audioStatusY,13,
+             music_&&audio_.usingSciFiPack()?green:muted,false,300.f);
+        button(music_?"MUSIK PAUSE":"MUSIK START",1099,audioButtonY,177,10);
+        button("-",1282,audioButtonY,55,11);
+        button("+",1343,audioButtonY,55,12);
         if(messageTime_>0.f)text(info_.substr(0,87),68,875,15,green);
         window_.display();
     }

@@ -60,10 +60,18 @@ inline void rectangle(sf::RenderTarget& target, float x, float y, float w, float
 
 inline void text(sf::RenderTarget& target, const sf::Font& font,
                  const std::string& value, float x, float y, unsigned size,
-                 sf::Color tint, bool bold) {
+                 sf::Color tint, bool bold, float maxWidth = 0.f) {
     sf::Text label(font, sf::String::fromUtf8(value.begin(), value.end()), size);
     label.setFillColor(tint);
     if (bold) label.setStyle(sf::Text::Bold);
+    if (maxWidth > 0.f) {
+        const auto bounds = label.getLocalBounds();
+        const float rightEdge = bounds.position.x + bounds.size.x;
+        if (rightEdge > maxWidth) {
+            const float scale = maxWidth / rightEdge;
+            label.setScale({scale, scale});
+        }
+    }
     label.setPosition({x, y});
     target.draw(label);
 }

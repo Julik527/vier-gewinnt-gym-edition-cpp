@@ -134,7 +134,7 @@ public:
         folder_ = assets_.complete() ? assets_.folder : std::filesystem::path{};
         lastError_.clear();
         if (!assets_.complete()) {
-            lastError_ = "SCI-FI OGG " + std::to_string(assets_.found) + "/8 FEHLEN";
+            lastError_ = "OGG-Dateien: " + std::to_string(assets_.found) + "/8 vorhanden";
             return false;
         }
         try {
@@ -224,7 +224,7 @@ public:
         if (assets_.complete())
             return isGymPhonkV4(folder_) ? "GYM PHONK V4 PAUSIERT / F9"
                                         : "SCI-FI PAUSIERT / F9 START";
-        return "SCI-FI OGG " + std::to_string(assets_.found) + "/8 FEHLEN";
+        return "OGG-Dateien: " + std::to_string(assets_.found) + "/8 vorhanden";
     }
     const char* sourceLabel() const {
         return usingSciFiPack()

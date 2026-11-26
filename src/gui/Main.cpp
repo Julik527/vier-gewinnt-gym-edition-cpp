@@ -817,8 +817,8 @@ private:
         }
         label("MUSIK  " + to_string(musicVolume_) + "%", 826, 124, 14,
               musicOn_ ? green : muted, true);
-        label(audio_.statusLabel(), 957, 768, 12,
-              musicOn_ && audio_.usingSciFiPack() ? green : muted, true);
+        gymui::text(window_, font_, audio_.statusLabel(), 957, 768, 12,
+                    musicOn_ && audio_.usingSciFiPack() ? green : muted, true, 303.f);
         if (!notice_.empty())
             label(notice_, 78, 766, 14, sf::Color(254, 213, 132));
         drawButtons();

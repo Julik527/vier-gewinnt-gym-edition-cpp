@@ -65,6 +65,16 @@ class RepositoryConsistencyTests(unittest.TestCase):
             self.assertNotIn("const array<sf::Vector2f, 12> j", source)
             self.assertNotIn("const array<sf::Vector2f,12> j", source)
 
+    def test_audio_panel_has_separate_rows(self):
+        arena = self.read("src/gui/Main3D.cpp")
+        self.assertIn("backButtonY + buttonHeight < audioDividerY", arena)
+        self.assertIn("audioVolumeY + 20.f < audioStatusY", arena)
+        self.assertIn("audioStatusY + 18.f < audioButtonY", arena)
+        self.assertIn("audioButtonY + buttonHeight < H", arena)
+        self.assertIn("audio_.statusLabel(),1100,audioStatusY", arena)
+        self.assertIn("false,300.f", arena)
+        self.assertIn('"/8 vorhanden"', self.read("src/gui/GymAudio.h"))
+
     def test_open_gl_primitives_are_separated(self):
         header = self.read("src/gui/Gym3DRender.h")
         arena = self.read("src/gui/Main3D.cpp")
