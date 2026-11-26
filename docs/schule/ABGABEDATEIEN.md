@@ -8,7 +8,9 @@ Dieser Wegweiser trennt **aktuelle Abgabe**, **Vortragsunterlagen** und **histor
 
 - [Einstieg und Umfang](../../school/README.md)
 - [Abgabecheckliste](../../school/ABGABE_CHECKLISTE.md)
-- [Handout](../../school/HANDOUT.md)
+- [Handout V2.0 (PDF, Druckfassung)](handout/JK_AXIS_Vier_Gewinnt_Handout_AB51_2026_V2.pdf)
+- [Handout V2.0 (Word, bearbeitbar)](handout/JK_AXIS_Vier_Gewinnt_Handout_AB51_2026_V2.docx)
+- [Handout der eigenstaendigen Schulkonsole (Markdown)](../../school/HANDOUT.md)
 - [Fachgespräch](../../school/FACHGESPRAECH.md)
 - [Testprotokoll zum tatsächlichen Ausfüllen](../../school/TESTPROTOKOLL.md)
 - [Skript zur Erstellung des isolierten Schul-ZIP](../../scripts/package-school-console.py)
