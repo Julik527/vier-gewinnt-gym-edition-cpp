@@ -53,6 +53,17 @@ class RepositoryConsistencyTests(unittest.TestCase):
         self.assertIn("gymui::systemFont()", gui3d)
         self.assertIn("gymui::executablePath(", gui2d)
 
+    def test_shared_hud(self):
+        header = self.read("src/gui/GymHud.h")
+        for name in ("src/gui/Main.cpp", "src/gui/Main3D.cpp"):
+            source = self.read(name)
+            self.assertIn('#include "GymHud.h"', source)
+            for function in ("fitViewport", "rectangle", "text", "brandSymbol"):
+                self.assertIn("gymui::" + function + "(", source)
+                self.assertIn("inline ", header)
+            self.assertNotIn("const array<sf::Vector2f, 12> j", source)
+            self.assertNotIn("const array<sf::Vector2f,12> j", source)
+
     def test_open_gl_primitives_are_separated(self):
         header = self.read("src/gui/Gym3DRender.h")
         arena = self.read("src/gui/Main3D.cpp")

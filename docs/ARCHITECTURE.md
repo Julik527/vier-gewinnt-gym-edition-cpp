@@ -14,7 +14,7 @@ C++17 mit optionalen SFML-, OpenGL- und KI-Erweiterungen. Die praktische Abnahme
 
 `Board` implementiert die Spielfeldregeln. `Game` steuert die Konsole; `MatchSession` verwaltet den Zustand für 2D und 3D. Beide verwenden `GameState.h` für Zugfolge, Undo, Namensprüfung und GYM1-Spielstände. Der KI-Modus verwendet `Board` mit eigener Sitzungsbilanz. `AtomicFile.h` und `ScoreFile.h` sichern die Dateiablage.
 
-`GymPlatform.h` enthält die gemeinsame SFML-Systemschrift und den Unicode-sicheren Windows-Executable-Pfad für die 2D-Variante. `Gym3DRender.h` kapselt klassische OpenGL-Primitiven ohne Spiellogik. Die 3D-Version nutzt absichtlich noch ein Kompatibilitätsprofil, keine moderne Shader-/PBR-Pipeline.
+`GymPlatform.h` enthält die gemeinsame SFML-Systemschrift und den Unicode-sicheren Windows-Executable-Pfad für die 2D-Variante. `GymHud.h` enthält die gemeinsamen Text-, Rechteck-, Logo- und Viewportfunktionen. `Gym3DRender.h` kapselt klassische OpenGL-Primitiven ohne Spiellogik. Die 3D-Version nutzt absichtlich noch ein Kompatibilitätsprofil, keine moderne Shader-/PBR-Pipeline.
 
 ```mermaid
 flowchart TD
@@ -26,6 +26,8 @@ flowchart TD
     D["OpenGL 3D: Main3D.cpp"] --> M
     M --> S
     K["KI: ai_main.cpp"] --> B
+    A --> H["GymHud"]
+    D --> H
     A --> P["GymPlatform"]
     D --> P
     D --> R["Gym3DRender"]

@@ -75,7 +75,7 @@ if ($root -match '[^\x00-\x7F]') {
 if ($root.Length -gt 90) {
     Write-Warning "Langer Quellpfad ($($root.Length) Zeichen); moeglichst kurz klonen."
 }
-foreach ($name in @("build-gui", "build-gui-signature", "build-gui-unicode")) {
+foreach ($name in @("build-preset-gui2d", "build-gui", "build-gui-signature", "build-gui-unicode")) {
     $cache = Join-Path (Join-Path $root $name) "CMakeCache.txt"
     if (Test-Path -LiteralPath $cache -PathType Leaf) {
         $home = Get-Content -LiteralPath $cache |
@@ -86,7 +86,7 @@ foreach ($name in @("build-gui", "build-gui-signature", "build-gui-unicode")) {
         }
     }
 }
-$exe = Join-Path $root "build-gui\vier-gewinnt-gui.exe"
+$exe = Join-Path $root "build-preset-gui2d\vier-gewinnt-gui.exe"
 Write-Host ("[INFO] 2D-EXE: {0}" -f $(if (Test-Path -LiteralPath $exe -PathType Leaf) { "vorhanden, Aktualitaet ungeprueft" } else { "noch nicht gebaut" }))
 Write-Host ""
 if ($issues.Count -eq 0) {

@@ -25,6 +25,7 @@
 #include "Gym3DPicking.h"
 #include "GymAudio.h"
 #include "GymPlatform.h"
+#include "GymHud.h"
 #include "Gym3DRender.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -70,15 +71,14 @@ public:
     // Spielfenster-Schleife: Events, Kamera, Fallanimation, Musik und Bild.
     // --window-smoke begrenzt Frames und benötigt kein echtes Audiogerät.
     void run(int maxFrames=-1) {
-        // Start the new title suite automatically on a real run only.
-        // Do not touch audio devices in CI graphical smoke tests.
+        // Musik nur außerhalb des Fenster-Smoke-Tests starten.
         if (maxFrames < 0 && audio_.assets().complete()) {
             audio_.setScene(gymaudio::Scene::Intro);
             audio_.setVolume(static_cast<float>(volume_));
             music_ = audio_.play();
             if (!music_) notice(audio_.lastError());
         }
-        // Smoke runs render the interactive lobby instead of only the intro.
+        // Der Fenster-Smoke-Test beginnt im Menü.
         if(maxFrames>0)page_=Page::Menu;
         sf::Clock clock;int frames=0;
         while(window_.isOpen()) {
@@ -175,22 +175,11 @@ private:
     vector<Hit> hits_;
     sf::FloatRect viewport_{{0.f,0.f},{1.f,1.f}};
 
-    // Viewport mit Balken statt Streckung: die 3D-Kamera soll auch bei
-    // anderem Fensterformat zur 2D-HUD-Koordinatenbasis passen.
     void resizeView() {
-        const auto sz=window_.getSize();
-        if(!sz.x||!sz.y)return;
-        const float displayRatio=static_cast<float>(sz.x)/static_cast<float>(sz.y);
-        const float designRatio=W/H;
-        viewport_={{0.f,0.f},{1.f,1.f}};
-        if(displayRatio>designRatio) {
-            viewport_.size.x=designRatio/displayRatio;
-            viewport_.position.x=(1.f-viewport_.size.x)*.5f;
-        } else {
-            viewport_.size.y=displayRatio/designRatio;
-            viewport_.position.y=(1.f-viewport_.size.y)*.5f;
-        }
-        sf::View view(sf::FloatRect({0.f,0.f},{W,H}));
+        const auto size = window_.getSize();
+        if (!size.x || !size.y) return;
+        viewport_ = gymui::fitViewport(size, W, H);
+        sf::View view(sf::FloatRect({0.f, 0.f}, {W, H}));
         view.setViewport(viewport_);
         window_.setView(view);
     }
@@ -392,18 +381,13 @@ private:
         const int col=boardColumnAt(p);
         if(col>=0) {selected_=col;startDrop();}
     }
-    void text(string s,float x,float y,unsigned size=20,sf::Color tint=white,bool bold=false) {
-        sf::Text label(font_,sf::String::fromUtf8(s.begin(),s.end()),size);
-        label.setFillColor(tint);
-        if(bold)label.setStyle(sf::Text::Bold);
-        label.setPosition({x,y});
-        window_.draw(label);
+    void text(const string& s, float x, float y, unsigned size = 20,
+              sf::Color tint = white, bool bold = false) {
+        gymui::text(window_, font_, s, x, y, size, tint, bold);
     }
-    void rect(float x,float y,float w,float h,sf::Color fill,sf::Color outline=sf::Color::Transparent) {
-        sf::RectangleShape shape({w,h});shape.setPosition({x,y});
-        shape.setFillColor(fill);
-        shape.setOutlineColor(outline);shape.setOutlineThickness(outline==sf::Color::Transparent?0:1);
-        window_.draw(shape);
+    void rect(float x, float y, float w, float h, sf::Color fill,
+              sf::Color outline = sf::Color::Transparent) {
+        gymui::rectangle(window_, x, y, w, h, fill, outline);
     }
     void button(string title,float x,float y,float width,int action,bool active=true) {
         const sf::FloatRect bounds({x,y},{width,52});
@@ -429,26 +413,8 @@ private:
             rect(x+width-20.f,y+18,8,17,green);
         if(active)hits_.push_back({bounds,action});
     }
-    void logo(float x,float y,float scale) {
-        // Exact triangles from the authorized JK AXIS precision SVG symbol.
-        const array<sf::Vector2f,12> j={{{17,80},{17,18},{50,75},
-            {17,80},{50,75},{59,120},{59,120},{50,75},{77,102},
-            {50,18},{50,75},{17,18}}};
-        const array<sf::Vector2f,12> k={{{60,75},{88,47},{77,93},
-            {77,93},{88,47},{114,57},{114,57},{88,47},{114,18},
-            {114,18},{88,47},{88,18}}};
-        const auto part=[&](const auto& points,sf::Color tint) {
-            sf::VertexArray triangles(sf::PrimitiveType::Triangles);
-            for(const auto& point:points) {
-                sf::Vertex vertex;
-                vertex.position={x+point.x*scale,y+point.y*scale};
-                vertex.color=tint;
-                triangles.append(vertex);
-            }
-            window_.draw(triangles);
-        };
-        part(j,sf::Color(225,238,255));
-        part(k,blue);
+    void logo(float x, float y, float scale) {
+        gymui::brandSymbol(window_, x, y, scale, sf::Color(225, 238, 255), blue);
     }
     // 3D-Pass: Tiefentest, Lichtquellen und Kamera für die räumliche Arena.
     // Anschließend wird der OpenGL-Zustand für das SFML-HUD zurückgesetzt.

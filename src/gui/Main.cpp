@@ -23,6 +23,7 @@
 #include "MatchSession.h"
 #include "GymAudio.h"
 #include "GymPlatform.h"
+#include "GymHud.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -74,9 +75,7 @@ public:
             font_(gymui::systemFont()), audio_(executable) {
         window_.setFramerateLimit(60);
         resizeView();
-        // Das originale Schul-Logo wird unveraendert aus einer lokalen Bilddatei geladen,
-        // sofern es fuer das Schulprojekt zur Verfuegung gestellt wurde.
-        // Bei F5 und beim Start direkt aus dem Build-Ordner das Asset finden.
+        // Schullogo auch beim Start aus dem Build-Ordner suchen.
         const auto executableDir = std::filesystem::absolute(executable).parent_path();
         const auto asset = std::filesystem::path("assets/school/bernd-blindow-schulen.jpg");
         const array<std::filesystem::path, 4> candidates = {{
@@ -98,8 +97,7 @@ public:
     // Audio passend zum Bildschirm wählen und einen Frame zeichnen.
     // maxFrames > 0 begrenzt den automatischen Fenster-Smoke-Test.
     void run(int maxFrames = -1) {
-        // Real play starts the supplied Sci-Fi theme immediately; CI smoke
-        // runs and machines without the OGG pack remain silent and playable.
+        // Musik nur im normalen Spielstart aktivieren.
         if (maxFrames < 0 && audio_.assets().complete()) {
             audio_.setVolume(static_cast<float>(musicVolume_));
             musicOn_ = audio_.play();
@@ -179,34 +177,17 @@ private:
     float fallRow_ = -1.2f;
     int selectedColumn_ = 0;
 
-    // Festes 1280x800-Layout bei jeder Fenstergröße beibehalten.
-    // SFML-View + Letterboxing verhindern verzerrte Spielfelder.
     void resizeView() {
-        // Letterboxing verhindert, dass Hanteln bei Fenster-Resize verzerrt wirken.
         const auto size = window_.getSize();
-        if (size.x == 0 || size.y == 0) return;
-        const float windowRatio = static_cast<float>(size.x) / static_cast<float>(size.y);
-        const float target = W / H;
-        sf::FloatRect viewport({0.f, 0.f}, {1.f, 1.f});
-        if (windowRatio > target) {
-            viewport.size.x = target / windowRatio;
-            viewport.position.x = (1.f - viewport.size.x) * .5f;
-        } else {
-            viewport.size.y = windowRatio / target;
-            viewport.position.y = (1.f - viewport.size.y) * .5f;
-        }
+        if (!size.x || !size.y) return;
         sf::View view(sf::FloatRect({0.f, 0.f}, {W, H}));
-        view.setViewport(viewport);
+        view.setViewport(gymui::fitViewport(size, W, H));
         window_.setView(view);
     }
+
     void box(float x, float y, float w, float h, sf::Color fill,
              sf::Color border = sf::Color::Transparent) {
-        sf::RectangleShape rect({w, h});
-        rect.setPosition({x, y});
-        rect.setFillColor(fill);
-        rect.setOutlineColor(border);
-        rect.setOutlineThickness(border == sf::Color::Transparent ? 0.f : 1.f);
-        window_.draw(rect);
+        gymui::rectangle(window_, x, y, w, h, fill, border);
     }
     void roundedBox(float x, float y, float w, float h, float radius,
                     sf::Color fill, sf::Color outline = sf::Color::Transparent) {
@@ -306,11 +287,7 @@ private:
     }
     void label(const string& value, float x, float y, unsigned size = 22,
                sf::Color color = white, bool bold = false) {
-        sf::Text text(font_, sf::String::fromUtf8(value.begin(), value.end()), size);
-        text.setFillColor(color);
-        if (bold) text.setStyle(sf::Text::Bold);
-        text.setPosition({x, y});
-        window_.draw(text);
+        gymui::text(window_, font_, value, x, y, size, color, bold);
     }
     void dumbbell(float cx, float cy, float size, sf::Color color, float opacity = 1.f) {
         color.a = static_cast<std::uint8_t>(255 * opacity);
@@ -323,32 +300,7 @@ private:
         box(cx + size * .425f, cy - plateH * .34f, size * .055f, plateH * .68f, color);
     }
     void brandSymbol(float x, float y, float scale) {
-        // Exakte Dreiecksaufteilung der beiden offiziellen SVG-Polygone.
-        // Keine neue Logovariante und keine Bitmap-Skalierung.
-        const array<sf::Vector2f, 12> j = {{
-            {17,80}, {17,18}, {50,75},
-            {17,80}, {50,75}, {59,120},
-            {59,120}, {50,75}, {77,102},
-            {50,18}, {50,75}, {17,18}
-        }};
-        const array<sf::Vector2f, 12> k = {{
-            {60,75}, {88,47}, {77,93},
-            {77,93}, {88,47}, {114,57},
-            {114,57}, {88,47}, {114,18},
-            {114,18}, {88,47}, {88,18}
-        }};
-        const auto drawPart = [&](const auto& points, sf::Color color) {
-            sf::VertexArray triangles(sf::PrimitiveType::Triangles);
-            for (const auto point : points) {
-                sf::Vertex vertex;
-                vertex.position = {x + point.x * scale, y + point.y * scale};
-                vertex.color = color;
-                triangles.append(vertex);
-            }
-            window_.draw(triangles);
-        };
-        drawPart(j, white);
-        drawPart(k, sf::Color(121, 165, 255));
+        gymui::brandSymbol(window_, x, y, scale, white, sf::Color(121, 165, 255));
     }
     void title(const string& subtitle) {
         box(0, 0, W, 112, sf::Color(9, 24, 45, 245));
@@ -356,7 +308,7 @@ private:
         box(20, 110, 125, 2, green);
         brandSymbol(20, 5, .75f);
         label("JK AXIS  |  VIER GEWINNT", 132, 20, 28, white, true);
-        label("GYM EDITION  /  HEBEN. SETZEN. SIEGEN.", 133, 63, 16, muted);
+        label("GYM EDITION  /  VIER GEWINNT", 133, 63, 16, muted);
         label(subtitle, 803, 29, 18, sky, true);
         if (schoolLogoReady_) {
             sf::Sprite school(schoolLogo_);

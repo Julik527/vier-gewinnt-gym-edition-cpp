@@ -41,7 +41,9 @@ cmake --build --preset console
 ctest --preset console
 ~~~
 
-Weitere Presets: `gui2d`, `gui3d` und `ai`. Für die Grafikversionen werden CMake ab 3.28 und zusätzlich die [SFML-/OpenGL-Voraussetzungen](docs/WINDOWS_QUICKSTART.md) benötigt. Unter Windows empfiehlt sich ein UCRT64-Terminal oder die vorhandene [VS-Code-Konfiguration mit vier F5-Profilen](docs/VS_CODE_DEBUG.md).
+Weitere Presets: `gui2d`, `gui3d` und `ai`. Für die Grafikversionen werden CMake ab 3.28 und zusätzlich die [SFML-/OpenGL-Voraussetzungen](docs/WINDOWS_QUICKSTART.md) benötigt. Unter Windows empfiehlt sich ein UCRT64-Terminal oder die [VS-Code-Konfiguration mit vier F5-Profilen](docs/VS_CODE_DEBUG.md).
+
+F5 und der Terminal-Build verwenden dieselben Presets und getrennte Build-Ordner.
 
 ## Schulabgabe und Präsentation
 
