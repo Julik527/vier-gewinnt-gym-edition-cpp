@@ -72,4 +72,4 @@
 
 **Freigaberegel:** Erst nach einem erfolgreichen Test am Zielgerät, einem verständlichen Fachgespräch und einer real gemessenen Generalprobe die jeweiligen Punkte abhaken. Diese Datei bestätigt keinerlei Abschlussprüfung.
 
-**Querverweise:** [Karten A](SPRECHKARTEN_TEIL_A_PROJEKT.md) · [Karten B](SPRECHKARTEN_TEIL_B_CODE.md) · [Fachgespräch](FACHGESPRAECH_KURZANTWORTEN.md) · [Vortragsleitfaden](VORTRAGSLEITFADEN.md) · [Generalprobe 2027](../docs/GENERALPROBE_2027.md).
+**Querverweise:** [Karten A](SPRECHKARTEN_TEIL_A_PROJEKT.md) · [Karten B](SPRECHKARTEN_TEIL_B_CODE.md) · [Fachgespräch](FACHGESPRAECH_KURZANTWORTEN.md) · [Vortragsleitfaden](VORTRAGSLEITFADEN.md) · [Generalprobe 2027](../docs/schule/GENERALPROBE_2027.md).

@@ -15,9 +15,9 @@
 
 ## Originale und Nachweise
 
-- [Meilensteinbericht mit damaligem Status und offenen Punkten](../../docs/MILESTONE_2026-10-29.md)
+- [Meilensteinbericht mit damaligem Status und offenen Punkten](../../docs/planung/MILESTONE_2026-10-29.md)
 - [PDF-Prüfbericht](../../reference/Meilenstein_2026-10-29_Pruefbericht.pdf)
-- [Entwicklungsprotokoll](../../docs/DEVELOPMENT_LOG_2026-10-28.md)
+- [Entwicklungsprotokoll](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/blob/6680d98ff3cf0371d8b013800a234e9fdb5e579b/docs/DEVELOPMENT_LOG_2026-10-28.md)
 - [Gesicherter CI-Snapshot vom 28.10.2026](../../docs/evidence/CI_SNAPSHOT_2026-10-28.json)
 - [Projekt- und Architekturübersicht](../../docs/ARCHITECTURE.md)
 

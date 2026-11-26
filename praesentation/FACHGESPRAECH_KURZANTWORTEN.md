@@ -266,7 +266,7 @@
 
 **Antwort:** Ich benenne KI-Unterstützung bei Entwurf, Codeüberarbeitung und Dokumentation zutreffend. Für die Prüfung erkläre ich nur Abläufe, die ich tatsächlich selbst nachvollzogen und getestet habe.
 
-**Codebeleg:** `docs/KI_PROMPT_DOKUMENTATION.md`
+**Codebeleg:** `docs/schule/KI_PROMPT_DOKUMENTATION.md`
 
 **Achtung:** Keine unbelegte Aussage über vollständig eigenständige Implementierung machen.
 
@@ -274,7 +274,7 @@
 
 **Antwort:** Ich würde zuerst die manuellen Schul-PC-Tests abschließen. Danach wäre die Vereinheitlichung der Controller und die Aufteilung großer GUI-Dateien sinnvoller als zusätzliche Effekte.
 
-**Codebeleg:** `docs/RELEASE_CHECKLIST.md · docs/ARCHITECTURE.md`
+**Codebeleg:** `docs/pruefung/RELEASE_CHECKLIST.md · docs/ARCHITECTURE.md`
 
 **Achtung:** Priorität: funktionsfähige Pflicht-Konsole und nachvollziehbarer Code.
 
@@ -299,4 +299,4 @@
 
 **Interpretation:** 7–8 Punkte je Übungsfrage sind das Trainingsziel, keine prognostizierte Schulnote.
 
-**Weitere Materialien:** [Karten A](SPRECHKARTEN_TEIL_A_PROJEKT.md) · [Karten B](SPRECHKARTEN_TEIL_B_CODE.md) · [Prüfungs-Checkliste](PRUEFUNG_CHECKLISTE.md) · [Schulanforderungen](../docs/SCHULANFORDERUNGEN_51_STATUS.md).
+**Weitere Materialien:** [Karten A](SPRECHKARTEN_TEIL_A_PROJEKT.md) · [Karten B](SPRECHKARTEN_TEIL_B_CODE.md) · [Prüfungs-Checkliste](PRUEFUNG_CHECKLISTE.md) · [Schulanforderungen](../docs/schule/SCHULANFORDERUNGEN_51_STATUS.md).

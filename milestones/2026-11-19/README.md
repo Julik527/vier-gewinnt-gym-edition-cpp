@@ -24,8 +24,8 @@
 | Bearbeitbare acht Folien | [10-Minuten-Präsentation (PPTX)](../../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx) |
 | Präsentation zum Lesen | [10-Minuten-Präsentation (PDF)](../../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pdf) |
 | Ablauf und Erklärtexte | [Sprechregie und Zeitplan](../../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md) |
-| Theorievorbereitung | [Prüfungslernzettel](../../docs/PT_PRUEFUNG_19_11_2026.md) |
-| Schulische Anforderungen | [Anforderungsliste](../../docs/SCHULANFORDERUNGEN_51_STATUS.md) |
+| Theorievorbereitung | [Prüfungslernzettel](../../docs/schule/PT_PRUEFUNG_19_11_2026.md) |
+| Schulische Anforderungen | [Anforderungsliste](../../docs/schule/SCHULANFORDERUNGEN_51_STATUS.md) |
 | Abgabevorbereitung | [Schul-Checkliste](../../school/ABGABE_CHECKLISTE.md) |
 
 ## Vor der Vorführung prüfen
