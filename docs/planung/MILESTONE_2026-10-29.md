@@ -24,8 +24,8 @@ Wikimedia antwortete beim Logo-Download mit HTTP 429. Das Projekt verwendet eine
 ## Nachweise
 
 - [Aktueller C++-/GUI-Lauf](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779797878) und [Dokumentenlauf](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/40779798112).
-- [Gesicherter CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json).
-- [Entwicklungsprotokoll](DEVELOPMENT_LOG_2026-10-28.md), [Architektur](ARCHITECTURE.md) und [Dokumentenaudit](DOCUMENTATION_AUDIT_2026-10-28.md).
+- [Gesicherter CI-Snapshot](../evidence/CI_SNAPSHOT_2026-10-28.json).
+- [Entwicklungsprotokoll](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/blob/6680d98ff3cf0371d8b013800a234e9fdb5e579b/docs/DEVELOPMENT_LOG_2026-10-28.md), [Architektur](../ARCHITECTURE.md) und [Dokumentenaudit](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/blob/6680d98ff3cf0371d8b013800a234e9fdb5e579b/docs/DOCUMENTATION_AUDIT_2026-10-28.md).
 
 Die ältere sieben Seiten lange PDF-Prüfung beschreibt den Stand vom 25.10.2026. Der aktualisierte PDF-Nachtrag stellt den heutigen Stand vor diesen historischen Teil. Die dortige Aussage „GitHub-Veröffentlichung offen“ gilt nur für den damaligen Prüfzeitpunkt.
 

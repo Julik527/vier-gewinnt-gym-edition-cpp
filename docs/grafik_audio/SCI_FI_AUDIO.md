@@ -81,7 +81,7 @@ SHA-256-Werte; beide Windows-Paketskripte unterstützen dieses Profil.
 Die Lautheitsfaktoren wurden aus dem V4-Audiosignal separat bestimmt, damit
 Titel, Spiel und Endphase bei gleicher Benutzereinstellung ausgeglichen klingen.
 Ein tatsächlich durchgeführter Hörtest bleibt erforderlich. Siehe
-[Gym Phonk V4 Manifest](GYM_PHONK_V4_MANIFEST.md).
+[Gym Phonk V4 Manifest](../GYM_PHONK_V4_MANIFEST.md).
 
 ## Änderung: automatische Sci-Fi-Musik und kein altes Audiothema (V3)
 

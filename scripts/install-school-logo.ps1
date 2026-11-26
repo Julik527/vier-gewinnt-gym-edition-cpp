@@ -11,7 +11,7 @@
 
 # Installiert das originale Schulkennzeichen (unveraenderte bzw. verkleinerte Fassung).
 # 429-robust: eine bekannte alternative Quelle, keine Wiederholungsschleife.
-# Attribution und Lizenz: docs/SCHOOL_LOGO.md
+# Attribution und Lizenz: docs/grafik_audio/SCHOOL_LOGO.md
 param([string]$LocalFile = "")
 
 $ErrorActionPreference = "Stop"
@@ -84,7 +84,7 @@ try {
     if (-not (Test-SchoolJpeg $temporary)) { throw "Schullogo konnte nicht verifiziert werden." }
     Move-Item -LiteralPath $temporary -Destination $target -Force
     Write-Host "Schullogo installiert: $target"
-    Write-Host "Urheber/Lizenz: siehe docs/SCHOOL_LOGO.md"
+    Write-Host "Urheber/Lizenz: siehe docs/grafik_audio/SCHOOL_LOGO.md"
 } finally {
     Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue
 }

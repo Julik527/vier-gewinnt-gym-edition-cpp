@@ -7,7 +7,7 @@
 
 Der historische CI-Snapshot unten bleibt als Stand vom 28.10. dokumentiert. Danach waren am Commit [466f5530](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/commit/466f5530ea72b13c6068188c755fb6b44b142804) die [9 C++-/GUI-Jobs erfolgreich](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41202025895) und die [Dokumentenprüfung erfolgreich](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41202025887). Das deckt unter anderem MSYS2 UCRT64, Linux, Windows und GUI-Tests ab.
 
-Für die Unterrichtsdemo wurden nach diesem Commit zwei GYM1-Fixtures unter \`tests/fixtures/\` ergänzt und in \`tests/school_demo_fixture_tests.cpp\` ein eigener CTest registriert. Ein neuer erfolgreicher Workflow-Status muss diesen späteren Commit ausdrücklich nennen. Die [Anforderungsmatrix](SCHULANFORDERUNGEN_51_STATUS.md) trennt Implementierung/CI von echter manueller Abnahme.
+Für die Unterrichtsdemo wurden nach diesem Commit zwei GYM1-Fixtures unter \`tests/fixtures/\` ergänzt und in \`tests/school_demo_fixture_tests.cpp\` ein eigener CTest registriert. Ein neuer erfolgreicher Workflow-Status muss diesen späteren Commit ausdrücklich nennen. Die [Anforderungsmatrix](schule/SCHULANFORDERUNGEN_51_STATUS.md) trennt Implementierung/CI von echter manueller Abnahme.
 
 Der zuletzt übermittelte lokale SFML-Build in einem Windows-Benutzerverzeichnis mit \`ß\` ist fehlgeschlagen; eine reale, aktuelle GUI-Vorführung wird deshalb weiterhin **nicht** behauptet.
 
@@ -117,11 +117,11 @@ python scripts/document_preflight.py
 
 Der gemeinsame Highscore-Parser `ScoreFile.h` wird von `tests/score_file_tests.cpp` sowie den bisherigen Match-/Integrationstests geprüft. Die Datenintegritätstests decken Trunkierung, Duplikate, unzulässige Zählwerte, Zusatzdaten und die Unversehrtheit alter Ergebnisse nach Fehlern ab. Die temporären Dateinamen sind jetzt individuell und nicht mehr ein vorhersehbarer gemeinsamer `.tmp`-Pfad.
 
-Die CI umfasst außerdem eine separate MSYS2-UCRT64-Prüfung und das Erstellen eines Windows-ZIP-Pakets mit SHA-256. Die Akzeptanz einer Veröffentlichung erfordert **konkrete erfolgreiche Job-Links am aktuellen Commit**, nicht allein vorhandene Workflow-Dateien. Der Projektstand und die externe Abnahme stehen in [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
+Die CI umfasst außerdem eine separate MSYS2-UCRT64-Prüfung und das Erstellen eines Windows-ZIP-Pakets mit SHA-256. Die Akzeptanz einer Veröffentlichung erfordert **konkrete erfolgreiche Job-Links am aktuellen Commit**, nicht allein vorhandene Workflow-Dateien. Der Projektstand und die externe Abnahme stehen in [RELEASE_CHECKLIST.md](pruefung/RELEASE_CHECKLIST.md).
 
 ## 6. Dokumentationsrunde und offene Endabnahme
 
-Das [Dokumentenaudit](DOCUMENTATION_AUDIT_2026-10-28.md) listet sämtliche geprüften Markdown-, PDF- und Präsentationsdateien. Aktuelle PDF-Nachträge stehen vor den ausdrücklich historischen Planungsseiten. Die Präsentation selbst beschreibt den aktuellen Stand.
+Das [Dokumentenaudit](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/blob/6680d98ff3cf0371d8b013800a234e9fdb5e579b/docs/DOCUMENTATION_AUDIT_2026-10-28.md) listet sämtliche geprüften Markdown-, PDF- und Präsentationsdateien. Aktuelle PDF-Nachträge stehen vor den ausdrücklich historischen Planungsseiten. Die Präsentation selbst beschreibt den aktuellen Stand.
 
 Noch am echten Zielgerät durchzuführen:
 
@@ -132,4 +132,4 @@ Noch am echten Zielgerät durchzuführen:
 - PPTX in Microsoft PowerPoint sowie auf dem Schulbeamer öffnen.
 - Board, Game, MatchSession, Audio und Dateiersatz in eigenen Worten erläutern.
 
-Die Ist-Felder von [TESTPLAN.md](TESTPLAN.md) und [GUI_TESTPLAN.md](GUI_TESTPLAN.md) erst nach einem tatsächlich ausgeführten Versuch ausfüllen. Kein automatischer Merge nach main, keine vorweggenommene Note oder schulische Freigabe.
+Die Ist-Felder von [TESTPLAN.md](TESTPLAN.md) und [GUI_TESTPLAN.md](pruefung/GUI_TESTPLAN.md) erst nach einem tatsächlich ausgeführten Versuch ausfüllen. Kein automatischer Merge nach main, keine vorweggenommene Note oder schulische Freigabe.

@@ -7,7 +7,7 @@ on:
       - "README.md"
       - "docs/README.md"
       - "praesentation/README.md"
-      - "deliverables/**"
+      - "docs/schule/ABGABEDATEIEN.md"
       - "scripts/verify_v6_import.py"
       - ".github/workflows/v6-import-check.yml"
   push:
@@ -17,7 +17,7 @@ on:
       - "README.md"
       - "docs/README.md"
       - "praesentation/README.md"
-      - "deliverables/**"
+      - "docs/schule/ABGABEDATEIEN.md"
       - "scripts/verify_v6_import.py"
       - ".github/workflows/v6-import-check.yml"
   workflow_dispatch:

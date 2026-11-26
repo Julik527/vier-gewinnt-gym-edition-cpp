@@ -42,7 +42,7 @@ Bei Testdurchführung Datum, Kompilerversion und echte Screenshots oder Fehlerme
 
 ## Automatisierte Nachweise und lokale Wiederholung
 
-Am Ausgangsstand `02eb79f8` sind die GUI-Jobs unter Ubuntu und Windows erfolgreich. Geprüft wurden Release-Build, MatchSession und GUI-Kern. Unter Ubuntu kommt ein kurzer echter Fensterstart über Xvfb hinzu. Der Logo-Verpackungsschritt ist auf beiden Systemen erfolgreich. [Gesicherter CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json).
+Am Ausgangsstand `02eb79f8` sind die GUI-Jobs unter Ubuntu und Windows erfolgreich. Geprüft wurden Release-Build, MatchSession und GUI-Kern. Unter Ubuntu kommt ein kurzer echter Fensterstart über Xvfb hinzu. Der Logo-Verpackungsschritt ist auf beiden Systemen erfolgreich. [Gesicherter CI-Snapshot](../evidence/CI_SNAPSHOT_2026-10-28.json).
 
 G01/G02 bleiben als Prüfungen der vorgesehenen lokalen Umgebung offen. Der Windows-CI-Job verwendet MSVC. Die lokale Konfiguration verwendet MSYS2 UCRT64, Ninja und Debug. Eine erfolgreiche GUI-Debug-Kompilierung wird vom bisherigen GUI-CI-Job nicht belegt.
 

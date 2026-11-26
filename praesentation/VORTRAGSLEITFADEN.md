@@ -96,7 +96,7 @@ Vortragsgerät und Projektverzeichnis vorher prüfen. Bei fehleranfälligen Wind
 
 ## 7. Nachweis und Üben
 
-Die [Schulanforderungen](../docs/SCHULANFORDERUNGEN_51_STATUS.md) priorisieren das Programm (60 %), die Präsentation (20 %) und das Handout (20 %). Die Projektunterlagen dokumentieren einen erfolgreichen automatisierten C++-Workflow vom 31.10.2026: [GitHub Actions, neun erfolgreiche Jobs](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41221586099). Diese Aussage bezieht sich auf den genannten Lauf, nicht auf einen späteren Commit.
+Die [Schulanforderungen](../docs/schule/SCHULANFORDERUNGEN_51_STATUS.md) priorisieren das Programm (60 %), die Präsentation (20 %) und das Handout (20 %). Die Projektunterlagen dokumentieren einen erfolgreichen automatisierten C++-Workflow vom 31.10.2026: [GitHub Actions, neun erfolgreiche Jobs](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/actions/runs/41221586099). Diese Aussage bezieht sich auf den genannten Lauf, nicht auf einen späteren Commit.
 
 Am Ende jeder Übung in der [Checkliste](PRUEFUNG_CHECKLISTE.md) notieren: Datum, Commit, Redezeiten, manuell tatsächlich geprüfte Funktionen und offene Probleme. Im [Fachgespräch](FACHGESPRAECH_KURZANTWORTEN.md) anschließend mindestens die Fragen zu `Board`, Schleifen, Referenzen, `const`, Richtungsvektoren, Dateiprüfung und Testgrenzen frei beantworten.
 

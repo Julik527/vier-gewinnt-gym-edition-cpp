@@ -80,4 +80,4 @@ Konsole, 2D und 3D verwenden `data/savegame.txt` im Format `GYM1` und `data/high
 - Es gibt keine eigenständige 3D-Engine und keinen Netzwerkmodus. Der KI-Gegner ist ein optionaler Konsolenmodus.
 - Interaktive Zielgeräteprüfung und Unterrichtserklärung stehen noch aus.
 
-Weitere Belege: [Entwicklungsprotokoll](DEVELOPMENT_LOG_2026-10-28.md), [Qualität](QUALITY_AND_TESTS.md), [GUI-Testplan](GUI_TESTPLAN.md).
+Weitere Belege: [Entwicklungsprotokoll](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/blob/6680d98ff3cf0371d8b013800a234e9fdb5e579b/docs/DEVELOPMENT_LOG_2026-10-28.md), [Qualität](QUALITY_AND_TESTS.md), [GUI-Testplan](pruefung/GUI_TESTPLAN.md).

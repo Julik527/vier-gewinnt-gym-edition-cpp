@@ -52,11 +52,11 @@ Die drei VS-Code-Startprofile decken Konsole, 2D und 3D ab. Die grafischen Ziele
 ## Präsentation und Nachweise
 
 - [Aktuelle Einzelpräsentation: acht Folien, ca. zehn Minuten](../praesentation/README.md)
-- [Prüfungslernzettel Programmiertechnik](PT_PRUEFUNG_19_11_2026.md)
+- [Prüfungslernzettel Programmiertechnik](schule/PT_PRUEFUNG_19_11_2026.md)
 - [Architektur mit den drei Frontends](ARCHITECTURE.md)
 - [Testnachweise](QUALITY_AND_TESTS.md)
 - [Release- und Abnahmekriterien](RELEASE_ABNAHME.md)
-- [Hinweise zu den historischen PDF-/PPTX-Dateien](PRUEFUNG_DOKUMENTDATEIEN_2026-11-11.md)
+- [Hinweise zu den historischen PDF-/PPTX-Dateien](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp/blob/6680d98ff3cf0371d8b013800a234e9fdb5e579b/docs/PRUEFUNG_DOKUMENTDATEIEN_2026-11-11.md)
 
 Die Referenz-PDFs und die ältere 17-Folien-Präsentation sind Projektmaterialien aus dem Verlauf. Die aktuelle zehnminütige Fassung ist gesondert verlinkt. Spielstände, persönliche Highscores, Build-Verzeichnisse sowie nicht veröffentlichte Schul- und Gerätekontrollen gehören nicht unkritisch ins Repository.
 

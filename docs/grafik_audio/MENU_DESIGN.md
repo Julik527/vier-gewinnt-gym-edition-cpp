@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../assets/brand/jk-axis-precision-symbol-inverse.svg">
-    <source media="(prefers-color-scheme: light)" srcset="../assets/brand/jk-axis-precision-symbol.svg">
-    <img src="../assets/brand/jk-axis-precision-symbol.svg" alt="JK AXIS" width="80">
+    <source media="(prefers-color-scheme: dark)" srcset="../../assets/brand/jk-axis-precision-symbol-inverse.svg">
+    <source media="(prefers-color-scheme: light)" srcset="../../assets/brand/jk-axis-precision-symbol.svg">
+    <img src="../../assets/brand/jk-axis-precision-symbol.svg" alt="JK AXIS" width="80">
   </picture>
 </p>
 
@@ -123,7 +123,7 @@ Das Spielfeld wird nach einem erfolgreichen Zug, einem Undo oder einer Vorschau 
 
 ### Qualitätssicherung
 
-Die Datei [`tests/integration_smoke.py`](../tests/integration_smoke.py) enthält automatisierte Szenarien für das neue Menü einschließlich Start, fehlerhafter Eingaben, Abbruch, Fortsetzen, Laden, Revanche und zwei aufeinanderfolgenden Siegen. Ein erfolgreicher Testlauf muss über CTest beziehungsweise GitHub Actions bestätigt werden. Die Dokumentation behauptet keine bestandene Windows-Prüfung ohne tatsächliches Ergebnis.
+Die Datei [`tests/integration_smoke.py`](../../tests/integration_smoke.py) enthält automatisierte Szenarien für das neue Menü einschließlich Start, fehlerhafter Eingaben, Abbruch, Fortsetzen, Laden, Revanche und zwei aufeinanderfolgenden Siegen. Ein erfolgreicher Testlauf muss über CTest beziehungsweise GitHub Actions bestätigt werden. Die Dokumentation behauptet keine bestandene Windows-Prüfung ohne tatsächliches Ergebnis.
 
 **Gestaltung dieses Frontends:** Einheitliche JK-AXIS-Bezeichnung und ruhige ASCII-Struktur. Dieser Leitfaden beschreibt das Terminalmenü. Die zusätzliche echte SFML-2D-GUI besitzt einen eigenen Startassistenten und Bildschirmzustände.
 
@@ -131,7 +131,7 @@ Die Datei [`tests/integration_smoke.py`](../tests/integration_smoke.py) enthält
 
 In der Konsole beginnt die Runde direkt nach der letzten Namenseingabe. Die GUI zeigt davor noch eine Zusammenfassung mit Startbestätigung. Der GUI-Abbruch erfolgt über Schaltflächen oder Esc. Beide Varianten behalten eine laufende Runde bei abgebrochener Einrichtung bei. Die Konsole verwendet `Game`, die GUI `App` mit `MatchSession`.
 
-Die beschriebenen automatisierten Konsolenszenarien sind am Ausgangsstand `02eb79f8` in der Linux-/Windows-Matrix erfolgreich. Beleg: [CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json). Der vollständige manuelle Durchlauf bleibt in den Testplänen offen.
+Die beschriebenen automatisierten Konsolenszenarien sind am Ausgangsstand `02eb79f8` in der Linux-/Windows-Matrix erfolgreich. Beleg: [CI-Snapshot](../evidence/CI_SNAPSHOT_2026-10-28.json). Der vollständige manuelle Durchlauf bleibt in den Testplänen offen.
 
 
 ## Überarbeitung der Spieloberflächen (12.11.2026)

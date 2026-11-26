@@ -215,4 +215,4 @@ Damit sind die Verantwortlichkeiten erkennbar getrennt: „Board“ entscheidet 
 - [ ] Die Formulierungen zu KI-Unterstützung und eigener Arbeit sind sachlich zutreffend.
 - [ ] Spielstände ausschließlich aus einem separaten Demo-Verzeichnis verwendet; Konsolenprogramm und GUI schreiben nicht gleichzeitig in denselben Datenordner.
 
-**Nächster Schritt:** [Druckkarten](SPRECHKARTEN_DRUCKVERSION.html) · [Lehrerfragen](FACHGESPRAECH_KURZANTWORTEN.md) · [Generalprobe](../docs/GENERALPROBE_2027.md) · [Schulanforderungen](../docs/SCHULANFORDERUNGEN_51_STATUS.md).
+**Nächster Schritt:** [Druckkarten](SPRECHKARTEN_DRUCKVERSION.html) · [Lehrerfragen](FACHGESPRAECH_KURZANTWORTEN.md) · [Generalprobe](../docs/schule/GENERALPROBE_2027.md) · [Schulanforderungen](../docs/schule/SCHULANFORDERUNGEN_51_STATUS.md).

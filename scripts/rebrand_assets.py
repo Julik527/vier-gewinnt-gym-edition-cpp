@@ -23,7 +23,7 @@ import hashlib, fitz, json, os, shutil, subprocess
 
 ROOT=Path(__file__).resolve().parents[1]
 PPTX=ROOT/"praesentation/Vier_Gewinnt_Praesentation_FINAL.pptx"
-REPORT=ROOT/"docs/BRAND_QA_REPORT.md"
+REPORT=ROOT/"build/BRAND_QA_REPORT.md"
 OLD_ID="JK-CD-DE-2026-003"
 NEW_ID="JK AXIS"
 # Die alte Bildkennung hilft, gezielt das frühere Logo zu erkennen.

@@ -7,15 +7,15 @@ Grenzfälle. Selbstverständliche Syntax wie `i++` wird bewusst nicht kommentier
 
 ## 1. Von `main()` zur Spielrunde
 
-Die Schulkonsole beginnt in [`src/main.cpp`](../src/main.cpp). Sie erzeugt
+Die Schulkonsole beginnt in [`src/main.cpp`](../../src/main.cpp). Sie erzeugt
 ein `Game`-Objekt und startet `Game::run()`. Die Menüführung liegt in
-[`src/Game.cpp`](../src/Game.cpp), die Ausgabe in
-[`src/ConsoleUI.cpp`](../src/ConsoleUI.cpp). So bleibt die
+[`src/Game.cpp`](../../src/Game.cpp), die Ausgabe in
+[`src/ConsoleUI.cpp`](../../src/ConsoleUI.cpp). So bleibt die
 Spielregelklasse unabhängig vom Terminal.
 
 ## 2. Warum `Board` eine eigene Klasse ist
 
-[`Board`](../include/Board.h) speichert das Raster und prüft Einwurf,
+[`Board`](../../include/Board.h) speichert das Raster und prüft Einwurf,
 Schwerkraft, Undo und vier Gewinnrichtungen. Ein Feld ist `grid_[zeile][spalte]`
 mit **nullbasierten Indizes**. Die Konsole zeigt dagegen die Spalten **ab 1**;
 vor `Board::drop()` wird daher `1` abgezogen.
@@ -44,21 +44,21 @@ bereits beendete Partien und widersprüchliche Dateien. Erst nach vollständiger
 Prüfung wird der alte Zustand ersetzt.
 
 Für das Schreiben verwendet
-[`AtomicFile.h`](../include/AtomicFile.h) eine temporäre Datei und
+[`AtomicFile.h`](../../include/AtomicFile.h) eine temporäre Datei und
 anschließendes Ersetzen. Die Implementierung reduziert das Risiko
 unvollständiger Dateien, garantiert aber keine absolute Datensicherheit
 bei Stromausfall.
 
 ## 5. Wo sind 2D, 3D und Sound?
 
-[`src/gui/Main.cpp`](../src/gui/Main.cpp) behandelt SFML-2D-Eingaben,
-Anzeige und Animation. [`Main3D.cpp`](../src/gui/Main3D.cpp) zeichnet
+[`src/gui/Main.cpp`](../../src/gui/Main.cpp) behandelt SFML-2D-Eingaben,
+Anzeige und Animation. [`Main3D.cpp`](../../src/gui/Main3D.cpp) zeichnet
 räumliche Geometrie mit OpenGL und das Menü mit SFML. Beide verwenden
-[`MatchSession`](../src/MatchSession.cpp), statt die Regeln neu zu
+[`MatchSession`](../../src/MatchSession.cpp), statt die Regeln neu zu
 implementieren. Für die 3D-Spaltenauswahl wird ein Pixelstrahl mit der
 Spielbrettebene geschnitten.
 
-[`GymAudio.h`](../src/gui/GymAudio.h) steuert OGG-Streams und
+[`GymAudio.h`](../../src/gui/GymAudio.h) steuert OGG-Streams und
 Überblendungen. `GymAudioAssets.h` prüft den Fundort und den OGG-Header;
 die **vollständigen SHA-256-Werte** prüft erst der gesonderte
 Audio-Installer. Der Audiozustand verändert keine Spielregeln.

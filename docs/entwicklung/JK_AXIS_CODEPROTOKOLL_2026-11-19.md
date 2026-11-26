@@ -1,11 +1,11 @@
 # Vier Gewinnt | Gym Edition – Technisches Projekt- und Codeprotokoll
 
-![JK AXIS](../assets/brand/jk-axis-precision-symbol.svg) &nbsp;&nbsp;
-![Bernd-Blindow-Schulen](../assets/school/bernd-blindow-schulen.jpg)
+![JK AXIS](../../assets/brand/jk-axis-precision-symbol.svg) &nbsp;&nbsp;
+![Bernd-Blindow-Schulen](../../assets/school/bernd-blindow-schulen.jpg)
 
 > **Textfassung des 17-seitigen Projektprotokolls**, Stand 19.11.2026, Quellcommit `9df1faa3f3a8031bbe40e3267797a0f17e872772`.  
 > Aus der bearbeitbaren Word-Datei übertragen. Die originale PDF-/Word-Gestaltung, eingebettete Diagramme und interne PDF-Sprungmarken sind in dieser Markdown-Fassung nicht vollständig enthalten.  
-> [Repository](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp) · [Aktuelle Architektur](ARCHITECTURE.md) · [KI und Replay](AI_REPLAY.md)
+> [Repository](https://github.com/Julik527/vier-gewinnt-gym-edition-cpp) · [Aktuelle Architektur](../ARCHITECTURE.md) · [KI und Replay](../AI_REPLAY.md)
 
 ### Architektur auf einen Blick
 

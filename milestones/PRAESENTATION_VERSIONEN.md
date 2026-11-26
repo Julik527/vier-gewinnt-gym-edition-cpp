@@ -1,6 +1,6 @@
 # Präsentationsfassungen | Versions- und Freigaberegister
 
-[Meilensteine](README.md) · [Präsentationen](../praesentation/README.md) · [V6-Dateiindex](meilenstein-1-und-2/v6/README.md) · [Abgaben](../deliverables/README.md)
+[Meilensteine](README.md) · [Präsentationen](../praesentation/README.md) · [V6-Dateiindex](meilenstein-1-und-2/v6/README.md) · [Abgaben](../docs/schule/ABGABEDATEIEN.md)
 
 **Stand: 17.11.2026.** Das Register kennzeichnet die aktuelle **Repository-Arbeitsfassung**, nicht eine Freigabe durch die Lehrkraft. Eine tatsächliche Generalprobe ist hier nicht als bestanden dokumentiert.
 
@@ -31,6 +31,6 @@ Die beiden 8-Folien-Dateien sind **nicht identisch** (unterschiedliche Git-Blob-
 - [ ] Ergebnis in [Meilenstein 19.11.](2026-11-19/README.md) ergänzen; keine erfundenen Nachweise
 - [ ] Falls erforderlich: ausdrückliche Freigabe der Lehrkraft dokumentieren
 
-**Bei einem Versionswechsel:** Die Arbeitsfassung in `README.md`, `praesentation/README.md`, `deliverables/README.md`, `docs/README.md` und `milestones/2026-11-19/README.md` gemeinsam anpassen. Frühere Originale bleiben nachvollziehbar erhalten.
+**Bei einem Versionswechsel:** Die Arbeitsfassung in `README.md`, `praesentation/README.md`, `docs/schule/ABGABEDATEIEN.md`, `docs/README.md` und `milestones/2026-11-19/README.md` gemeinsam anpassen. Frühere Originale bleiben nachvollziehbar erhalten.
 
 Das Prüfprinzip folgt dem bereitgestellten **JK AXIS Designsystem V3.13.1**: Dateiintegrität, Gestaltungskontrolle und schulische Freigabe sind getrennte Prüfschritte. Die Designsystem-ZIP ist eine Referenz und wurde nicht als zweite Sammlung in das C++-Repository übernommen.

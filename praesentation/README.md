@@ -41,4 +41,4 @@ Diese älteren Dokumente bleiben als Projektverlauf erhalten. Historische Formul
 4. Die Stellen `Board::nextFreeRow`, `Board::drop`, `Board::hasWon` und Laden/Speichern im Quellcode frei erklären.
 5. Offene technische und mündliche Nachweise in der [Abnahmecheckliste](../docs/RELEASE_ABNAHME.md) festhalten.
 
-KI-Unterstützung ist gemäß [Projekt-Nachweisregister](../docs/KI_PROMPT_DOKUMENTATION.md) dokumentiert. Eine bestandene schulische Abnahme oder garantiert exakte Vortragsdauer wird nicht behauptet.
+KI-Unterstützung ist gemäß [Projekt-Nachweisregister](../docs/schule/KI_PROMPT_DOKUMENTATION.md) dokumentiert. Eine bestandene schulische Abnahme oder garantiert exakte Vortragsdauer wird nicht behauptet.
