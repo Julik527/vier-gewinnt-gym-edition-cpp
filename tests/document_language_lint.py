@@ -28,8 +28,8 @@ PATTERN = re.compile(
     re.IGNORECASE,
 )
 IGNORED = {
-    "docs/KI_PROMPT_DOKUMENTATION.md",  # Originalzitate und historische Nachweise
-    "docs/CODE_STYLE_JK_AXIS.md",       # Beispiele für unzulässigen Stil
+    "docs/schule/KI_PROMPT_DOKUMENTATION.md",  # Originalzitate und historische Nachweise
+    "docs/entwicklung/CODE_STYLE_JK_AXIS.md",       # Beispiele für unzulässigen Stil
 }
 violations = []
 for folder in [ROOT, ROOT / "docs", ROOT / "praesentation", ROOT / "school"]:
