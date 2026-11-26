@@ -51,12 +51,14 @@ int main() {
         contains(empty, "noch keine Partie");
         checkLines(empty);
         const auto difficulty = gym::ai_ui::difficultyMenu(gym::AiLevel::Hard);
-        contains(difficulty, "Suchtiefe 3");
-        contains(difficulty, "Suchtiefe 6");
+        contains(difficulty, "Suchtiefe 4");
+        contains(difficulty, "Suchtiefe 7");
         checkLines(difficulty);
         const auto help = gym::ai_ui::instructions();
         contains(help, "V4");
         contains(help, "PAUSIEREN");
+        contains(help, "ZUGTIPP");
+        contains(help, "ZUGPAAR");
         checkLines(help);
         Board board(2);
         const auto before = board.cells();

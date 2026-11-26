@@ -52,6 +52,8 @@ int main() {
         Board win(2);
         put(win, 0, 'B'); put(win, 1, 'B'); put(win, 2, 'B');
         const auto before = win.cells();
+        require(gym::chooseAiMove(win, 'B', gym::AiLevel::Easy).column == 3,
+                "Einfach nutzt Sofortsieg");
         require(gym::chooseAiMove(win, 'B', gym::AiLevel::Normal).column == 3,
                 "Normal nimmt unmittelbaren Sieg");
         require(gym::chooseAiMove(win, 'B', gym::AiLevel::Hard).column == 3,
@@ -67,6 +69,28 @@ int main() {
         put(block, 3, 'R');
         require(gym::chooseAiMove(block, 'B', gym::AiLevel::Hard).column == -1,
                 "Kein weiterer Zug auf gewonnenem Board");
+
+        // Vertikale Bedrohung und volle Mittelspalte.
+        Board vertical(2);
+        for (int i = 0; i < 3; ++i) put(vertical, 5, 'R');
+        const auto verticalBefore = vertical.cells();
+        for (auto level : {gym::AiLevel::Normal, gym::AiLevel::Hard})
+            require(gym::chooseAiMove(vertical, 'B', level).column == 5,
+                    "Vertikale Bedrohung blockiert");
+        require(vertical.cells() == verticalBefore, "Suchbaum laesst Board unveraendert");
+        Board fullColumn(2);
+        for (int i = 0; i < 6; ++i) put(fullColumn, 3, i % 2 ? 'B' : 'R');
+        const auto fullBefore = fullColumn.cells();
+        for (auto level : {gym::AiLevel::Easy, gym::AiLevel::Normal, gym::AiLevel::Hard}) {
+            const auto choice = gym::chooseAiMove(fullColumn, 'B', level);
+            require(choice.column >= 0 && choice.column != 3, "Keine volle Spalte");
+            require(fullColumn.cells() == fullBefore, "Keine Mutation durch Suchbaum");
+        }
+        // Zweifache unmittelbare Bedrohung: kein scheinbar neutraler Score.
+        Board fork(2);
+        put(fork, 1, 'R'); put(fork, 2, 'R'); put(fork, 3, 'R');
+        require(gym::chooseAiMove(fork, 'B', gym::AiLevel::Hard).score < -900000,
+                "Erzwungene Niederlage bei Doppelbedrohung erkannt");
 
         const std::vector<int> game{3, 2, 3, 2, 3, 2, 3};
         gym::MatchReplay replay(game);

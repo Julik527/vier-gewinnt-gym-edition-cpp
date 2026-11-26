@@ -9,6 +9,7 @@
  */
 #include "GymAi.h"
 #include <array>
+#include <algorithm>
 #include <stdexcept>
 #include <utility>
 
@@ -30,12 +31,12 @@ bool terminal(const Board& board) {
     return false;
 }
 
-int windowScore(int own, int enemy, int empty) {
+int windowScore(int own, int enemy, int empty, int playable) {
     if (own != 0 && enemy != 0) return 0;
     if (own == 4) return 100000;
     if (enemy == 4) return -100000;
-    if (own == 3 && empty == 1) return 100;
-    if (enemy == 3 && empty == 1) return -140;
+    if (own == 3 && empty == 1) return playable ? 240 : 45;
+    if (enemy == 3 && empty == 1) return playable ? -300 : -55;
     if (own == 2 && empty == 2) return 12;
     if (enemy == 2 && empty == 2) return -16;
     if (own == 1 && empty == 3) return 1;
@@ -45,6 +46,9 @@ int windowScore(int own, int enemy, int empty) {
 int evaluate(const Board& board, char ai, char opponent) {
     int score = 0;
     const auto& cells = board.cells();
+    std::array<int, 7> freeRows{};
+    for (int col = 0; col < board.columns(); ++col)
+        freeRows[static_cast<std::size_t>(col)] = board.nextFreeRow(col);
     const int center = board.columns() / 2;
     for (int row = 0; row < board.rows(); ++row) {
         if (cells[row][center] == ai) score += 5;
@@ -63,21 +67,26 @@ int evaluate(const Board& board, char ai, char opponent) {
                 int own = 0;
                 int enemy = 0;
                 int empty = 0;
+                int playable = 0;
                 for (int offset = 0; offset < 4; ++offset) {
-                    const char token = cells[row + offset * axis.first]
-                                            [col + offset * axis.second];
+                    const int r = row + offset * axis.first;
+                    const int c = col + offset * axis.second;
+                    const char token = cells[r][c];
                     if (token == ai) ++own;
                     else if (token == opponent) ++enemy;
-                    else ++empty;
+                    else {
+                        ++empty;
+                        if (freeRows[static_cast<std::size_t>(c)] == r) ++playable;
+                    }
                 }
-                score += windowScore(own, enemy, empty);
+                score += windowScore(own, enemy, empty, playable);
             }
         }
     }
     return score;
 }
 
-int search(const Board& board, int depth, int alpha, int beta,
+int search(Board& board, int depth, int alpha, int beta,
            char nextPlayer, char ai, char opponent, int lastRow,
            int lastColumn, char lastSymbol, std::size_t& nodes) {
     ++nodes;
@@ -90,12 +99,13 @@ int search(const Board& board, int depth, int alpha, int beta,
     int best = maximizing ? -kInfinity : kInfinity;
     for (int column : kCenterFirst) {
         if (board.nextFreeRow(column) < 0) continue;
-        Board next = board;
         int row = -1;
-        if (!next.drop(column, nextPlayer, row)) continue;
-        const int value = search(next, depth - 1, alpha, beta,
+        if (!board.drop(column, nextPlayer, row)) continue;
+        const int value = search(board, depth - 1, alpha, beta,
                                  otherSymbol(nextPlayer), ai, opponent,
                                  row, column, nextPlayer, nodes);
+        if (!board.undo(row, column))
+            throw std::logic_error("KI: Suchzug konnte nicht entfernt werden.");
         if (maximizing) {
             if (value > best) best = value;
             if (best > alpha) alpha = best;
@@ -122,42 +132,54 @@ AiChoice chooseAiMove(const Board& board, char aiSymbol, AiLevel level) {
             }
         }
     }
+    if (level != AiLevel::Easy && level != AiLevel::Normal && level != AiLevel::Hard)
+        throw std::invalid_argument("KI: unbekannte Stufe.");
     if (terminal(board)) return {};
+    const char opponent = otherSymbol(aiSymbol);
+    Board position = board;
+    std::size_t nodes = 0;
+    // Sofortsiege haben bei jeder Stufe Vorrang.
+    for (int column : kCenterFirst) {
+        int row = -1;
+        if (!position.drop(column, aiSymbol, row)) continue;
+        ++nodes;
+        const bool wins = position.hasWon(row, column, aiSymbol);
+        if (!position.undo(row, column)) throw std::logic_error("KI: Undo fehlgeschlagen.");
+        if (wins) return {column, kWin, nodes};
+    }
     if (level == AiLevel::Easy) {
+        // Einfach bleibt bewusst ohne vorausschauenden Suchbaum.
         for (int column : kCenterFirst)
-            if (board.nextFreeRow(column) >= 0) return {column, 0, 1};
+            if (board.nextFreeRow(column) >= 0) return {column, 0, nodes};
         return {};
     }
-    if (level != AiLevel::Normal && level != AiLevel::Hard) {
-        throw std::invalid_argument("KI: unbekannte Stufe.");
-    }
-    const char opponent = otherSymbol(aiSymbol);
-    std::size_t nodes = 0;
+    // Eine einzige unmittelbare Bedrohung muss blockiert werden.
+    // Bei mehreren Bedrohungen bewertet die Suche die legalen Züge.
+    int threatColumn = -1;
+    int threats = 0;
     for (int column : kCenterFirst) {
-        Board next = board;
         int row = -1;
-        if (!next.drop(column, aiSymbol, row)) continue;
+        if (!position.drop(column, opponent, row)) continue;
         ++nodes;
-        if (next.hasWon(row, column, aiSymbol)) return {column, kWin, nodes};
+        if (position.hasWon(row, column, opponent)) {
+            threatColumn = column;
+            ++threats;
+        }
+        if (!position.undo(row, column)) throw std::logic_error("KI: Undo fehlgeschlagen.");
     }
-    for (int column : kCenterFirst) {
-        Board next = board;
-        int row = -1;
-        if (!next.drop(column, opponent, row)) continue;
-        ++nodes;
-        if (next.hasWon(row, column, opponent)) return {column, 0, nodes};
-    }
-    const int depth = level == AiLevel::Normal ? 3 : 6;
+    const int depth = std::min(level == AiLevel::Normal ? 4 : 7,
+                               42 - board.tokenCount());
     int alpha = -kInfinity;
     int bestScore = -kInfinity;
     int bestColumn = -1;
     for (int column : kCenterFirst) {
-        Board next = board;
+        if (threats == 1 && column != threatColumn) continue;
         int row = -1;
-        if (!next.drop(column, aiSymbol, row)) continue;
-        const int score = search(next, depth - 1, alpha, kInfinity,
+        if (!position.drop(column, aiSymbol, row)) continue;
+        const int score = search(position, depth - 1, alpha, kInfinity,
                                  opponent, aiSymbol, opponent,
                                  row, column, aiSymbol, nodes);
+        if (!position.undo(row, column)) throw std::logic_error("KI: Undo fehlgeschlagen.");
         if (bestColumn < 0 || score > bestScore) {
             bestColumn = column;
             bestScore = score;
