@@ -132,7 +132,23 @@ def main() -> int:
     check("add_executable(vier-gewinnt-ki src/ai_main.cpp)" in cmake,
           "KI-CMake-Ziel fehlt")
 
-    print("VS Code: Konsole, SFML 2D, OpenGL 3D und KI-Agent stimmen mit CMake ueberein.")
+    presets = json.loads((root / "CMakePresets.json").read_text(encoding="utf-8"))
+    modes = {
+        "console": ("OFF", "OFF", "OFF"),
+        "gui2d": ("ON", "OFF", "OFF"),
+        "gui3d": ("ON", "ON", "OFF"),
+        "ai": ("OFF", "OFF", "ON"),
+    }
+    flags = ("GYM_BUILD_GUI", "GYM_BUILD_3D", "GYM_BUILD_AI")
+    configured = {p["name"]: p for p in presets["configurePresets"] if not p.get("hidden")}
+    check(set(configured) == set(modes), "CMake-Modi fehlen")
+    for mode, values in modes.items():
+        check(tuple(configured[mode]["cacheVariables"][flag] for flag in flags) == values,
+              f"Falsche Build-Optionen für {mode}")
+    for kind in ("buildPresets", "testPresets"):
+        check({(p["name"], p["configurePreset"]) for p in presets[kind]}
+              == {(mode, mode) for mode in modes}, f"Unpassende {kind}")
+    print("VS Code und CMake-Presets: vier Build-Modi geprüft.")
     return 0
 
 

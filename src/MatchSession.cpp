@@ -154,8 +154,5 @@ bool MatchSession::loadScores(const string& path) {
 }
 
 bool MatchSession::saveScores(const string& path) const {
-    return gym::writeSafely(path, [this](ostream& out) {
-        for (const auto& item : scores_)
-            out << quoted(item.first) << ' ' << item.second << '\n';
-    });
+    return gym::writeScores(path, scores_);
 }

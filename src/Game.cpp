@@ -389,11 +389,7 @@ void Game::loadHighscores() {
 
 // Schreibt alle aktuellen Siege in die Highscore-Datei.
 bool Game::saveHighscores() const {
-    return gym::writeSafely("data/highscore.txt", [this](ostream& out) {
-        for (const auto& item : highscores_) {
-            out << quoted(item.first) << ' ' << item.second << '\n';
-        }
-    });
+    return gym::writeScores("data/highscore.txt", highscores_);
 }
 
 // Nach einem Sieg bekommt der Gewinner genau einen Punkt dazu.

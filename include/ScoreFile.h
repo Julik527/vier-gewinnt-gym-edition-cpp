@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "AtomicFile.h"
 #include <iomanip>
 #include <istream>
 #include <map>
@@ -57,5 +58,12 @@ bool parseScores(std::istream& input,
     // Commit erst nach erfolgreicher vollständiger Prüfung: keine Teilergebnisse.
     destination = std::move(parsed);
     return true;
+}
+inline bool writeScores(const std::string& path,
+                        const std::map<std::string, int>& scores) {
+    return writeSafely(path, [&](std::ostream& out) {
+        for (const auto& item : scores)
+            out << std::quoted(item.first) << ' ' << item.second << '\n';
+    });
 }
 } // namespace gym
