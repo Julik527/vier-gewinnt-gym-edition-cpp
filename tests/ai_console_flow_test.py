@@ -22,6 +22,8 @@ def main():
         "04", "JULIAN",       # Nutzername
         "01", "m", "02",     # Neu, Pause, Fortsetzen
         "v4", "",             # Vorschau (keine Brettmutation)
+        "t", "u",             # Tipp und Undo vor erstem Zug
+        "1", "u",             # Ganzes Zugpaar entfernen
         "1", "1", "1", "1", # Spieler gewinnt in Spalte 1
         "03", "n", "p", "q", # Ergebnis -> Replay -> Zurueck
         "00", "06", "",     # Menue -> Bilanz
@@ -37,7 +39,8 @@ def main():
             f"Exit-Code {process.returncode}, stderr: {process.stderr}")
     for needed in (
         "KI-ARENA", "SCHWIERIGKEIT", "SPIELERPROFIL", "JULIAN",
-        "Partie pausiert", "VORSCHAU", "DU GEWINNST!", "REPLAY",
+        "Partie pausiert", "VORSCHAU", "Tipp: Spalte",
+        "Noch kein Zugpaar", "KI-Antwort wurden entfernt", "DU GEWINNST!", "REPLAY",
         "SCHRITT 1 VON", "GESP. PARTIEN   1", "DEINE SIEGE     1",
     ):
         require(needed in output, f"Fehlt in Ausgabe: {needed}")

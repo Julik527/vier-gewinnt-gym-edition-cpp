@@ -112,7 +112,7 @@ std::string mainMenu(const std::string& player, AiLevel level,
     line(out, active ? " 02   Laufendes Duell fortsetzen"
                      : " 02   Duell fortsetzen (keine Partie)");
     line(out, " 03   Schwierigkeit einstellen");
-    line(out, " 04   Spielernamen aendern");
+    line(out, " 04   Spielernamen aendern (nur ohne laufende Partie)");
     line(out, " 05   Anleitung / Steuerung");
     line(out, " 06   Trainingsbilanz");
     line(out, replayAvailable ? " 07   Letzte Partie wiedergeben"
@@ -130,9 +130,9 @@ std::string difficultyMenu(AiLevel current) {
     header(out, "KI-TRAINING  /  SCHWIERIGKEIT EINSTELLEN");
     line(out, "AKTUELL  " + std::string(levelName(current)));
     rule(out);
-    line(out, " 01   EINFACH  /  Mitte-zuerst, ohne Suchbaum");
-    line(out, " 02   NORMAL   /  Minimax, Suchtiefe 3");
-    line(out, " 03   SCHWER   /  Minimax, Suchtiefe 6");
+    line(out, " 01   EINFACH  /  Sofortsieg, sonst Mitte-zuerst");
+    line(out, " 02   NORMAL   /  Minimax, Suchtiefe 4");
+    line(out, " 03   SCHWER   /  Minimax, Suchtiefe 7");
     line(out, " 00   Zurueck zum Hauptmenue");
     rule(out);
     line(out, "NEUE EINSTELLUNG GILT AB DEM NAECHSTEN DUELL");
@@ -159,6 +159,8 @@ std::string instructions() {
     rule(out);
     line(out, " 1 BIS 7    HANTEL IN DIE GEWAEHLTE SPALTE SETZEN");
     line(out, " V4         VORSCHAU FUER SPALTE 4 ANZEIGEN");
+    line(out, " T          ZUGTIPP (KEIN STEIN WIRD GESETZT)");
+    line(out, " U          LETZTES ZUGPAAR RUECKGAENGIG MACHEN");
     line(out, " H          HILFE / REGELN ANZEIGEN");
     line(out, " M          PARTIE PAUSIEREN UND ZUM MENUE");
     line(out, " N / P      REPLAY VOR / ZURUECK");
@@ -206,7 +208,7 @@ std::string arena(const Board& board, const std::string& player, AiLevel level,
     if (preview >= 0) out << "  VORSCHAU: Spalte " << preview + 1 << " (noch kein Zug).\n";
     if (!notice.empty()) out << "  HINWEIS: " << notice.substr(0, 58) << '\n';
     if (replay) out << "  N Naechster  |  P Vorheriger  |  Q Zurueck\n";
-    else out << "  1-7 Setzen  |  V4 Vorschau  |  H Hilfe  |  M Menue\n";
+    else out << "  1-7 Setzen  |  V4 Vorschau  |  T Tipp  |  U Undo\n  H Hilfe  |  M Menue\n";
     footer(out);
     return out.str();
 }

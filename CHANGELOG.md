@@ -2,6 +2,8 @@
 
 ## In Entwicklung
 
+- KI: direkt spielbare Bedrohungen bewerten, Normal/Schwer bis Tiefe 4/7, Suchzüge per Undo, Zugtipps und Rücknahme eines Zugpaars; Replay markiert finale Gewinnzellen.
+
 - Gemeinsame Zugverwaltung und GYM1-Validierung für Konsole und Grafikversionen.
 - CMake-Presets für Konsole, 2D, 3D und KI; F5 und Demo verwenden dieselben Build-Pfade.
 - Gemeinsame HUD-Zeichenfunktionen für beide Grafikversionen; Logos und Farbwerte bleiben erhalten.

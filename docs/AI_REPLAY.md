@@ -17,7 +17,7 @@ Das Programm heisst **vier-gewinnt-ki**. Es verwendet die bereits bestehende Kla
 
 ## Unter Windows/Linux bauen
 
-Voraussetzung: CMake 3.16 oder neuer sowie ein C++17-Compiler. Ein regulärer Build ohne den AI-Schalter bleibt bei den bisherigen Zielen.
+Voraussetzung: CMake 3.21 oder neuer, Ninja und ein C++17-Compiler. Ein regulärer Build ohne den AI-Schalter bleibt bei den bisherigen Zielen.
 
 ~~~bash
 cmake --preset ai
@@ -48,6 +48,7 @@ Menues wurden nicht umgebaut; die KI bleibt ein getrenntes Programm.
 
 **Während des Duells:** Mit `1` bis `7` einen Stein setzen,
 mit `V4` eine unverbindliche Vorschau fuer Spalte 4 betrachten,
+mit `T` einen unverbindlichen Zugtipp anfordern, mit `U` das letzte Zugpaar entfernen,
 mit `H` die Hilfe aufrufen und mit `M` ins Hauptmenue wechseln,
 ohne den laufenden Brettzustand zu verlieren. Die KI zieht danach
 automatisch. Bei einem Sieg sind die Gewinnzellen markiert.
@@ -67,11 +68,11 @@ Alternativ gelten die manuellen CMake-Befehle oben.
 
 ## Spielregeln und Stufen
 
-- **Einfach (1):** Nimmt die erste freie Spalte in fester Mitte-zuerst-Reihenfolge; kein Minimax.
-- **Normal (2):** Minimax mit Alpha-Beta-Pruning bis Tiefe 3; erkennt unmittelbare Siege und blockiert einen direkt bevorstehenden Sieg.
-- **Schwer (3):** Dasselbe Verfahren mit Tiefe 6 und groesserem Suchraum.
+- **Einfach (1):** Nimmt einen unmittelbaren Sieg, sonst die erste freie Spalte in fester Mitte-zuerst-Reihenfolge; kein Minimax.
+- **Normal (2):** Minimax mit Alpha-Beta-Pruning bis Tiefe 4; erkennt unmittelbare Siege und blockiert einen direkt bevorstehenden Sieg.
+- **Schwer (3):** Dasselbe Verfahren mit Tiefe 7 und groesserem Suchraum.
 
-Die Heuristik bewertet Viererfenster und die Mitte des Spielfelds. Der Computer verwendet **regelbasierte Suche**, kein maschinelles Lernen und keinen Trainingsdatensatz. Optimales Spiel wird fuer keine Stufe garantiert. Der KI-Modus unterstuetzt nur zwei Spieler auf dem 7x6-Feld mit den Symbolen R und B.
+Die Heuristik bewertet Viererfenster, direkt spielbare Bedrohungen und die Mitte des Spielfelds. Der Suchbaum arbeitet auf einer einzigen lokalen Board-Kopie mit Einwurf und Undo. Die Ausgangsposition bleibt unverändert. Ein Zugtipp verwendet die schwere Stufe für das menschliche Symbol R. Undo entfernt ein vollständiges Zugpaar nur während einer laufenden Partie. Der Computer verwendet **regelbasierte Suche**, kein maschinelles Lernen und keinen Trainingsdatensatz. Optimales Spiel wird fuer keine Stufe garantiert. Der KI-Modus unterstuetzt nur zwei Spieler auf dem 7x6-Feld mit den Symbolen R und B.
 
 ## Replay
 

@@ -83,6 +83,7 @@ class AiConsoleGame {
     std::vector<int> moves_;
     std::vector<int> lastMoves_;
     std::vector<std::pair<int, int>> winning_;
+    std::vector<std::pair<int, int>> lastWinning_;
     std::string winner_;
     std::string notice_;
     bool active_ = false;
@@ -151,6 +152,7 @@ class AiConsoleGame {
         if (!winner.empty()) winning_ = board_.winningCells(row, column, symbol);
         else winning_.clear();
         lastMoves_ = moves_;
+        lastWinning_ = winning_;
         lastLevel_ = roundLevel_;
         lastPlayer_ = player_;
         ++stats_.played;
@@ -176,7 +178,9 @@ class AiConsoleGame {
             const bool humanTurn = replay.position() % 2 == 0;
             console_ui::present(gym::ai_ui::arena(
                 replay.board(), lastPlayer_, lastLevel_, stats_, humanTurn,
-                note, -1, true, replay.position(), replay.totalMoves()));
+                note, -1, true, replay.position(), replay.totalMoves(),
+                replay.position() == replay.totalMoves() ? lastWinning_
+                                                        : std::vector<std::pair<int, int>>{}));
             std::string command;
             if (!read("REPLAY > ", command)) return false;
             command = lower(command);
@@ -214,7 +218,8 @@ class AiConsoleGame {
             } else if (isChoice(choice, 3)) {
                 if (!chooseLevel()) return Screen::Exit;
             } else if (isChoice(choice, 4)) {
-                if (!chooseName()) return Screen::Exit;
+                if (active_) notice_ = "Name erst nach Ende der laufenden Partie aendern.";
+                else if (!chooseName()) return Screen::Exit;
             } else if (isChoice(choice, 5)) {
                 if (!showInfo(gym::ai_ui::instructions())) return Screen::Exit;
             } else if (isChoice(choice, 6)) {
@@ -233,7 +238,7 @@ class AiConsoleGame {
                                                    stats_, true, notice_));
             notice_.clear();
             std::string command;
-            if (!read("SPALTE 1-7 / V4 / H / M > ", command)) return Screen::Exit;
+            if (!read("SPALTE 1-7 / T / U / V4 / H / M > ", command)) return Screen::Exit;
             const auto action = lower(command);
             if (action == "m") {
                 notice_ = "Partie pausiert. Mit 02 fortsetzen.";
@@ -243,13 +248,31 @@ class AiConsoleGame {
                 if (!showInfo(gym::ai_ui::instructions())) return Screen::Exit;
                 continue;
             }
+            if (action == "t") {
+                const auto tip = gym::chooseAiMove(board_, 'R', AiLevel::Hard);
+                notice_ = "Tipp: Spalte " + std::to_string(tip.column + 1)
+                        + " (unverbindlich, kein Zug).";
+                continue;
+            }
+            if (action == "u") {
+                if (moves_.size() < 2) {
+                    notice_ = "Noch kein Zugpaar zum Rueckgaengigmachen.";
+                } else {
+                    moves_.resize(moves_.size() - 2);
+                    gym::MatchReplay replay(moves_);
+                    while (replay.next()) {}
+                    board_ = replay.board();
+                    notice_ = "Dein Zug und die KI-Antwort wurden entfernt.";
+                }
+                continue;
+            }
             if (const int preview = previewColumn(action); preview >= 0) {
                 if (board_.nextFreeRow(preview) < 0) notice_ = "Diese Spalte ist voll.";
                 else {
                     console_ui::present(gym::ai_ui::arena(
                         board_, player_, roundLevel_, stats_, true,
                         "Vorschau, noch kein Stein gesetzt.", preview));
-                    if (!read("ENTER FUER ZUG > ", command)) return Screen::Exit;
+                    if (!read("ENTER ZURUECK > ", command)) return Screen::Exit;
                 }
                 continue;
             }
@@ -263,6 +286,7 @@ class AiConsoleGame {
                 continue;
             }
             if (!active_) return Screen::Result;
+            std::cout << "  KI berechnet ihren Zug ...\n" << std::flush;
             const auto choice = gym::chooseAiMove(board_, 'B', roundLevel_);
             if (choice.column < 0 || !put(choice.column, 'B'))
                 throw std::runtime_error("KI konnte keinen legalen Zug setzen.");
