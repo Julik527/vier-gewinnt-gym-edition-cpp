@@ -37,14 +37,15 @@ inline bool viewportSelfTest() {
     const auto tall = fitViewport({800u, 1000u}, 1280.f, 800.f);
     const auto exact = fitViewport({1280u, 800u}, 1280.f, 800.f);
     const auto empty = fitViewport({0u, 800u}, 1280.f, 800.f);
-    const auto near = [](float a, float b) { return std::abs(a - b) < 0.0001f; };
-    return near(wide.position.x, .1f) && near(wide.size.x, .8f)
-        && near(wide.position.y, 0.f) && near(wide.size.y, 1.f)
-        && near(tall.position.x, 0.f) && near(tall.size.x, 1.f)
-        && near(tall.position.y, .25f) && near(tall.size.y, .5f)
-        && near(exact.position.x, 0.f) && near(exact.position.y, 0.f)
-        && near(exact.size.x, 1.f) && near(exact.size.y, 1.f)
-        && near(empty.size.x, 1.f) && near(empty.size.y, 1.f);
+    // Keine Windows-Makronamen wie near oder far als Bezeichner verwenden.
+    const auto almostEqual = [](float a, float b) { return std::abs(a - b) < 0.0001f; };
+    return almostEqual(wide.position.x, .1f) && almostEqual(wide.size.x, .8f)
+        && almostEqual(wide.position.y, 0.f) && almostEqual(wide.size.y, 1.f)
+        && almostEqual(tall.position.x, 0.f) && almostEqual(tall.size.x, 1.f)
+        && almostEqual(tall.position.y, .25f) && almostEqual(tall.size.y, .5f)
+        && almostEqual(exact.position.x, 0.f) && almostEqual(exact.position.y, 0.f)
+        && almostEqual(exact.size.x, 1.f) && almostEqual(exact.size.y, 1.f)
+        && almostEqual(empty.size.x, 1.f) && almostEqual(empty.size.y, 1.f);
 }
 
 inline void rectangle(sf::RenderTarget& target, float x, float y, float w, float h,

@@ -6,6 +6,7 @@
 - CMake-Presets für Konsole, 2D, 3D und KI; F5 und Demo verwenden dieselben Build-Pfade.
 - Gemeinsame HUD-Zeichenfunktionen für beide Grafikversionen; Logos und Farbwerte bleiben erhalten.
 - Kürzere Startseite mit direktem Zugang zur Schulabgabe und zum Versionsregister.
+- Windows-Kompatibilität: Makrokollision im Viewport-Selbsttest behoben.
 - Abnahme der Änderungen steht noch aus.
 
 ## 17.11.2026: Meilenstein- und Dateinavigation
