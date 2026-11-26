@@ -8,6 +8,7 @@
 - Kürzere Startseite mit direktem Zugang zur Schulabgabe und zum Versionsregister.
 - Windows-Kompatibilität: Makrokollision im Viewport-Selbsttest behoben.
 - 3D-Audiobedienung: getrennte Zeilen für Lautstärke und Status; lange Audiomeldungen in 2D und 3D auf verfügbare Breite begrenzt.
+- 2D-Audiobedienung: eigener kompakter Bereich unter der Kopfzeile mit getrennten Status- und Lautstärkezeilen; Meldungen im Fußbereich begrenzt.
 - Abnahme der Änderungen steht noch aus.
 
 ## 17.11.2026: Meilenstein- und Dateinavigation

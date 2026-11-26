@@ -41,6 +41,32 @@ using namespace std;
 namespace {
 constexpr float W = 1280.f;
 constexpr float H = 800.f;
+constexpr float audioPanelX = 788.f;
+constexpr float audioPanelY = 114.f;
+constexpr float audioPanelWidth = 459.f;
+constexpr float audioPanelHeight = 50.f;
+constexpr float audioVolumeY = 118.f;
+constexpr float audioStatusY = 140.f;
+constexpr float audioButtonY = 121.f;
+constexpr float audioButtonHeight = 34.f;
+constexpr float audioTextX = 800.f;
+constexpr float audioPercentX = 955.f;
+constexpr float audioMinusX = 1011.f;
+constexpr float audioPlayX = 1049.f;
+constexpr float audioPlusX = 1199.f;
+constexpr float audioSideWidth = 36.f;
+constexpr float audioPlayWidth = 144.f;
+constexpr float arenaPanelY = 168.f;
+static_assert(audioVolumeY + 19.f < audioStatusY);
+static_assert(audioPanelY + audioPanelHeight < arenaPanelY);
+static_assert(audioStatusY + 18.f <= audioPanelY + audioPanelHeight);
+static_assert(audioButtonY + audioButtonHeight + 3.f < audioPanelY + audioPanelHeight);
+static_assert(audioTextX + 201.f < audioMinusX);
+static_assert(audioPercentX + 46.f < audioMinusX);
+static_assert(audioMinusX + audioSideWidth < audioPlayX);
+static_assert(audioPlayX + audioPlayWidth < audioPlusX);
+static_assert(audioPlusX + audioSideWidth < audioPanelX + audioPanelWidth);
+static_assert(audioPanelX + audioPanelWidth < W);
 const sf::Color navy(7, 15, 29);
 const sf::Color navy2(12, 27, 48);
 const sf::Color panel(21, 40, 67);
@@ -382,11 +408,14 @@ private:
                 add(b, "NEIN, ZURÜCK", 654, 436, 242, 0);
                 break;
         }
-        // Auf allen Bildschirmen erreichbar, aber standardmaessig stumm.
-        b.push_back({"-", sf::FloatRect({978.f, 117.f}, {36.f, 37.f}), 97, musicVolume_ > 0});
-        b.push_back({musicOn_ ? "PAUSIEREN" : "ABSPIELEN",
-                     sf::FloatRect({1020.f, 117.f}, {143.f, 37.f}), 99, true});
-        b.push_back({"+", sf::FloatRect({1169.f, 117.f}, {36.f, 37.f}), 98, musicVolume_ < 100});
+        // Audiobedienung bleibt auf allen Bildschirmen erreichbar.
+        b.push_back({"-", sf::FloatRect({audioMinusX, audioButtonY},
+                    {audioSideWidth, audioButtonHeight}), 97, musicVolume_ > 0});
+        b.push_back({musicOn_ ? "MUSIK PAUSE" : "MUSIK START",
+                    sf::FloatRect({audioPlayX, audioButtonY},
+                    {audioPlayWidth, audioButtonHeight}), 99, true});
+        b.push_back({"+", sf::FloatRect({audioPlusX, audioButtonY},
+                    {audioSideWidth, audioButtonHeight}), 98, musicVolume_ < 100});
         return b;
     }
     void drawButtons() {
@@ -709,7 +738,7 @@ private:
     // Seitliche Match-Informationen bleiben unabhängig vom Spielfeld-Rendering.
     void arena(bool end) {
         renderBoard(end);
-        roundedBox(947, 168, 300, 594, 18, sf::Color(16, 35, 60), border);
+        roundedBox(947, arenaPanelY, 300, 594, 18, sf::Color(16, 35, 60), border);
         box(967, 206, 64, 3, end ? green : blue);
         label(end ? "MATCH BEENDET" : "LIVE-MATCH", 967, 180, 20, white, true);
         label("RUNDE " + to_string(match_.round()) +
@@ -783,7 +812,7 @@ private:
             case Screen::Arena: arena(false); break;
             case Screen::Result: arena(true); break;
             case Screen::Scores: {
-                label("BESTENLISTE - HARTES TRAINING ZÄHLT", 335, 150, 25, white, true);
+                label("BESTENLISTE - HARTES TRAINING ZÄHLT", 335, 178, 25, white, true);
                 vector<pair<string, int>> sorted(match_.scores().begin(), match_.scores().end());
                 std::sort(sorted.begin(), sorted.end(), [](const auto& a, const auto& b) {
                     return a.second != b.second ? a.second > b.second : a.first < b.first;
@@ -815,12 +844,20 @@ private:
                       : "Spiel beenden und laufende Runde verlassen?", 330, 317, 20, muted);
                 break;
         }
-        label("MUSIK  " + to_string(musicVolume_) + "%", 826, 124, 14,
-              musicOn_ ? green : muted, true);
-        gymui::text(window_, font_, audio_.statusLabel(), 957, 768, 12,
-                    musicOn_ && audio_.usingSciFiPack() ? green : muted, true, 303.f);
+        // Lautstärke, Status und Schaltflächen bilden einen gemeinsamen Bereich.
+        roundedBox(audioPanelX, audioPanelY, audioPanelWidth, audioPanelHeight,
+                   9.f, sf::Color(12, 27, 48), border);
+        gymui::text(window_, font_, "LAUTSTÄRKE", audioTextX, audioVolumeY,
+                    14, muted, true, 148.f);
+        gymui::text(window_, font_, to_string(musicVolume_) + " %",
+                    audioPercentX, audioVolumeY, 14,
+                    musicOn_ ? green : white, true, 46.f);
+        gymui::text(window_, font_, audio_.statusLabel(), audioTextX, audioStatusY,
+                    12, musicOn_ && audio_.usingSciFiPack() ? green : muted,
+                    false, 201.f);
         if (!notice_.empty())
-            label(notice_, 78, 766, 14, sf::Color(254, 213, 132));
+            gymui::text(window_, font_, notice_, 78, 775, 14,
+                        sf::Color(254, 213, 132), false, 1124.f);
         drawButtons();
         window_.display();
     }

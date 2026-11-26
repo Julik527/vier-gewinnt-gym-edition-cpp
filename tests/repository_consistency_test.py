@@ -75,6 +75,19 @@ class RepositoryConsistencyTests(unittest.TestCase):
         self.assertIn("false,300.f", arena)
         self.assertIn('"/8 vorhanden"', self.read("src/gui/GymAudio.h"))
 
+    def test_2d_audio_panel_has_reserved_space(self):
+        gui = self.read("src/gui/Main.cpp")
+        for condition in (
+            "audioVolumeY + 19.f < audioStatusY",
+            "audioPanelY + audioPanelHeight < arenaPanelY",
+            "audioStatusY + 18.f <= audioPanelY + audioPanelHeight",
+            "audioTextX + 201.f < audioMinusX",
+            "audioPlusX + audioSideWidth < audioPanelX + audioPanelWidth",
+        ):
+            self.assertIn("static_assert(" + condition + ");", gui)
+        self.assertIn("audio_.statusLabel(), audioTextX, audioStatusY", gui)
+        self.assertNotIn("audio_.statusLabel(), 957, 768", gui)
+
     def test_open_gl_primitives_are_separated(self):
         header = self.read("src/gui/Gym3DRender.h")
         arena = self.read("src/gui/Main3D.cpp")
