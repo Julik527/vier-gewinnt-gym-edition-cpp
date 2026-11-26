@@ -34,9 +34,9 @@ Code kompiliert, passende Tests sind wirklich ausgeführt, Änderungen lassen si
 
 ## Aktueller Stand und Risiken
 
-Die sechs C++-/GUI-Jobs und der Dokumentenjob am Ausgangsstand `02eb79f8` sind erfolgreich. Beleg: [CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json). Der lokale Windows-F5-Build, tatsächliche Audioausgabe, Beamerprobe und vollständige manuelle Abnahme sind noch offen. Die GUI ist im Draft-PR #1 und nicht in `main` enthalten.
+Die sechs C++-/GUI-Jobs und der Dokumentenjob am Ausgangsstand `02eb79f8` sind erfolgreich. Beleg: [CI-Snapshot](../evidence/CI_SNAPSHOT_2026-10-28.json). Der lokale Windows-F5-Build, tatsächliche Audioausgabe, Beamerprobe und vollständige manuelle Abnahme sind noch offen. Die GUI ist im Draft-PR #1 und nicht in `main` enthalten.
 
-Der zuletzt gemeldete Fehler betrifft die Auffindbarkeit von CMake. Ein Dateiersatz über `.tmp` schützt vor getesteten Schreibfehlern, koordiniert aber keine gleichzeitig gestarteten Spielprozesse. Weitere Grenzen stehen in [ARCHITECTURE.md](ARCHITECTURE.md).
+Der zuletzt gemeldete Fehler betrifft die Auffindbarkeit von CMake. Ein Dateiersatz über `.tmp` schützt vor getesteten Schreibfehlern, koordiniert aber keine gleichzeitig gestarteten Spielprozesse. Weitere Grenzen stehen in [ARCHITECTURE.md](../ARCHITECTURE.md).
 
 ## Geplante Schultermine
 

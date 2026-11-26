@@ -3,15 +3,15 @@
 **Projekt:** Vier Gewinnt | Gym Edition · C++17 / SFML 3.1
 **Stand:** 11.11.2026. Diese Datei enthält keine erfundenen Testresultate.
 
-Siehe auch die [Release- und Abnahmecheckliste](RELEASE_ABNAHME.md). Automatisierte Prüfungen und eine manuelle Windows-/Schulabnahme werden getrennt dokumentiert.
+Siehe auch die [Release- und Abnahmecheckliste](../RELEASE_ABNAHME.md). Automatisierte Prüfungen und eine manuelle Windows-/Schulabnahme werden getrennt dokumentiert.
 
 ## Schulische Freigabe nach Aufgabenblatt 51 (31.10.2026)
 
-Die verbindliche Nachweisgrundlage liegt in [SCHULANFORDERUNGEN_51_STATUS.md](SCHULANFORDERUNGEN_51_STATUS.md). **Programm 60 %, Präsentation 20 %, Handout 20 %.**
+Die verbindliche Nachweisgrundlage liegt in [SCHULANFORDERUNGEN_51_STATUS.md](../schule/SCHULANFORDERUNGEN_51_STATUS.md). **Programm 60 %, Präsentation 20 %, Handout 20 %.**
 
-- [x] Eigenes Handout in [Markdown](HANDOUT_AUFGABENBLATT_51.md) erarbeitet und eine dreiseitige PDF-Fassung für die Abgabe erstellt (PDF separat bereitgestellt).
+- [x] Eigenes Handout in [Markdown](../schule/HANDOUT_AUFGABENBLATT_51.md) erarbeitet und eine dreiseitige PDF-Fassung für die Abgabe erstellt (PDF separat bereitgestellt).
 - [x] Prüfbarkeit der Pflichtanforderungen in einer Nachweismatrix dokumentiert.
-- [x] Zeitplan, offene Freigaben und aktuelles Kanban/Review als [Bestandsaufnahme](SPRINT_REVIEW_2026-10-31.md) dokumentiert.
+- [x] Zeitplan, offene Freigaben und aktuelles Kanban/Review als [Bestandsaufnahme](../planung/SPRINT_REVIEW_2026-10-31.md) dokumentiert.
 - [x] 30-Minuten-Ablauf für den späteren Projekttermin, Sicherheitskonzept und isolierte Beispiel-Spielstände vorbereitet.
 - [x] Aktuelle achtteilige Meilenstein-Präsentation für den 19.11.2026 als PPTX/PDF erstellt; die Zeitangaben sind noch nicht live gemessen.
 - [ ] Handout durch den Schüler selbst gelesen, ausgedruckt und auf fachliche Erklärbarkeit geprüft.
@@ -42,7 +42,7 @@ Prüfnachweis: den **konkreten Workflow-Link und Commit-SHA** eintragen, nicht a
 Diese automatischen Schritte ersetzen keinen manuellen GUI-Hör-, Sicht- oder Bedienungstest.
 
 ## 2. Windows-Handprüfung (durch tatsächlichen Tester)
-- [ ] `docs/GUI_TESTPLAN.md` komplett abgearbeitet, Status mit Datum belegt
+- [ ] `docs/pruefung/GUI_TESTPLAN.md` komplett abgearbeitet, Status mit Datum belegt
 - [ ] Min. zwei Bildschirmauflösungen getestet, inkl. 125/150 % Skalierung
 - [ ] Maus, Tastatur, Namen mit Umlauten und Undo geprüft
 - [ ] Sound bei F9 hörbar, Stumm-/Gerät-los-Verhalten geprüft

@@ -130,7 +130,7 @@ Die Einträge P-01 bis P-16 beschreiben den historischen Stand vom 22.–25.10.2
 - Board-Testprotokoll: `docs/evidence/BUILD_AND_TEST_LOG_2026-10-25.txt`.
 - Schulische Anforderungen: Anforderungsanalyse (19 Seiten, FR-16).
 - UML (6 Seiten), Gesamtdokumentation (84 Seiten).
-- Aktueller automatischer Nachweis: sechs erfolgreiche C++-/GUI-Jobs und ein Dokumentenjob am Ausgangscommit `02eb79f8`. Siehe [CI-Snapshot](evidence/CI_SNAPSHOT_2026-10-28.json).
+- Aktueller automatischer Nachweis: sechs erfolgreiche C++-/GUI-Jobs und ein Dokumentenjob am Ausgangscommit `02eb79f8`. Siehe [CI-Snapshot](../evidence/CI_SNAPSHOT_2026-10-28.json).
 - Vollständige manuelle End-to-End-Abnahme auf dem Schulrechner, lokale Wiederholung nach dem CMake-Fehler, Hörtest und schulische Freigabe sind **nicht** belegt.
 - Ein später hinzugefügter Prompt wird mit Datum, Originalwortlaut, Ergebnis, eigener Kontrolle und ggf. Commit-SHA ergänzt.
 
