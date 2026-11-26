@@ -74,7 +74,7 @@
 - `AtomicFile.h`: eindeutige temporäre Dateinamen statt eines festen `.tmp`-Namens. Keine Freigabe für konkurrierende, unkoordinierte Prozesse.
 - Zusätzliche Unit- und Integrationstests für Datenintegrität und Temp-Kollisionen; überholte Fehlererwartungen an die neue Semantik angepasst.
 - GitHub Actions ergänzt um MSYS2 UCRT64 Debug und Release sowie eine Windows-ZIP-Paketierung mit Self-Test und SHA-256.
-- README verschlankt, reale Projektgrenzen hervorgehoben; [Abnahmecheckliste](docs/RELEASE_CHECKLIST.md) und [Lizenzhinweise](docs/LICENSING.md) ergänzt.
+- README verschlankt, reale Projektgrenzen hervorgehoben; [Abnahmecheckliste](docs/pruefung/RELEASE_CHECKLIST.md) und [Lizenzhinweise](docs/LICENSING.md) ergänzt.
 - Manuelle GUI-, Audio-, Zweitgerät- und Präsentationsabnahme weiterhin offen. Nur tatsächlich grüne CI-Jobs zählen als nachgewiesen.
 
 
