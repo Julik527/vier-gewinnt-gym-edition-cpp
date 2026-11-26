@@ -23,6 +23,7 @@
 #include "MatchSession.h"
 #include "GymAudio.h"
 #include "GymPlatform.h"
+#include "GymHud.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -40,6 +41,32 @@ using namespace std;
 namespace {
 constexpr float W = 1280.f;
 constexpr float H = 800.f;
+constexpr float audioPanelX = 788.f;
+constexpr float audioPanelY = 114.f;
+constexpr float audioPanelWidth = 459.f;
+constexpr float audioPanelHeight = 50.f;
+constexpr float audioVolumeY = 118.f;
+constexpr float audioStatusY = 140.f;
+constexpr float audioButtonY = 121.f;
+constexpr float audioButtonHeight = 34.f;
+constexpr float audioTextX = 800.f;
+constexpr float audioPercentX = 955.f;
+constexpr float audioMinusX = 1011.f;
+constexpr float audioPlayX = 1049.f;
+constexpr float audioPlusX = 1199.f;
+constexpr float audioSideWidth = 36.f;
+constexpr float audioPlayWidth = 144.f;
+constexpr float arenaPanelY = 168.f;
+static_assert(audioVolumeY + 19.f < audioStatusY);
+static_assert(audioPanelY + audioPanelHeight < arenaPanelY);
+static_assert(audioStatusY + 18.f <= audioPanelY + audioPanelHeight);
+static_assert(audioButtonY + audioButtonHeight + 3.f < audioPanelY + audioPanelHeight);
+static_assert(audioTextX + 201.f < audioMinusX);
+static_assert(audioPercentX + 46.f < audioMinusX);
+static_assert(audioMinusX + audioSideWidth < audioPlayX);
+static_assert(audioPlayX + audioPlayWidth < audioPlusX);
+static_assert(audioPlusX + audioSideWidth < audioPanelX + audioPanelWidth);
+static_assert(audioPanelX + audioPanelWidth < W);
 const sf::Color navy(7, 15, 29);
 const sf::Color navy2(12, 27, 48);
 const sf::Color panel(21, 40, 67);
@@ -74,9 +101,7 @@ public:
             font_(gymui::systemFont()), audio_(executable) {
         window_.setFramerateLimit(60);
         resizeView();
-        // Das originale Schul-Logo wird unveraendert aus einer lokalen Bilddatei geladen,
-        // sofern es fuer das Schulprojekt zur Verfuegung gestellt wurde.
-        // Bei F5 und beim Start direkt aus dem Build-Ordner das Asset finden.
+        // Schullogo auch beim Start aus dem Build-Ordner suchen.
         const auto executableDir = std::filesystem::absolute(executable).parent_path();
         const auto asset = std::filesystem::path("assets/school/bernd-blindow-schulen.jpg");
         const array<std::filesystem::path, 4> candidates = {{
@@ -98,8 +123,7 @@ public:
     // Audio passend zum Bildschirm wählen und einen Frame zeichnen.
     // maxFrames > 0 begrenzt den automatischen Fenster-Smoke-Test.
     void run(int maxFrames = -1) {
-        // Real play starts the supplied Sci-Fi theme immediately; CI smoke
-        // runs and machines without the OGG pack remain silent and playable.
+        // Musik nur im normalen Spielstart aktivieren.
         if (maxFrames < 0 && audio_.assets().complete()) {
             audio_.setVolume(static_cast<float>(musicVolume_));
             musicOn_ = audio_.play();
@@ -179,34 +203,17 @@ private:
     float fallRow_ = -1.2f;
     int selectedColumn_ = 0;
 
-    // Festes 1280x800-Layout bei jeder Fenstergröße beibehalten.
-    // SFML-View + Letterboxing verhindern verzerrte Spielfelder.
     void resizeView() {
-        // Letterboxing verhindert, dass Hanteln bei Fenster-Resize verzerrt wirken.
         const auto size = window_.getSize();
-        if (size.x == 0 || size.y == 0) return;
-        const float windowRatio = static_cast<float>(size.x) / static_cast<float>(size.y);
-        const float target = W / H;
-        sf::FloatRect viewport({0.f, 0.f}, {1.f, 1.f});
-        if (windowRatio > target) {
-            viewport.size.x = target / windowRatio;
-            viewport.position.x = (1.f - viewport.size.x) * .5f;
-        } else {
-            viewport.size.y = windowRatio / target;
-            viewport.position.y = (1.f - viewport.size.y) * .5f;
-        }
+        if (!size.x || !size.y) return;
         sf::View view(sf::FloatRect({0.f, 0.f}, {W, H}));
-        view.setViewport(viewport);
+        view.setViewport(gymui::fitViewport(size, W, H));
         window_.setView(view);
     }
+
     void box(float x, float y, float w, float h, sf::Color fill,
              sf::Color border = sf::Color::Transparent) {
-        sf::RectangleShape rect({w, h});
-        rect.setPosition({x, y});
-        rect.setFillColor(fill);
-        rect.setOutlineColor(border);
-        rect.setOutlineThickness(border == sf::Color::Transparent ? 0.f : 1.f);
-        window_.draw(rect);
+        gymui::rectangle(window_, x, y, w, h, fill, border);
     }
     void roundedBox(float x, float y, float w, float h, float radius,
                     sf::Color fill, sf::Color outline = sf::Color::Transparent) {
@@ -306,11 +313,7 @@ private:
     }
     void label(const string& value, float x, float y, unsigned size = 22,
                sf::Color color = white, bool bold = false) {
-        sf::Text text(font_, sf::String::fromUtf8(value.begin(), value.end()), size);
-        text.setFillColor(color);
-        if (bold) text.setStyle(sf::Text::Bold);
-        text.setPosition({x, y});
-        window_.draw(text);
+        gymui::text(window_, font_, value, x, y, size, color, bold);
     }
     void dumbbell(float cx, float cy, float size, sf::Color color, float opacity = 1.f) {
         color.a = static_cast<std::uint8_t>(255 * opacity);
@@ -323,32 +326,7 @@ private:
         box(cx + size * .425f, cy - plateH * .34f, size * .055f, plateH * .68f, color);
     }
     void brandSymbol(float x, float y, float scale) {
-        // Exakte Dreiecksaufteilung der beiden offiziellen SVG-Polygone.
-        // Keine neue Logovariante und keine Bitmap-Skalierung.
-        const array<sf::Vector2f, 12> j = {{
-            {17,80}, {17,18}, {50,75},
-            {17,80}, {50,75}, {59,120},
-            {59,120}, {50,75}, {77,102},
-            {50,18}, {50,75}, {17,18}
-        }};
-        const array<sf::Vector2f, 12> k = {{
-            {60,75}, {88,47}, {77,93},
-            {77,93}, {88,47}, {114,57},
-            {114,57}, {88,47}, {114,18},
-            {114,18}, {88,47}, {88,18}
-        }};
-        const auto drawPart = [&](const auto& points, sf::Color color) {
-            sf::VertexArray triangles(sf::PrimitiveType::Triangles);
-            for (const auto point : points) {
-                sf::Vertex vertex;
-                vertex.position = {x + point.x * scale, y + point.y * scale};
-                vertex.color = color;
-                triangles.append(vertex);
-            }
-            window_.draw(triangles);
-        };
-        drawPart(j, white);
-        drawPart(k, sf::Color(121, 165, 255));
+        gymui::brandSymbol(window_, x, y, scale, white, sf::Color(121, 165, 255));
     }
     void title(const string& subtitle) {
         box(0, 0, W, 112, sf::Color(9, 24, 45, 245));
@@ -356,7 +334,7 @@ private:
         box(20, 110, 125, 2, green);
         brandSymbol(20, 5, .75f);
         label("JK AXIS  |  VIER GEWINNT", 132, 20, 28, white, true);
-        label("GYM EDITION  /  HEBEN. SETZEN. SIEGEN.", 133, 63, 16, muted);
+        label("GYM EDITION  /  VIER GEWINNT", 133, 63, 16, muted);
         label(subtitle, 803, 29, 18, sky, true);
         if (schoolLogoReady_) {
             sf::Sprite school(schoolLogo_);
@@ -430,11 +408,14 @@ private:
                 add(b, "NEIN, ZURÜCK", 654, 436, 242, 0);
                 break;
         }
-        // Auf allen Bildschirmen erreichbar, aber standardmaessig stumm.
-        b.push_back({"-", sf::FloatRect({978.f, 117.f}, {36.f, 37.f}), 97, musicVolume_ > 0});
-        b.push_back({musicOn_ ? "PAUSIEREN" : "ABSPIELEN",
-                     sf::FloatRect({1020.f, 117.f}, {143.f, 37.f}), 99, true});
-        b.push_back({"+", sf::FloatRect({1169.f, 117.f}, {36.f, 37.f}), 98, musicVolume_ < 100});
+        // Audiobedienung bleibt auf allen Bildschirmen erreichbar.
+        b.push_back({"-", sf::FloatRect({audioMinusX, audioButtonY},
+                    {audioSideWidth, audioButtonHeight}), 97, musicVolume_ > 0});
+        b.push_back({musicOn_ ? "MUSIK PAUSE" : "MUSIK START",
+                    sf::FloatRect({audioPlayX, audioButtonY},
+                    {audioPlayWidth, audioButtonHeight}), 99, true});
+        b.push_back({"+", sf::FloatRect({audioPlusX, audioButtonY},
+                    {audioSideWidth, audioButtonHeight}), 98, musicVolume_ < 100});
         return b;
     }
     void drawButtons() {
@@ -757,7 +738,7 @@ private:
     // Seitliche Match-Informationen bleiben unabhängig vom Spielfeld-Rendering.
     void arena(bool end) {
         renderBoard(end);
-        roundedBox(947, 168, 300, 594, 18, sf::Color(16, 35, 60), border);
+        roundedBox(947, arenaPanelY, 300, 594, 18, sf::Color(16, 35, 60), border);
         box(967, 206, 64, 3, end ? green : blue);
         label(end ? "MATCH BEENDET" : "LIVE-MATCH", 967, 180, 20, white, true);
         label("RUNDE " + to_string(match_.round()) +
@@ -831,7 +812,7 @@ private:
             case Screen::Arena: arena(false); break;
             case Screen::Result: arena(true); break;
             case Screen::Scores: {
-                label("BESTENLISTE - HARTES TRAINING ZÄHLT", 335, 150, 25, white, true);
+                label("BESTENLISTE - HARTES TRAINING ZÄHLT", 335, 178, 25, white, true);
                 vector<pair<string, int>> sorted(match_.scores().begin(), match_.scores().end());
                 std::sort(sorted.begin(), sorted.end(), [](const auto& a, const auto& b) {
                     return a.second != b.second ? a.second > b.second : a.first < b.first;
@@ -863,12 +844,20 @@ private:
                       : "Spiel beenden und laufende Runde verlassen?", 330, 317, 20, muted);
                 break;
         }
-        label("MUSIK  " + to_string(musicVolume_) + "%", 826, 124, 14,
-              musicOn_ ? green : muted, true);
-        label(audio_.statusLabel(), 957, 768, 12,
-              musicOn_ && audio_.usingSciFiPack() ? green : muted, true);
+        // Lautstärke, Status und Schaltflächen bilden einen gemeinsamen Bereich.
+        roundedBox(audioPanelX, audioPanelY, audioPanelWidth, audioPanelHeight,
+                   9.f, sf::Color(12, 27, 48), border);
+        gymui::text(window_, font_, "LAUTSTÄRKE", audioTextX, audioVolumeY,
+                    14, muted, true, 148.f);
+        gymui::text(window_, font_, to_string(musicVolume_) + " %",
+                    audioPercentX, audioVolumeY, 14,
+                    musicOn_ ? green : white, true, 46.f);
+        gymui::text(window_, font_, audio_.statusLabel(), audioTextX, audioStatusY,
+                    12, musicOn_ && audio_.usingSciFiPack() ? green : muted,
+                    false, 201.f);
         if (!notice_.empty())
-            label(notice_, 78, 766, 14, sf::Color(254, 213, 132));
+            gymui::text(window_, font_, notice_, 78, 775, 14,
+                        sf::Color(254, 213, 132), false, 1124.f);
         drawButtons();
         window_.display();
     }
@@ -913,6 +902,7 @@ int main(int argc, char** argv) {
             return 0;
         }
         if (argc > 1 && string(argv[1]) == "--self-test") {
+            if (!gymui::viewportSelfTest()) return 2;
             MatchSession test;
             if (!test.begin({"Ada", "Ben"})) return 1;
             if (!test.drop(0) || test.board().tokenCount() != 1) return 1;

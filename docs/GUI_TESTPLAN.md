@@ -46,7 +46,7 @@ Am Ausgangsstand `02eb79f8` sind die GUI-Jobs unter Ubuntu und Windows erfolgrei
 
 G01/G02 bleiben als Prüfungen der vorgesehenen lokalen Umgebung offen. Der Windows-CI-Job verwendet MSVC. Die lokale Konfiguration verwendet MSYS2 UCRT64, Ninja und Debug. Eine erfolgreiche GUI-Debug-Kompilierung wird vom bisherigen GUI-CI-Job nicht belegt.
 
-Der zuletzt gemeldete F5-Fehler lautet „cmake wird nicht erkannt“. Die Tasks ergänzen inzwischen den UCRT64-Suchpfad. Nach der Installation aus der README beide F5-Profile erneut starten und das tatsächliche Ergebnis eintragen.
+Frühere F5-Fehler betrafen den CMake-Suchpfad. Beide Grafikprofile verwenden jetzt die UCRT64-CMake-Installation und eigene Presets. Den tatsächlichen Start auf dem Zielgerät prüfen und das Ergebnis eintragen.
 
 G23: Das mitgelieferte JPEG kann die dokumentierte skalierte Kopie sein. „Original“ meint das unveränderte Schulmotiv, nicht zwingend dieselbe Bytefolge wie bei Wikimedia. G25: Mit vollständigem SRG774-OGG-Paket startet die Musik automatisch; F9 pausiert/startet sie. F10/F11 steuern die Lautstärke. Der frühere prozedurale Soundtrack wird in den GUI-Versionen nicht mehr abgespielt. Ein Status „Playing“ ersetzt keinen Hörtest. G26: Ein fehlendes Audiogerät muss man tatsächlich provozieren, bevor der Fall als bestanden gilt.
 

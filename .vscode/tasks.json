@@ -2,54 +2,12 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Vier Gewinnt bauen",
+      "label": "Vier Gewinnt konfigurieren",
       "type": "process",
-      "command": "C:/msys64/ucrt64/bin/g++.exe",
+      "command": "C:/msys64/ucrt64/bin/cmake.exe",
       "args": [
-        "-std=c++17",
-        "-g",
-        "-O0",
-        "-Wall",
-        "-Wextra",
-        "-Wpedantic",
-        "-Iinclude",
-        "src/main.cpp",
-        "src/Board.cpp",
-        "src/Game.cpp",
-        "src/ConsoleUI.cpp",
-        "-o",
-        "vier-gewinnt.exe"
-      ],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": [
-        "$gcc"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "detail": "Debug-Build: Alle C++17-Dateien einschließlich ConsoleUI.cpp kompilieren."
-    },
-    {
-      "label": "Gym Edition 2D konfigurieren",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "-S",
-        ".",
-        "-B",
-        "build-gui",
-        "-G",
-        "Ninja",
-        "-DGYM_BUILD_GUI=ON",
-        "-DCMAKE_BUILD_TYPE=Debug",
+        "--preset",
+        "console",
         "-DCMAKE_C_COMPILER=C:/msys64/ucrt64/bin/gcc.exe",
         "-DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe"
       ],
@@ -59,16 +17,65 @@
           "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
         }
       },
-      "problemMatcher": [],
-      "detail": "Einmalige SFML-3.1-Konfiguration; benötigt CMake 3.28+, Ninja und UCRT64."
+      "problemMatcher": []
+    },
+    {
+      "label": "Vier Gewinnt bauen",
+      "type": "process",
+      "command": "C:/msys64/ucrt64/bin/cmake.exe",
+      "args": [
+        "--build",
+        "--preset",
+        "console",
+        "--target",
+        "vier-gewinnt",
+        "--parallel",
+        "2"
+      ],
+      "dependsOn": [
+        "Vier Gewinnt konfigurieren"
+      ],
+      "dependsOrder": "sequence",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Gym Edition 2D konfigurieren",
+      "type": "process",
+      "command": "C:/msys64/ucrt64/bin/cmake.exe",
+      "args": [
+        "--preset",
+        "gui2d",
+        "-DCMAKE_C_COMPILER=C:/msys64/ucrt64/bin/gcc.exe",
+        "-DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
+        }
+      },
+      "problemMatcher": []
     },
     {
       "label": "Gym Edition 2D bauen",
-      "type": "shell",
-      "command": "cmake",
+      "type": "process",
+      "command": "C:/msys64/ucrt64/bin/cmake.exe",
       "args": [
         "--build",
-        "build-gui",
+        "--preset",
+        "gui2d",
         "--target",
         "vier-gewinnt-gui",
         "--parallel",
@@ -87,22 +94,15 @@
       "problemMatcher": [
         "$gcc"
       ],
-      "group": "build",
-      "detail": "Baut die separate 2D-Anwendung für F5."
+      "group": "build"
     },
     {
       "label": "Gym Edition 3D konfigurieren",
-      "type": "shell",
-      "command": "cmake",
+      "type": "process",
+      "command": "C:/msys64/ucrt64/bin/cmake.exe",
       "args": [
-        "-S",
-        ".",
-        "-B",
-        "build-3d",
-        "-G",
-        "Ninja",
-        "-DGYM_BUILD_3D=ON",
-        "-DCMAKE_BUILD_TYPE=Debug",
+        "--preset",
+        "gui3d",
         "-DCMAKE_C_COMPILER=C:/msys64/ucrt64/bin/gcc.exe",
         "-DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe"
       ],
@@ -112,16 +112,16 @@
           "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
         }
       },
-      "problemMatcher": [],
-      "detail": "OpenGL-3D-Spiel und SFML 3.1 konfigurieren."
+      "problemMatcher": []
     },
     {
       "label": "Gym Edition 3D bauen",
-      "type": "shell",
-      "command": "cmake",
+      "type": "process",
+      "command": "C:/msys64/ucrt64/bin/cmake.exe",
       "args": [
         "--build",
-        "build-3d",
+        "--preset",
+        "gui3d",
         "--target",
         "vier-gewinnt-3d",
         "--parallel",
@@ -140,23 +140,16 @@
       "problemMatcher": [
         "$gcc"
       ],
-      "detail": "Separates 3D-Spiel fuer F5 kompilieren."
+      "group": "build"
     },
     {
       "label": "Gym Edition KI konfigurieren",
-      "type": "shell",
-      "command": "cmake",
+      "type": "process",
+      "command": "C:/msys64/ucrt64/bin/cmake.exe",
       "args": [
-        "-S",
-        ".",
-        "-B",
-        "build-ai",
-        "-G",
-        "Ninja",
-        "-DGYM_BUILD_AI=ON",
-        "-DGYM_BUILD_GUI=OFF",
-        "-DGYM_BUILD_3D=OFF",
-        "-DCMAKE_BUILD_TYPE=Debug",
+        "--preset",
+        "ai",
+        "-DCMAKE_C_COMPILER=C:/msys64/ucrt64/bin/gcc.exe",
         "-DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe"
       ],
       "options": {
@@ -165,16 +158,16 @@
           "PATH": "C:/msys64/ucrt64/bin;${env:PATH}"
         }
       },
-      "problemMatcher": [],
-      "detail": "Optionale C++17-KI als getrennten Konsolenmodus konfigurieren; kein SFML noetig."
+      "problemMatcher": []
     },
     {
       "label": "Gym Edition KI bauen",
-      "type": "shell",
-      "command": "cmake",
+      "type": "process",
+      "command": "C:/msys64/ucrt64/bin/cmake.exe",
       "args": [
         "--build",
-        "build-ai",
+        "--preset",
+        "ai",
         "--target",
         "vier-gewinnt-ki",
         "--parallel",
@@ -193,8 +186,7 @@
       "problemMatcher": [
         "$gcc"
       ],
-      "group": "build",
-      "detail": "Eigenstaendigen KI-Agenten fuer F5 automatisch kompilieren."
+      "group": "build"
     }
   ]
 }

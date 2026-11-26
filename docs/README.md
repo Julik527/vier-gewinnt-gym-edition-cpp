@@ -1,22 +1,22 @@
 # Dokumentation – Vier Gewinnt | Gym Edition
 
-**Hier findest du die Projektunterlagen nach Thema statt nach Dateinamen.** Der eigentliche Schulabgabeumfang ist das C++17-Konsolenspiel. 2D, 3D und Audio sind Erweiterungen.
+Die Konsole ist die Schulabgabe. Grafik, Audio und KI sind optionale Erweiterungen.
 
-**Schnelle Wege:** [Zur Hauptseite](../README.md) · [Meilensteine](../milestones/README.md) · [Wichtige Abgabedateien](../deliverables/README.md) · [Qualitätsübersicht](../quality/README.md) · [Schulabgabe](../school/README.md) · [Aktuelle Präsentation](../praesentation/README.md) · [Quellcode](../src/) · [Tests](../tests/)
+[Startseite](../README.md) · [Schulabgabe](../school/README.md) · [Präsentationen](../praesentation/README.md) · [Tests](../tests/)
 
-**Aktuell für die Prüfung:** [PT-Theorie](PT_PRUEFUNG_19_11_2026.md) · [8-Folien-Repository-Arbeitsfassung](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx) · [Sprechleitfaden](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md) · [Versionsregister](../milestones/PRAESENTATION_VERSIONEN.md)
+**Prüfungsvorbereitung vom 19.11.2026:** [PT-Theorie](PT_PRUEFUNG_19_11_2026.md) · [8-Folien-Repository-Arbeitsfassung](../praesentation/Vier_Gewinnt_Meilenstein_10_Minuten.pptx) · [Sprechleitfaden](../praesentation/MEILENSTEIN_10_MIN_2026-11-19.md) · [Versionsregister](../milestones/PRAESENTATION_VERSIONEN.md)
 
-## Einstieg und Projektverwaltung
+## Installation und Code
 
-- **[Technisches Projekt- und Codeprotokoll (20 Kapitel, Markdown)](JK_AXIS_CODEPROTOKOLL_2026-11-19.md)** – Erklärung aller vier Spielvarianten, Klassen, KI, Build, VS Code und Tests; Textfassung der PDF-/Word-Dokumentation
+- [Codeprotokoll vom 19.11.2026](JK_AXIS_CODEPROTOKOLL_2026-11-19.md) – Entwicklungsstand vor dem Refactoring
 - [Git und Repository sicher verwenden](REPOSITORY_GUIDE.md)
-- [Zusammenspiel der drei Spielvarianten](ARCHITECTURE.md)
+- [Architektur und gemeinsame Spiellogik](ARCHITECTURE.md)
 - [Projektauftrag und Zielsetzung](PROJECT_CHARTER.md)
 - [Geplante und offene Aufgaben](PRODUCT_BACKLOG.md)
 - [Installation und Start unter Windows](WINDOWS_QUICKSTART.md)
 - [F5-Profile und Fehlersuche](VS_CODE_DEBUG.md)
 
-## C++-Code verstehen
+### C++-Code verstehen
 
 - [Quellcode-Stilregeln](CODE_STYLE_JK_AXIS.md)
 - [Dateiköpfe und Klassenverständnis](DATEIKOPF_STANDARD.md)
@@ -62,7 +62,7 @@
 - [Wichtige Abgabe- und Präsentationsdateien](../deliverables/README.md) – Originaldateien statt Kopien
 - [Prüf- und Freigabeübersicht](../quality/README.md) – aktuelle Prüfungen von früheren Nachweisen trennen
 
-## Entwicklungsverlauf und ältere Prüfberichte
+## Archiv und Entwicklungsverlauf
 
 - [Älteres Entwicklungstagebuch](DEVELOPMENT_LOG_2026-10-28.md)
 - [Älterer Dokumentationsbericht](DOCUMENTATION_AUDIT_2026-10-28.md)
@@ -70,14 +70,14 @@
 - [Sprint-Rückblick](SPRINT_REVIEW_2026-10-31.md)
 - [Früherer Qualitätsbericht](QUALITY_REVIEW_2026-11-05.md)
 
-## Weitere Ordner
+### Weitere Unterlagen
 
 - [Präsentationshinweise](praesentation/README.md) – Informationen zur aktuellen und früheren Fassung
 - [Referenzunterlagen](reference/README.md) – Hinweise zu unveränderten Quelldokumenten
 - [Prüfnachweise](evidence/) – datierte Testprotokolle und Snapshots (nicht als aktueller CI-Status zu verstehen)
 
-## Was ist aktuell, was historisch?
 
-Die Startseite und die Unterlagen für den **19.11.2026** zeigen den aktuellen Vorbereitungsstand. Dateien mit älteren Datumsangaben bleiben als Projektverlauf erhalten. Ein historischer Testbericht belegt nicht automatisch den neuesten Commit.
 
-**Wichtig:** GitHub Actions belegen nur ihre tatsächlich ausgeführten Prüfschritte. Windows-Oberfläche, Audio und der Vortrag benötigen zusätzlich eine praktische Prüfung.
+Die Startseite beschreibt den Entwicklungsstand. Die Unterlagen vom 19.11.2026 dokumentieren die damalige Vorbereitung. Dateien mit älteren Datumsangaben bleiben als Projektverlauf erhalten. Ein historischer Testbericht belegt nicht automatisch den neuesten Commit.
+
+Die praktische Abnahme von Windows-Oberfläche, Audio und Vortrag erfolgt getrennt von GitHub Actions.

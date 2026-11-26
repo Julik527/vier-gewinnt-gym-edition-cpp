@@ -10,7 +10,7 @@
 # Aufgabe: Prüft Debug- und Build-Konfigurationen von Visual Studio Code.
 # ------------------------------------------------------------
 
-"""Vergleicht die VS-Code-Builddateien mit den echten C++-Quellen."""
+"""Prüft, ob F5, CMake-Presets und Build-Ziele zusammenpassen."""
 
 import json
 from pathlib import Path
@@ -18,121 +18,88 @@ import re
 import sys
 
 
-def check(condition: bool, message: str) -> None:
+def check(condition, message):
     if not condition:
         raise AssertionError(message)
 
 
-def main() -> int:
+def main():
     root = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
-    launch = json.loads((root / ".vscode" / "launch.json").read_text(encoding="utf-8"))
-    tasks = json.loads((root / ".vscode" / "tasks.json").read_text(encoding="utf-8"))
+
+    def read_json(name):
+        return json.loads((root / name).read_text(encoding="utf-8"))
+
+    modes = {
+        "console": ("vier-gewinnt", "OFF", "OFF", "OFF"),
+        "gui2d": ("vier-gewinnt-gui", "ON", "OFF", "OFF"),
+        "gui3d": ("vier-gewinnt-3d", "ON", "ON", "OFF"),
+        "ai": ("vier-gewinnt-ki", "OFF", "OFF", "ON"),
+    }
+    presets = read_json("CMakePresets.json")
+    configs = {p["name"]: p for p in presets["configurePresets"]}
+    common = configs["base"]
+    check(common["binaryDir"] == "${sourceDir}/build-preset-${presetName}", "Build-Pfad")
+    check(common["generator"] == "Ninja", "Generator")
+    check(common["cacheVariables"]["CMAKE_BUILD_TYPE"] == "Debug", "Debug-Build")
+    check(set(configs) == set(modes) | {"base"}, "Konfigurations-Presets")
+    for kind in ("buildPresets", "testPresets"):
+        check(len(presets[kind]) == len(modes), f"Doppelte {kind}")
+        check({(p["name"], p["configurePreset"]) for p in presets[kind]}
+              == {(mode, mode) for mode in modes}, kind)
+
+    raw_tasks = read_json(".vscode/tasks.json")["tasks"]
+    tasks = {t["label"]: t for t in raw_tasks}
+    launches = read_json(".vscode/launch.json")["configurations"]
+    check(len(raw_tasks) == len(tasks) == 8, "Build-Aufgaben fehlen oder sind doppelt")
+    check(len(launches) == 4, "F5-Profile fehlen oder sind doppelt")
     cmake = (root / "CMakeLists.txt").read_text(encoding="utf-8")
+    flags = ("GYM_BUILD_GUI", "GYM_BUILD_3D", "GYM_BUILD_AI")
+    used = set()
 
-    # Neue Terminals und Git-Abgleich duerfen keinen manuellen cd-Befehl brauchen.
-    settings = json.loads((root / ".vscode" / "settings.json").read_text(encoding="utf-8"))
-    check(settings.get("terminal.integrated.cwd") == "${workspaceFolder}",
-          "Terminal muss im geoeffneten Repository starten")
-    check(settings.get("terminal.integrated.defaultProfile.windows") == "PowerShell",
-          "Windows-Terminal soll PowerShell verwenden")
-    check(settings.get("git.autofetch") is True,
-          "Git-Fetch soll automatisch im Hintergrund stattfinden")
+    for mode, (target, *values) in modes.items():
+        cfg = configs[mode]
+        check(cfg["inherits"] == "base", f"{mode}: Basis-Preset")
+        check(tuple(cfg["cacheVariables"][flag] for flag in flags) == tuple(values),
+              f"{mode}: falsche Optionen")
+        source = re.search(r"add_executable\(" + re.escape(target) + r"\s+([^)]*)\)", cmake)
+        check(source is not None, f"{target}: CMake-Ziel fehlt")
+        for name in source.group(1).split():
+            check((root / name).is_file(), f"Quelldatei fehlt: {name}")
 
-    # F5 muss die richtige Build-Aufgabe aufrufen.
-    configs = [c for c in launch["configurations"]
-               if c.get("name") == "Vier Gewinnt | Gym Edition"]
-    check(len(configs) == 1, "Debug-Konfiguration fehlt oder doppelt")
-    debug = configs[0]
-    task_list = [t for t in tasks["tasks"]
-                 if t.get("label") == debug.get("preLaunchTask")]
-    check(len(task_list) == 1, "preLaunchTask zeigt auf keine eindeutige Aufgabe")
-    task = task_list[0]
+        exe = f"${{workspaceFolder}}/build-preset-{mode}/{target}.exe"
+        matching = [p for p in launches if p["program"] == exe]
+        check(len(matching) == 1, f"{mode}: falsche EXE")
+        profile = matching[0]
+        check(profile["cwd"] == "${workspaceFolder}", f"{mode}: Arbeitsordner")
+        check(profile["miDebuggerPath"].endswith("/ucrt64/bin/gdb.exe"), f"{mode}: GDB")
+        check(any(e["name"] == "PATH" and "ucrt64/bin" in e["value"]
+                  for e in profile["environment"]), f"{mode}: DLL-Pfad")
+        build = tasks[profile["preLaunchTask"]]
+        check(build["args"] == ["--build", "--preset", mode, "--target", target,
+                                "--parallel", "2"], f"{mode}: Build-Befehl")
+        check(len(build["dependsOn"]) == 1 and build["dependsOrder"] == "sequence",
+              f"{mode}: Build-Reihenfolge")
+        configure = tasks[build["dependsOn"][0]]
+        check(configure["args"] == ["--preset", mode,
+              "-DCMAKE_C_COMPILER=C:/msys64/ucrt64/bin/gcc.exe",
+              "-DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe"],
+              f"{mode}: Konfiguration")
+        for task in (configure, build):
+            check(task["type"] == "process" and task["command"].endswith("/ucrt64/bin/cmake.exe"),
+                  f"{mode}: CMake")
+            check(task["options"]["cwd"] == "${workspaceFolder}", f"{mode}: Build-Ordner")
+            check("ucrt64/bin" in task["options"]["env"]["PATH"], f"{mode}: Werkzeugpfad")
+            used.add(task["label"])
 
-    check(debug.get("program") == "${workspaceFolder}/vier-gewinnt.exe",
-          "F5 startet nicht die gebaute EXE")
-    check(debug.get("cwd") == "${workspaceFolder}", "Arbeitsordner fuer Daten fehlt")
-    check(task.get("options", {}).get("cwd") == "${workspaceFolder}",
-          "Kompilieren muss im Projektordner stattfinden")
-    check("-g" in task["args"] and "-O0" in task["args"],
-          "Debug-Build benoetigt Symbole und ausgeschaltete Optimierung")
-
-    # Beide CMake-Ziele muessen im manuellen g++-Build enthalten sein.
-    game = re.search(r"add_executable\(vier-gewinnt\s+([^)]*)\)", cmake)
-    board = re.search(r"add_library\(gym_board\s+STATIC\s+([^)]*)\)", cmake)
-    check(game is not None and board is not None, "CMake-Quelldateien fehlen")
-    expected = set(game.group(1).split() + board.group(1).split())
-    provided = {item for item in task["args"] if item.endswith(".cpp")}
-    check(provided == expected,
-          f"VS-Code-Build stimmt nicht mit CMake ueberein: fehlend={expected-provided}, "
-          f"zusaetzlich={provided-expected}")
-    for path in expected:
-        check((root / path).is_file(), f"Quelldatei fehlt: {path}")
-
-    # Die optionale SFML-3.1-GUI braucht ihren eigenen F5-Eintrag.
-    gui = [c for c in launch["configurations"]
-           if c.get("name") == "Vier Gewinnt | Gym Edition 2D"]
-    check(len(gui) == 1, "GUI-F5-Konfiguration fehlt")
-    gui_task = [t for t in tasks["tasks"]
-                if t.get("label") == gui[0].get("preLaunchTask")]
-    check(len(gui_task) == 1, "GUI Build-Aufgabe fehlt")
-    check("vier-gewinnt-gui.exe" in gui[0]["program"], "GUI startet falsche EXE")
-    check("src/gui/Main.cpp" in cmake and "GYM_BUILD_GUI" in cmake,
-          "Eigenstaendiges GUI-CMake-Ziel fehlt")
-    check("Gym Edition 2D konfigurieren" in gui_task[0].get("dependsOn", []),
-          "GUI-Build muss SFML zuerst konfigurieren")
-    check(any("GYM_BUILD_GUI=ON" in str(arg) for t in tasks["tasks"]
-              if t.get("label") == "Gym Edition 2D konfigurieren"
-              for arg in t.get("args", [])), "GUI-Konfiguration nicht aktiviert")
-
-    # Die optionale OpenGL-3D-Arena hat einen eigenen F5-Eintrag.
-    three_d = [c for c in launch['configurations']
-               if c.get('name') == 'Vier Gewinnt | Gym Edition 3D']
-    check(len(three_d) == 1, '3D-F5-Konfiguration fehlt oder ist doppelt')
-    three_d_tasks = [t for t in tasks['tasks']
-                     if t.get('label') == three_d[0].get('preLaunchTask')]
-    check(len(three_d_tasks) == 1, '3D-Build-Aufgabe nicht eindeutig')
-    check('vier-gewinnt-3d.exe' in three_d[0]['program'], '3D-Profil startet falsche EXE')
-    check(three_d[0]['cwd'] == '${workspaceFolder}', '3D-Arbeitsordner fehlt')
-    check('Gym Edition 3D konfigurieren' in three_d_tasks[0].get('dependsOn', []),
-          '3D-OpenGL-Konfiguration fehlt im Build-Ablauf')
-    check('src/gui/Main3D.cpp' in cmake and 'GYM_BUILD_3D' in cmake,
-          'Eigenstaendiges OpenGL-CMake-Ziel fehlt')
-    check(any('GYM_BUILD_3D=ON' in str(arg) for t in tasks['tasks']
-              if t.get('label') == 'Gym Edition 3D konfigurieren'
-              for arg in t.get('args', [])), '3D-Konfiguration nicht aktiviert')
-    check((root / 'src/gui/Gym3DMath.h').is_file(), '3D-Mathematik-Header fehlt')
-    # Der KI-Spielagent bleibt ein separates Konsolenprogramm mit eigenem F5-Build.
-    ai = [c for c in launch["configurations"]
-          if c.get("name") == "Vier Gewinnt | KI-Agent"]
-    check(len(ai) == 1, "KI-F5-Profil fehlt oder ist doppelt")
-    check(ai[0].get("program") == "${workspaceFolder}/build-ai/vier-gewinnt-ki.exe",
-          "KI-F5 startet nicht die richtige EXE")
-    check(ai[0].get("cwd") == "${workspaceFolder}",
-          "KI-Debugger muss im Projektordner starten")
-    ai_build = [t for t in tasks["tasks"]
-                if t.get("label") == ai[0].get("preLaunchTask")]
-    check(len(ai_build) == 1, "KI-preLaunchTask ist nicht eindeutig")
-    check(ai_build[0].get("dependsOn") == ["Gym Edition KI konfigurieren"],
-          "KI-Build muss zuvor konfigurieren")
-    check(ai_build[0].get("options", {}).get("cwd") == "${workspaceFolder}",
-          "KI-Build muss im Repository starten")
-    check("vier-gewinnt-ki" in ai_build[0].get("args", []),
-          "KI-Buildziel fehlt")
-    ai_cfg = [t for t in tasks["tasks"]
-              if t.get("label") == "Gym Edition KI konfigurieren"]
-    check(len(ai_cfg) == 1, "KI-Konfiguration fehlt")
-    check(ai_cfg[0].get("options", {}).get("cwd") == "${workspaceFolder}",
-          "KI-Konfiguration muss im Repository laufen")
-    check("-DGYM_BUILD_AI=ON" in ai_cfg[0]["args"],
-          "KI-Build ist per Default ausgeschaltet")
-    check("-DGYM_BUILD_GUI=OFF" in ai_cfg[0]["args"],
-          "KI soll unabhaengig von der SFML-GUI gebaut werden")
-    check((root / "src" / "ai_main.cpp").is_file(),
-          "Eigenstaendige KI-Konsolenquelle fehlt")
-    check("add_executable(vier-gewinnt-ki src/ai_main.cpp)" in cmake,
-          "KI-CMake-Ziel fehlt")
-
-    print("VS Code: Konsole, SFML 2D, OpenGL 3D und KI-Agent stimmen mit CMake ueberein.")
+    check(used == set(tasks), "Nicht verwendete Aufgaben")
+    defaults = [t for t in tasks.values() if isinstance(t.get("group"), dict)
+                and t["group"].get("isDefault")]
+    check(len(defaults) == 1 and defaults[0]["args"][2] == "console", "Standard-Build")
+    settings = read_json(".vscode/settings.json")
+    check(settings["terminal.integrated.cwd"] == "${workspaceFolder}", "Terminal-Ordner")
+    check(settings["terminal.integrated.defaultProfile.windows"] == "PowerShell", "Terminal")
+    check(settings["git.autofetch"] is True, "Git-Fetch")
+    print("Vier F5-Profile, Presets und CMake-Ziele stimmen überein.")
     return 0
 
 

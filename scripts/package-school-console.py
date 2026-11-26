@@ -38,6 +38,7 @@ PACKAGE_FILES = {
     "src/ConsoleUI.cpp": "src/ConsoleUI.cpp",
     "include/Board.h": "include/Board.h",
     "include/Game.h": "include/Game.h",
+    "include/GameState.h": "include/GameState.h",
     "include/Player.h": "include/Player.h",
     "include/ConsoleUI.h": "include/ConsoleUI.h",
     "include/AtomicFile.h": "include/AtomicFile.h",

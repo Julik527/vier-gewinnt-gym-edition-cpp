@@ -3,9 +3,9 @@
 **Projekt:** JK AXIS · Vier Gewinnt | Gym Edition · C++17 / SFML 3.1.0  
 **Ziel:** MSYS2 UCRT64 (GCC 16.2, GDB 18.1), CMake 3.28+, Ninja, Visual Studio Code.
 
-## 1. Hauptbranch und drei Programme
+## 1. Hauptbranch und vier Programme
 
-Der Standardbranch `main` enthält Konsole, 2D und 3D. Für die aktuellen Fassungen ist kein Wechsel zu einem historischen Entwicklungsbranch notwendig.
+Der Standardbranch `main` enthält Konsole, 2D, 3D und KI. Für die aktuellen Fassungen ist kein Wechsel zu einem historischen Entwicklungsbranch notwendig.
 
 Prüfe deine lokalen Dateien im PowerShell-Terminal:
 
@@ -23,7 +23,7 @@ git switch main
 git pull --ff-only
 ```
 
-Danach müssen beide `Test-Path`-Prüfungen `True` liefern. In VS Code stehen drei F5-Profile bereit: Konsole, 2D und 3D. Der erste GUI-Build benötigt SFML 3.1.0 und einen geeigneten Grafiktreiber.
+Danach müssen beide `Test-Path`-Prüfungen `True` liefern. In VS Code stehen vier F5-Profile bereit: Konsole, 2D, 3D und KI. Der erste GUI-Build benötigt SFML 3.1.0 und einen geeigneten Grafiktreiber.
 
 ## 2. MSYS2 UCRT64 (nicht MSYS, MINGW64 oder CLANG64)
 
@@ -49,8 +49,8 @@ Ein Systemupdate bei Aufforderung abschließen und MSYS2 gegebenenfalls neu star
 Für die grafische Anwendung gilt getrennt vom VS-Code-Debugger:
 ```powershell
 $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
-& .\build-gui\vier-gewinnt-gui.exe --path-self-test
-& .\build-gui\vier-gewinnt-gui.exe
+& .\build-preset-gui2d\vier-gewinnt-gui.exe --path-self-test
+& .\build-preset-gui2d\vier-gewinnt-gui.exe
 ```
 
 
@@ -79,13 +79,13 @@ Dies startet nur das geprüfte Projektskript mit einer temporären Skriptausnahm
 
 Dann **Ausführen und Debuggen** → `Vier Gewinnt | Gym Edition 2D` → **F5**. Die bestehenden VS-Code-Aufgaben konfigurieren CMake/Ninja und kompilieren die GUI automatisch. Der erste FetchContent-Build benötigt Internet und kann mehrere Minuten beanspruchen.
 
-Wenn der F5-Build scheitert, liefert die getrennte Demo-Konfiguration einen unabhängigen Test:
+Für einen Start ohne Debugger kannst du das Demo-Skript verwenden:
 
 ```powershell
 .\scripts\demo.ps1 -Mode GUI
 ```
 
-Dieses Skript baut im separaten Verzeichnis `build-gui-ucrt64`, das F5-Profil dagegen in `build-gui`. Nicht wahllos CMake-Caches löschen oder zwischen MSVC und GCC im selben Build-Verzeichnis mischen.
+Das Skript verwendet dasselbe Preset wie F5: `gui2d`. Für unabhängige Builds und Tests steht das Schul-Vorabtestskript zur Verfügung. Nicht wahllos CMake-Caches löschen oder zwischen MSVC und GCC im selben Build-Verzeichnis mischen.
 
 ## 4a. Reproduzierbarer Neubau und Schul-Vorabtest
 
@@ -120,9 +120,9 @@ Beide Skriptvarianten nutzen getrennte `build-school-*-preflight`-Verzeichnisse.
 
 ```powershell
 Test-Path .\src\gui\Main.cpp
-Test-Path .\build-gui\vier-gewinnt-gui.exe
+Test-Path .\build-preset-gui2d\vier-gewinnt-gui.exe
 $env:Path = "C:\msys64\ucrt64\bin;$env:Path"
-& .\build-gui\vier-gewinnt-gui.exe --self-test
+& .\build-preset-gui2d\vier-gewinnt-gui.exe --self-test
 Write-Host "Exit-Code: $LASTEXITCODE"
 ```
 

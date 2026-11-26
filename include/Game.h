@@ -23,17 +23,14 @@
 #pragma once
 #include "Board.h"
 #include "Player.h"
+#include "GameState.h"
 #include <map>
 #include <string>
 #include <vector>
 #include <utility>
 
 // Ein Move merkt sich, wo ein Stein liegt und welcher Spieler ihn gesetzt hat.
-struct Move {
-    int row;
-    int column;
-    int player;
-};
+using Move = gym::Move;
 
 // Die Konsolensteuerung verarbeitet Eingaben und Spielzustand; Board enthält
 // nur die Regeln. ConsoleUI rendert den Zustand, ohne Züge selbst auszuführen.

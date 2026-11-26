@@ -74,6 +74,24 @@ int main() {
         file.close();
         verify(signature == "GYM1", "format compatibility");
 
+        gym::SavedGame shared;
+        verify(gym::readGame("data/savegame.txt", shared), "shared parser reads GUI save");
+        verify(shared.current == 1 && shared.history.size() == 1
+               && shared.board.cells()[5][2] == 'R', "shared state restored");
+        verify(gym::playMove(shared.board, shared.players, shared.history,
+                             shared.current, -1) == gym::TurnResult::Invalid,
+               "invalid shared move");
+        verify(shared.current == 1 && shared.history.size() == 1,
+               "invalid shared move keeps turn and history");
+        verify(gym::undoMove(shared.board, shared.history, shared.current), "shared undo");
+        verify(shared.current == 0 && shared.board.tokenCount() == 0,
+               "shared undo restores board and turn");
+        verify(gym::writeGame("data/shared.txt", shared.board, shared.players,
+                              shared.history, shared.current), "shared writer");
+        MatchSession fromShared;
+        verify(fromShared.load("data/shared.txt") && fromShared.current() == 0
+               && fromShared.board().tokenCount() == 0, "GUI reads shared save");
+
         MatchSession loaded;
         verify(loaded.load(), "load saved game");
         verify(loaded.current() == 1 && loaded.board().tokenCount() == 1, "load move/turn");

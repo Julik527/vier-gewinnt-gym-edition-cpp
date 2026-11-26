@@ -25,6 +25,7 @@
 #include "Gym3DPicking.h"
 #include "GymAudio.h"
 #include "GymPlatform.h"
+#include "GymHud.h"
 #include "Gym3DRender.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -42,6 +43,16 @@ using namespace std;
 namespace {
 constexpr float W=1440.f,H=900.f;
 constexpr float viewportWidth=1072.f,viewportTop=120.f,viewportHeight=780.f;
+constexpr float backButtonY = 720.f;
+constexpr float audioDividerY = 780.f;
+constexpr float audioVolumeY = 786.f;
+constexpr float audioStatusY = 809.f;
+constexpr float audioButtonY = 835.f;
+constexpr float buttonHeight = 52.f;
+static_assert(backButtonY + buttonHeight < audioDividerY);
+static_assert(audioVolumeY + 20.f < audioStatusY);
+static_assert(audioStatusY + 18.f < audioButtonY);
+static_assert(audioButtonY + buttonHeight < H);
 const sf::Color white(244,248,255),muted(153,176,206),blue(63,131,242),green(69,224,180);
 const array<sf::Color,4> colors={sf::Color(61,149,252),sf::Color(247,190,85),
                                  sf::Color(76,217,163),sf::Color(196,145,252)};
@@ -70,15 +81,14 @@ public:
     // Spielfenster-Schleife: Events, Kamera, Fallanimation, Musik und Bild.
     // --window-smoke begrenzt Frames und benötigt kein echtes Audiogerät.
     void run(int maxFrames=-1) {
-        // Start the new title suite automatically on a real run only.
-        // Do not touch audio devices in CI graphical smoke tests.
+        // Musik nur außerhalb des Fenster-Smoke-Tests starten.
         if (maxFrames < 0 && audio_.assets().complete()) {
             audio_.setScene(gymaudio::Scene::Intro);
             audio_.setVolume(static_cast<float>(volume_));
             music_ = audio_.play();
             if (!music_) notice(audio_.lastError());
         }
-        // Smoke runs render the interactive lobby instead of only the intro.
+        // Der Fenster-Smoke-Test beginnt im Menü.
         if(maxFrames>0)page_=Page::Menu;
         sf::Clock clock;int frames=0;
         while(window_.isOpen()) {
@@ -175,22 +185,11 @@ private:
     vector<Hit> hits_;
     sf::FloatRect viewport_{{0.f,0.f},{1.f,1.f}};
 
-    // Viewport mit Balken statt Streckung: die 3D-Kamera soll auch bei
-    // anderem Fensterformat zur 2D-HUD-Koordinatenbasis passen.
     void resizeView() {
-        const auto sz=window_.getSize();
-        if(!sz.x||!sz.y)return;
-        const float displayRatio=static_cast<float>(sz.x)/static_cast<float>(sz.y);
-        const float designRatio=W/H;
-        viewport_={{0.f,0.f},{1.f,1.f}};
-        if(displayRatio>designRatio) {
-            viewport_.size.x=designRatio/displayRatio;
-            viewport_.position.x=(1.f-viewport_.size.x)*.5f;
-        } else {
-            viewport_.size.y=displayRatio/designRatio;
-            viewport_.position.y=(1.f-viewport_.size.y)*.5f;
-        }
-        sf::View view(sf::FloatRect({0.f,0.f},{W,H}));
+        const auto size = window_.getSize();
+        if (!size.x || !size.y) return;
+        viewport_ = gymui::fitViewport(size, W, H);
+        sf::View view(sf::FloatRect({0.f, 0.f}, {W, H}));
         view.setViewport(viewport_);
         window_.setView(view);
     }
@@ -392,21 +391,16 @@ private:
         const int col=boardColumnAt(p);
         if(col>=0) {selected_=col;startDrop();}
     }
-    void text(string s,float x,float y,unsigned size=20,sf::Color tint=white,bool bold=false) {
-        sf::Text label(font_,sf::String::fromUtf8(s.begin(),s.end()),size);
-        label.setFillColor(tint);
-        if(bold)label.setStyle(sf::Text::Bold);
-        label.setPosition({x,y});
-        window_.draw(label);
+    void text(const string& s, float x, float y, unsigned size = 20,
+              sf::Color tint = white, bool bold = false, float maxWidth = 0.f) {
+        gymui::text(window_, font_, s, x, y, size, tint, bold, maxWidth);
     }
-    void rect(float x,float y,float w,float h,sf::Color fill,sf::Color outline=sf::Color::Transparent) {
-        sf::RectangleShape shape({w,h});shape.setPosition({x,y});
-        shape.setFillColor(fill);
-        shape.setOutlineColor(outline);shape.setOutlineThickness(outline==sf::Color::Transparent?0:1);
-        window_.draw(shape);
+    void rect(float x, float y, float w, float h, sf::Color fill,
+              sf::Color outline = sf::Color::Transparent) {
+        gymui::rectangle(window_, x, y, w, h, fill, outline);
     }
     void button(string title,float x,float y,float width,int action,bool active=true) {
-        const sf::FloatRect bounds({x,y},{width,52});
+        const sf::FloatRect bounds({x,y},{width,buttonHeight});
         const auto cursor=window_.mapPixelToCoords(sf::Mouse::getPosition(window_));
         const bool hover=active && bounds.contains(cursor);
         const bool selected=(action==20&&playerCount_==2)
@@ -417,8 +411,8 @@ private:
                :hover?sf::Color(42,103,158)
                :selected?sf::Color(26,91,98)
                :primary?sf::Color(34,82,140):sf::Color(25,58,96);
-        rect(x,y+3,width,52,sf::Color(0,5,13,105));
-        rect(x,y,width,52,fill,
+        rect(x,y+3,width,buttonHeight,sf::Color(0,5,13,105));
+        rect(x,y,width,buttonHeight,fill,
              !active?sf::Color(32,51,75)
                     :(hover||selected?green:sf::Color(51,100,158)));
         if((hover||selected||primary)&&active)
@@ -429,26 +423,8 @@ private:
             rect(x+width-20.f,y+18,8,17,green);
         if(active)hits_.push_back({bounds,action});
     }
-    void logo(float x,float y,float scale) {
-        // Exact triangles from the authorized JK AXIS precision SVG symbol.
-        const array<sf::Vector2f,12> j={{{17,80},{17,18},{50,75},
-            {17,80},{50,75},{59,120},{59,120},{50,75},{77,102},
-            {50,18},{50,75},{17,18}}};
-        const array<sf::Vector2f,12> k={{{60,75},{88,47},{77,93},
-            {77,93},{88,47},{114,57},{114,57},{88,47},{114,18},
-            {114,18},{88,47},{88,18}}};
-        const auto part=[&](const auto& points,sf::Color tint) {
-            sf::VertexArray triangles(sf::PrimitiveType::Triangles);
-            for(const auto& point:points) {
-                sf::Vertex vertex;
-                vertex.position={x+point.x*scale,y+point.y*scale};
-                vertex.color=tint;
-                triangles.append(vertex);
-            }
-            window_.draw(triangles);
-        };
-        part(j,sf::Color(225,238,255));
-        part(k,blue);
+    void logo(float x, float y, float scale) {
+        gymui::brandSymbol(window_, x, y, scale, sf::Color(225, 238, 255), blue);
     }
     // 3D-Pass: Tiefentest, Lichtquellen und Kamera für die räumliche Arena.
     // Anschließend wird der OpenGL-Zustand für das SFML-HUD zurückgesetzt.
@@ -690,9 +666,9 @@ private:
                 if(!match_.scoreSaved())
                     button("HIGHSCORE ERNEUT SICHERN",1100,buttonY+105,300,18);
             }
-            button("HAUPTMENUE",1100,743,300,5);
+            button("HAUPTMENUE",1100,backButtonY,300,5);
         } else if(page_==Page::Help) {
-            button("ZURUECK",1100,734,300,5);
+            button("ZURUECK",1100,backButtonY,300,5);
         } else if(page_==Page::ConfirmExit) {
             button("SICHERN UND BEENDEN",1100,422,300,14);
             button("OHNE SICHERN BEENDEN",1100,484,300,13);
@@ -702,13 +678,15 @@ private:
                    1100,430,300,page_==Page::ConfirmNew?16:17);
             button("ABBRECHEN",1100,494,300,15);
         }
-        rect(1095,812,310,1,sf::Color(47,94,143));
-        button(music_?"MUSIK PAUSE":"MUSIK START",1099,825,177,10);
-        button("-",1282,825,55,11);
-        button("+",1343,825,55,12);
-        text("VOL "+to_string(volume_)+"%",1099,780,16,music_?green:muted,true);
-        text(audio_.statusLabel(),1128,782,12,
-             music_&&audio_.usingSciFiPack()?green:muted);
+        // Eigene Zeilen für Lautstärke und Audiostatus, getrennt vom Spielmenü.
+        rect(1099,audioDividerY,300,1,sf::Color(47,94,143));
+        text("LAUTSTAERKE",1100,audioVolumeY,15,muted,true);
+        text(to_string(volume_)+" %",1343,audioVolumeY,16,music_?green:white,true,56.f);
+        text(audio_.statusLabel(),1100,audioStatusY,13,
+             music_&&audio_.usingSciFiPack()?green:muted,false,300.f);
+        button(music_?"MUSIK PAUSE":"MUSIK START",1099,audioButtonY,177,10);
+        button("-",1282,audioButtonY,55,11);
+        button("+",1343,audioButtonY,55,12);
         if(messageTime_>0.f)text(info_.substr(0,87),68,875,15,green);
         window_.display();
     }
@@ -731,6 +709,7 @@ int main(int argc,char** argv) {
             return result.complete()?0:3;
         }
         if(argc>1 && string(argv[1])=="--self-test") {
+            if (!gymui::viewportSelfTest()) return 2;
             MatchSession sample;
             if(!sample.begin({"Ada","Ben"})||!sample.drop(0)||
                 sample.board().tokenCount()!=1)return 1;

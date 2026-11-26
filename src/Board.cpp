@@ -28,6 +28,9 @@
 using namespace std;
 
 namespace {
+constexpr int dr[4] = {0, 1, 1, 1};
+constexpr int dc[4] = {1, 0, 1, -1};
+
 // Die Spielerzahl bestimmt, wie groß das Spielfeld wird.
 int rowCountForPlayers(int players) {
     if (players < 2 || players > 4) {
@@ -104,8 +107,6 @@ bool Board::hasWon(int row, int column, char symbol) const {
         || grid_[row][column] != symbol) return false;
     // Achsen: horizontal (0,1), vertikal (1,0) und beide Diagonalen.
     // Durch Zählen vorwärts und rückwärts erkennt auch ein mittlerer Stein den Sieg.
-    const int dr[4] = {0, 1, 1, 1};
-    const int dc[4] = {1, 0, 1, -1};
     for (int i = 0; i < 4; ++i) {
         int length = 1
             + countDirection(row, column, dr[i], dc[i], symbol)
@@ -121,8 +122,6 @@ vector<pair<int, int>> Board::winningCells(int row, int column,
                                                       char symbol) const {
     if (symbol == '.' || !inside(row, column)
         || grid_[row][column] != symbol) return {};
-    const int dr[4] = {0, 1, 1, 1};
-    const int dc[4] = {1, 0, 1, -1};
     for (int i = 0; i < 4; ++i) {
         int firstRow = row;
         int firstCol = column;

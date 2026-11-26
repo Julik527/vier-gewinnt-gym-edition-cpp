@@ -45,7 +45,7 @@
 using namespace std;
 
 namespace {
-const char SYMBOLS[] = {'R', 'B', 'G', 'Y'};
+using gym::playerSymbols;
 
 // Entfernt Leerzeichen am Anfang und Ende einer Eingabe.
 string trim(const string& text) {
@@ -73,15 +73,7 @@ string ask(const string& message) {
 
 // Namen dürfen nicht leer oder zu lang sein.
 bool validName(const string& name) {
-    // Dieselbe Namensprüfung gilt für Eingaben und aus GYM1 geladene Daten.
-    // Die Grenze bezieht sich auf Bytes (UTF-8), nicht auf sichtbare Zeichen.
-    if (name.empty() || name.size() > 24
-        || name.find_first_not_of(' ') == string::npos) return false;
-    for (unsigned char ch : name) {
-        // Tab, ESC und andere Steuerzeichen duerfen das Terminal nicht veraendern.
-        if (ch < 32 || ch == 127) return false;
-    }
-    return true;
+    return gym::validPlayerName(name);
 }
 
 // Fuer Sicherheitsabfragen zaehlen nur J oder JA als Zustimmung.
@@ -134,7 +126,7 @@ bool Game::configureNames(int playerCount, vector<string>& names) {
     for (int i = 0; i < playerCount; ++i) {
         for (;;) {
             const string name = ask("  Spieler " + to_string(i + 1)
-                + " [" + SYMBOLS[i] + "]: ");
+                + " [" + playerSymbols[i] + "]: ");
             if (name == "0") return false;
             if (!validName(name)) {
                 cout << "  Bitte einen Namen mit 1 bis 24 Zeichen eingeben.\n";
@@ -175,7 +167,7 @@ void Game::newGame() {
     chosenNames_ = nextNames;
     players_.clear();
     for (int i = 0; i < chosenPlayers_; ++i) {
-        players_.emplace_back(chosenNames_[i], SYMBOLS[i]);
+        players_.emplace_back(chosenNames_[i], playerSymbols[i]);
     }
     board_ = Board(chosenPlayers_);
     history_.clear();
@@ -296,10 +288,7 @@ void Game::play() {
         // Undo ist nur fuer den obersten Stein moeglich.
         if (upper == "U") {
             if (history_.empty()) { cout << "Kein Zug vorhanden.\n"; continue; }
-            Move last = history_.back();
-            if (board_.undo(last.row, last.column)) {
-                current_ = last.player;
-                history_.pop_back();
+            if (gym::undoMove(board_, history_, current_)) {
                 cout << "Letzter Zug entfernt.\n";
                 redraw = true;
             } else {
@@ -338,117 +327,50 @@ void Game::play() {
         char symbol = players_[current_].getSymbol();
         if (animation_) console_ui::animateDrop(board_, players_, current_, round_,
                                                 highscores_, zeroCol, landing, symbol);
-        int row;
-        if (!board_.drop(zeroCol, symbol, row)) continue;
-        // Nur erfolgreich gesetzte Züge landen in der Undo-/Speicherhistorie.
-        history_.push_back({row, zeroCol, current_});
-        if (board_.hasWon(row, zeroCol, symbol)) {
-            // Die vier verbundenen Hanteln werden im Ergebnis gruen markiert.
-            lastWinningCells_ = board_.winningCells(row, zeroCol, symbol);
+        const auto result = gym::playMove(board_, players_, history_, current_, zeroCol);
+        if (result == gym::TurnResult::Invalid) continue;
+        if (result == gym::TurnResult::Win) {
+            const auto& last = history_.back();
+            lastWinningCells_ = board_.winningCells(last.row, last.column, symbol);
             addWin(players_[current_].getName());
             lastWinner_ = players_[current_].getName();
             active_ = false;
             resultPending_ = true;
             return;
         }
-        if (board_.isFull()) {
+        if (result == gym::TurnResult::Draw) {
             lastWinner_.clear();
             lastWinningCells_.clear();
             active_ = false;
             resultPending_ = true;
             return;
         }
-        current_ = (current_ + 1) % static_cast<int>(players_.size());
+
         redraw = true;
     }
 }
 
 // Speichert den Spielstand als Textdatei, damit man später weiterspielen kann.
 bool Game::saveGame(const string& path) const {
-    if (!active_) return false;
-    return gym::writeSafely(path, [this](ostream& out) {
-        // GYM1 ist die bisherige Kennung und bleibt voll kompatibel.
-        out << "GYM1\n";
-        out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
-            << board_.columns() << ' ' << history_.size() << '\n';
-        for (const auto& player : players_) {
-            out << quoted(player.getName()) << ' ' << player.getSymbol() << '\n';
-        }
-        for (const auto& move : history_) {
-            out << move.row << ' ' << move.column << ' ' << move.player << '\n';
-        }
-        for (const auto& row : board_.cells()) {
-            for (char value : row) out << value;
-            out << '\n';
-        }
-    });
+    return active_ && gym::writeGame(path, board_, players_, history_, current_);
 }
 
-// Erst alles in einem neuen Spielfeld prüfen, dann wirklich laden.
 bool Game::loadGame(const string& path) {
-    if (!gym::validSaveFileSize(path)) return false;
-    ifstream in(std::filesystem::u8path(path));
-    string signature;
-    if (!(in >> signature) || signature != "GYM1") return false;
-    int n, current, rows, cols, moves;
-    if (!(in >> n >> current >> rows >> cols >> moves)) return false;
-    if (n < 2 || n > 4 || current < 0 || current >= n) return false;
-    // Das Test-Spielfeld verhindert, dass eine kaputte Datei die Runde verändert.
-    Board candidate(n);
-    if (rows != candidate.rows() || cols != candidate.columns()
-        || moves < 0 || moves > rows * cols) return false;
-    if (current != moves % n) return false;
-    vector<Player> loadedPlayers;
-    for (int i = 0; i < n; ++i) {
-        string name;
-        char symbol;
-        if (!(in >> quoted(name) >> symbol) || !validName(name)
-            || symbol != SYMBOLS[i]) return false;
-        for (const auto& existing : loadedPlayers) {
-            if (existing.getName() == name) return false;
-        }
-        loadedPlayers.emplace_back(name, symbol);
-    }
-    vector<Move> loadedMoves;
-    // Nicht blind das gespeicherte Raster übernehmen: Jeder Zug muss
-    // zur Schwerkraft, Spielerreihenfolge und zu einem laufenden Match passen.
-    for (int i = 0; i < moves; ++i) {
-        int savedRow, column, player;
-        if (!(in >> savedRow >> column >> player) || player != i % n) return false;
-        int actualRow;
-        if (!candidate.drop(column, loadedPlayers[player].getSymbol(), actualRow)
-            || actualRow != savedRow) return false;
-        // Gespeicherte Partien müssen fortsetzbar sein.
-        if (candidate.hasWon(actualRow, column, loadedPlayers[player].getSymbol())) return false;
-        loadedMoves.push_back({actualRow, column, player});
-    }
-    if (candidate.isFull()) return false;
-    for (int row = 0; row < rows; ++row) {
-        string line;
-        if (!(in >> line) || static_cast<int>(line.size()) != cols) return false;
-        for (int col = 0; col < cols; ++col) {
-            if (line[col] != candidate.cells()[row][col]) return false;
-        }
-    }
-    // Kein weiteres Token nach der letzten Rasterzeile akzeptieren.
-    // So werden auch ansonsten plausible, aber manipulierte Spielstaende verworfen.
-    string trailingToken;
-    if (in >> trailingToken || in.bad()) return false;
+    gym::SavedGame saved;
+    if (!gym::readGame(path, saved)) return false;
 
-    // Transaktionaler Ladevorgang: Erst jetzt werden die lokal geprüften
-    // Daten übernommen. Ein defektes GYM1 verändert die laufende Runde nicht.
-    board_ = std::move(candidate);
-    players_ = std::move(loadedPlayers);
-    history_ = std::move(loadedMoves);
-    current_ = current;
-    chosenPlayers_ = n;
+    board_ = std::move(saved.board);
+    players_ = std::move(saved.players);
+    history_ = std::move(saved.history);
+    current_ = saved.current;
+    chosenPlayers_ = static_cast<int>(players_.size());
     chosenNames_.clear();
     for (const auto& player : players_) chosenNames_.push_back(player.getName());
     active_ = true;
     resultPending_ = false;
     lastWinner_.clear();
     lastWinningCells_.clear();
-    round_ = 1; // Das bisherige Speicherformat enthaelt keine Rundennummer.
+    round_ = 1; // GYM1 speichert keine Rundennummer.
     return true;
 }
 
@@ -467,11 +389,7 @@ void Game::loadHighscores() {
 
 // Schreibt alle aktuellen Siege in die Highscore-Datei.
 bool Game::saveHighscores() const {
-    return gym::writeSafely("data/highscore.txt", [this](ostream& out) {
-        for (const auto& item : highscores_) {
-            out << quoted(item.first) << ' ' << item.second << '\n';
-        }
-    });
+    return gym::writeScores("data/highscore.txt", highscores_);
 }
 
 // Nach einem Sieg bekommt der Gewinner genau einen Punkt dazu.
