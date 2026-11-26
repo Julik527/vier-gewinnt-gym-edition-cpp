@@ -47,7 +47,7 @@ Die Windows-CI belegt keinen lokalen MSYS2-UCRT64-F5-Start. Die GUI-CI baut Rele
 | `tests/console_ui_tests.cpp` | Menü, Arena, 2/4 Spieler, Vorschau, Gewinnmarkierung und unterschiedliche Animationsbilder | Text- und Zustandsprüfung, kein Beamer-/Terminal-Sichttest |
 | `tests/integration_smoke.py` | Komplette Konsolenabläufe mit Eingaben, Abbruch/Fortsetzen, Speichern/Laden, zwei Siege, Highscore-Neustart, lange Namen, Steuerzeichen und Schreibfehler | Umgeleitete Ein-/Ausgabe, kein echtes Tastaturgefühl |
 | `tests/match_session_tests.cpp` | GUI-unabhängige Partie, ungültige Namen, 2/4 Spieler, Undo, GYM1, defekte Datei, Revanche und Score-/Schreibschutzfälle | Keine Mausereignisse und kein Rendering |
-| `tests/vscode_config_test.py` | F5-Verknüpfungen und Quelldateien gegenüber CMake | Führt VS Code, GDB und Windows-PATH nicht aus |
+| `tests/vscode_config_test.py` | F5-Profile, Presets und CMake-Ziele | Führt VS Code, GDB und Windows-PATH nicht aus |
 | `tests/testplan_lint.py` | Überschrift, Tabellenstruktur, T01–T47, doppelte IDs und bekannte Beschädigungen | Prüft keinen tatsächlich durchgeführten manuellen Fall |
 | `tests/verify_school_logo.py` | JPEG-Signatur, Größe, Abmessungen und bekannte Original-Prüfsumme | Alternative Kopie nur plausibilisiert, kein vollständiger Herkunftsbeweis |
 | `scripts/document_preflight.py` | PDF-Seiten renderbar, PPTX-Struktur, Logos/SVG und lokale Dokumentverweise | Keine automatische fachliche Schulabnahme |
@@ -68,7 +68,7 @@ Neue Einrichtung und Abbruch erhalten bei Bedarf die bisherige Partie. Die Vorsc
 
 Der manuelle Testplan enthielt beschädigte Tabellenfragmente und wörtliche Backslash-n-Sequenzen. Der ursprüngliche Preflight erfasste diese Fehler nicht. `testplan_lint.py` kontrolliert seitdem die 47 Fälle direkt.
 
-Der ursprüngliche F5-Befehl ließ ConsoleUI.cpp aus. Ein späterer Fehler betraf die falsch maskierten regulären Ausdrücke im Konfigurationstest. Die aktuelle Fehlermeldung des Nutzers betrifft dagegen ein nicht gefundenes CMake. Beide GUI-Tasks ergänzen seit `ab83df11` den UCRT64-Pfad. Der statische Konfigurationstest kann die tatsächliche lokale Installation nicht bestätigen.
+Frühere F5-Probleme betrafen fehlende Quelldateien und CMake im Suchpfad. Die vier Profile verwenden jetzt gemeinsame Presets und die UCRT64-Installation unter `C:/msys64`. Der statische Test prüft die Zuordnung, nicht die lokale Installation.
 
 ### Audio und Schullogo
 
@@ -125,7 +125,7 @@ Das [Dokumentenaudit](DOCUMENTATION_AUDIT_2026-10-28.md) listet sämtliche gepr�
 
 Noch am echten Zielgerät durchzuführen:
 
-- Beide F5-Profile nach dem gemeldeten CMake-Fehler erneut starten.
+- Alle vier F5-Profile auf dem Zielrechner prüfen.
 - GUI und Konsole jeweils bis zu Sieg beziehungsweise Remis, Revanche und Neustart testen.
 - Spielstand zwischen den Frontends praktisch prüfen. Beide nutzen GYM1, der bisherige Unit-Test ersetzt keinen vollständigen wechselseitigen Bediennachweis.
 - Schullogo sichtbar prüfen, F9 und Audioausgabegerät tatsächlich hören.

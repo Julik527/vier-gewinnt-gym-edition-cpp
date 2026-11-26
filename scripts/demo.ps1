@@ -58,7 +58,11 @@ try {
         Start-Process -FilePath $gui -WorkingDirectory $root -Wait
     }
     if ($Mode -in @("Terminal", "Both")) {
-        if (-not (Test-Path $compiler)) { throw "MSYS2 UCRT64 g++ fehlt: $compiler" }
+        if (-not $NoBuild) {
+            if (-not (Test-Path $compiler)) { throw "MSYS2 UCRT64 g++ fehlt: $compiler" }
+            if (-not (Get-Command cmake -ErrorAction SilentlyContinue)) { throw "CMake fehlt." }
+            if (-not (Get-Command ninja -ErrorAction SilentlyContinue)) { throw "Ninja fehlt." }
+        }
         $terminal = Join-Path $root "build-preset-console\vier-gewinnt.exe"
         if (-not $NoBuild) {
             & cmake --preset console "-DCMAKE_C_COMPILER=C:/msys64/ucrt64/bin/gcc.exe" "-DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe"

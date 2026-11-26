@@ -60,7 +60,8 @@ class RepositoryConsistencyTests(unittest.TestCase):
             self.assertIn('#include "GymHud.h"', source)
             for function in ("fitViewport", "rectangle", "text", "brandSymbol"):
                 self.assertIn("gymui::" + function + "(", source)
-                self.assertIn("inline ", header)
+                self.assertIn(function + "(", header)
+            self.assertIn("gymui::viewportSelfTest()", source)
             self.assertNotIn("const array<sf::Vector2f, 12> j", source)
             self.assertNotIn("const array<sf::Vector2f,12> j", source)
 

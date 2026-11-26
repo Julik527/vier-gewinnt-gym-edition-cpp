@@ -697,6 +697,7 @@ int main(int argc,char** argv) {
             return result.complete()?0:3;
         }
         if(argc>1 && string(argv[1])=="--self-test") {
+            if (!gymui::viewportSelfTest()) return 2;
             MatchSession sample;
             if(!sample.begin({"Ada","Ben"})||!sample.drop(0)||
                 sample.board().tokenCount()!=1)return 1;

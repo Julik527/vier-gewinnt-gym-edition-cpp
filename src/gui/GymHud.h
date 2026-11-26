@@ -11,6 +11,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <array>
+#include <cmath>
 #include <string>
 
 namespace gymui {
@@ -28,6 +29,22 @@ inline sf::FloatRect fitViewport(sf::Vector2u size, float width, float height) {
         viewport.position.y = (1.f - viewport.size.y) * .5f;
     }
     return viewport;
+}
+
+// Ohne Fenster testbar: Breitbild, Hochformat, passendes und leeres Fenster.
+inline bool viewportSelfTest() {
+    const auto wide = fitViewport({1600u, 800u}, 1280.f, 800.f);
+    const auto tall = fitViewport({800u, 1000u}, 1280.f, 800.f);
+    const auto exact = fitViewport({1280u, 800u}, 1280.f, 800.f);
+    const auto empty = fitViewport({0u, 800u}, 1280.f, 800.f);
+    const auto near = [](float a, float b) { return std::abs(a - b) < 0.0001f; };
+    return near(wide.position.x, .1f) && near(wide.size.x, .8f)
+        && near(wide.position.y, 0.f) && near(wide.size.y, 1.f)
+        && near(tall.position.x, 0.f) && near(tall.size.x, 1.f)
+        && near(tall.position.y, .25f) && near(tall.size.y, .5f)
+        && near(exact.position.x, 0.f) && near(exact.position.y, 0.f)
+        && near(exact.size.x, 1.f) && near(exact.size.y, 1.f)
+        && near(empty.size.x, 1.f) && near(empty.size.y, 1.f);
 }
 
 inline void rectangle(sf::RenderTarget& target, float x, float y, float w, float h,

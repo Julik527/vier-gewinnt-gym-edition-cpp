@@ -20,12 +20,12 @@ Das Programm heisst **vier-gewinnt-ki**. Es verwendet die bereits bestehende Kla
 Voraussetzung: CMake 3.16 oder neuer sowie ein C++17-Compiler. Ein regulärer Build ohne den AI-Schalter bleibt bei den bisherigen Zielen.
 
 ~~~bash
-cmake -S . -B build-ai -DGYM_BUILD_AI=ON -DGYM_BUILD_GUI=OFF
-cmake --build build-ai --parallel
-ctest --test-dir build-ai --output-on-failure -R ai_replay_unit_tests
+cmake --preset ai
+cmake --build --preset ai --parallel
+ctest --preset ai
 ~~~
 
-Start unter Linux haeufig mit **./build-ai/vier-gewinnt-ki**. Bei Windows mit Ninja **.\build-ai\vier-gewinnt-ki.exe**, bei Visual Studio moeglicherweise **.\build-ai\Debug\vier-gewinnt-ki.exe**.
+Start mit `./build-preset-ai/vier-gewinnt-ki` unter Linux oder `./build-preset-ai/vier-gewinnt-ki.exe` unter Windows. Das Preset benötigt CMake ab 3.21 und Ninja.
 
 ## Neues Hauptmenue im Stil der Schulkonsole
 

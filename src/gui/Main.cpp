@@ -865,6 +865,7 @@ int main(int argc, char** argv) {
             return 0;
         }
         if (argc > 1 && string(argv[1]) == "--self-test") {
+            if (!gymui::viewportSelfTest()) return 2;
             MatchSession test;
             if (!test.begin({"Ada", "Ben"})) return 1;
             if (!test.drop(0) || test.board().tokenCount() != 1) return 1;
