@@ -1,0 +1,107 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-preset-${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "BUILD_TESTING": "ON",
+        "GYM_BUILD_GUI": "OFF",
+        "GYM_BUILD_3D": "OFF",
+        "GYM_BUILD_AI": "OFF"
+      }
+    },
+    {
+      "name": "console",
+      "inherits": "base",
+      "cacheVariables": {
+        "GYM_BUILD_GUI": "OFF",
+        "GYM_BUILD_3D": "OFF",
+        "GYM_BUILD_AI": "OFF"
+      }
+    },
+    {
+      "name": "gui2d",
+      "inherits": "base",
+      "cacheVariables": {
+        "GYM_BUILD_GUI": "ON",
+        "GYM_BUILD_3D": "OFF",
+        "GYM_BUILD_AI": "OFF"
+      }
+    },
+    {
+      "name": "gui3d",
+      "inherits": "base",
+      "cacheVariables": {
+        "GYM_BUILD_GUI": "ON",
+        "GYM_BUILD_3D": "ON",
+        "GYM_BUILD_AI": "OFF"
+      }
+    },
+    {
+      "name": "ai",
+      "inherits": "base",
+      "cacheVariables": {
+        "GYM_BUILD_GUI": "OFF",
+        "GYM_BUILD_3D": "OFF",
+        "GYM_BUILD_AI": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "console",
+      "configurePreset": "console"
+    },
+    {
+      "name": "gui2d",
+      "configurePreset": "gui2d"
+    },
+    {
+      "name": "gui3d",
+      "configurePreset": "gui3d"
+    },
+    {
+      "name": "ai",
+      "configurePreset": "ai"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "console",
+      "configurePreset": "console",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "gui2d",
+      "configurePreset": "gui2d",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "gui3d",
+      "configurePreset": "gui3d",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "ai",
+      "configurePreset": "ai",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

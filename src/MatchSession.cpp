@@ -33,10 +33,6 @@
 
 using namespace std;
 
-namespace {
-constexpr char symbols[] = {'R', 'B', 'G', 'Y'};
-}
-
 MatchSession::MatchSession() {
     error_code error;
     std::filesystem::create_directories("data", error);
@@ -44,10 +40,7 @@ MatchSession::MatchSession() {
 }
 
 bool MatchSession::validName(const string& name) {
-    if (name.empty() || name.size() > 24
-        || name.find_first_not_of(' ') == string::npos) return false;
-    for (unsigned char c : name) if (c < 32 || c == 127) return false;
-    return true;
+    return gym::validPlayerName(name);
 }
 
 // Zuerst Spielerzahl, Namen und Duplikate prüfen. Erst danach eine neue
@@ -61,7 +54,7 @@ bool MatchSession::begin(const vector<string>& names) {
     }
     vector<Player> next;
     for (size_t i = 0; i < names.size(); ++i)
-        next.emplace_back(names[i], symbols[i]);
+        next.emplace_back(names[i], gym::playerSymbols[i]);
     players_ = std::move(next);
     board_ = Board(static_cast<int>(names.size()));
     moves_.clear();
@@ -78,41 +71,29 @@ bool MatchSession::begin(const vector<string>& names) {
 // Erfolgreichen Zug in die Historie übernehmen und die drei möglichen
 // Folgezustände behandeln: Sieg, Remis oder Spielerwechsel.
 bool MatchSession::drop(int column) {
-    if (!active_ || finished_ || current_ < 0 || current_ >= static_cast<int>(players_.size()))
-        return false;
-    const int playing = current_;
-    const char symbol = players_[playing].getSymbol();
-    int row = -1;
-    if (!board_.drop(column, symbol, row)) return false;
-    moves_.push_back({row, column, playing});
-    if (board_.hasWon(row, column, symbol)) {
+    if (!active_ || finished_) return false;
+    const auto result = gym::playMove(board_, players_, moves_, current_, column);
+    if (result == gym::TurnResult::Invalid) return false;
+    if (result == gym::TurnResult::Win) {
         finished_ = true;
         active_ = false;
-        winner_ = players_[playing].getName();
-        winLine_ = board_.winningCells(row, column, symbol);
-        // Saturierung am Maximalwert verhindert int-Überlauf bei Highscores.
-        // Ein Dateifehler lässt den Sieg im Speicher bestehen (scoreSaved_=false).
+        const auto& last = moves_.back();
+        winner_ = players_[current_].getName();
+        winLine_ = board_.winningCells(last.row, last.column, players_[current_].getSymbol());
         auto& victories = scores_[winner_];
         if (victories < numeric_limits<int>::max()) ++victories;
         scoreSaved_ = saveScores();
-    } else if (board_.isFull()) {
+    } else if (result == gym::TurnResult::Draw) {
         finished_ = true;
         active_ = false;
         winner_.clear();
         winLine_.clear();
-    } else {
-        current_ = (current_ + 1) % static_cast<int>(players_.size());
     }
     return true;
 }
 
 bool MatchSession::undo() {
-    if (!active_ || moves_.empty()) return false;
-    const GymMove last = moves_.back();
-    if (!board_.undo(last.row, last.column)) return false;
-    moves_.pop_back();
-    current_ = last.player;
-    return true;
+    return active_ && gym::undoMove(board_, moves_, current_);
 }
 
 bool MatchSession::rematch() {
@@ -143,70 +124,17 @@ int MatchSession::wins(const string& name) const {
 }
 
 bool MatchSession::save(const string& path) const {
-    if (!active_) return false;
-    return gym::writeSafely(path, [this](ostream& out) {
-        out << "GYM1\n";
-        out << players_.size() << ' ' << current_ << ' ' << board_.rows() << ' '
-            << board_.columns() << ' ' << moves_.size() << '\n';
-        for (const auto& player : players_)
-            out << quoted(player.getName()) << ' ' << player.getSymbol() << '\n';
-        for (const auto& move : moves_)
-            out << move.row << ' ' << move.column << ' ' << move.player << '\n';
-        for (const auto& row : board_.cells()) {
-            for (char value : row) out << value;
-            out << '\n';
-        }
-    });
+    return active_ && gym::writeGame(path, board_, players_, moves_, current_);
 }
 
-// Validierung in temporären Objekten: Spielerfolge, Schwerkraft, Spielstatus,
-// gespeichertem Raster und Rest der Datei prüfen, BEVOR Felder übernommen werden.
 bool MatchSession::load(const string& path) {
-    if (!gym::validSaveFileSize(path)) return false;
-    ifstream in(std::filesystem::u8path(path));
-    string header;
-    if (!(in >> header) || header != "GYM1") return false;
-    int count, turn, rows, columns, moveCount;
-    if (!(in >> count >> turn >> rows >> columns >> moveCount)) return false;
-    if (count < 2 || count > 4 || turn < 0 || turn >= count) return false;
-    Board candidate(count);
-    if (rows != candidate.rows() || columns != candidate.columns()
-        || moveCount < 0 || moveCount > rows * columns || turn != moveCount % count)
-        return false;
-    vector<Player> people;
-    for (int i = 0; i < count; ++i) {
-        string name;
-        char symbol;
-        if (!(in >> quoted(name) >> symbol) || !validName(name)
-            || symbol != symbols[i]) return false;
-        for (const auto& person : people) if (person.getName() == name) return false;
-        people.emplace_back(name, symbol);
-    }
-    // Aus der Zughistorie ein unabhängiges Board rekonstruieren.
-    // Manipulierte Zeilenpositionen und bereits beendete Partien sind ungültig.
-    vector<GymMove> history;
-    for (int i = 0; i < moveCount; ++i) {
-        int savedRow, col, player;
-        if (!(in >> savedRow >> col >> player) || player != i % count) return false;
-        int row;
-        if (!candidate.drop(col, people[player].getSymbol(), row) || row != savedRow
-            || candidate.hasWon(row, col, people[player].getSymbol())) return false;
-        history.push_back({row, col, player});
-    }
-    if (candidate.isFull()) return false;
-    for (int row = 0; row < rows; ++row) {
-        string line;
-        if (!(in >> line) || static_cast<int>(line.size()) != columns) return false;
-        for (int col = 0; col < columns; ++col)
-            if (line[col] != candidate.cells()[row][col]) return false;
-    }
-    string trailing;
-    if (in >> trailing || in.bad()) return false;
-    // Commit-Punkt: erst nach allen Checks den aktiven Zustand ersetzen.
-    board_ = std::move(candidate);
-    players_ = std::move(people);
-    moves_ = std::move(history);
-    current_ = turn;
+    gym::SavedGame saved;
+    if (!gym::readGame(path, saved)) return false;
+
+    board_ = std::move(saved.board);
+    players_ = std::move(saved.players);
+    moves_ = std::move(saved.history);
+    current_ = saved.current;
     round_ = 1;
     active_ = true;
     finished_ = false;

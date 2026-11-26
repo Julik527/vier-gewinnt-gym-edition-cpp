@@ -23,16 +23,13 @@
 #pragma once
 #include "Board.h"
 #include "Player.h"
+#include "GameState.h"
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
-struct GymMove {
-    int row;
-    int column;
-    int player;
-};
+using GymMove = gym::Move;
 
 class MatchSession {
 public:

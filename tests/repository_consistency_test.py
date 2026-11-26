@@ -31,10 +31,10 @@ class RepositoryConsistencyTests(unittest.TestCase):
 
     def test_readme_has_current_quickstart(self):
         readme = self.read("README.md")
-        self.assertIn("gemeinsam in `main` integriert", readme)
-        self.assertNotIn("nur auf dem Entwicklungsbranch", readme)
-        self.assertNotIn("Zwei F5-Profile", readme)
-        self.assertIn("Drei F5-Profile", readme)
+        self.assertIn("Die Konsole ist die Schulabgabe", readme)
+        self.assertIn("vier F5-Profilen", readme)
+        self.assertIn("cmake --preset console", readme)
+        self.assertIn("milestones/PRAESENTATION_VERSIONEN.md", readme)
         self.assertIn("docs/RELEASE_ABNAHME.md", readme)
 
     def test_windows_guide_has_no_obsolete_branch_switch(self):

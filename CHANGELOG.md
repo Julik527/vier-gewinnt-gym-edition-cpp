@@ -1,5 +1,12 @@
 # Änderungsprotokoll
 
+## In Entwicklung
+
+- Gemeinsame Zugverwaltung und GYM1-Validierung für Konsole und Grafikversionen.
+- CMake-Presets für Konsole, 2D, 3D und KI; bestehende F5-Profile bleiben erhalten.
+- Kürzere Startseite mit direktem Zugang zur Schulabgabe und zum Versionsregister.
+- Abnahme der Änderungen steht noch aus.
+
 ## 17.11.2026: Meilenstein- und Dateinavigation
 
 - Verweisordner `milestones/`, `deliverables/` und `quality/` für Meilensteine, wichtige Unterlagen und Prüfnachweise angelegt.
