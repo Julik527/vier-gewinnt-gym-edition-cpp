@@ -1,6 +1,6 @@
 # Projektdokumentation
 
-[Startseite](../README.md) · [Schulabgabe](../school/README.md) · [Abgabedateien](../deliverables/README.md) · [Präsentationsversionen](../milestones/PRAESENTATION_VERSIONEN.md)
+[Startseite](../README.md) · [Schulabgabe](../school/README.md) · [Abgabedateien](schule/ABGABEDATEIEN.md) · [Präsentationsversionen](../milestones/PRAESENTATION_VERSIONEN.md)
 
 ## Schnellstart
 - [Windows und MSYS2](WINDOWS_QUICKSTART.md)
@@ -14,7 +14,7 @@
 | [Grafik und Audio](grafik_audio/) | Bedienung, Gestaltung, Sound und Assets |
 | [Schule](schule/) | Anforderungen, Handout, Prüfungsvorbereitung und KI-Nachweise |
 | [Planung](planung/) | Projektauftrag, Backlog, Sprint und Meilenstein |
-| [Prüfung](pruefung/) | GUI-/3D-Testpläne und Release-Checkliste |
+| [Prüfung](pruefung/README.md) | GUI-/3D-Testpläne und Release-Checkliste |
 | [Nachweise](evidence/) | Datierte technische Nachweise |
 
 ## Technische Referenz
@@ -26,7 +26,7 @@
 ## Originalunterlagen
 - [Meilensteinpakete und Prüfsummen](../milestones/README.md)
 - [Präsentationsunterlagen](../praesentation/README.md)
-- [Referenz-PDFs](../reference/)
+- [Referenz-PDFs](../reference/README.md)
 - [Entwicklungsverlauf](../CHANGELOG.md)
 
 Historische Dokumente sind keine aktuellen Freigaben. Die Schulkonsole und ihre Nachweise haben Vorrang.

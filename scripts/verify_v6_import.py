@@ -22,7 +22,7 @@ LINK_DOCS = [
     ROOT / "README.md",
     ROOT / "milestones" / "2026-11-26" / "README.md",
     ROOT / "milestones" / "meilenstein-1-und-2" / "README.md",
-    ROOT / "deliverables" / "README.md",
+    ROOT / "docs" / "schule" / "ABGABEDATEIEN.md",
 ]
 errors: list[str] = []
 seen: set[str] = set()

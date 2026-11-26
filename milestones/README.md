@@ -1,6 +1,6 @@
 # Meilensteine | Vier Gewinnt – Gym Edition
 
-[Projektstartseite](../README.md) · [Präsentationsfassungen](PRAESENTATION_VERSIONEN.md) · [Abgaben](../deliverables/README.md) · [Qualität](../quality/README.md)
+[Projektstartseite](../README.md) · [Präsentationsfassungen](PRAESENTATION_VERSIONEN.md) · [Abgaben](../docs/schule/ABGABEDATEIEN.md) · [Qualität](../docs/pruefung/README.md)
 
 Dieser Bereich führt chronologisch durch Planung, Präsentation und Live-Demo. **Die datierten Ordner sind Wegweiser:** Sie verlinken auf Originaldateien, statt PDF-, DOCX- oder PPTX-Kopien anzulegen. Das vollständige V6-Archiv liegt einmalig unter [`meilenstein-1-und-2/v6/`](meilenstein-1-und-2/v6/README.md).
 

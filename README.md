@@ -70,7 +70,7 @@ Die tatsächlich verwendete Präsentationsfassung und die Abnahme durch die Lehr
 | [Player.h](include/Player.h) | Spielername und Symbol |
 | [ConsoleUI.cpp](src/ConsoleUI.cpp) | Konsolendarstellung |
 
-[Architektur](docs/ARCHITECTURE.md) · [Dokumentation](docs/README.md) · [Projektverlauf](milestones/README.md) · [Abgabedateien](deliverables/README.md)
+[Architektur](docs/ARCHITECTURE.md) · [Dokumentation](docs/README.md) · [Projektverlauf](milestones/README.md) · [Abgabedateien](docs/schule/ABGABEDATEIEN.md)
 
 ## Tests und Nachweise
 
